@@ -11,7 +11,15 @@
 - Mock confidence scores: 95% (OCR), 98% (Verification)
 - Bypass reason logged: "CVSCU Gentri Testing Event - November 24, 2025"
 
-### 2. OCR Services Updated
+### 2. reCAPTCHA Verification Bypassed (NEW!)
+**File**: `/modules/student/student_register.php`
+- Modified `verify_recaptcha_v3()` function
+- Checks bypass flag before calling Google API
+- Returns mock success (score: 0.9) when bypass enabled
+- **Fixes "api_fail" error** on production
+- Applies to ALL captcha checks (forms, OCR processing, OTP)
+
+### 3. OCR Services Updated
 All OCR services now check bypass flag before processing:
 
 **a) EnrollmentFormOCRService.php**

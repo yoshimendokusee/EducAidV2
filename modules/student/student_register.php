@@ -908,6 +908,15 @@ if (!function_exists('verify_recaptcha_v3')) {
      * @return array{ok:bool,score:float,reason?:string}
      */
     function verify_recaptcha_v3(string $token = null, string $expectedAction = '', float $minScore = 0.5): array {
+        // CHECK FOR OCR BYPASS MODE - Also bypass CAPTCHA verification
+        if (file_exists(__DIR__ . '/../../config/ocr_bypass_config.php')) {
+            require_once __DIR__ . '/../../config/ocr_bypass_config.php';
+            if (defined('OCR_BYPASS_ENABLED') && OCR_BYPASS_ENABLED === true) {
+                error_log("⚠️ CAPTCHA BYPASS ACTIVE - Auto-passing reCAPTCHA verification");
+                return ['ok'=>true, 'score'=>0.9, 'reason'=>'bypass_mode'];
+            }
+        }
+        
         if (!defined('RECAPTCHA_SECRET_KEY')) {
             return ['ok'=>false,'score'=>0.0,'reason'=>'missing_keys'];
         }

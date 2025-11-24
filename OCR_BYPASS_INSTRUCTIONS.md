@@ -55,6 +55,13 @@ This bypass mode allows students to register at CVSCU Gentri without strict OCR 
 
 When bypass mode is ENABLED, the following checks are skipped:
 
+### ✅ reCAPTCHA Verification (NEW!)
+- ✅ All reCAPTCHA v3 verifications
+- ✅ Form submission captcha
+- ✅ Document processing captcha
+- ✅ OTP request captcha
+- ✅ Auto-passes with 0.9 score
+
 ### ✅ Enrollment Form (EAF - Document Type 00)
 - ✅ Student name matching
 - ✅ University name verification
@@ -72,13 +79,15 @@ When bypass mode is ENABLED, the following checks are skipped:
 - ✅ Grade parsing
 - ✅ GPA calculations
 
-### ✅ Letter of Acceptance
+### ✅ Letter to Mayor
 - ✅ Text verification
 - ✅ Content validation
+- ✅ OCR processing
 
-### ✅ Certificate of Grades
+### ✅ Certificate of Indigency
 - ✅ Text verification
 - ✅ Content validation
+- ✅ OCR processing
 
 ---
 
