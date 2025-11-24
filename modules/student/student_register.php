@@ -5993,8 +5993,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['register'])) {
         // === SAVE ENROLLMENT FORM (EAF) USING UnifiedFileService ===
         // tempEnrollmentDir already defined above with Railway volume support
         
-        // Look for session-based enrollment form (LastName_FirstName_EAF pattern)
-        $eafPattern = $tempEnrollmentDir . DIRECTORY_SEPARATOR . '*_EAF.*';
+        // Look for session-based enrollment form - MUST use session prefix to prevent cross-contamination
+        // BUG FIX: Changed from '*_EAF.*' to sessionPrefix-specific pattern to prevent students
+        // from getting other students' documents when they didn't upload any
+        $eafPattern = $tempEnrollmentDir . DIRECTORY_SEPARATOR . $sessionPrefix . '_EAF.*';
         $tempFiles = glob($eafPattern);
         
         // Filter to get only actual image files (PDF not supported)
