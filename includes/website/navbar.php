@@ -87,28 +87,36 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === 'super_admin') {
     }
 }
 
-// Fetch active municipality logo for super admin
+// Fetch active municipality logo for public pages and super admin
 $navbar_municipality_logo = null;
 $navbar_municipality_name = null;
 
-if ($navbar_is_super_admin && isset($connection)) {
-    // First try to get from session
-    $muni_id = isset($_SESSION['active_municipality_id']) ? (int)$_SESSION['active_municipality_id'] : null;
+if (isset($connection)) {
+    // Determine which municipality to show
+    $muni_id = null;
     
-    // If no session, get the admin's municipality
-    if (!$muni_id && isset($_SESSION['admin_id'])) {
-        $admin_id = (int)$_SESSION['admin_id'];
-        $assign_result = pg_query_params(
-            $connection,
-            "SELECT municipality_id FROM admins WHERE admin_id = $1",
-            [$admin_id]
-        );
+    if ($navbar_is_super_admin) {
+        // Super admin: try to get from session first
+        $muni_id = isset($_SESSION['active_municipality_id']) ? (int)$_SESSION['active_municipality_id'] : null;
         
-        if ($assign_result && pg_num_rows($assign_result) > 0) {
-            $assign_data = pg_fetch_assoc($assign_result);
-            $muni_id = (int)$assign_data['municipality_id'];
-            pg_free_result($assign_result);
+        // If no session, get the admin's municipality
+        if (!$muni_id && isset($_SESSION['admin_id'])) {
+            $admin_id = (int)$_SESSION['admin_id'];
+            $assign_result = pg_query_params(
+                $connection,
+                "SELECT municipality_id FROM admins WHERE admin_id = $1",
+                [$admin_id]
+            );
+            
+            if ($assign_result && pg_num_rows($assign_result) > 0) {
+                $assign_data = pg_fetch_assoc($assign_result);
+                $muni_id = (int)$assign_data['municipality_id'];
+                pg_free_result($assign_result);
+            }
         }
+    } else {
+        // Public pages: always show default municipality (General Trias, ID=1)
+        $muni_id = 1;
     }
     
     // Fetch municipality logo if we have an ID
