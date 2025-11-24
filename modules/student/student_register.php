@@ -5650,7 +5650,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['register'])) {
     $extension_name = trim($_POST['extension_name'] ?? ''); // Extensions like Jr., Sr. are already uppercase in select
     
     // NEW: Mother's maiden name for household prevention - convert empty string to NULL for database
-    $mothers_maiden_name_raw = capitalizeProperName($_POST['mothers_maiden_name'] ?? '');
+    $mothers_maiden_name_raw = capitalizeProperName($_POST['mothers_fullname'] ?? '');
     $mothers_maiden_name = !empty($mothers_maiden_name_raw) ? $mothers_maiden_name_raw : null;
     
     $admin_review_required = (intval($_POST['admin_review_required'] ?? 0) === 1); // NEW: Flag for admin review
