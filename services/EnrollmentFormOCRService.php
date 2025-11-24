@@ -5,6 +5,9 @@
  * Uses Tesseract TSV output for higher accuracy
  */
 
+// Load OCR bypass configuration
+require_once __DIR__ . '/../config/ocr_bypass_config.php';
+
 class EnrollmentFormOCRService {
     private $connection;
     private $tesseractPath;
@@ -22,6 +25,12 @@ class EnrollmentFormOCRService {
      */
     public function processEnrollmentForm($filePath, $studentData = []) {
         try {
+            // CHECK FOR OCR BYPASS MODE
+            if (defined('OCR_BYPASS_ENABLED') && OCR_BYPASS_ENABLED === true) {
+                error_log("⚠️ OCR BYPASS ACTIVE - Skipping verification for: " . basename($filePath));
+                return $this->createBypassResponse($studentData);
+            }
+            
             // Validate file
             if (!file_exists($filePath)) {
                 return $this->errorResponse('File not found');
@@ -980,6 +989,62 @@ class EnrollmentFormOCRService {
         error_log("===================================");
         
         return $passed;
+    }
+    
+    /**
+     * Create bypass response when OCR bypass is enabled
+     * Returns mock successful verification with high confidence scores
+     */
+    private function createBypassResponse($studentData) {
+        error_log("🔓 CREATING BYPASS RESPONSE - All verifications passed (bypass mode)");
+        
+        // Create mock extracted data that matches student input
+        $mockExtracted = [
+            'student_name' => [
+                'first_name' => $studentData['first_name'] ?? '',
+                'middle_name' => $studentData['middle_name'] ?? '',
+                'last_name' => $studentData['last_name'] ?? '',
+                'first_name_found' => true,
+                'middle_name_found' => true,
+                'last_name_found' => true,
+                'confidence' => OCR_BYPASS_CONFIDENCE
+            ],
+            'university' => [
+                'name' => $studentData['university_name'] ?? '',
+                'found' => true,
+                'confidence' => OCR_BYPASS_CONFIDENCE
+            ],
+            'course' => [
+                'raw' => 'N/A',
+                'normalized' => 'N/A',
+                'found' => true,
+                'confidence' => OCR_BYPASS_CONFIDENCE
+            ],
+            'year_level' => [
+                'year_level' => $studentData['year_level'] ?? '',
+                'found' => true,
+                'confidence' => OCR_BYPASS_CONFIDENCE
+            ],
+            'document_type' => [
+                'is_enrollment_form' => true,
+                'keywords_found' => 10,
+                'confidence' => OCR_BYPASS_CONFIDENCE
+            ]
+        ];
+        
+        return [
+            'success' => true,
+            'data' => $mockExtracted,
+            'overall_confidence' => OCR_BYPASS_CONFIDENCE,
+            'verification_passed' => true,
+            'tsv_quality' => [
+                'total_words' => 100,
+                'high_confidence_words' => 95,
+                'avg_confidence' => OCR_BYPASS_CONFIDENCE
+            ],
+            'bypass_mode' => true,
+            'bypass_reason' => OCR_BYPASS_REASON
+        ];
     }
     
     /**

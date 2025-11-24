@@ -5,6 +5,9 @@
  * Uses GD instead of Imagick for broader compatibility
  */
 
+// Load OCR bypass configuration
+require_once __DIR__ . '/../config/ocr_bypass_config.php';
+
 class OCRProcessingServiceSafe {
     private $tesseractPath;
     private $tempDir;
@@ -23,6 +26,15 @@ class OCRProcessingServiceSafe {
      */
     public function processGradeDocument($filePath) {
         try {
+            // CHECK FOR OCR BYPASS MODE
+            if (defined('OCR_BYPASS_ENABLED') && OCR_BYPASS_ENABLED === true) {
+                error_log("⚠️ OCR BYPASS ACTIVE - Returning mock grade data for: " . basename($filePath));
+                return [
+                    'success' => true,
+                    'subjects' => [],
+                    'totalSubjects' => 0
+                ];
+            }
             // Validate file
             if (!$this->validateFile($filePath)) {
                 throw new Exception("Invalid file format or size");

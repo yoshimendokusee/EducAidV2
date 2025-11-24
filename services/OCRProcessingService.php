@@ -5,6 +5,9 @@
  * Safe version that handles missing Imagick extension gracefully
  */
 
+// Load OCR bypass configuration
+require_once __DIR__ . '/../config/ocr_bypass_config.php';
+
 class OCRProcessingService {
     private $tesseractPath;
     private $tempDir;
@@ -24,6 +27,16 @@ class OCRProcessingService {
      */
     public function extractTextAndConfidence($filePath, $options = []) {
         try {
+            // CHECK FOR OCR BYPASS MODE
+            if (defined('OCR_BYPASS_ENABLED') && OCR_BYPASS_ENABLED === true) {
+                error_log("⚠️ OCR BYPASS ACTIVE - Returning mock data for: " . basename($filePath));
+                return [
+                    'success' => true,
+                    'text' => 'Mock OCR text - Bypass mode enabled',
+                    'confidence' => OCR_BYPASS_CONFIDENCE,
+                    'word_count' => 100
+                ];
+            }
             if (!$this->validateFile($filePath)) {
                 throw new Exception("Invalid file format or size");
             }
