@@ -3107,6 +3107,88 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['processLetterOcr'])) 
             'debug' => 'Reason: ' . $reason . ', Score: ' . $score
         ]); 
     }
+    
+    // CHECK FOR OCR BYPASS MODE - Skip Letter to Mayor validation
+    if (file_exists(__DIR__ . '/../../config/ocr_bypass_config.php')) {
+        require_once __DIR__ . '/../../config/ocr_bypass_config.php';
+        if (defined('OCR_BYPASS_ENABLED') && OCR_BYPASS_ENABLED === true) {
+            error_log("⚠️ LETTER TO MAYOR BYPASS ACTIVE - Auto-passing validation");
+            
+            if (!isset($_FILES['letter_to_mayor']) || $_FILES['letter_to_mayor']['error'] !== UPLOAD_ERR_OK) {
+                json_response(['status' => 'error', 'message' => 'No letter file uploaded or upload error.']);
+            }
+            
+            // Initialize FilePathConfig and save file
+            $pathConfig = FilePathConfig::getInstance();
+            $uploadDir = $pathConfig->getTempPath('letter_to_mayor');
+            if (!file_exists($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+            
+            $sessionPrefix = $_SESSION['file_prefix'] ?? 'session';
+            cleanup_old_document_files($uploadDir, $sessionPrefix, '_Letter*');
+            
+            $fileExt = strtolower(pathinfo($_FILES['letter_to_mayor']['name'], PATHINFO_EXTENSION));
+            $fileName = $sessionPrefix . '_Letter to mayor.' . $fileExt;
+            $targetPath = $uploadDir . DIRECTORY_SEPARATOR . $fileName;
+            
+            if (!move_uploaded_file($_FILES['letter_to_mayor']['tmp_name'], $targetPath)) {
+                json_response(['status' => 'error', 'message' => 'Failed to save uploaded letter file.']);
+            }
+            
+            // Create mock verification data
+            $verification = [
+                'first_name' => true,
+                'last_name' => true,
+                'barangay' => true,
+                'mayor_header' => true,
+                'municipality' => true,
+                'confidence_scores' => [
+                    'first_name' => OCR_BYPASS_CONFIDENCE,
+                    'last_name' => OCR_BYPASS_CONFIDENCE,
+                    'barangay' => OCR_BYPASS_CONFIDENCE,
+                    'mayor_header' => OCR_BYPASS_CONFIDENCE,
+                    'municipality' => OCR_BYPASS_CONFIDENCE
+                ],
+                'found_text_snippets' => [
+                    'first_name' => 'Bypass Mode',
+                    'last_name' => 'Bypass Mode',
+                    'barangay' => 'Bypass Mode',
+                    'mayor_header' => 'Bypass Mode',
+                    'municipality' => 'Bypass Mode'
+                ],
+                'overall_success' => true,
+                'summary' => [
+                    'passed_checks' => 5,
+                    'total_checks' => 5,
+                    'average_confidence' => OCR_BYPASS_CONFIDENCE,
+                    'recommendation' => 'Document validation successful (BYPASS MODE)',
+                    'required_municipality' => $_SESSION['active_municipality_name'] ?? 'General Trias'
+                ],
+                'bypass_mode' => true,
+                'bypass_reason' => OCR_BYPASS_REASON
+            ];
+            
+            // Save mock confidence and verification files
+            $confidenceFile = $uploadDir . DIRECTORY_SEPARATOR . $sessionPrefix . '_letter.confidence.json';
+            $confidenceData = [
+                'overall_confidence' => OCR_BYPASS_CONFIDENCE,
+                'detailed_scores' => $verification['confidence_scores'],
+                'timestamp' => time(),
+                'bypass_mode' => true
+            ];
+            file_put_contents($confidenceFile, json_encode($confidenceData));
+            
+            $verifyFile = $targetPath . '.verify.json';
+            @file_put_contents($verifyFile, json_encode($verification, JSON_PRETTY_PRINT));
+            
+            $_SESSION['uploaded_files']['letter'] = basename($targetPath);
+            
+            json_response(['status' => 'success', 'verification' => $verification]);
+            exit;
+        }
+    }
+    
     if (!isset($_FILES['letter_to_mayor']) || $_FILES['letter_to_mayor']['error'] !== UPLOAD_ERR_OK) {
         json_response(['status' => 'error', 'message' => 'No letter file uploaded or upload error.']);
     }
@@ -3461,6 +3543,88 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['processCertificateOcr
     
     $captcha = verify_recaptcha_v3($_POST['g-recaptcha-response'] ?? '', 'process_certificate_ocr');
     if (!$captcha['ok']) { json_response(['status'=>'error','message'=>'Security verification failed (captcha).']); }
+    
+    // CHECK FOR OCR BYPASS MODE - Skip Certificate of Indigency validation
+    if (file_exists(__DIR__ . '/../../config/ocr_bypass_config.php')) {
+        require_once __DIR__ . '/../../config/ocr_bypass_config.php';
+        if (defined('OCR_BYPASS_ENABLED') && OCR_BYPASS_ENABLED === true) {
+            error_log("⚠️ CERTIFICATE OF INDIGENCY BYPASS ACTIVE - Auto-passing validation");
+            
+            if (!isset($_FILES['certificate_of_indigency']) || $_FILES['certificate_of_indigency']['error'] !== UPLOAD_ERR_OK) {
+                json_response(['status' => 'error', 'message' => 'No certificate file uploaded or upload error.']);
+            }
+            
+            // Initialize FilePathConfig and save file
+            $pathConfig = FilePathConfig::getInstance();
+            $uploadDir = $pathConfig->getTempPath('indigency');
+            if (!file_exists($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+            
+            $sessionPrefix = $_SESSION['file_prefix'] ?? 'session';
+            cleanup_old_document_files($uploadDir, $sessionPrefix, '_Indigency');
+            
+            $fileExt = strtolower(pathinfo($_FILES['certificate_of_indigency']['name'], PATHINFO_EXTENSION));
+            $fileName = $sessionPrefix . '_Indigency.' . $fileExt;
+            $targetPath = $uploadDir . DIRECTORY_SEPARATOR . $fileName;
+            
+            if (!move_uploaded_file($_FILES['certificate_of_indigency']['tmp_name'], $targetPath)) {
+                json_response(['status' => 'error', 'message' => 'Failed to save uploaded certificate file.']);
+            }
+            
+            // Create mock verification data
+            $verification = [
+                'first_name' => true,
+                'last_name' => true,
+                'barangay' => true,
+                'indigency_title' => true,
+                'municipality' => true,
+                'confidence_scores' => [
+                    'first_name' => OCR_BYPASS_CONFIDENCE,
+                    'last_name' => OCR_BYPASS_CONFIDENCE,
+                    'barangay' => OCR_BYPASS_CONFIDENCE,
+                    'indigency_title' => OCR_BYPASS_CONFIDENCE,
+                    'municipality' => OCR_BYPASS_CONFIDENCE
+                ],
+                'found_text_snippets' => [
+                    'first_name' => 'Bypass Mode',
+                    'last_name' => 'Bypass Mode',
+                    'barangay' => 'Bypass Mode',
+                    'indigency_title' => 'Bypass Mode',
+                    'municipality' => 'Bypass Mode'
+                ],
+                'overall_success' => true,
+                'summary' => [
+                    'passed_checks' => 5,
+                    'total_checks' => 5,
+                    'average_confidence' => OCR_BYPASS_CONFIDENCE,
+                    'recommendation' => 'Document validation successful (BYPASS MODE)',
+                    'required_municipality' => $_SESSION['active_municipality_name'] ?? 'General Trias'
+                ],
+                'bypass_mode' => true,
+                'bypass_reason' => OCR_BYPASS_REASON
+            ];
+            
+            // Save mock confidence and verification files
+            $confidenceFile = $uploadDir . DIRECTORY_SEPARATOR . $sessionPrefix . '_certificate.confidence.json';
+            $confidenceData = [
+                'overall_confidence' => OCR_BYPASS_CONFIDENCE,
+                'detailed_scores' => $verification['confidence_scores'],
+                'timestamp' => time(),
+                'bypass_mode' => true
+            ];
+            file_put_contents($confidenceFile, json_encode($confidenceData));
+            
+            $verifyFile = $targetPath . '.verify.json';
+            @file_put_contents($verifyFile, json_encode($verification, JSON_PRETTY_PRINT));
+            
+            $_SESSION['uploaded_files']['certificate'] = basename($targetPath);
+            
+            json_response(['status' => 'success', 'verification' => $verification]);
+            exit;
+        }
+    }
+    
     if (!isset($_FILES['certificate_of_indigency']) || $_FILES['certificate_of_indigency']['error'] !== UPLOAD_ERR_OK) {
         json_response(['status' => 'error', 'message' => 'No certificate file uploaded or upload error.']);
     }
@@ -7918,6 +8082,17 @@ function goBackToEdit() {
 function validateCurrentStepFields() {
     const currentPanel = document.getElementById(`step-${currentStep}`);
     if (!currentPanel) return { isValid: true };
+    
+    // CHECK FOR BYPASS MODE - Skip document validation for steps 4-8
+    <?php if (file_exists(__DIR__ . '/../../config/ocr_bypass_config.php')): ?>
+    <?php require_once __DIR__ . '/../../config/ocr_bypass_config.php'; ?>
+    <?php if (defined('OCR_BYPASS_ENABLED') && OCR_BYPASS_ENABLED === true): ?>
+    if (currentStep >= 4 && currentStep <= 8) {
+        console.log('⚠️ BYPASS MODE: Skipping document validation for step', currentStep);
+        return { isValid: true }; // Allow proceeding without documents
+    }
+    <?php endif; ?>
+    <?php endif; ?>
     
     const requiredFields = currentPanel.querySelectorAll('input[required], select[required], textarea[required]');
     const emptyFields = [];
