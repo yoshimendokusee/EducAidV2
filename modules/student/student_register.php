@@ -10300,6 +10300,38 @@ document.addEventListener('DOMContentLoaded', function() {
     updateStepIndicators();
     console.log('✅ Form initialized to step 1');
     
+    // ============================================================
+    // OCR BYPASS MODE - Enable all document buttons immediately
+    // ============================================================
+    <?php if (OCR_BYPASS_ENABLED): ?>
+    console.log('⚠️ OCR BYPASS MODE: Enabling all document step buttons');
+    
+    // Enable all document step Next buttons
+    const documentButtons = [
+        'nextStep4Btn',  // ID Picture
+        'nextStep5Btn',  // Enrollment Form
+        'nextStep6Btn',  // Letter to Mayor
+        'nextStep7Btn',  // Certificate of Indigency
+        'nextStep8Btn'   // Grades
+    ];
+    
+    documentButtons.forEach(btnId => {
+        const btn = document.getElementById(btnId);
+        if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="bi bi-skip-forward me-2"></i>Continue - Bypass Mode (Optional)';
+            btn.classList.remove('btn-secondary');
+            btn.classList.add('btn-warning');
+            console.log(`✓ Enabled button: ${btnId}`);
+        }
+    });
+    
+    console.log('✅ All document buttons enabled - students can skip uploads');
+    <?php else: ?>
+    console.log('ℹ️ Normal mode - documents required and must be verified');
+    <?php endif; ?>
+    // ============================================================
+    
     // Auto-cleanup on page refresh (if triggered by PHP)
     <?php if (isset($_SESSION['trigger_cleanup_on_load']) && $_SESSION['trigger_cleanup_on_load'] === true): ?>
     console.log('🔄 Page refresh detected (PHP flag) - verifying cleanup...');
