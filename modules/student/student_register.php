@@ -1740,7 +1740,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['action']) && $_POST['
     }
     
     $lastName = trim($_POST['last_name'] ?? '');
-    $mothersMaidenName = trim($_POST['mothers_maiden_name'] ?? '');
+    $mothersMaidenName = trim($_POST['mothers_fullname'] ?? '');
     $barangayId = intval($_POST['barangay_id'] ?? 0);
     
     error_log("🏠 Household check - Last: $lastName, Maiden: $mothersMaidenName, Barangay ID: $barangayId");
@@ -6562,7 +6562,7 @@ if (!$isAjaxRequest) {
                             <i class="bi bi-info-circle ms-1" data-bs-toggle="tooltip" data-bs-placement="right" 
                                title="This helps us identify if another student from your household is already registered. Only one student per household can receive assistance."></i>
                         </label>
-                        <input type="text" class="form-control" name="mothers_maiden_name" id="mothersMaidenNameInput" 
+                        <input type="text" class="form-control" name="mothers_fullname" id="mothersMaidenNameInput" 
                                placeholder="e.g., Maria Cruz Santos, Ana Rose Reyes" 
                                pattern="[A-Za-z\s\-]+" 
                                maxlength="100"
@@ -7644,7 +7644,7 @@ async function checkHouseholdBeforeProceeding() {
         formData.append('action', 'check_household_duplicate');
         formData.append('first_name', firstName); // Include first name from Step 1
         formData.append('last_name', lastName);
-        formData.append('mothers_maiden_name', maidenName);
+        formData.append('mothers_fullname', maidenName);
         formData.append('barangay_id', barangayId);
         
         const response = await fetch('student_register.php', {
@@ -10140,7 +10140,7 @@ async function checkHouseholdDuplicate() {
         const formData = new FormData();
         formData.append('action', 'check_household_duplicate');
         formData.append('last_name', lastName);
-        formData.append('mothers_maiden_name', maidenName);
+        formData.append('mothers_fullname', maidenName);
         formData.append('barangay_id', barangayId);
         
         const response = await fetch('student_register.php', {
@@ -11606,7 +11606,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         if (prefillData.mothers_maiden_name) {
-            const motherNameInput = document.querySelector('input[name="mothers_maiden_name"]');
+            const motherNameInput = document.querySelector('input[name="mothers_fullname"]');
             if (motherNameInput) {
                 motherNameInput.value = prefillData.mothers_maiden_name;
                 console.log('✓ Pre-filled mothers_maiden_name:', prefillData.mothers_maiden_name);
