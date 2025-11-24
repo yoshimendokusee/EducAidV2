@@ -499,11 +499,6 @@ nav.navbar.fixed-header .navbar-collapse {
   }
 }
 
-/* On narrow screens, hide the municipality badge to save width */
-@media (max-width: 430px) {
-  nav.navbar.fixed-header .municipality-badge-navbar { display: none; }
-}
-
 .navbar-actions {
   flex-shrink: 0; /* Never shrink buttons */
   white-space: nowrap;

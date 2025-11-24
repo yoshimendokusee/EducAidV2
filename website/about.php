@@ -61,6 +61,12 @@ $pageType = $seoData['type'];
   <?php endif; ?>
 
 <?php
+// Custom brand configuration - hide EducAid logo since municipality logo is shown
+$custom_brand_config = [
+  'hide_educaid_logo' => true,
+  'show_municipality' => false
+];
+
 // Custom nav links for this page
 $custom_nav_links = [
   ['href' => 'landingpage.php', 'label' => 'Home', 'active' => false],

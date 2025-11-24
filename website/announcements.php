@@ -67,6 +67,13 @@ function format_event($row){ $parts=[]; if(!empty($row['event_date'])){ $d=DateT
 function esc($s){ return htmlspecialchars($s ?? '', ENT_QUOTES,'UTF-8'); }
 
 $base_path = '../';
+
+// Custom brand configuration - hide EducAid logo since municipality logo is shown
+$custom_brand_config = [
+  'hide_educaid_logo' => true,
+  'show_municipality' => false
+];
+
 $custom_nav_links = [
   ['href'=>'landingpage.php#home','label'=>'Home','active'=>false],
   ['href'=>'about.php','label'=>'About','active'=>false],
