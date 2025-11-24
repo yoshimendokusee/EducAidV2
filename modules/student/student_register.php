@@ -1434,23 +1434,6 @@ if (!$isAjaxRequest) {
                 targetPanel.classList.remove('d-none');
                 currentStep = stepNum;
                 if (typeof updateStepIndicators === 'function') updateStepIndicators();
-                
-                // ============================================================
-                // OCR BYPASS MODE - Enable submit button on step 10
-                // ============================================================
-                <?php if (OCR_BYPASS_ENABLED): ?>
-                if (stepNum === 10) {
-                    const submitBtn = document.getElementById('submitButton');
-                    if (submitBtn) {
-                        submitBtn.disabled = false;
-                        submitBtn.classList.remove('btn-success');
-                        submitBtn.classList.add('btn-warning');
-                        submitBtn.innerHTML = '<i class="bi bi-exclamation-triangle me-2"></i>Submit (Bypass Mode)';
-                        console.log('⚠️ BYPASS MODE: Submit button enabled on step 10');
-                    }
-                }
-                <?php endif; ?>
-                // ============================================================
             }
         };
 
@@ -8100,17 +8083,13 @@ function validateCurrentStepFields() {
     const currentPanel = document.getElementById(`step-${currentStep}`);
     if (!currentPanel) return { isValid: true };
     
-    // CHECK FOR BYPASS MODE - Skip validation for steps 4-8 (documents) and step 10 (password)
+    // CHECK FOR BYPASS MODE - Skip document validation for steps 4-8
     <?php if (file_exists(__DIR__ . '/../../config/ocr_bypass_config.php')): ?>
     <?php require_once __DIR__ . '/../../config/ocr_bypass_config.php'; ?>
     <?php if (defined('OCR_BYPASS_ENABLED') && OCR_BYPASS_ENABLED === true): ?>
     if (currentStep >= 4 && currentStep <= 8) {
         console.log('⚠️ BYPASS MODE: Skipping document validation for step', currentStep);
         return { isValid: true }; // Allow proceeding without documents
-    }
-    if (currentStep === 10) {
-        console.log('⚠️ BYPASS MODE: Skipping password validation for step 10');
-        return { isValid: true }; // Allow submitting without password validation
     }
     <?php endif; ?>
     <?php endif; ?>
@@ -10324,30 +10303,76 @@ document.addEventListener('DOMContentLoaded', function() {
     // ============================================================
     // OCR BYPASS MODE - Enable all document buttons immediately
     // ============================================================
-    <?php if (OCR_BYPASS_ENABLED): ?>
-    console.log('⚠️ OCR BYPASS MODE: Enabling all document step buttons');
+    <?php if (defined('OCR_BYPASS_ENABLED') && OCR_BYPASS_ENABLED === true): ?>
+    console.log('⚠️ OCR BYPASS MODE ACTIVE: Enabling all document step buttons');
     
-    // Enable all document step Next buttons
-    const documentButtons = [
-        'nextStep4Btn',  // ID Picture
-        'nextStep5Btn',  // Enrollment Form
-        'nextStep6Btn',  // Letter to Mayor
-        'nextStep7Btn',  // Certificate of Indigency
-        'nextStep8Btn'   // Grades
-    ];
-    
-    documentButtons.forEach(btnId => {
-        const btn = document.getElementById(btnId);
-        if (btn) {
-            btn.disabled = false;
-            btn.innerHTML = '<i class="bi bi-skip-forward me-2"></i>Continue - Bypass Mode (Optional)';
-            btn.classList.remove('btn-secondary');
-            btn.classList.add('btn-warning');
-            console.log(`✓ Enabled button: ${btnId}`);
+    // Wait a moment for DOM to fully load
+    setTimeout(function() {
+        // CRITICAL: Remove 'required' attribute from all document file inputs
+        // This prevents HTML5 validation from blocking form submission
+        const documentFileInputs = [
+            'enrollmentForm',      // Enrollment Form
+            'letterToMayorForm',   // Letter to Mayor
+            'certificateForm',     // Certificate of Indigency
+            'gradesForm'           // Grades
+        ];
+        
+        documentFileInputs.forEach(inputId => {
+            const input = document.getElementById(inputId);
+            if (input) {
+                input.removeAttribute('required');
+                console.log(`✓ Removed 'required' from: ${inputId}`);
+            } else {
+                console.warn(`⚠️ Input not found: ${inputId}`);
+            }
+        });
+        
+        // Also remove from course field if it exists
+        const courseInput = document.querySelector('input[name="course"]');
+        if (courseInput) {
+            courseInput.removeAttribute('required');
+            console.log('✓ Removed \'required\' from course field');
         }
-    });
+        
+        console.log('✅ All document fields are now OPTIONAL');
+        
+        // Enable all document step Next buttons
+        const documentButtons = [
+            'nextStep4Btn',  // ID Picture
+            'nextStep5Btn',  // Enrollment Form
+            'nextStep6Btn',  // Letter to Mayor
+            'nextStep7Btn',  // Certificate of Indigency
+            'nextStep8Btn'   // Grades
+        ];
+        
+        documentButtons.forEach(btnId => {
+            const btn = document.getElementById(btnId);
+            if (btn) {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="bi bi-skip-forward me-2"></i>Continue - Documents Optional (Bypass Mode)';
+                btn.classList.remove('btn-secondary');
+                btn.classList.add('btn-warning');
+                btn.style.opacity = '1';
+                btn.style.cursor = 'pointer';
+                console.log(`✓ Enabled button: ${btnId}`);
+            } else {
+                console.warn(`⚠️ Button not found: ${btnId}`);
+            }
+        });
+        
+        console.log('✅ All document buttons enabled - students can skip uploads');
+        
+        // Also show a prominent banner
+        const step4Panel = document.getElementById('step-4');
+        if (step4Panel && !document.getElementById('bypassBanner')) {
+            const banner = document.createElement('div');
+            banner.id = 'bypassBanner';
+            banner.className = 'alert alert-warning mb-3';
+            banner.innerHTML = '<i class="bi bi-exclamation-triangle-fill me-2"></i><strong>Bypass Mode Active:</strong> All documents are OPTIONAL. You can skip any document uploads and proceed directly.';
+            step4Panel.insertBefore(banner, step4Panel.firstChild);
+        }
+    }, 500); // Small delay to ensure all elements are loaded
     
-    console.log('✅ All document buttons enabled - students can skip uploads');
     <?php else: ?>
     console.log('ℹ️ Normal mode - documents required and must be verified');
     <?php endif; ?>
