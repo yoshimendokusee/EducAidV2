@@ -10311,10 +10311,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // CRITICAL: Remove 'required' attribute from all document file inputs
         // This prevents HTML5 validation from blocking form submission
         const documentFileInputs = [
-            'enrollmentForm',      // Enrollment Form
-            'letterToMayorForm',   // Letter to Mayor
-            'certificateForm',     // Certificate of Indigency
-            'gradesForm'           // Grades
+            'id_picture_file',     // ID Picture (Step 4)
+            'enrollmentForm',      // Enrollment Form (Step 5)
+            'letterToMayorForm',   // Letter to Mayor (Step 6)
+            'certificateForm',     // Certificate of Indigency (Step 7)
+            'gradesForm'           // Grades (Step 8)
         ];
         
         documentFileInputs.forEach(inputId => {
