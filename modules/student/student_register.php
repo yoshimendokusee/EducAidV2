@@ -1434,6 +1434,23 @@ if (!$isAjaxRequest) {
                 targetPanel.classList.remove('d-none');
                 currentStep = stepNum;
                 if (typeof updateStepIndicators === 'function') updateStepIndicators();
+                
+                // ============================================================
+                // OCR BYPASS MODE - Enable submit button on step 10
+                // ============================================================
+                <?php if (OCR_BYPASS_ENABLED): ?>
+                if (stepNum === 10) {
+                    const submitBtn = document.getElementById('submitButton');
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.classList.remove('btn-success');
+                        submitBtn.classList.add('btn-warning');
+                        submitBtn.innerHTML = '<i class="bi bi-exclamation-triangle me-2"></i>Submit (Bypass Mode)';
+                        console.log('⚠️ BYPASS MODE: Submit button enabled on step 10');
+                    }
+                }
+                <?php endif; ?>
+                // ============================================================
             }
         };
 
@@ -8083,13 +8100,17 @@ function validateCurrentStepFields() {
     const currentPanel = document.getElementById(`step-${currentStep}`);
     if (!currentPanel) return { isValid: true };
     
-    // CHECK FOR BYPASS MODE - Skip document validation for steps 4-8
+    // CHECK FOR BYPASS MODE - Skip validation for steps 4-8 (documents) and step 10 (password)
     <?php if (file_exists(__DIR__ . '/../../config/ocr_bypass_config.php')): ?>
     <?php require_once __DIR__ . '/../../config/ocr_bypass_config.php'; ?>
     <?php if (defined('OCR_BYPASS_ENABLED') && OCR_BYPASS_ENABLED === true): ?>
     if (currentStep >= 4 && currentStep <= 8) {
         console.log('⚠️ BYPASS MODE: Skipping document validation for step', currentStep);
         return { isValid: true }; // Allow proceeding without documents
+    }
+    if (currentStep === 10) {
+        console.log('⚠️ BYPASS MODE: Skipping password validation for step 10');
+        return { isValid: true }; // Allow submitting without password validation
     }
     <?php endif; ?>
     <?php endif; ?>
