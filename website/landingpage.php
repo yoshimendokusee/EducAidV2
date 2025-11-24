@@ -170,6 +170,12 @@ $pageType = $seoData['type'];
   // Determine base path for links
   $base_path = '../';
   
+  // Custom brand configuration - hide EducAid logo since municipality logo is shown
+  $custom_brand_config = [
+    'hide_educaid_logo' => true, // Hide EducAid logo to avoid duplication
+    'show_municipality' => false // Let navbar auto-fetch municipality logo
+  ];
+  
   // Custom navigation for landing page
   $custom_nav_links = [
     ['href' => 'landingpage.php#home', 'label' => 'Home', 'active' => true],
