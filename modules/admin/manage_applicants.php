@@ -901,6 +901,15 @@ function find_student_documents_by_id($connection, $student_id) {
 
 // Function to check if all required documents are uploaded
 function check_documents($connection, $student_id) {
+    // CHECK FOR OCR BYPASS MODE - Always return true (documents complete) during bypass
+    if (file_exists(__DIR__ . '/../../config/ocr_bypass_config.php')) {
+        require_once __DIR__ . '/../../config/ocr_bypass_config.php';
+        if (defined('OCR_BYPASS_ENABLED') && OCR_BYPASS_ENABLED === true) {
+            error_log("⚠️ BYPASS MODE: check_documents() returning TRUE for student $student_id - admin can verify without documents");
+            return true; // Allow admin to verify even without documents
+        }
+    }
+    
     // Required document type codes: EAF, Letter to Mayor, Certificate of Indigency
     $required_codes = ['00', '02', '03'];
     
