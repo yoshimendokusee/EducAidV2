@@ -1491,23 +1491,17 @@ if (!$isAjaxRequest) {
     <?php include __DIR__ . '/../../includes/website/topbar.php'; ?>
 
     <?php 
+    // Let navbar use database-driven system information from theme_settings
+    // Municipality logo and name are already fetched at the top of this file
     $custom_brand_config = [
         'href' => '../../website/landingpage.php',
-        'name' => 'EducAid • ' . $municipality_name,
         'hide_educaid_logo' => true,
         'show_municipality' => true,
         'municipality_logo' => $municipality_logo,
         'municipality_name' => $municipality_name
     ];
     $custom_nav_links = [];
-    $prepend_navbar_actions = [
-        [
-            'href' => '../../website/landingpage.php',
-            'label' => 'Back to Home',
-            'icon' => 'bi-house',
-            'class' => 'btn btn-outline-secondary btn-sm'
-        ]
-    ];
+    // No prepend_navbar_actions - "Back to Home" button removed per user request
     $simple_nav_style = true;
     include __DIR__ . '/../../includes/website/navbar.php'; 
     // Hidden input to store the reCAPTCHA v3 token for final submission (non-AJAX form posts)

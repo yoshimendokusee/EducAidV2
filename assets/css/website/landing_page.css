@@ -918,6 +918,9 @@ section {
 .section-lead {
   color: var(--thm-gray);
   max-width: 920px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
 }
 
 /* Mayor's message section */

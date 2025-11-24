@@ -1707,10 +1707,10 @@ $pageType = $seoData['type'];
     include 'includes/website/topbar.php';
     
     // Configure navbar for login page
-    // Display municipality name with logo badge
+    // Let navbar use database-driven system information from theme_settings
+    // Municipality logo and name are already fetched at the top of this file
     $custom_brand_config = [
         'href' => 'website/landingpage.php',
-        'name' => 'EducAid • ' . $municipality_name,
         'hide_educaid_logo' => true, // Flag to hide the EducAid logo in navbar
         'show_municipality' => true,
         'municipality_logo' => $municipality_logo,

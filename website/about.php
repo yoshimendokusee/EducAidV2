@@ -119,78 +119,12 @@ include __DIR__ . '/../includes/website/cookie_consent.php';
     </div>
   </section>
 
-  <!-- Core Values -->
-  <section class="py-5 bg-body-tertiary">
-    <div class="container">
-      <div class="text-center mb-5">
-        <h2 class="section-title" data-lp-key="about_values_heading"<?php echo about_block_style('about_values_heading'); ?>><?php echo about_block('about_values_heading','Our Core Values'); ?></h2>
-        <p class="section-lead" data-lp-key="about_values_lead"<?php echo about_block_style('about_values_lead'); ?>><?php echo about_block('about_values_lead','The principles that guide our commitment to educational assistance'); ?></p>
-      </div>
-      <div class="row g-4">
-        <div class="col-md-6 col-lg-4">
-          <div class="soft-card p-4 text-center h-100">
-            <div class="bg-primary bg-opacity-10 rounded-circle p-3 d-inline-flex mb-3">
-              <i class="bi bi-shield-check text-primary fs-3"></i>
-            </div>
-            <h5 class="fw-bold" data-lp-key="about_value_transparency_title"<?php echo about_block_style('about_value_transparency_title'); ?>><?php echo about_block('about_value_transparency_title','Transparency'); ?></h5>
-            <p class="text-body-secondary mb-0" data-lp-key="about_value_transparency_body"<?php echo about_block_style('about_value_transparency_body'); ?>><?php echo about_block('about_value_transparency_body','Open processes, clear criteria, and accessible information for all stakeholders.'); ?></p>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="soft-card p-4 text-center h-100">
-            <div class="bg-success bg-opacity-10 rounded-circle p-3 d-inline-flex mb-3">
-              <i class="bi bi-people text-success fs-3"></i>
-            </div>
-            <h5 class="fw-bold" data-lp-key="about_value_equity_title"<?php echo about_block_style('about_value_equity_title'); ?>><?php echo about_block('about_value_equity_title','Equity'); ?></h5>
-            <p class="text-body-secondary mb-0" data-lp-key="about_value_equity_body"<?php echo about_block_style('about_value_equity_body'); ?>><?php echo about_block('about_value_equity_body','Fair distribution of assistance based on need and qualification, not privilege.'); ?></p>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="soft-card p-4 text-center h-100">
-            <div class="bg-warning bg-opacity-10 rounded-circle p-3 d-inline-flex mb-3">
-              <i class="bi bi-lightning text-warning fs-3"></i>
-            </div>
-            <h5 class="fw-bold" data-lp-key="about_value_efficiency_title"<?php echo about_block_style('about_value_efficiency_title'); ?>><?php echo about_block('about_value_efficiency_title','Efficiency'); ?></h5>
-            <p class="text-body-secondary mb-0" data-lp-key="about_value_efficiency_body"<?php echo about_block_style('about_value_efficiency_body'); ?>><?php echo about_block('about_value_efficiency_body','Streamlined processes that save time for students, families, and administrators.'); ?></p>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="soft-card p-4 text-center h-100">
-            <div class="bg-info bg-opacity-10 rounded-circle p-3 d-inline-flex mb-3">
-              <i class="bi bi-heart text-info fs-3"></i>
-            </div>
-            <h5 class="fw-bold" data-lp-key="about_value_compassion_title"<?php echo about_block_style('about_value_compassion_title'); ?>><?php echo about_block('about_value_compassion_title','Compassion'); ?></h5>
-            <p class="text-body-secondary mb-0" data-lp-key="about_value_compassion_body"<?php echo about_block_style('about_value_compassion_body'); ?>><?php echo about_block('about_value_compassion_body','Understanding the struggles of students and families in need of assistance.'); ?></p>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="soft-card p-4 text-center h-100">
-            <div class="bg-danger bg-opacity-10 rounded-circle p-3 d-inline-flex mb-3">
-              <i class="bi bi-gear text-danger fs-3"></i>
-            </div>
-            <h5 class="fw-bold" data-lp-key="about_value_innovation_title"<?php echo about_block_style('about_value_innovation_title'); ?>><?php echo about_block('about_value_innovation_title','Innovation'); ?></h5>
-            <p class="text-body-secondary mb-0" data-lp-key="about_value_innovation_body"<?php echo about_block_style('about_value_innovation_body'); ?>><?php echo about_block('about_value_innovation_body','Embracing technology to improve service delivery and user experience.'); ?></p>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="soft-card p-4 text-center h-100">
-            <div class="bg-secondary bg-opacity-10 rounded-circle p-3 d-inline-flex mb-3">
-              <i class="bi bi-hand-thumbs-up text-secondary fs-3"></i>
-            </div>
-            <h5 class="fw-bold" data-lp-key="about_value_accountability_title"<?php echo about_block_style('about_value_accountability_title'); ?>><?php echo about_block('about_value_accountability_title','Accountability'); ?></h5>
-            <p class="text-body-secondary mb-0" data-lp-key="about_value_accountability_body"<?php echo about_block_style('about_value_accountability_body'); ?>><?php echo about_block('about_value_accountability_body','Responsible stewardship of public resources and student data.'); ?></p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- System Features -->
   <section class="py-5">
     <div class="container">
       <div class="text-center mb-5">
-        <h2 class="section-title" data-lp-key="about_features_heading"<?php echo about_block_style('about_features_heading'); ?>><?php echo about_block('about_features_heading','What Makes EducAid Special'); ?></h2>
-        <p class="section-lead" data-lp-key="about_features_lead"<?php echo about_block_style('about_features_lead'); ?>><?php echo about_block('about_features_lead','Advanced features designed for transparency, security, and ease of use'); ?></p>
+        <h2 class="section-title text-center mx-auto" data-lp-key="about_features_heading"<?php echo about_block_style('about_features_heading'); ?>><?php echo about_block('about_features_heading','What Makes EducAid Special'); ?></h2>
+        <p class="section-lead text-center mx-auto" data-lp-key="about_features_lead"<?php echo about_block_style('about_features_lead'); ?>><?php echo about_block('about_features_lead','Advanced features designed for transparency, security, and ease of use'); ?></p>
       </div>
       <div class="row g-4">
         <div class="col-lg-6">
@@ -250,47 +184,47 @@ include __DIR__ . '/../includes/website/cookie_consent.php';
   </section>
 
   <!-- Core Values -->
-  <section class="py-5 bg-primary text-white">
+  <section class="py-5 bg-body-tertiary">
     <div class="container">
       <div class="text-center mb-5">
-        <h2 class="fw-bold" data-lp-key="about_values_heading"<?php echo about_block_style('about_values_heading'); ?>><?php echo about_block('about_values_heading','Our Core Values'); ?></h2>
-        <p class="opacity-75" data-lp-key="about_values_lead"<?php echo about_block_style('about_values_lead'); ?>><?php echo about_block('about_values_lead','Guiding principles that drive our mission to serve students'); ?></p>
+        <h2 class="section-title text-center mx-auto" data-lp-key="about_values_heading"<?php echo about_block_style('about_values_heading'); ?>><?php echo about_block('about_values_heading','Our Core Values'); ?></h2>
+        <p class="section-lead text-center mx-auto" data-lp-key="about_values_lead"<?php echo about_block_style('about_values_lead'); ?>><?php echo about_block('about_values_lead','Guiding principles that drive our mission to serve students'); ?></p>
       </div>
       <div class="row g-4">
         <div class="col-md-6 col-lg-3">
-          <div class="text-center h-100 p-4">
-            <div class="bg-white bg-opacity-10 rounded-circle p-4 d-inline-flex mb-3" style="width: 80px; height: 80px; align-items: center; justify-content: center;">
-              <i class="bi bi-shield-check fs-1"></i>
+          <div class="soft-card p-4 text-center h-100">
+            <div class="bg-primary bg-opacity-10 rounded-circle p-4 d-inline-flex mb-3" style="width: 80px; height: 80px; align-items: center; justify-content: center;">
+              <i class="bi bi-shield-check text-primary fs-1"></i>
             </div>
             <h5 class="fw-bold mb-3" data-lp-key="about_value1_title"<?php echo about_block_style('about_value1_title'); ?>><?php echo about_block('about_value1_title','Transparency'); ?></h5>
-            <p class="opacity-75 mb-0" data-lp-key="about_value1_desc"<?php echo about_block_style('about_value1_desc'); ?>><?php echo about_block('about_value1_desc','Open and clear processes that build trust and accountability in every transaction.'); ?></p>
+            <p class="text-body-secondary mb-0" data-lp-key="about_value1_desc"<?php echo about_block_style('about_value1_desc'); ?>><?php echo about_block('about_value1_desc','Open and clear processes that build trust and accountability in every transaction.'); ?></p>
           </div>
         </div>
         <div class="col-md-6 col-lg-3">
-          <div class="text-center h-100 p-4">
-            <div class="bg-white bg-opacity-10 rounded-circle p-4 d-inline-flex mb-3" style="width: 80px; height: 80px; align-items: center; justify-content: center;">
-              <i class="bi bi-universal-access fs-1"></i>
+          <div class="soft-card p-4 text-center h-100">
+            <div class="bg-success bg-opacity-10 rounded-circle p-4 d-inline-flex mb-3" style="width: 80px; height: 80px; align-items: center; justify-content: center;">
+              <i class="bi bi-people text-success fs-1"></i>
             </div>
-            <h5 class="fw-bold mb-3" data-lp-key="about_value2_title"<?php echo about_block_style('about_value2_title'); ?>><?php echo about_block('about_value2_title','Accessibility'); ?></h5>
-            <p class="opacity-75 mb-0" data-lp-key="about_value2_desc"<?php echo about_block_style('about_value2_desc'); ?>><?php echo about_block('about_value2_desc','Making educational assistance available to all qualified students without barriers.'); ?></p>
+            <h5 class="fw-bold mb-3" data-lp-key="about_value2_title"<?php echo about_block_style('about_value2_title'); ?>><?php echo about_block('about_value2_title','Equity'); ?></h5>
+            <p class="text-body-secondary mb-0" data-lp-key="about_value2_desc"<?php echo about_block_style('about_value2_desc'); ?>><?php echo about_block('about_value2_desc','Fair distribution of assistance based on need and qualification, not privilege.'); ?></p>
           </div>
         </div>
         <div class="col-md-6 col-lg-3">
-          <div class="text-center h-100 p-4">
-            <div class="bg-white bg-opacity-10 rounded-circle p-4 d-inline-flex mb-3" style="width: 80px; height: 80px; align-items: center; justify-content: center;">
-              <i class="bi bi-lightning-charge fs-1"></i>
+          <div class="soft-card p-4 text-center h-100">
+            <div class="bg-warning bg-opacity-10 rounded-circle p-4 d-inline-flex mb-3" style="width: 80px; height: 80px; align-items: center; justify-content: center;">
+              <i class="bi bi-lightning-charge text-warning fs-1"></i>
             </div>
             <h5 class="fw-bold mb-3" data-lp-key="about_value3_title"<?php echo about_block_style('about_value3_title'); ?>><?php echo about_block('about_value3_title','Efficiency'); ?></h5>
-            <p class="opacity-75 mb-0" data-lp-key="about_value3_desc"<?php echo about_block_style('about_value3_desc'); ?>><?php echo about_block('about_value3_desc','Streamlined digital processes that save time and reduce administrative burden.'); ?></p>
+            <p class="text-body-secondary mb-0" data-lp-key="about_value3_desc"<?php echo about_block_style('about_value3_desc'); ?>><?php echo about_block('about_value3_desc','Streamlined digital processes that save time and reduce administrative burden.'); ?></p>
           </div>
         </div>
         <div class="col-md-6 col-lg-3">
-          <div class="text-center h-100 p-4">
-            <div class="bg-white bg-opacity-10 rounded-circle p-4 d-inline-flex mb-3" style="width: 80px; height: 80px; align-items: center; justify-content: center;">
-              <i class="bi bi-balance-scale fs-1"></i>
+          <div class="soft-card p-4 text-center h-100">
+            <div class="bg-info bg-opacity-10 rounded-circle p-4 d-inline-flex mb-3" style="width: 80px; height: 80px; align-items: center; justify-content: center;">
+              <i class="bi bi-heart text-info fs-1"></i>
             </div>
-            <h5 class="fw-bold mb-3" data-lp-key="about_value4_title"<?php echo about_block_style('about_value4_title'); ?>><?php echo about_block('about_value4_title','Equity'); ?></h5>
-            <p class="opacity-75 mb-0" data-lp-key="about_value4_desc"<?php echo about_block_style('about_value4_desc'); ?>><?php echo about_block('about_value4_desc','Fair distribution based on need, ensuring equal opportunities for deserving students.'); ?></p>
+            <h5 class="fw-bold mb-3" data-lp-key="about_value4_title"<?php echo about_block_style('about_value4_title'); ?>><?php echo about_block('about_value4_title','Compassion'); ?></h5>
+            <p class="text-body-secondary mb-0" data-lp-key="about_value4_desc"<?php echo about_block_style('about_value4_desc'); ?>><?php echo about_block('about_value4_desc','Understanding the struggles of students and families in need of assistance.'); ?></p>
           </div>
         </div>
       </div>

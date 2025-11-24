@@ -443,43 +443,39 @@ $pageType = $seoData['type'];
     </div>
   </section>
 
-  <!-- CTA Section - Eye-catching design -->
-  <section class="py-5" style="background: linear-gradient(135deg, #0d47a1 0%, #1976d2 50%, #42a5f5 100%); position: relative; overflow: hidden;">
-    <!-- Decorative elements -->
-    <div style="position: absolute; top: -50px; right: -50px; width: 300px; height: 300px; background: rgba(255,255,255,0.1); border-radius: 50%; filter: blur(60px);"></div>
-    <div style="position: absolute; bottom: -80px; left: -80px; width: 400px; height: 400px; background: rgba(255,255,255,0.08); border-radius: 50%; filter: blur(80px);"></div>
-    
-    <div class="container" style="position: relative; z-index: 1;">
+  <!-- CTA Section -->
+  <section class="py-5 bg-body-tertiary">
+    <div class="container">
       <div class="row align-items-center g-5">
         <!-- Left side - Icon & Stats -->
         <div class="col-lg-5">
-          <div class="text-white">
+          <div>
             <div class="d-flex align-items-center gap-3 mb-4">
-              <div class="bg-white bg-opacity-25 rounded-circle p-4 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px; backdrop-filter: blur(10px);">
-                <i class="bi bi-check-circle-fill text-white" style="font-size: 2.5rem;"></i>
+              <div class="bg-primary bg-opacity-10 rounded-circle p-4 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                <i class="bi bi-check-circle-fill text-primary" style="font-size: 2.5rem;"></i>
               </div>
               <div>
                 <h3 class="fw-bold mb-1" data-lp-key="req_cta_heading"<?php echo req_block_style('req_cta_heading'); ?>><?php echo req_block('req_cta_heading','All Set?'); ?></h3>
-                <p class="mb-0 opacity-75" data-lp-key="req_cta_subheading"<?php echo req_block_style('req_cta_subheading'); ?>><?php echo req_block('req_cta_subheading','You\'re ready to begin'); ?></p>
+                <p class="mb-0 text-body-secondary" data-lp-key="req_cta_subheading"<?php echo req_block_style('req_cta_subheading'); ?>><?php echo req_block('req_cta_subheading','You\'re ready to begin'); ?></p>
               </div>
             </div>
             <div class="row g-3 text-center">
               <div class="col-4">
-                <div class="bg-white bg-opacity-25 rounded p-3 border border-white border-opacity-25" style="backdrop-filter: blur(10px);">
-                  <h4 class="fw-bold mb-1 text-white">4</h4>
-                  <small class="text-white" style="opacity: 0.9;">Categories</small>
+                <div class="soft-card p-3">
+                  <h4 class="fw-bold mb-1 text-primary">4</h4>
+                  <small class="text-body-secondary">Categories</small>
                 </div>
               </div>
               <div class="col-4">
-                <div class="bg-white bg-opacity-25 rounded p-3 border border-white border-opacity-25" style="backdrop-filter: blur(10px);">
-                  <h4 class="fw-bold mb-1 text-white">10+</h4>
-                  <small class="text-white" style="opacity: 0.9;">Documents</small>
+                <div class="soft-card p-3">
+                  <h4 class="fw-bold mb-1 text-primary">10+</h4>
+                  <small class="text-body-secondary">Documents</small>
                 </div>
               </div>
               <div class="col-4">
-                <div class="bg-white bg-opacity-25 rounded p-3 border border-white border-opacity-25" style="backdrop-filter: blur(10px);">
-                  <h4 class="fw-bold mb-1 text-white">24/7</h4>
-                  <small class="text-white" style="opacity: 0.9;">Upload</small>
+                <div class="soft-card p-3">
+                  <h4 class="fw-bold mb-1 text-primary">24/7</h4>
+                  <small class="text-body-secondary">Upload</small>
                 </div>
               </div>
             </div>
@@ -488,48 +484,48 @@ $pageType = $seoData['type'];
 
         <!-- Right side - CTA Content -->
         <div class="col-lg-7">
-          <div class="text-white">
-            <span class="badge bg-white text-primary rounded-pill px-3 py-2 mb-3">
+          <div>
+            <span class="badge bg-primary text-white rounded-pill px-3 py-2 mb-3">
               <i class="bi bi-stars me-2"></i>Ready to Apply
             </span>
-            <h2 class="display-5 fw-bold mb-3">Start Your Application Journey</h2>
-            <p class="lead mb-4 opacity-90">Gather your requirements and begin your EducAid application today. Our streamlined process makes it easy to upload documents and track your progress.</p>
+            <h2 class="section-title mb-3">Start Your Application Journey</h2>
+            <p class="section-lead mb-4">Gather your requirements and begin your EducAid application today. Our streamlined process makes it easy to upload documents and track your progress.</p>
             
             <!-- Feature highlights -->
             <div class="row g-3 mb-4">
               <div class="col-md-6">
                 <div class="d-flex align-items-start gap-2">
-                  <i class="bi bi-check-circle-fill mt-1"></i>
+                  <i class="bi bi-check-circle-fill text-success mt-1"></i>
                   <div>
                     <strong class="d-block">Quick & Easy Upload</strong>
-                    <small class="opacity-75">Scan or photo from any device</small>
+                    <small class="text-body-secondary">Scan or photo from any device</small>
                   </div>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="d-flex align-items-start gap-2">
-                  <i class="bi bi-check-circle-fill mt-1"></i>
+                  <i class="bi bi-check-circle-fill text-success mt-1"></i>
                   <div>
                     <strong class="d-block">Real-time Tracking</strong>
-                    <small class="opacity-75">Monitor your application status</small>
+                    <small class="text-body-secondary">Monitor your application status</small>
                   </div>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="d-flex align-items-start gap-2">
-                  <i class="bi bi-check-circle-fill mt-1"></i>
+                  <i class="bi bi-check-circle-fill text-success mt-1"></i>
                   <div>
                     <strong class="d-block">Secure Processing</strong>
-                    <small class="opacity-75">Your documents are safe with us</small>
+                    <small class="text-body-secondary">Your documents are safe with us</small>
                   </div>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="d-flex align-items-start gap-2">
-                  <i class="bi bi-check-circle-fill mt-1"></i>
+                  <i class="bi bi-check-circle-fill text-success mt-1"></i>
                   <div>
                     <strong class="d-block">24/7 Availability</strong>
-                    <small class="opacity-75">Apply anytime, anywhere</small>
+                    <small class="text-body-secondary">Apply anytime, anywhere</small>
                   </div>
                 </div>
               </div>
@@ -537,17 +533,12 @@ $pageType = $seoData['type'];
 
             <!-- Action buttons -->
             <div class="d-flex gap-3 flex-wrap">
-              <a href="../register.php" class="btn btn-light btn-lg px-4 py-3 shadow" style="border-radius: 12px;">
+              <a href="../register.php" class="btn btn-primary btn-lg px-4 py-3">
                 <i class="bi bi-rocket-takeoff me-2"></i>Start Application Now
               </a>
-              <a href="how-it-works.php" class="btn btn-outline-light btn-lg px-4 py-3" style="border-radius: 12px; backdrop-filter: blur(10px); background: rgba(255,255,255,0.1);">
+              <a href="how-it-works.php" class="btn btn-outline-primary btn-lg px-4 py-3">
                 <i class="bi bi-question-circle me-2"></i>Learn the Process
               </a>
-            </div>
-            
-            <div class="mt-4 d-flex align-items-center gap-3 flex-wrap">
-              <small class="opacity-75"><i class="bi bi-clock me-1"></i> Application takes ~15 minutes</small>
-              <small class="opacity-75"><i class="bi bi-people me-1"></i> Join 5,000+ beneficiaries</small>
             </div>
           </div>
         </div>

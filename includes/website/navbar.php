@@ -231,7 +231,7 @@ function make_edit_link($href) {
 :root {
   --topbar-height: 0px;
   --navbar-height: 0px;
-  --navbar-content-max-width: 1320px;
+  --navbar-content-max-width: 1400px; /* Increased for better space distribution */
 }
 
 body.has-header-offset {
@@ -245,11 +245,11 @@ nav.navbar.fixed-header {
   right: 0;
   width: 100%;
   z-index: 1040;
-  /* Ensure consistent font metrics across public pages */
   font-family: 'Manrope', 'Segoe UI', system-ui, -apple-system, Roboto, Arial, sans-serif;
+  padding: 0.35rem 0; /* Compact vertical padding */
 }
 
-/* Critical: Force container-fluid to respect max-width */
+/* Critical: Force container-fluid to respect max-width with better distribution */
 nav.navbar.fixed-header .container-fluid {
   max-width: var(--navbar-content-max-width, 1320px) !important;
   width: 100%;
@@ -262,25 +262,29 @@ nav.navbar.fixed-header .container-fluid {
 
 @media (min-width: 992px) {
   nav.navbar.fixed-header .container-fluid {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-    gap: 1.5rem; /* Reduced gap to prevent collision at 100% zoom */
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    gap: 1rem; /* Compact gap for better space utilization */
     display: flex;
     flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
   }
 }
 
 @media (min-width: 1200px) {
   nav.navbar.fixed-header .container-fluid {
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
-    gap: 2rem; /* Moderate gap on larger screens */
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    gap: 1.5rem;
   }
 }
 
 @media (min-width: 1400px) {
   nav.navbar.fixed-header .container-fluid {
-    gap: 3rem; /* More generous gap on extra large screens */
+    padding-left: 2rem;
+    padding-right: 2rem;
+    gap: 2rem; /* Generous gap only on very large screens */
   }
 }
 
@@ -289,67 +293,103 @@ nav.navbar.fixed-header .container-fluid {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .municipality-logo-navbar {
-  max-height: 48px;
+  max-height: 42px; /* Compact size */
   width: auto;
   object-fit: contain;
 }
 
-nav.navbar.fixed-header .navbar-brand {
-  gap: 0.75rem;
-  flex-wrap: nowrap;
-  /* Keep brand and toggler on the same row */
-  min-width: 0;
-  flex: 0 1 auto;
-  max-width: calc(100% - 56px);
-}
-
-/* On desktop, remove brand width restriction since toggler is hidden */
 @media (min-width: 992px) {
-  nav.navbar.fixed-header .navbar-brand {
-    max-width: none;
-    margin-right: 0; /* Remove margin, use gap instead */
-    flex: 0 1 auto; /* Allow some flexibility */
+  .municipality-logo-navbar {
+    max-height: 46px;
   }
-}
-
-nav.navbar.fixed-header .navbar-brand .brand-logo {
-  height: 44px;
-  width: auto;
-  object-fit: contain;
-}
-
-nav.navbar.fixed-header .navbar-brand .brand-text {
-  font-size: 1.05rem;
-  font-weight: 600;
-  line-height: 1.2;
-  /* Keep a single line and ellipsize to preserve space for toggler */
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* On desktop, keep ellipsis behavior but allow more width */
-@media (min-width: 992px) {
-  nav.navbar.fixed-header .navbar-brand .brand-text {
-    max-width: 280px; /* Prevent collision with nav items */
-  }
-}
-
-/* Allow more space on larger screens */
-@media (min-width: 1200px) {
-  nav.navbar.fixed-header .navbar-brand .brand-text {
-    max-width: 320px;
+  
+  /* Larger logo when no navigation links */
+  nav.navbar.fixed-header.no-nav-links .municipality-logo-navbar {
+    max-height: 52px;
   }
 }
 
 @media (min-width: 1400px) {
+  .municipality-logo-navbar {
+    max-height: 50px; /* Larger only on XL screens */
+  }
+  
+  nav.navbar.fixed-header.no-nav-links .municipality-logo-navbar {
+    max-height: 56px; /* Even larger when there's space */
+  }
+}
+
+nav.navbar.fixed-header .navbar-brand {
+  gap: 0.65rem; /* Compact gap for space efficiency */
+  flex-wrap: nowrap;
+  flex: 0 0 auto; /* Don't shrink, maintain natural size */
+  max-width: calc(100% - 56px); /* Mobile: space for toggler */
+  overflow: visible !important; /* Allow content to overflow if needed */
+}
+
+/* On desktop, allow brand to be flexible with generous space */
+@media (min-width: 992px) {
+  nav.navbar.fixed-header .navbar-brand {
+    max-width: none !important; /* Remove all constraints - let content determine size */
+    margin-right: 1rem; /* Add spacing from navigation */
+    flex: 0 0 auto; /* Don't shrink */
+    overflow: visible !important; /* Ensure overflow is visible */
+  }
+  
+  /* If no navigation links, allow brand to expand freely */
+  nav.navbar.fixed-header.no-nav-links .navbar-brand {
+    max-width: none !important; /* Remove constraint when there's plenty of space */
+    flex: 1 1 auto; /* Allow brand to take available space */
+  }
+}
+
+@media (min-width: 1200px) {
+  nav.navbar.fixed-header .navbar-brand {
+    margin-right: 1.5rem; /* More spacing on larger screens */
+  }
+}
+
+nav.navbar.fixed-header .navbar-brand .brand-logo {
+  height: 42px; /* Compact size for better space management */
+  width: auto;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+nav.navbar.fixed-header .navbar-brand .brand-text {
+  font-size: 1rem; /* Larger base size for better visibility */
+  font-weight: 500; /* Lighter weight to match landing page consistency */
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: visible !important; /* Force visible overflow */
+  text-overflow: clip !important; /* Prevent ellipsis */
+  max-width: none !important; /* Remove any max-width constraints */
+}
+
+/* When no navigation links, allow full brand text display */
+nav.navbar.fixed-header.no-nav-links .navbar-brand .brand-text {
+  white-space: normal; /* Allow wrapping if needed on small screens */
+}
+
+/* On desktop, increase size for prominence */
+@media (min-width: 992px) {
   nav.navbar.fixed-header .navbar-brand .brand-text {
-    max-width: none; /* Full text on extra large screens */
-    overflow: visible;
-    text-overflow: clip;
+    font-size: 1.05rem; /* Slightly larger on desktop */
+  }
+  
+  nav.navbar.fixed-header.no-nav-links .navbar-brand .brand-text {
+    font-size: 1.15rem; /* Larger when there's space */
+    white-space: nowrap; /* Keep single line on desktop */
+  }
+}
+
+@media (min-width: 1200px) {
+  nav.navbar.fixed-header .navbar-brand .brand-text {
+    font-size: 1.1rem; /* Even larger on large screens */
   }
 }
 
@@ -366,48 +406,73 @@ nav.navbar.fixed-header .navbar-toggler {
 
 nav.navbar.fixed-header .navbar-nav.spread-nav {
   gap: 0.5rem;
-  flex-wrap: nowrap;
+  flex-wrap: wrap; /* Allow wrapping at high zoom */
   min-width: 0;
 }
 
 nav.navbar.fixed-header .navbar-nav.spread-nav .nav-link {
   white-space: nowrap;
-  font-size: 0.95rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  font-size: 0.85rem; /* Smaller base for better fit */
+  padding: 0.5rem 0.6rem;
+  transition: all 0.2s ease;
 }
 
 @media (min-width: 992px) {
   nav.navbar.fixed-header .navbar-nav.spread-nav {
-    flex: 0 0 auto; /* Don't grow or shrink */
-    justify-content: flex-end;
-    gap: 0.75rem;
-    margin-left: 0; /* Remove auto margin */
+    flex: 1 1 auto; /* Allow nav to grow and take available space */
+    justify-content: center;
+    gap: 0.4rem; /* Very compact gap to prevent wrapping */
+    margin: 0;
+    flex-wrap: nowrap; /* CHANGED: Prevent wrapping */
   }
 
   nav.navbar.fixed-header .navbar-nav.spread-nav .nav-item {
     display: flex;
     align-items: center;
+    flex-shrink: 1; /* Allow items to shrink if needed */
   }
 
   nav.navbar.fixed-header .navbar-nav.spread-nav .nav-link {
-    font-size: 0.95rem;
+    font-size: 0.85rem; /* Smaller to fit better */
     font-weight: 500;
-    padding-top: 0.75rem;
-    padding-bottom: 0.75rem;
-    padding-left: 0.65rem;
-    padding-right: 0.65rem;
+    padding: 0.5rem 0.65rem; /* More compact padding */
+    border-radius: 0.375rem;
+  }
+  
+  nav.navbar.fixed-header .navbar-nav.spread-nav .nav-link:hover {
+    background-color: rgba(0, 0, 0, 0.05);
   }
 }
 
 @media (min-width: 1200px) {
   nav.navbar.fixed-header .navbar-nav.spread-nav {
-    gap: 1.25rem;
+    gap: 0.6rem; /* Slightly more spacing */
   }
 
   nav.navbar.fixed-header .navbar-nav.spread-nav .nav-link {
-    padding-left: 0.85rem;
-    padding-right: 0.85rem;
+    font-size: 0.9rem;
+    padding: 0.55rem 0.75rem;
+  }
+}
+
+@media (min-width: 1400px) {
+  nav.navbar.fixed-header .navbar-nav.spread-nav {
+    gap: 0.8rem; /* More spacing on XL screens */
+  }
+
+  nav.navbar.fixed-header .navbar-nav.spread-nav .nav-link {
+    font-size: 0.95rem;
+    padding: 0.6rem 0.85rem;
+  }
+}
+
+@media (min-width: 1600px) {
+  nav.navbar.fixed-header .navbar-nav.spread-nav {
+    gap: 1rem; /* Generous spacing only on very large screens */
+  }
+
+  nav.navbar.fixed-header .navbar-nav.spread-nav .nav-link {
+    padding: 0.65rem 1rem;
   }
 }
 
@@ -417,19 +482,63 @@ nav.navbar.fixed-header .navbar-collapse {
   gap: 0.75rem;
 }
 
+@media (min-width: 992px) {
+  nav.navbar.fixed-header .navbar-collapse {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+  }
+}
+
 /* On narrow screens, hide the municipality badge to save width */
 @media (max-width: 430px) {
   nav.navbar.fixed-header .municipality-badge-navbar { display: none; }
 }
 
 .navbar-actions {
-  flex-shrink: 0;
+  flex-shrink: 0; /* Never shrink buttons */
+  white-space: nowrap;
+  gap: 0.5rem; /* Compact gap between buttons */
+}
+
+@media (min-width: 992px) {
+  .navbar-actions {
+    margin-left: 0.5rem; /* Small left margin */
+  }
+  
+  .w-lg-auto {
+    width: auto !important;
+  }
+}
+
+/* Make buttons more compact */
+.navbar-actions .btn {
+  padding: 0.375rem 0.75rem; /* Compact button padding */
+  font-size: 0.875rem; /* Smaller font for better fit */
   white-space: nowrap;
 }
 
 @media (min-width: 992px) {
-  .w-lg-auto {
-    width: auto !important;
+  .navbar-actions .btn {
+    padding: 0.4rem 0.85rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .navbar-actions .btn {
+    padding: 0.45rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Icon-only mode for very tight spaces (high zoom) */
+@media (min-width: 992px) and (max-width: 1199px) {
+  .navbar-actions .btn span.d-none.d-sm-inline {
+    display: none !important; /* Hide text on tight desktop screens */
+  }
+  .navbar-actions .btn i {
+    margin: 0 !important; /* Remove icon margin when text is hidden */
   }
 }
 
@@ -554,7 +663,7 @@ nav.navbar.fixed-header .navbar-collapse {
 <?php endif; ?>
 
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg bg-white fixed-header">
+<nav class="navbar navbar-expand-lg bg-white fixed-header<?php echo empty($nav_links) ? ' no-nav-links' : ''; ?>">
   <div class="container-fluid">
     <?php
       // Unified brand: static, non-editable brand text

@@ -270,14 +270,14 @@ $pageType = $seoData['type'];
     <div class="container">
       <!-- Section Header with Animated Icon -->
       <div class="text-center mb-4">
-        <div class="dist-icon-wrapper mb-3">
+        <div class="dist-icon-wrapper mb-3 mx-auto">
           <i class="bi bi-calendar-check dist-icon"></i>
         </div>
         <h2 class="section-title mb-2">
           <span class="text-primary">Application Status</span> & Slot Availability
         </h2>
-        <p class="section-lead mb-3">Check current distribution status and available slots</p>
-        <span id="distLastUpdated" class="badge bg-success-subtle text-success small">
+        <p class="section-lead mb-3 text-center mx-auto" style="max-width: 600px;">Check current distribution status and available slots</p>
+        <span id="distLastUpdated" class="badge bg-success-subtle text-success small mx-auto">
           <i class="bi bi-clock-history me-1"></i>Checking...
         </span>
       </div>
@@ -588,37 +588,54 @@ $pageType = $seoData['type'];
   </section>
 
   <!-- FAQ -->
-  <section id="faq" class="bg-body-tertiary">
+  <section id="faq" class="py-5 bg-body-tertiary">
     <div class="container">
-      <div class="row mb-4">
-        <div class="col-lg-8">
-          <?php echo '<h2 class="section-title" data-lp-key="faq_title"'.lp_block_style('faq_title').'>'.lp_block('faq_title','Frequently Asked Questions').'</h2>'; ?>
-          <?php echo '<p class="section-lead" data-lp-key="faq_lead"'.lp_block_style('faq_lead').'>'.lp_block('faq_lead','Quick answers to common concerns about eligibility, slots, and claiming.').'</p>'; ?>
-        </div>
+      <div class="text-center mb-5">
+        <?php echo '<h2 class="section-title text-center mx-auto" data-lp-key="faq_title"'.lp_block_style('faq_title').'>'.lp_block('faq_title','Frequently Asked Questions').'</h2>'; ?>
+        <?php echo '<p class="section-lead text-center mx-auto" data-lp-key="faq_lead"'.lp_block_style('faq_lead').'>'.lp_block('faq_lead','Quick answers to common concerns about eligibility, slots, and claiming.').'</p>'; ?>
       </div>
-      <div class="accordion soft-card" id="faqAcc">
+      
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="accordion soft-card" id="faqAcc">
         <div class="accordion-item">
-          <h2 class="accordion-header" id="q1">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#a1" data-lp-key="faq_q1"<?php echo lp_block_style('faq_q1'); ?>><?php echo lp_block('faq_q1','Who can apply?'); ?></button>
+          <h2 class="accordion-header">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#a1" data-lp-key="faq_q1"<?php echo lp_block_style('faq_q1'); ?>>
+              <?php echo lp_block('faq_q1','Who can apply?'); ?>
+            </button>
           </h2>
           <div id="a1" class="accordion-collapse collapse show" data-bs-parent="#faqAcc">
-            <div class="accordion-body" data-lp-key="faq_a1"<?php echo lp_block_style('faq_a1'); ?>><?php echo lp_block('faq_a1','Students residing in General Trias who meet program criteria set by the LGU and partner agencies.'); ?></div>
+            <div class="accordion-body" data-lp-key="faq_a1"<?php echo lp_block_style('faq_a1'); ?>>
+              <?php echo lp_block('faq_a1','Students residing in General Trias who meet program criteria set by the LGU and partner agencies.'); ?>
+            </div>
           </div>
         </div>
+        
         <div class="accordion-item">
-          <h2 class="accordion-header" id="q2">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#a2" data-lp-key="faq_q2"<?php echo lp_block_style('faq_q2'); ?>><?php echo lp_block('faq_q2','How are slots allocated?'); ?></button>
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#a2" data-lp-key="faq_q2"<?php echo lp_block_style('faq_q2'); ?>>
+              <?php echo lp_block('faq_q2','How are slots allocated?'); ?>
+            </button>
           </h2>
           <div id="a2" class="accordion-collapse collapse" data-bs-parent="#faqAcc">
-            <div class="accordion-body" data-lp-key="faq_a2"<?php echo lp_block_style('faq_a2'); ?>><?php echo lp_block('faq_a2','Slots are released per batch and barangay. Availability appears during registration and closes automatically when filled.'); ?></div>
+            <div class="accordion-body" data-lp-key="faq_a2"<?php echo lp_block_style('faq_a2'); ?>>
+              <?php echo lp_block('faq_a2','Slots are released per batch and barangay. Availability appears during registration and closes automatically when filled.'); ?>
+            </div>
           </div>
         </div>
+        
         <div class="accordion-item">
-          <h2 class="accordion-header" id="q3">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#a3" data-lp-key="faq_q3"<?php echo lp_block_style('faq_q3'); ?>><?php echo lp_block('faq_q3','What if I lose my QR code?'); ?></button>
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#a3" data-lp-key="faq_q3"<?php echo lp_block_style('faq_q3'); ?>>
+              <?php echo lp_block('faq_q3','What if I lose my QR code?'); ?>
+            </button>
           </h2>
           <div id="a3" class="accordion-collapse collapse" data-bs-parent="#faqAcc">
-            <div class="accordion-body" data-lp-key="faq_a3"<?php echo lp_block_style('faq_a3'); ?>><?php echo lp_block('faq_a3','You can re-download it from your dashboard. Bring a valid ID on distribution day for identity verification.'); ?></div>
+            <div class="accordion-body" data-lp-key="faq_a3"<?php echo lp_block_style('faq_a3'); ?>>
+              <?php echo lp_block('faq_a3','You can re-download it from your dashboard. Bring a valid ID on distribution day for identity verification.'); ?>
+            </div>
+          </div>
+        </div>
           </div>
         </div>
       </div>
