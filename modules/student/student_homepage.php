@@ -48,13 +48,13 @@ if (!$current_academic_year) {
 }
 
 // Refined year advancement logic (new registrants should NOT see year advancement modal).
-// Show year advancement ONLY for reupload context (needs_upload true, not migrated), with prior year confirmation and AY change OR incomplete credentials after confirmation.
+// Show year advancement ONLY for reupload context (needs_document_upload true, not migrated), with prior year confirmation and AY change OR incomplete credentials after confirmation.
 $needs_upload_flag = false;
 $is_migrated_flag = false;
-$schemaRes = pg_query_params($connection, "SELECT needs_upload, admin_review_required FROM students WHERE student_id = $1", [$studentId]);
+$schemaRes = pg_query_params($connection, "SELECT needs_document_upload, admin_review_required FROM students WHERE student_id = $1", [$studentId]);
 if ($schemaRes && pg_num_rows($schemaRes) > 0) {
   $sr = pg_fetch_assoc($schemaRes);
-  $needs_upload_flag = ($sr['needs_upload'] === 't' || $sr['needs_upload'] === true || $sr['needs_upload'] === '1');
+  $needs_upload_flag = ($sr['needs_document_upload'] === 't' || $sr['needs_document_upload'] === true || $sr['needs_document_upload'] === '1');
   $is_migrated_flag = ($sr['admin_review_required'] === 't' || $sr['admin_review_required'] === true || $sr['admin_review_required'] === '1');
 }
 $has_prior_year_confirmation = !empty($student_info['status_academic_year']);
