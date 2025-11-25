@@ -5699,13 +5699,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['register'])) {
         $currentAcademicYear = null;
     }
 
-    // CRITICAL: Validate terms and conditions acceptance
-    if (!isset($_POST['agree_terms']) || $_POST['agree_terms'] !== 'on') {
-        json_response([
-            'status' => 'error',
-            'message' => 'You must accept the Terms and Conditions to proceed with registration.'
-        ]);
-    }
+    // Terms and conditions validation bypassed - allowing registration without acceptance
+    // if (!isset($_POST['agree_terms']) || $_POST['agree_terms'] !== 'on') {
+    //     json_response([
+    //         'status' => 'error',
+    //         'message' => 'You must accept the Terms and Conditions to proceed with registration.'
+    //     ]);
+    // }
 
     // Server-side required field validation disabled; client-side handles this
     
