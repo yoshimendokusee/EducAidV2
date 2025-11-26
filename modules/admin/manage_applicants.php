@@ -1025,6 +1025,8 @@ $filterYearLevel = $_GET['filter_year_level'] ?? $_POST['filter_year_level'] ?? 
 $filterDocStatus = $_GET['filter_doc_status'] ?? $_POST['filter_doc_status'] ?? '';
 $filterType = $_GET['filter_type'] ?? $_POST['filter_type'] ?? '';
 $filterBeneficiary = $_GET['filter_beneficiary'] ?? $_POST['filter_beneficiary'] ?? '';
+$filterBarangay = $_GET['filter_barangay'] ?? $_POST['filter_barangay'] ?? '';
+$filterRegOrder = $_GET['filter_reg_order'] ?? $_POST['filter_reg_order'] ?? '';
 
 // Exclude archived students from applicants list
 $where = "s.status = 'applicant' AND (s.is_archived = FALSE OR s.is_archived IS NULL)";
@@ -1059,13 +1061,27 @@ if ($filterBeneficiary === 'yes') {
     $where .= " AND NOT EXISTS (SELECT 1 FROM distribution_student_records dsr WHERE dsr.student_id = s.student_id)";
 }
 
+if ($filterBarangay) {
+    $paramCount++;
+    $where .= " AND s.barangay_id = $" . $paramCount;
+    $params[] = intval($filterBarangay);
+}
+
 $countQuery = "SELECT COUNT(*) FROM students s WHERE $where";
 $totalApplicants = pg_fetch_assoc(pg_query_params($connection, $countQuery, $params))['count'];
 $totalPages = max(1, ceil($totalApplicants / $perPage));
 
+// Determine ORDER BY clause based on filters
+$orderBy = "s.last_name " . ($sort === 'desc' ? 'DESC' : 'ASC');
+if ($filterRegOrder === 'first') {
+    $orderBy = "s.created_at ASC"; // First to register (oldest first)
+} elseif ($filterRegOrder === 'last') {
+    $orderBy = "s.created_at DESC"; // Last to register (newest first)
+}
+
 $query = "SELECT s.*, 
     (SELECT COUNT(*) FROM distribution_student_records dsr WHERE dsr.student_id = s.student_id) as distribution_count
-    FROM students s WHERE $where ORDER BY s.last_name " . ($sort === 'desc' ? 'DESC' : 'ASC') . " LIMIT $perPage OFFSET $offset";
+    FROM students s WHERE $where ORDER BY $orderBy LIMIT $perPage OFFSET $offset";
 $applicantsResult = $params ? pg_query_params($connection, $query, $params) : pg_query($connection, $query);
 
 // Apply document completion filter client-side (since it requires checking file system)
@@ -2450,7 +2466,29 @@ if ($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '' === 'XMLHttpRequest' || (isset($_GET
                             <option value="no" <?= $filterBeneficiary === 'no' ? 'selected' : '' ?>>No (First Time)</option>
                         </select>
                     </div>
-                    <div class="col-md-9">
+                    <div class="col-md-3">
+                        <label class="form-label">Barangay</label>
+                        <select name="filter_barangay" class="form-select">
+                            <option value="">All Barangays</option>
+                            <?php
+                            $barangayQuery = "SELECT barangay_id, name FROM barangays ORDER BY name ASC";
+                            $barangayResult = pg_query($connection, $barangayQuery);
+                            while ($barangay = pg_fetch_assoc($barangayResult)) {
+                                $selected = ($filterBarangay == $barangay['barangay_id']) ? 'selected' : '';
+                                echo '<option value="' . htmlspecialchars($barangay['barangay_id']) . '" ' . $selected . '>' . htmlspecialchars($barangay['name']) . '</option>';
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Registration Order</label>
+                        <select name="filter_reg_order" class="form-select">
+                            <option value="">Default (Surname)</option>
+                            <option value="first" <?= $filterRegOrder === 'first' ? 'selected' : '' ?>>First to Register</option>
+                            <option value="last" <?= $filterRegOrder === 'last' ? 'selected' : '' ?>>Last to Register</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
                         <label class="form-label">&nbsp;</label>
                         <div class="d-flex gap-2">
                             <button type="submit" class="btn btn-primary"><i class="bi bi-search me-1"></i> Apply Filters</button>
@@ -6073,6 +6111,57 @@ document.addEventListener('DOMContentLoaded', function() {
     if (csvFileInput) {
         csvFileInput.addEventListener('change', function() {
             fetchMigrationCsrfToken();
+        });
+    }
+    
+    // Pagination event handlers
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.page-link[data-page]')) {
+            e.preventDefault();
+            const link = e.target.closest('.page-link[data-page]');
+            const page = link.getAttribute('data-page');
+            if (page) {
+                // Get current filter form values
+                const form = document.getElementById('filterForm');
+                if (form) {
+                    const formData = new FormData(form);
+                    const params = new URLSearchParams(formData);
+                    params.set('page', page);
+                    window.location.href = '?' + params.toString();
+                }
+            }
+        }
+    });
+    
+    // Manual page input handler
+    const manualPageInput = document.getElementById('manualPage');
+    if (manualPageInput) {
+        manualPageInput.addEventListener('change', function() {
+            const page = parseInt(this.value);
+            if (page && page > 0) {
+                const form = document.getElementById('filterForm');
+                if (form) {
+                    const formData = new FormData(form);
+                    const params = new URLSearchParams(formData);
+                    params.set('page', page);
+                    window.location.href = '?' + params.toString();
+                }
+            }
+        });
+        
+        manualPageInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                this.dispatchEvent(new Event('change'));
+            }
+        });
+    }
+    
+    // Clear filters button
+    const clearFiltersBtn = document.getElementById('clearFiltersBtn');
+    if (clearFiltersBtn) {
+        clearFiltersBtn.addEventListener('click', function() {
+            window.location.href = window.location.pathname;
         });
     }
 });
