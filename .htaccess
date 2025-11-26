@@ -23,14 +23,15 @@ RewriteRule ^(.*)$ https://www.educ-aid.site/$1 [L,R=301]
 # ----------------------------------------
 # Hide .php Extension (Pretty URLs)
 # ----------------------------------------
-# Redirect .php URLs to extensionless URLs
-RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s([^.]+)\.php [NC]
-RewriteRule ^ %1 [R=301,L]
+# Redirect .php URLs to extensionless URLs (external redirect)
+RewriteCond %{THE_REQUEST} ^GET\ /(.*)\.php(\?[^\ ]*)?\ HTTP
+RewriteRule ^ /%1%2 [R=301,L,NE]
 
-# Rewrite extensionless URLs to .php files
+# Rewrite extensionless URLs to .php files (internal rewrite)
+RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}.php -f
-RewriteRule ^(.*)$ $1.php [L]
+RewriteRule ^(.+)$ $1.php [L,QSA]
 
 # ----------------------------------------
 # ModSecurity Exceptions
