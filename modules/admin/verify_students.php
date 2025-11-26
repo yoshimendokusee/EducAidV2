@@ -279,21 +279,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       // Gather context for formatted payroll codes
       $yearRes = pg_query($connection, "SELECT value FROM config WHERE key='current_academic_year'");
       $semRes  = pg_query($connection, "SELECT value FROM config WHERE key='current_semester'");
-      $currentYear = ($yearRes && ($yr = pg_fetch_assoc($yearRes)) && !empty($yr['value'])) ? $yr['value'] : date('Y') . (date('Y')+1);
+      $currentYear = ($yearRes && ($yr = pg_fetch_assoc($yearRes)) && !empty($yr['value'])) ? $yr['value'] : (date('Y') . '-' . (date('Y')+1));
       $currentSemester = ($semRes && ($sm = pg_fetch_assoc($semRes)) && !empty($sm['value'])) ? $sm['value'] : '1';
-      $yearCompact = preg_replace('/[^0-9]/', '', $currentYear); // remove dash
+
+      // New compact format components
+      // 1) Start year (e.g., 2026 from "2026-2027")
+      $startYear = null;
+      if (preg_match('/(\d{4})/', (string)$currentYear, $m)) { $startYear = $m[1]; }
+      if (!$startYear) { $startYear = date('Y'); }
+      // 2) Semester numeric (1 or 2)
+      $semNum = '1';
+      if (preg_match('/2/', (string)$currentSemester)) { $semNum = '2'; }
+      elseif (preg_match('/1/', (string)$currentSemester)) { $semNum = '1'; }
+
+      // Helper to derive a 3-letter municipality code
+      $deriveShortCode = function(string $nameOrSlug): string {
+        $src = strtoupper(trim($nameOrSlug));
+        // Common mapping for General Trias City
+        if (preg_match('/GENERAL\s*TRIAS/i', $src) || preg_match('/GENTRIAS/i', $src) || preg_match('/GENERALTRIAS/i', $src)) {
+          return 'GTC';
+        }
+        // Build from words (ignore common fillers)
+        $clean = preg_replace('/[^A-Z0-9\s]/', ' ', $src);
+        $words = preg_split('/\s+/', $clean, -1, PREG_SPLIT_NO_EMPTY);
+        $stop = ['CITY','OF','MUNICIPALITY'];
+        $letters = '';
+        foreach ($words as $w) {
+          if (in_array($w, $stop, true)) continue;
+          $letters .= substr($w, 0, 1);
+          if (strlen($letters) >= 3) break;
+        }
+        if ($letters === '') { $letters = substr(preg_replace('/[^A-Z0-9]/','',$src), 0, 3); }
+        return str_pad($letters, 3, 'X');
+      };
 
       $adminIdForPayroll = $_SESSION['admin_id'] ?? null;
       $muniSlug = 'GENERAL';
+      $muniShort = 'GEN';
       if ($adminIdForPayroll) {
         $muniRes = pg_query_params($connection, "SELECT m.slug, m.name FROM municipalities m JOIN admins a ON a.municipality_id=m.municipality_id WHERE a.admin_id=$1 LIMIT 1", [$adminIdForPayroll]);
         if ($muniRes && ($mrow = pg_fetch_assoc($muniRes))) {
           $rawSlug = !empty($mrow['slug']) ? $mrow['slug'] : $mrow['name'];
           $muniSlug = strtoupper(preg_replace('/[^A-Z0-9]/', '', strtoupper($rawSlug)));
+          $muniShort = $deriveShortCode($mrow['name'] ?: $rawSlug);
         }
       }
-      // Final prefix (e.g., GENTRIAS-20242025-2-XXXXXX)
-      $prefixBase = $muniSlug . '-' . $yearCompact . '-' . $currentSemester . '-';
+      // Final prefix in compact form: e.g., GTC-2026-1-XXXXXX
+      $prefixBase = $muniShort . '-' . $startYear . '-' . $semNum . '-';
 
       // 1. Assign payroll numbers + formatted codes
         $result = pg_query($connection, "
@@ -307,7 +339,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($result) {
             while ($row = pg_fetch_assoc($result)) {
                 $student_id = $row['student_id'];
-          // Build formatted payroll code
+          // Build formatted payroll code (compact)
           $formattedCode = $prefixBase . str_pad((string)$payroll_no, 6, '0', STR_PAD_LEFT);
           // Assign formatted payroll code into payroll_no
           pg_query_params(
@@ -331,7 +363,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             // Add admin notification
             $total_assigned = $payroll_no - 1;
-        $notification_msg = "Payroll numbers generated for " . $total_assigned . " active students (format: MUNICIPALITY-YYYYYYYY-S-######)";
+          $notification_msg = "Payroll numbers generated for " . $total_assigned . " active students (format: CODE-YYYY-S-######)";
             pg_query_params($connection, "INSERT INTO admin_notifications (message) VALUES ($1)", [$notification_msg]);
         }
         // 2. Immediately create QR code records for each student/payroll with a unique_id
@@ -732,6 +764,27 @@ while ($row = pg_fetch_assoc($barangayResult)) {
     </div>
 </div>
 
+<!-- Student Details Modal -->
+<div class="modal fade" id="studentDetailsModal" tabindex="-1" aria-labelledby="studentDetailsLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl modal-fullscreen-sm-down">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="studentDetailsLabel">Student Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="studentDetailsBody">
+        <div class="d-flex align-items-center gap-2 text-muted">
+          <div class="spinner-border spinner-border-sm" role="status"></div>
+          <span>Loading details…</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+  </div>
+
 <!-- Include Blacklist Modal -->
 <?php include __DIR__ . '/../../includes/admin/blacklist_modal.php'; ?>
 
@@ -884,6 +937,13 @@ while ($row = pg_fetch_assoc($barangayResult)) {
           if (count === 0) {
             e.preventDefault();
             alert('Please select at least one student to revert.');
+            return;
+          }
+          // Confirm revert action with selected count
+          var proceed = confirm('Revert ' + count + ' selected student(s) back to applicant?');
+          if (!proceed) {
+            e.preventDefault();
+            return;
           }
         }
       });
@@ -912,8 +972,18 @@ while ($row = pg_fetch_assoc($barangayResult)) {
 
   function viewStudentDetails() {
     if (currentStudent) {
-      // You can implement student details viewing here
-      alert('View details functionality can be implemented here for: ' + currentStudent.name);
+      const detailsModal = new bootstrap.Modal(document.getElementById('studentDetailsModal'));
+      const body = document.getElementById('studentDetailsBody');
+      document.getElementById('studentDetailsLabel').textContent = 'Student Details – ' + currentStudent.name;
+      body.innerHTML = '<div class="d-flex align-items-center gap-2 text-muted"><div class="spinner-border spinner-border-sm" role="status"></div><span>Loading details…</span></div>';
+      detailsModal.show();
+      fetch('ajax_student_details.php?student_id=' + encodeURIComponent(currentStudent.id), {cache:'no-store'})
+        .then(r => r.text())
+        .then(html => { body.innerHTML = html; })
+        .catch(err => {
+          console.error(err);
+          body.innerHTML = '<div class="alert alert-danger">Failed to load details. Please try again.</div>';
+        });
     }
   }
 
