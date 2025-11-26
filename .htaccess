@@ -24,10 +24,12 @@ RewriteRule ^(.*)$ https://www.educ-aid.site/$1 [L,R=301]
 # Hide .php Extension (Pretty URLs)
 # ----------------------------------------
 # Redirect .php URLs to extensionless URLs (external redirect)
+# This handles both root-level and subdirectory PHP files
 RewriteCond %{THE_REQUEST} ^GET\ /(.*)\.php(\?[^\ ]*)?\ HTTP
 RewriteRule ^ /%1%2 [R=301,L,NE]
 
 # Rewrite extensionless URLs to .php files (internal rewrite)
+# Check if the file exists as a PHP file before rewriting
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}.php -f
