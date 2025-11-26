@@ -21,22 +21,21 @@ RewriteCond %{HTTP_HOST} ^educ-aid\.site$ [NC]
 RewriteRule ^(.*)$ https://www.educ-aid.site/$1 [L,R=301]
 
 # ----------------------------------------
-# Website Directory Routing
-# ----------------------------------------
-# Redirect root-level public pages to website/ folder
-RewriteCond %{REQUEST_URI} ^/(landingpage|about|how-it-works|requirements|announcements|contact)(/.*)?$
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ /website/$1 [L]
-
-# ----------------------------------------
 # Hide .php Extension (Pretty URLs)
 # ----------------------------------------
 # Redirect .php URLs to extensionless URLs (external redirect)
 RewriteCond %{THE_REQUEST} ^GET\ /(.*)\.php(\?[^\ ]*)?\ HTTP
 RewriteRule ^ /%1%2 [R=301,L,NE]
 
-# Rewrite extensionless URLs to .php files (internal rewrite)
+# ----------------------------------------
+# Website Directory Routing & PHP Extension Hiding
+# ----------------------------------------
+# For public pages: check if file exists in website/ folder with .php extension
+RewriteCond %{REQUEST_URI} ^/(landingpage|about|how-it-works|requirements|announcements|contact)$
+RewriteCond %{DOCUMENT_ROOT}/website%{REQUEST_URI}.php -f
+RewriteRule ^(.*)$ /website/$1.php [L]
+
+# For other extensionless URLs: rewrite to .php if file exists
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}.php -f
