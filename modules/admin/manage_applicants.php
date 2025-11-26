@@ -2832,7 +2832,7 @@ if ($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '' === 'XMLHttpRequest' || (isset($_GET
                                     <table class="table table-sm align-middle mb-0 preview-table">
                                 <thead class="table-light">
                                     <tr>
-                                        <th>Select</th>
+                                        <th><input type="checkbox" id="selectAllCheckbox" title="Select All"></th>
                                         <th>Name</th>
                                         <th>Sex</th>
                                         <th>Bdate</th>
@@ -3693,6 +3693,28 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (cb && !hasConflict) cb.checked = true;
                 });
                 updateSelectedCounter();
+            });
+        }
+
+        // Handle "Select All" checkbox in table header
+        const selectAllCheckbox = document.getElementById('selectAllCheckbox');
+        if (selectAllCheckbox) {
+            selectAllCheckbox.addEventListener('change', () => {
+                const isChecked = selectAllCheckbox.checked;
+                document.querySelectorAll('.migration-preview .row-select').forEach(cb => {
+                    cb.checked = isChecked;
+                });
+                updateSelectedCounter();
+            });
+            
+            // Update "Select All" checkbox state when individual checkboxes change
+            document.querySelectorAll('.migration-preview .row-select').forEach(cb => {
+                cb.addEventListener('change', () => {
+                    const allCheckboxes = document.querySelectorAll('.migration-preview .row-select');
+                    const checkedCheckboxes = document.querySelectorAll('.migration-preview .row-select:checked');
+                    selectAllCheckbox.checked = allCheckboxes.length === checkedCheckboxes.length && allCheckboxes.length > 0;
+                    selectAllCheckbox.indeterminate = checkedCheckboxes.length > 0 && checkedCheckboxes.length < allCheckboxes.length;
+                });
             });
         }
 
