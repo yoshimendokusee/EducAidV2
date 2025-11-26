@@ -258,6 +258,14 @@ if (!$hasActiveDistribution) {
     }
 }
 
+// Check if list is locked in Verify Students
+$isListFinalized = false;
+$finalizedRes = pg_query($connection, "SELECT value FROM config WHERE key = 'student_list_finalized' LIMIT 1");
+if ($finalizedRes && pg_num_rows($finalizedRes) > 0) {
+    $isListFinalized = (pg_fetch_result($finalizedRes, 0, 0) === '1');
+}
+if ($finalizedRes) { pg_free_result($finalizedRes); }
+
 // Do NOT generate CSRF token for CSV migration here - it will be fetched via AJAX when modal opens
 $csrfMigrationToken = ''; // Will be populated by AJAX fetch
 
@@ -270,6 +278,8 @@ $csrfArchiveStudentToken = CSRFProtection::generateToken('archive_student');
 $csrfRejectDocumentsToken = ''; // Will be populated by AJAX fetch
 // Reject applicant token (if needed in future)
 $csrfRejectApplicantToken = CSRFProtection::generateToken('reject_applicant');
+// Bulk action tokens
+$csrfBulkApproveToken = CSRFProtection::generateToken('bulk_approve_applicants');
 
 // Clear migration sessions on GET request to prevent resubmission warnings
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET['clear_migration'])) {
@@ -1108,13 +1118,40 @@ if ($filterDocStatus) {
 
 // Table rendering function with live preview
 function render_table($applicants, $connection) {
-    global $csrfApproveApplicantToken, $csrfRejectApplicantToken, $csrfOverrideApplicantToken, $csrfArchiveStudentToken, $csrfRejectDocumentsToken, $workflow_status;
+    global $csrfApproveApplicantToken, $csrfRejectApplicantToken, $csrfOverrideApplicantToken, $csrfArchiveStudentToken, $csrfRejectDocumentsToken, $workflow_status, $csrfBulkApproveToken, $isListFinalized;
     $canApprove = $workflow_status['can_manage_applicants'] ?? false;
     ob_start();
     ?>
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2" id="bulkControls"
+                data-approve-token="<?= htmlspecialchars($csrfBulkApproveToken) ?>"
+                data-can-approve="<?= $canApprove ? '1' : '0' ?>"
+                data-is-finalized="<?= $isListFinalized ? '1' : '0' ?>">
+        <div class="d-flex align-items-center gap-3">
+            <div class="form-check mb-0">
+                <input class="form-check-input" type="checkbox" id="selectAllApplicants">
+                <label class="form-check-label" for="selectAllApplicants">Select all</label>
+            </div>
+            <div class="form-check mb-0">
+                <input class="form-check-input" type="checkbox" id="selectOnlyComplete" checked>
+                <label class="form-check-label" for="selectOnlyComplete">Only complete documents</label>
+            </div>
+            <span class="text-muted small" id="selectedCount">0 selected</span>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+            <button type="button" class="btn btn-success btn-sm" id="bulkVerifyBtn" <?= ($canApprove && !$isListFinalized) ? '' : 'disabled' ?> title="<?= $isListFinalized ? 'List is locked in Verify Students' : ($canApprove ? '' : 'Start a distribution first') ?>">
+                <i class="bi bi-check2-circle me-1"></i> <?= $isListFinalized ? 'List is locked' : 'Verify Selected' ?>
+            </button>
+            <button type="button" class="btn btn-outline-secondary btn-sm" id="bulkClearBtn">
+                <i class="bi bi-x-circle me-1"></i> Clear Selection
+            </button>
+        </div>
+    </div>
     <table class="table table-bordered align-middle">
         <thead>
             <tr>
+                <th style="width:42px">
+                    <input type="checkbox" class="form-check-input" id="headerSelectAll">
+                </th>
                 <th>Name</th>
                 <th>Contact</th>
                 <th>Email</th>
@@ -1128,7 +1165,7 @@ function render_table($applicants, $connection) {
         </thead>
         <tbody id="applicantsTableBody">
         <?php if (empty($applicants)): ?>
-            <tr><td colspan="9" class="text-center no-applicants">No applicants found.</td></tr>
+            <tr><td colspan="10" class="text-center no-applicants">No applicants found.</td></tr>
         <?php else: ?>
             <?php foreach ($applicants as $applicant) {
                 $student_id = $applicant['student_id'];
@@ -1161,7 +1198,10 @@ function render_table($applicants, $connection) {
                     $type_color = 'bg-info';
                 }
                 ?>
-                <tr>
+                <tr data-student-id="<?= htmlspecialchars($student_id) ?>" data-doc-complete="<?= $isComplete ? '1' : '0' ?>">
+                    <td>
+                        <input type="checkbox" class="form-check-input applicant-select" value="<?= htmlspecialchars($student_id) ?>" data-complete="<?= $isComplete ? '1' : '0' ?>">
+                    </td>
                     <td data-label="Name">
                         <?= htmlspecialchars("{$applicant['last_name']}, {$applicant['first_name']} {$applicant['middle_name']}") ?>
                     </td>
@@ -1278,7 +1318,7 @@ function render_table($applicants, $connection) {
                                         <input type="hidden" name="student_id" value="<?= $student_id ?>">
                                         <input type="hidden" name="mark_verified" value="1">
                                         <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfApproveApplicantToken) ?>">
-                                        <button class="btn btn-success btn-sm" <?= !$isComplete ? 'disabled title="Please ensure all required documents are complete"' : '' ?>>
+                                        <button class="btn btn-success btn-sm" <?= (!$isComplete || $isListFinalized) ? 'disabled' : '' ?> title="<?= !$isComplete ? 'Please ensure all required documents are complete' : ($isListFinalized ? 'List is locked in Verify Students' : '') ?>">
                                             <i class="bi bi-check-circle me-1"></i> Verify
                                         </button>
                                     </form>
@@ -1353,6 +1393,130 @@ function render_pagination($page, $totalPages) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     error_log("=== POST REQUEST to manage_applicants.php ===");
     error_log("POST keys: " . implode(', ', array_keys($_POST)));
+
+    // Handle BULK actions early and exit after processing
+    if (!empty($_POST['bulk_action']) && isset($_POST['selected_ids']) && is_array($_POST['selected_ids'])) {
+        $bulkAction = $_POST['bulk_action']; // 'verify' | 'cancel'
+        $token = trim($_POST['csrf_token'] ?? '');
+        $ids = array_values(array_unique(array_filter(array_map('trim', $_POST['selected_ids']), function($v){ return $v !== ''; })));
+
+        if (empty($ids)) {
+            $_SESSION['error_message'] = 'No applicants selected.';
+            header('Location: ' . $_SERVER['PHP_SELF']);
+            exit;
+        }
+
+        // Map action to CSRF namespace
+        $csrfNamespace = $bulkAction === 'verify' ? 'bulk_approve_applicants' : 'bulk_cancel_applicants';
+        if (!CSRFProtection::validateToken($csrfNamespace, $token)) {
+            $_SESSION['error_message'] = 'Security validation failed for bulk action. Please retry.';
+            header('Location: ' . $_SERVER['PHP_SELF']);
+            exit;
+        }
+
+        if ($bulkAction === 'verify') {
+            // Check permission
+            if (!$workflow_status['can_manage_applicants']) {
+                $_SESSION['error_message'] = 'Cannot approve applicants. Please start a distribution first.';
+                header('Location: ' . $_SERVER['PHP_SELF']);
+                exit;
+            }
+            // Block when list is finalized (locked in verify_students)
+            if ($isListFinalized) {
+                $_SESSION['error_message'] = 'Cannot verify applicants: the list is locked in Verify Students.';
+                header('Location: ' . $_SERVER['PHP_SELF']);
+                exit;
+            }
+
+            // Prioritize complete documents: sort IDs by completeness (complete first)
+            usort($ids, function($a, $b) use ($connection) {
+                $ac = check_documents($connection, $a) ? 1 : 0;
+                $bc = check_documents($connection, $b) ? 1 : 0;
+                return $bc <=> $ac; // desc
+            });
+
+            $processed = 0; $skipped = 0; $errors = 0;
+            foreach ($ids as $sid) {
+                // Skip if documents incomplete
+                if (!check_documents($connection, $sid)) { $skipped++; continue; }
+
+                // Replicate single-verify logic
+                $studentQuery = pg_query_params(
+                    $connection,
+                    "SELECT first_name, last_name, email, status FROM students WHERE student_id = $1",
+                    [$sid]
+                );
+                $student = $studentQuery ? pg_fetch_assoc($studentQuery) : null;
+                $previousStatus = $student['status'] ?? null;
+
+                /** @phpstan-ignore-next-line */
+                $upd = pg_query_params($connection,
+                    "UPDATE students 
+                     SET status = 'active',
+                         needs_document_upload = FALSE,
+                         documents_to_reupload = NULL
+                     WHERE student_id = $1",
+                    [$sid]
+                );
+                if (!$upd) { $errors++; continue; }
+
+                // File move eligibility mirrors single path
+                $eligibleForMove = $previousStatus && !in_array($previousStatus, ['applicant','active'], true);
+                if ($eligibleForMove) {
+                    $tempDocsCheck = pg_query_params(
+                        $connection,
+                        "SELECT COUNT(*) FROM documents WHERE student_id = $1 AND status = 'temp'",
+                        [$sid]
+                    );
+                    $hasTempDocs = $tempDocsCheck && (pg_fetch_result($tempDocsCheck, 0, 0) > 0);
+                    if ($hasTempDocs) {
+                        require_once __DIR__ . '/../../services/UnifiedFileService.php';
+                        $fileService = new UnifiedFileService($connection);
+                        $fileMoveResult = $fileService->moveToPermStorage($sid, $_SESSION['admin_id']);
+                        if (!$fileMoveResult['success']) {
+                            error_log("UnifiedFileService bulk: Error moving files for student $sid: " . implode(', ', $fileMoveResult['errors'] ?? []));
+                        }
+                    }
+                }
+
+                if ($student) {
+                    $student_name = $student['first_name'] . ' ' . $student['last_name'];
+                    $notification_msg = "Student promoted to active: " . $student_name . " (ID: " . $sid . ")";
+                    pg_query_params($connection, "INSERT INTO admin_notifications (message) VALUES ($1)", [$notification_msg]);
+
+                    createStudentNotification(
+                        $connection,
+                        $sid,
+                        'Application Approved!',
+                        'Congratulations! Your application has been verified and approved. You are now an active student.',
+                        'success',
+                        'high',
+                        'student_dashboard.php'
+                    );
+
+                    require_once __DIR__ . '/../../services/AuditLogger.php';
+                    $auditLogger = new AuditLogger($connection);
+                    $auditLogger->logApplicantApproved(
+                        $_SESSION['admin_id'],
+                        $_SESSION['admin_username'],
+                        $sid,
+                        [
+                            'first_name' => $student['first_name'],
+                            'last_name' => $student['last_name'],
+                            'email' => $student['email']
+                        ]
+                    );
+                }
+
+                $processed++;
+            }
+
+            $_SESSION['success_message'] = "Bulk verify complete: {$processed} approved, {$skipped} skipped (incomplete), {$errors} errors.";
+            header('Location: ' . $_SERVER['PHP_SELF']);
+            exit;
+
+        }
+    }
     
     $applicantCsrfAction = null;
     if (!empty($_POST['mark_verified']) && isset($_POST['student_id'])) {
@@ -1410,6 +1574,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Check if approval is allowed
         if (!$workflow_status['can_manage_applicants']) {
             $_SESSION['error_message'] = "Cannot approve applicants. Please start a distribution first.";
+            header('Location: ' . $_SERVER['PHP_SELF']);
+            exit;
+        }
+        // Also block when list is finalized (locked in Verify Students)
+        if ($isListFinalized) {
+            $_SESSION['error_message'] = "Cannot approve applicants: the list is locked in Verify Students.";
             header('Location: ' . $_SERVER['PHP_SELF']);
             exit;
         }
@@ -4129,6 +4299,16 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 <style>
+/* Applicants table compact spacing and tighter checkbox-to-name distance */
+#tableWrapper .table td:first-child, #tableWrapper .table th:first-child { 
+    width: 35px; 
+    padding-left: .5rem; 
+    padding-right: 0; 
+    text-align: left; 
+}
+#tableWrapper .table td:nth-child(2), #tableWrapper .table th:nth-child(2) { 
+    padding-left: .5rem; 
+}
 /* Custom badge colors for applicant types */
 .bg-purple {
     background-color: #7c3aed !important;
@@ -4664,6 +4844,81 @@ document.addEventListener('DOMContentLoaded', function() {
 </style>
 
 <script>
+// Bulk selection and actions for applicants (delegated to survive table refresh)
+document.addEventListener('DOMContentLoaded', function() {
+    function bulkEl() { return document.getElementById('bulkControls'); }
+    function getRowCheckboxes() { return Array.from(document.querySelectorAll('.applicant-select')); }
+    function selectedCountEl() { return document.getElementById('selectedCount'); }
+    function selectOnlyCompleteEl() { return document.getElementById('selectOnlyComplete'); }
+
+    function updateCount() {
+        const bulk = bulkEl(); if (!bulk) return;
+        const count = getRowCheckboxes().filter(cb => cb.checked).length;
+        const sc = selectedCountEl(); if (sc) sc.textContent = count + ' selected';
+        const verifyBtn = document.getElementById('bulkVerifyBtn');
+        const isFinal = (bulk.dataset.isFinalized === '1');
+        if (verifyBtn) verifyBtn.disabled = (bulk.dataset.canApprove !== '1') || isFinal || count === 0;
+    }
+
+    function setAll(checked, onlyComplete) {
+        getRowCheckboxes().forEach(cb => { const ok = !onlyComplete || cb.dataset.complete === '1'; cb.checked = checked && ok; });
+        const headerAll = document.getElementById('headerSelectAll'); if (headerAll) headerAll.checked = checked;
+        const topAll = document.getElementById('selectAllApplicants'); if (topAll) topAll.checked = checked;
+        updateCount();
+    }
+
+    document.addEventListener('change', function(e) {
+        if (!e.target) return;
+        if (e.target.id === 'selectAllApplicants' || e.target.id === 'headerSelectAll') {
+            const onlyComplete = (selectOnlyCompleteEl() && selectOnlyCompleteEl().checked) ? true : false;
+            setAll(e.target.checked, onlyComplete);
+        } else if (e.target.id === 'selectOnlyComplete') {
+            const headerAll = document.getElementById('headerSelectAll');
+            const topAll = document.getElementById('selectAllApplicants');
+            const anyAll = (headerAll && headerAll.checked) || (topAll && topAll.checked);
+            setAll(anyAll, e.target.checked);
+        } else if (e.target.classList && e.target.classList.contains('applicant-select')) {
+            updateCount();
+        }
+    });
+
+    function collectSelectedSorted() {
+        const cbs = getRowCheckboxes().filter(cb => cb.checked);
+        cbs.sort((a,b) => (b.dataset.complete === '1') - (a.dataset.complete === '1'));
+        return cbs.map(cb => cb.value);
+    }
+
+    function submitBulk(action) {
+        const bulk = bulkEl(); if (!bulk) return;
+        const ids = collectSelectedSorted();
+        if (!ids.length) { alert('Please select at least one applicant.'); return; }
+        if (action === 'verify') {
+            if (bulk.dataset.isFinalized === '1') { alert('Cannot verify: the list is locked in Verify Students.'); return; }
+            if (!confirm('Verify ' + ids.length + ' selected applicant(s)?')) return;
+        }
+        const token = bulk.dataset.approveToken || '';
+        if (!token) { alert('Security token missing. Reload the page and try again.'); return; }
+        const form = document.createElement('form'); form.method = 'POST'; form.action = window.location.href;
+        const add = (n,v) => { const i=document.createElement('input'); i.type='hidden'; i.name=n; i.value=v; form.appendChild(i); };
+        add('bulk_action', action); add('csrf_token', token);
+        ids.forEach(id => add('selected_ids[]', id));
+        document.body.appendChild(form); form.submit();
+    }
+
+    document.addEventListener('click', function(e) {
+        const t = e.target; if (!t) return;
+        if (t.id === 'bulkVerifyBtn') { submitBulk('verify'); }
+        if (t.id === 'bulkClearBtn') {
+            getRowCheckboxes().forEach(cb => { cb.checked = false; });
+            const headerAll = document.getElementById('headerSelectAll'); if (headerAll) headerAll.checked = false;
+            const topAll = document.getElementById('selectAllApplicants'); if (topAll) topAll.checked = false;
+            updateCount();
+        }
+    });
+
+    updateCount();
+});
+
 // Lightweight document viewer (image/pdf)
 function ensureDocViewer() {
     let backdrop = document.getElementById('docViewerBackdrop');
