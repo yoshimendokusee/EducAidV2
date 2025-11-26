@@ -1175,7 +1175,12 @@ if ($totalSlotsQuery) {
         <button class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
-        <input type="password" id="modal_admin_password" class="form-control" placeholder="Enter password" required>
+        <div class="input-group">
+          <input type="password" id="modal_admin_password" class="form-control" placeholder="Enter password" required>
+          <button class="btn btn-outline-secondary" type="button" id="togglePassword1">
+            <i class="bi bi-eye" id="eyeIcon1"></i>
+          </button>
+        </div>
       </div>
       <div class="modal-footer">
         <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -1199,7 +1204,12 @@ if ($totalSlotsQuery) {
           <strong>Warning:</strong> This will permanently finish the current slot and move it to past releases. 
           Students will no longer be able to register using this slot configuration.
         </div>
-        <input type="password" id="finish_modal_admin_password" class="form-control" placeholder="Enter your password to confirm" required>
+        <div class="input-group">
+          <input type="password" id="finish_modal_admin_password" class="form-control" placeholder="Enter your password to confirm" required>
+          <button class="btn btn-outline-secondary" type="button" id="togglePassword2">
+            <i class="bi bi-eye" id="eyeIcon2"></i>
+          </button>
+        </div>
       </div>
       <div class="modal-footer">
         <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -1626,6 +1636,38 @@ function closeToast(button) {
         toast.remove();
     }, 300);
 }
+
+// Password toggle functionality for modal 1
+document.getElementById('togglePassword1')?.addEventListener('click', function() {
+    const passwordInput = document.getElementById('modal_admin_password');
+    const eyeIcon = document.getElementById('eyeIcon1');
+    
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        eyeIcon.classList.remove('bi-eye');
+        eyeIcon.classList.add('bi-eye-slash');
+    } else {
+        passwordInput.type = 'password';
+        eyeIcon.classList.remove('bi-eye-slash');
+        eyeIcon.classList.add('bi-eye');
+    }
+});
+
+// Password toggle functionality for modal 2
+document.getElementById('togglePassword2')?.addEventListener('click', function() {
+    const passwordInput = document.getElementById('finish_modal_admin_password');
+    const eyeIcon = document.getElementById('eyeIcon2');
+    
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        eyeIcon.classList.remove('bi-eye');
+        eyeIcon.classList.add('bi-eye-slash');
+    } else {
+        passwordInput.type = 'password';
+        eyeIcon.classList.remove('bi-eye-slash');
+        eyeIcon.classList.add('bi-eye');
+    }
+});
 </script>
 <?php endif; ?>
 
