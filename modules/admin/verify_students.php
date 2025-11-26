@@ -601,6 +601,10 @@ while ($row = pg_fetch_assoc($barangayResult)) {
                 <button type="button" class="btn btn-primary ms-auto" id="generatePayrollBtn" disabled title="Payroll numbers already generated">
                   <i class="bi bi-check me-1"></i> Payroll Generated
                 </button>
+                <!-- DEV Tool: View QR Codes -->
+                <a href="view_qr_codes_dev.php" class="btn btn-outline-warning ms-2" title="Development Tool - View Student QR Codes">
+                  <i class="bi bi-qr-code me-1"></i> View QR Codes (DEV)
+                </a>
                 <?php endif; ?>
               <?php else: ?>
                 <button type="button" class="btn btn-success" id="finalizeTriggerBtn">
