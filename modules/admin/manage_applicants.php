@@ -1074,9 +1074,9 @@ $totalPages = max(1, ceil($totalApplicants / $perPage));
 // Determine ORDER BY clause based on filters
 $orderBy = "s.last_name " . ($sort === 'desc' ? 'DESC' : 'ASC');
 if ($filterRegOrder === 'first') {
-    $orderBy = "s.created_at ASC"; // First to register (oldest first)
+    $orderBy = "s.registered_at ASC"; // First to register (oldest first)
 } elseif ($filterRegOrder === 'last') {
-    $orderBy = "s.created_at DESC"; // Last to register (newest first)
+    $orderBy = "s.registered_at DESC"; // Last to register (newest first)
 }
 
 $query = "SELECT s.*, 
