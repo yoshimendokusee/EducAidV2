@@ -408,8 +408,20 @@ nav.navbar.fixed-header .navbar-toggler {
 
 /* Slightly reduce brand sizing on extra-narrow widths to avoid wrap on Android */
 @media (max-width: 430px) {
-  nav.navbar.fixed-header .navbar-brand .brand-logo { height: 40px; }
-  nav.navbar.fixed-header .navbar-brand .brand-text { font-size: 1rem; }
+  nav.navbar.fixed-header .navbar-brand .brand-logo { height: 36px; }
+  nav.navbar.fixed-header .navbar-brand .brand-text { font-size: 0.85rem; }
+}
+
+/* Extra small screens like 360px */
+@media (max-width: 380px) {
+  nav.navbar.fixed-header .navbar-brand {
+    gap: 0.4rem;
+  }
+  nav.navbar.fixed-header .navbar-brand .brand-logo { height: 32px; }
+  nav.navbar.fixed-header .navbar-brand .brand-text { 
+    font-size: 0.75rem;
+    line-height: 1.2;
+  }
 }
 
 nav.navbar.fixed-header .navbar-nav.spread-nav {
