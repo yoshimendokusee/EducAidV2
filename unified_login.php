@@ -775,8 +775,9 @@ $pageType = $seoData['type'];
     <style>
         /* Navbar enabled with isolation fixes applied */
         :root {
-            --topbar-height: 0px;
-            --navbar-height: 0px;
+            --topbar-height: 40px;
+            --navbar-height: 70px;
+            --total-header-height: calc(var(--topbar-height) + var(--navbar-height));
             --thm-primary: #0051f8;
             --thm-green: #18a54a;
         }
@@ -786,13 +787,13 @@ $pageType = $seoData['type'];
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            padding-top: var(--navbar-height);
+            padding-top: var(--total-header-height);
             overflow-x: hidden;
             font-family: "Manrope", sans-serif;
             margin: 0;
         }
         
-        /* FIX 2: Content container takes remaining space (pushes footer down) */
+        /* FIX 2: Content container takes remaining space */
         .login-page-isolated .login-content-container {
             flex: 1 0 auto;
             display: flex;
@@ -803,19 +804,54 @@ $pageType = $seoData['type'];
             padding: 0;
         }
         
-        /* FIX 3: Main wrapper grows to fill available space, no fixed heights */
+        /* FIX 3: Main wrapper grows to fill available space */
         .login-page-isolated .login-main-wrapper {
             flex: 1 0 auto;
             width: 100%;
-            max-width: 100vw;
-            overflow-x: hidden;
             display: flex;
             flex-direction: column;
         }
         
-        /* FIX 4: Content container uses remaining space */
-        .login-page-isolated .login-content-container {
+        /* Container-fluid takes full space */
+        .login-page-isolated .container-fluid.p-0 {
             flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Row layout - full height split, side by side */
+        .login-page-isolated .row.g-0.h-100 {
+            flex: 1;
+            display: flex !important;
+            flex-wrap: wrap;
+            min-height: calc(100vh - var(--total-header-height));
+            margin: 0;
+        }
+        
+        /* Ensure columns are side by side on desktop */
+        @media (min-width: 992px) {
+            .login-page-isolated .row.g-0.h-100 {
+                flex-wrap: nowrap !important;
+            }
+            
+            .login-page-isolated .row.g-0.h-100 > .col-lg-6.brand-section {
+                flex: 0 0 50% !important;
+                max-width: 50% !important;
+                min-height: 100%;
+                width: 50% !important;
+            }
+            
+            .login-page-isolated .row.g-0.h-100 > .col-lg-6.form-section {
+                flex: 0 0 50% !important;
+                max-width: 50% !important;
+                min-height: 100%;
+                width: 50% !important;
+            }
+            
+            /* Hide mobile brand header on desktop */
+            .login-page-isolated .mobile-brand-header {
+                display: none !important;
+            }
         }
         
         /* FIX 4: CSS isolation for navbar to prevent page CSS bleed */
@@ -882,89 +918,92 @@ $pageType = $seoData['type'];
             z-index: 1040;
         }
         
-        /* Adjust brand section - Remove fixed heights, allow natural flow */
+        /* Adjust brand section - Dramatic background image with overlay */
         .brand-section {
-            padding-top: 2rem;
-            padding-bottom: 2rem;
+            padding: 3rem 2rem;
             display: flex;
             align-items: center;
             justify-content: center;
+            min-height: 100%;
+            background: url('assets/images/loginpage.jpg') center center / cover no-repeat;
+            position: relative;
+            overflow: hidden;
         }
         
-        /* Form section - Optimize for login card sizing */
+        /* Dark overlay for dramatic effect */
+        .brand-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.65);
+            pointer-events: none;
+        }
+        
+        /* Brand content wrapper */
+        .brand-content {
+            position: relative;
+            z-index: 1;
+            max-width: 450px;
+        }
+        
+        /* Brand logo */
+        .brand-logo-wrapper {
+            display: flex;
+            justify-content: center;
+        }
+        
+        .brand-logo-img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+            opacity: 0.95;
+        }
+        
+        /* Brand title */
+        .brand-title {
+            font-size: 4.5rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.02em;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        /* Brand tagline */
+        .brand-tagline {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.02em;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Brand subtitle */
+        .brand-subtitle {
+            font-size: 1.125rem;
+            color: rgba(255, 255, 255, 0.95);
+            line-height: 1.6;
+            margin: 0;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Container inside form section - Remove (not needed with new structure) */
+        
+        /* Ensure login form section adjusts properly - Fill the column */
         .login-page-isolated .form-section {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
-            padding: 1.5rem 1rem;
-            min-height: 0;
-            /* Allow content to determine height, not force full viewport */
-        }
-        
-        /* Container inside form section - CRITICAL: Remove all height constraints */
-        .login-page-isolated .form-section .container {
-            height: auto !important;
-            max-height: none !important;
-            min-height: 0 !important;
-            width: 100%;
-            padding: 0;
-        }
-        
-        /* Row inside container - CRITICAL: Remove h-100 effects */
-        .login-page-isolated .form-section .row {
-            height: auto !important;
-            min-height: 0 !important;
-            max-height: none !important;
-            margin: 0;
-            align-items: flex-start !important; /* Don't force center alignment */
-        }
-        
-        /* Column wrapper - Natural sizing, no height constraints */
-        .login-page-isolated .form-section [class*="col-"] {
-            height: auto !important;
-            min-height: 0 !important;
-        }
-        
-        /* LOGIN CARD - FIT TO VIEWPORT */
-        .login-page-isolated .login-card {
-            /* Maximum height = viewport - navbar - padding (with safety margin) */
-            max-height: calc(100vh - var(--navbar-height) - 3rem);
-            overflow-y: auto; /* Internal scroll if content exceeds viewport */
-            overflow-x: hidden;
-            width: 100%;
-            max-width: 540px;
-            margin: 0 auto;
-            
-            /* Smooth scrolling inside card if needed */
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
-        }
-        
-        /* Hide scrollbar but keep functionality (optional, for cleaner look) */
-        .login-page-isolated .login-card::-webkit-scrollbar {
-            width: 6px;
-        }
-        
-        .login-page-isolated .login-card::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.05);
-            border-radius: 3px;
-        }
-        
-        .login-page-isolated .login-card::-webkit-scrollbar-thumb {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 3px;
-        }
-        
-        .login-page-isolated .login-card::-webkit-scrollbar-thumb:hover {
-            background: rgba(0, 0, 0, 0.3);
-        }
-        
-        /* Ensure login form section adjusts properly - No fixed heights */
-        .col-lg-6:not(.brand-section) {
-            display: flex;
-            align-items: center;
-            padding-top: 2rem;
-            padding-bottom: 2rem;
+            padding: 2rem 2.5rem;
+            padding-top: 3rem;
+            background: #fff;
+            min-height: 100%;
+            box-shadow: -8px 0 30px rgba(0, 0, 0, 0.1);
         }
         
         /* Remove overflow from containers to prevent internal scrollbars */
@@ -973,11 +1012,13 @@ $pageType = $seoData['type'];
             overflow: visible;
         }
         
-        /* Ensure login card fits viewport at all times */
+        /* LOGIN CARD - fills the form section with max-width for readability */
         .login-page-isolated .login-card {
-            max-width: 100%;
             width: 100%;
+            max-width: 360px;
             margin: 0 auto;
+            max-height: none;
+            overflow: visible;
         }
         
         /* Ensure buttons and form elements don't overflow */
@@ -991,36 +1032,33 @@ $pageType = $seoData['type'];
         @media (min-width: 768px) and (max-width: 991.98px) {
             .brand-section,
             .col-lg-6:not(.brand-section) {
-                padding-top: 1.5rem;
-                padding-bottom: 1.5rem;
+                padding: 1.5rem;
             }
             
             .login-page-isolated .form-section {
-                padding: 1.5rem 1.25rem;
+                padding: 2.5rem 2rem;
             }
             
             .login-page-isolated .login-card {
-                max-height: calc(100vh - var(--navbar-height) - 3rem);
-                max-width: 600px;
-                margin: 0 auto;
+                max-width: 340px;
             }
             
             .login-page-isolated .form-control {
-                padding: 0.85rem;
-                font-size: 1rem;
+                padding: 0.6rem 0.85rem;
+                font-size: 0.9rem;
             }
             
             .login-page-isolated .btn {
-                padding: 0.85rem 1.5rem;
-                font-size: 1.05rem;
+                padding: 0.6rem 1.25rem;
+                font-size: 0.95rem;
             }
             
             .login-page-isolated h2 {
-                font-size: 1.75rem;
+                font-size: 1.5rem;
             }
             
             .login-page-isolated h3 {
-                font-size: 1.35rem;
+                font-size: 1.25rem;
             }
         }
         
@@ -1028,70 +1066,29 @@ $pageType = $seoData['type'];
         @media (max-width: 767.98px) {
             .brand-section,
             .col-lg-6:not(.brand-section) {
-                padding-top: 1rem;
-                padding-bottom: 1rem;
+                padding: 1.5rem 1rem;
             }
             
             .login-page-isolated .form-section {
-                padding: 1rem 0.75rem;
-            }
-            
-            /* Adjust card max-height for mobile navbar */
-            .login-page-isolated .login-card {
-                max-height: calc(100vh - var(--navbar-height) - 2rem);
+                padding: 1.5rem 1.25rem;
             }
         }
         
         /* Small mobile devices */
         @media (max-width: 575.98px) {
             .login-page-isolated .form-section {
-                padding: 0.75rem 0.5rem;
-            }
-            
-            .login-page-isolated .form-section .container {
-                padding-left: 0;
-                padding-right: 0;
-            }
-            
-            /* Even tighter max-height for small screens */
-            .login-page-isolated .login-card {
-                max-height: calc(100vh - var(--navbar-height) - 1.5rem);
+                padding: 1.25rem 1rem;
             }
         }
         
-        /* Large screens - ensure card doesn't stretch too much */
+        /* Large screens - limit form content width for readability */
         @media (min-width: 1400px) {
             .login-page-isolated .login-card {
-                max-width: 520px;
-            }
-        }
-        
-        /* Very tall screens - allow more space */
-        @media (min-height: 900px) {
-            .login-page-isolated .login-card {
-                max-height: 800px;
-            }
-        }
-        
-        /* Short screens - prioritize fitting in viewport */
-        @media (max-height: 700px) {
-            .login-page-isolated .login-card {
-                max-height: calc(100vh - var(--navbar-height) - 2rem);
+                max-width: 380px;
             }
             
             .login-page-isolated .form-section {
-                padding: 0.5rem;
-            }
-        }
-        
-        /* Very short screens (landscape mobile) */
-        @media (max-height: 500px) {
-            .login-page-isolated .login-card {
-                max-height: calc(100vh - var(--navbar-height) - 1rem);
-            }
-            
-            .login-page-isolated .form-section {
-                padding: 0.25rem;
+                padding: 2.5rem 4rem;
             }
         }
         
@@ -1109,12 +1106,13 @@ $pageType = $seoData['type'];
         }
         
         /* ============================================
-           COMPACT LOGIN CARD CONTENT - BALANCED
+           BALANCED LOGIN CARD CONTENT
            ============================================ */
         
-        /* Balanced login header spacing */
+        /* Login header spacing - compact */
         .login-page-isolated .login-header {
-            margin-bottom: 1rem !important;
+            margin-bottom: 1.25rem !important;
+            text-align: center;
         }
         
         .login-page-isolated .login-title {
@@ -1122,6 +1120,7 @@ $pageType = $seoData['type'];
             margin-bottom: 0.375rem !important;
             line-height: 1.3 !important;
             font-weight: 700;
+            color: #1e293b;
         }
         
         .login-page-isolated .login-subtitle {
@@ -1131,9 +1130,9 @@ $pageType = $seoData['type'];
             color: #64748b;
         }
         
-        /* Balanced form group spacing */
+        /* Form group spacing - compact */
         .login-page-isolated .form-group {
-            margin-bottom: 0.875rem !important;
+            margin-bottom: 1rem !important;
         }
         
         .login-page-isolated .form-label {
@@ -1145,90 +1144,109 @@ $pageType = $seoData['type'];
             color: #475569;
         }
         
-        /* Balanced form control padding */
+        /* Form control padding - compact */
         .login-page-isolated .form-control {
             padding: 0.625rem 0.875rem !important;
-            font-size: 0.9375rem !important;
-            line-height: 1.5 !important;
+            font-size: 0.9rem !important;
+            line-height: 1.4 !important;
             border-radius: 8px;
+            border: 1.5px solid #e2e8f0;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
         
-        /* Balanced buttons */
+        /* Smaller buttons */
         .login-page-isolated .btn-lg {
-            padding: 0.75rem 1.5rem !important;
-            font-size: 1rem !important;
+            padding: 0.5rem 1rem !important;
+            font-size: 0.875rem !important;
             font-weight: 600;
             border-radius: 8px;
         }
         
-        /* Balanced margins and paddings */
-        .login-page-isolated .mb-3 {
-            margin-bottom: 0.75rem !important;
+        .login-page-isolated .form-control:focus {
+            border-color: var(--thm-primary);
+            box-shadow: 0 0 0 3px rgba(0, 81, 248, 0.1);
         }
         
-        .login-page-isolated .mb-4 {
+        /* Primary button styling */
+        .login-page-isolated .btn-success {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            border: none;
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+            transition: all 0.2s ease;
+        }
+        
+        .login-page-isolated .btn-success:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(34, 197, 94, 0.4);
+        }
+        
+        /* Balanced margins and paddings */
+        .login-page-isolated .mb-3 {
             margin-bottom: 1rem !important;
         }
         
+        .login-page-isolated .mb-4 {
+            margin-bottom: 1.5rem !important;
+        }
+        
         .login-page-isolated .mt-3 {
-            margin-top: 0.75rem !important;
+            margin-top: 1rem !important;
         }
         
         .login-page-isolated .mt-4 {
-            margin-top: 1rem !important;
+            margin-top: 1.5rem !important;
         }
         
         /* Balanced alerts */
         .login-page-isolated .alert {
-            padding: 0.75rem 1rem !important;
-            margin-bottom: 0.75rem !important;
-            font-size: 0.875rem !important;
-            border-radius: 8px;
+            padding: 0.875rem 1rem !important;
+            margin-bottom: 1rem !important;
+            font-size: 0.9rem !important;
+            border-radius: 10px;
         }
         
         /* Balanced step indicators spacing */
         .login-page-isolated .step-indicators {
-            margin-bottom: 0.875rem !important;
+            margin-bottom: 1rem !important;
         }
         
         /* Balanced text helpers */
         .login-page-isolated small,
         .login-page-isolated .small {
-            font-size: 0.8125rem !important;
+            font-size: 0.875rem !important;
             line-height: 1.5 !important;
         }
         
         /* Balanced OTP input size */
         .login-page-isolated .otp-input {
-            font-size: 1.25rem !important;
-            letter-spacing: 0.4em !important;
-            padding: 0.75rem !important;
-        }
-        
-        /* Balanced card padding */
-        .login-page-isolated .login-card {
-            padding: 1.75rem 1.5rem !important;
+            font-size: 1.5rem !important;
+            letter-spacing: 0.5em !important;
+            padding: 0.875rem !important;
+            text-align: center;
         }
         
         /* Balanced spacing between sections */
         .login-page-isolated .text-center.mt-3 {
-            margin-top: 0.75rem !important;
+            margin-top: 1rem !important;
         }
         
-        /* Adjust login card max-height - no footer now */
-        .login-page-isolated .login-card {
-            max-height: calc(100vh - var(--navbar-height) - 3rem);
+        /* Create account link section */
+        .login-page-isolated .create-account-section {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e2e8f0;
         }
         
-        /* Mobile adjustments - BALANCED */
+        /* Mobile adjustments */
         @media (max-width: 575.98px) {
             .login-page-isolated .login-card {
-                max-height: calc(100vh - var(--navbar-height) - 2rem);
-                padding: 1.5rem 1.25rem !important;
+                padding: 2rem 1.5rem !important;
+                margin: 1rem;
+                max-width: calc(100% - 2rem);
             }
             
             .login-page-isolated .login-title {
-                font-size: 1.375rem !important;
+                font-size: 1.5rem !important;
             }
             
             .login-page-isolated .login-subtitle {
@@ -1250,11 +1268,28 @@ $pageType = $seoData['type'];
             }
         }
         
-        /* Very short viewports - BALANCED */
+        /* Very short viewports - compact but no internal scroll */
         @media (max-height: 700px) {
             .login-page-isolated .login-card {
-                max-height: calc(100vh - var(--navbar-height) - 2rem);
-                padding: 1.375rem 1.25rem !important;
+                padding: 1.5rem 1.25rem !important;
+            }
+            
+            .login-page-isolated .login-header {
+                margin-bottom: 1rem !important;
+            }
+            
+            .login-page-isolated .login-title {
+                font-size: 1.5rem !important;
+            }
+            
+            .login-page-isolated .form-group {
+                margin-bottom: 1rem !important;
+            }
+        }
+        
+        @media (max-height: 600px) {
+            .login-page-isolated .login-card {
+                padding: 1.25rem 1rem !important;
             }
             
             .login-page-isolated .login-header {
@@ -1265,39 +1300,16 @@ $pageType = $seoData['type'];
                 font-size: 1.375rem !important;
             }
             
-            .login-page-isolated .form-group {
-                margin-bottom: 0.75rem !important;
-            }
-            
-            .login-page-isolated .form-label {
-                font-size: 0.6875rem !important;
-            }
-        }
-        
-        @media (max-height: 600px) {
-            .login-page-isolated .login-card {
-                max-height: calc(100vh - var(--navbar-height) - 1.5rem);
-                padding: 1.125rem 1rem !important;
-            }
-            
-            .login-page-isolated .login-header {
-                margin-bottom: 0.75rem !important;
-            }
-            
-            .login-page-isolated .login-title {
-                font-size: 1.25rem !important;
-            }
-            
             .login-page-isolated .login-subtitle {
-                font-size: 0.75rem !important;
+                font-size: 0.8125rem !important;
             }
             
             .login-page-isolated .form-group {
-                margin-bottom: 0.625rem !important;
+                margin-bottom: 0.875rem !important;
             }
             
             .login-page-isolated .form-control {
-                padding: 0.5rem 0.625rem !important;
+                padding: 0.625rem 0.75rem !important;
                 font-size: 0.8125rem !important;
             }
             
@@ -1332,170 +1344,17 @@ $pageType = $seoData['type'];
             flex: 0 0 auto !important;
         }
         
-        /* ==== MODERN BRAND SECTION STYLES ==== */
-        .brand-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            position: relative;
-            overflow: hidden;
-        }
+        /* ==== SIMPLIFIED BRAND SECTION STYLES ==== */
+        /* Note: Main brand-section styling is defined above in the layout section */
         
-        .brand-content {
-            position: relative;
-            z-index: 2;
-            width: 100%;
-            max-width: 520px;
-            padding: 2rem 2rem; /* Reduced from 3rem 2.5rem */
-        }
-        
-        /* Hero Badge */
-        .login-hero-badge {
-            display: inline-flex;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            color: white;
-            padding: 0.375rem 1rem; /* Reduced */
-            border-radius: 50px;
-            font-size: 0.8125rem; /* Reduced */
-            font-weight: 600;
-            margin-bottom: 1rem; /* Reduced from 1.5rem */
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        /* Hero Title */
-        .login-hero-title {
-            font-size: 2.5rem; /* Reduced from 3rem */
-            font-weight: 800;
-            color: white;
-            margin-bottom: 0.75rem; /* Reduced from 1rem */
-            line-height: 1.1;
-        }
-        
-        .gradient-text {
-            background: linear-gradient(135deg, #fff 0%, #e0e7ff 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        /* Hero Subtitle */
-        .login-hero-subtitle {
-            font-size: 1rem; /* Reduced from 1.125rem */
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 1.5rem; /* Reduced from 2.5rem */
-            line-height: 1.5; /* Reduced from 1.6 */
-        }
-        
-        /* Feature Cards */
-        .feature-cards-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem; /* Reduced from 1rem */
-        }
-        
-        .feature-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px; /* Reduced from 16px */
-            padding: 1rem; /* Reduced from 1.25rem */
-            display: flex;
-            align-items: flex-start;
-            gap: 0.875rem; /* Reduced from 1rem */
-            transition: all 0.3s ease;
-        }
-        
-        .feature-card:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: translateX(8px);
-        }
-        
-        .feature-icon {
-            width: 40px; /* Reduced from 48px */
-            height: 40px; /* Reduced from 48px */
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 10px; /* Reduced from 12px */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-        
-        .feature-icon i {
-            font-size: 1.25rem; /* Reduced from 1.5rem */
-            color: white;
-        }
-        
-        .feature-title {
-            font-size: 0.9375rem; /* Reduced from 1rem */
-            font-weight: 700;
-            color: white;
-            margin-bottom: 0.1875rem; /* Reduced from 0.25rem */
-        }
-        
-        .feature-desc {
-            font-size: 0.8125rem; /* Reduced from 0.875rem */
-            color: rgba(255, 255, 255, 0.8);
-            line-height: 1.4; /* Reduced from 1.5 */
-        }
-        
-        /* Decorative Circles */
-        .brand-decorative-circles {
-            position: absolute;
-            inset: 0;
-            z-index: 1;
-            pointer-events: none;
-        }
-        
-        .circle {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.05);
-            animation: float 6s ease-in-out infinite;
-        }
-        
-        .circle-1 {
-            width: 400px;
-            height: 400px;
-            top: -200px;
-            right: -100px;
-            animation-delay: 0s;
-        }
-        
-        .circle-2 {
-            width: 300px;
-            height: 300px;
-            bottom: -150px;
-            left: -75px;
-            animation-delay: 2s;
-        }
-        
-        .circle-3 {
-            width: 200px;
-            height: 200px;
-            top: 50%;
-            left: 10%;
-            animation-delay: 4s;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) scale(1); }
-            50% { transform: translateY(-20px) scale(1.05); }
-        }
-        
-        /* Responsive adjustments */
+        /* Responsive adjustments for brand section */
         @media (max-width: 1199.98px) {
-            .login-hero-title { font-size: 2.5rem; }
+            .brand-title { font-size: 3rem; }
+            .brand-tagline { font-size: 1.125rem; }
         }
         
         @media (max-width: 991.98px) {
             .brand-section { display: none !important; }
-            
-            /* Show brand section in edit mode even on mobile */
-            body.edit-mode .brand-section { 
-                display: flex !important; 
-                min-height: 100vh;
-            }
         }
     </style>
     
@@ -1774,122 +1633,47 @@ $pageType = $seoData['type'];
                 <div class="row g-0 h-100">
             <!-- Brand Section - Hidden on mobile, visible on tablet+ -->
             <div class="col-lg-6 d-none d-lg-flex brand-section">
-                <div class="brand-content">
-                    <!-- Hero Badge -->
-                    <?php echo '<div class="login-hero-badge" data-login-key="login_hero_badge"'.login_block_style('login_hero_badge').'>'.login_block('login_hero_badge','<i class="bi bi-shield-check-fill me-2"></i>Trusted by 10,000+ Students').login_edit_btn('login_hero_badge', 'Hero Badge').'</div>'; ?>
-                    
+                <div class="brand-content text-center">
                     <!-- Main Title -->
-                    <?php echo '<h1 class="login-hero-title" data-login-key="login_hero_title"'.login_block_style('login_hero_title').'>'.login_block('login_hero_title','Welcome to<br><span class="gradient-text">EducAid</span>').login_edit_btn('login_hero_title', 'Main Title').'</h1>'; ?>
+                    <h1 class="brand-title">EducAid</h1>
+                    
+                    <!-- Tagline -->
+                    <p class="brand-tagline">Empowering Dreams Through Education</p>
                     
                     <!-- Subtitle -->
-                    <?php echo '<p class="login-hero-subtitle" data-login-key="login_hero_subtitle"'.login_block_style('login_hero_subtitle').'>'.login_block('login_hero_subtitle','Your gateway to accessible educational financial assistance in General Trias.').login_edit_btn('login_hero_subtitle', 'Subtitle').'</p>'; ?>
-                    
-                    <!-- Feature Cards Section (can be hidden/archived) -->
-                    <?php if(login_section_visible('login_features_section')): ?>
-                    <div class="feature-cards-grid" id="featureCardsSection">
-                        <?php if($IS_LOGIN_EDIT_MODE): ?>
-                        <div class="d-flex justify-content-end mb-2">
-                            <button class="btn btn-sm btn-outline-light" onclick="toggleSectionVisibility('login_features_section', false)" title="Hide this section (archive for future use)">
-                                <i class="bi bi-eye-slash me-1"></i> Hide Section
-                            </button>
-                        </div>
-                        <?php endif; ?>
-                        
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="bi bi-lightning-charge-fill"></i>
-                            </div>
-                            <?php echo '<div class="feature-title" data-login-key="login_feature1_title"'.login_block_style('login_feature1_title').'>'.login_block('login_feature1_title','Fast Processing').login_edit_btn('login_feature1_title', 'Feature 1 Title').'</div>'; ?>
-                            <?php echo '<div class="feature-desc" data-login-key="login_feature1_desc"'.login_block_style('login_feature1_desc').'>'.login_block('login_feature1_desc','Get your application reviewed within 48 hours').login_edit_btn('login_feature1_desc', 'Feature 1 Description').'</div>'; ?>
-                        </div>
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="bi bi-shield-fill-check"></i>
-                            </div>
-                            <?php echo '<div class="feature-title" data-login-key="login_feature2_title"'.login_block_style('login_feature2_title').'>'.login_block('login_feature2_title','Secure & Safe').login_edit_btn('login_feature2_title', 'Feature 2 Title').'</div>'; ?>
-                            <?php echo '<div class="feature-desc" data-login-key="login_feature2_desc"'.login_block_style('login_feature2_desc').'>'.login_block('login_feature2_desc','Your data is protected with enterprise-level security').login_edit_btn('login_feature2_desc', 'Feature 2 Description').'</div>'; ?>
-                        </div>
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="bi bi-phone-fill"></i>
-                            </div>
-                            <?php echo '<div class="feature-title" data-login-key="login_feature3_title"'.login_block_style('login_feature3_title').'>'.login_block('login_feature3_title','24/7 Support').login_edit_btn('login_feature3_title', 'Feature 3 Title').'</div>'; ?>
-                            <?php echo '<div class="feature-desc" data-login-key="login_feature3_desc"'.login_block_style('login_feature3_desc').'>'.login_block('login_feature3_desc','We\'re here to help anytime you need assistance').login_edit_btn('login_feature3_desc', 'Feature 3 Description').'</div>'; ?>
-                        </div>
-                    </div>
-                    <?php else: ?>
-                    <!-- Hidden Section Placeholder (Edit Mode Only) -->
-                    <?php if($IS_LOGIN_EDIT_MODE): ?>
-                    <div class="alert alert-info d-flex align-items-center justify-content-between">
-                        <div>
-                            <i class="bi bi-eye-slash me-2"></i>
-                            <strong>Feature Cards Section</strong> is currently hidden (archived)
-                        </div>
-                        <button class="btn btn-sm btn-primary" onclick="toggleSectionVisibility('login_features_section', true)">
-                            <i class="bi bi-eye me-1"></i> Show Section
-                        </button>
-                    </div>
-                    <?php endif; ?>
-                    <?php endif; ?>
-                    
-                    <!-- Decorative Elements -->
-                    <div class="brand-decorative-circles">
-                        <div class="circle circle-1"></div>
-                        <div class="circle circle-2"></div>
-                        <div class="circle circle-3"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Mobile Brand Header - Only visible on mobile -->
-            <div class="col-12 d-lg-none mobile-brand-header">
-                <div class="container py-4">
-                    <div class="row align-items-center">
-                        <div class="col-auto">
-                            <div class="mobile-logo">
-                                <img src="assets/images/logo.png" alt="EducAid Logo" class="img-fluid">
-                            </div>
-                        </div>
-                        <div class="col">
-                            <h4 class="mobile-brand-title mb-0">EducAid</h4>
-                            <small class="text-muted">General Trias Financial Assistance</small>
-                        </div>
-                    </div>
+                    <p class="brand-subtitle">Your gateway to accessible educational<br>financial assistance in General Trias</p>
                 </div>
             </div>
 
             <!-- Form Section -->
-            <div class="col-12 col-lg-6 form-section">
-                <div class="container h-100 py-4 py-lg-0">
-                    <div class="row justify-content-center align-items-center h-100">
-                        <div class="col-12 col-sm-11 col-md-9 col-lg-11 col-xl-9 col-xxl-8">
-                            <div class="login-card">
-                                <div class="login-header">
-                                    <h2 class="login-title">Welcome Back</h2>
-                                    <p class="login-subtitle">Sign in to access your EducAid account</p>
-                                </div>
+            <div class="col-lg-6 form-section">
+                <div class="login-card">
+                    <div class="login-header">
+                        <h2 class="login-title">Welcome Back</h2>
+                        <p class="login-subtitle">Sign in to access your EducAid account</p>
+                    </div>
 
-                                <!-- Step Indicators -->
-                                <div class="step-indicators justify-content-center mb-4" style="display: none;">
-                                    <div class="step-indicator-item">
-                                        <div class="step-indicator" id="indicator1"></div>
-                                        <span class="step-label d-none d-sm-block" id="label1">Email</span>
-                                    </div>
-                                    <div class="step-indicator-item">
-                                        <div class="step-indicator" id="indicator2"></div>
-                                        <span class="step-label d-none d-sm-block" id="label2">Verify</span>
-                                    </div>
-                                    <div class="step-indicator-item">
-                                        <div class="step-indicator" id="indicator3"></div>
-                                        <span class="step-label d-none d-sm-block" id="label3">Password</span>
-                                    </div>
-                                </div>
+                    <!-- Step Indicators -->
+                    <div class="step-indicators justify-content-center mb-4" style="display: none;">
+                        <div class="step-indicator-item">
+                            <div class="step-indicator" id="indicator1"></div>
+                            <span class="step-label d-none d-sm-block" id="label1">Email</span>
+                        </div>
+                        <div class="step-indicator-item">
+                            <div class="step-indicator" id="indicator2"></div>
+                            <span class="step-label d-none d-sm-block" id="label2">Verify</span>
+                        </div>
+                        <div class="step-indicator-item">
+                            <div class="step-indicator" id="indicator3"></div>
+                            <span class="step-label d-none d-sm-block" id="label3">Password</span>
+                        </div>
+                    </div>
 
-                                <!-- Messages Container -->
-                                <div id="messages" class="message-container mb-3"></div>
+                    <!-- Messages Container -->
+                    <div id="messages" class="message-container mb-3"></div>
 
-                                <!-- Logout Success Message -->
-                                <?php if (isset($_SESSION['logout_message'])): ?>
+                    <!-- Logout Success Message -->
+                    <?php if (isset($_SESSION['logout_message'])): ?>
                                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                                     <i class="bi bi-check-circle-fill me-2"></i>
                                     <?= htmlspecialchars($_SESSION['logout_message']) ?>
@@ -1927,11 +1711,6 @@ $pageType = $seoData['type'];
                                                     <i class="bi bi-eye" id="password-toggle-icon"></i>
                                                 </button>
                                             </div>
-                                        </div>
-                                        
-                                        <!-- reCAPTCHA will be shown in a modal when the user clicks 'Send Verification Code' -->
-                                        <div class="form-group mb-4 text-center">
-                                            <small class="text-muted">A security check (reCAPTCHA) will be shown after you click <strong>Send Verification Code</strong>.</small>
                                         </div>
                                         
                                         <div class="d-grid">
@@ -2035,17 +1814,39 @@ $pageType = $seoData['type'];
                                     <form id="newPasswordForm">
                                         <div class="form-group mb-3">
                                             <label class="form-label">New Password</label>
-                                            <input type="password" class="form-control form-control" id="forgot_new_password" 
-                                                   name="forgot_new_password" placeholder="Minimum 12 characters" minlength="12" required>
-                                            <div class="form-text">Password must be at least 12 characters long</div>
+                                            <div class="position-relative">
+                                                <input type="password" class="form-control" id="forgot_new_password" 
+                                                       name="forgot_new_password" placeholder="Enter a strong password" required>
+                                                <button type="button" class="btn btn-link position-absolute end-0 top-50 translate-middle-y" 
+                                                        onclick="toggleForgotPassword('forgot_new_password')" style="text-decoration: none; padding: 0 15px;">
+                                                    <i class="bi bi-eye" id="forgot_new_password-toggle-icon"></i>
+                                                </button>
+                                            </div>
+                                            <!-- Password Strength Indicator -->
+                                            <div class="progress mt-2" style="height: 6px;">
+                                                <div class="progress-bar bg-secondary" role="progressbar" style="width: 0%" 
+                                                     aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="forgotStrengthBar"></div>
+                                            </div>
+                                            <small id="forgotStrengthText" class="text-muted d-block mt-1">
+                                                <i class="bi bi-info-circle me-1"></i>Enter a password to see strength
+                                            </small>
                                         </div>
                                         <div class="form-group mb-4">
                                             <label class="form-label">Confirm New Password</label>
-                                            <input type="password" class="form-control form-control" id="confirm_password" 
-                                                   name="confirm_password" placeholder="Re-enter your password" required>
+                                            <div class="position-relative">
+                                                <input type="password" class="form-control" id="confirm_password" 
+                                                       name="confirm_password" placeholder="Re-enter your password" required>
+                                                <button type="button" class="btn btn-link position-absolute end-0 top-50 translate-middle-y" 
+                                                        onclick="toggleForgotPassword('confirm_password')" style="text-decoration: none; padding: 0 15px;">
+                                                    <i class="bi bi-eye" id="confirm_password-toggle-icon"></i>
+                                                </button>
+                                            </div>
+                                            <small id="forgotPasswordMatchText" class="text-muted d-block mt-1">
+                                                <i class="bi bi-info-circle me-1"></i>Re-enter your password to confirm
+                                            </small>
                                         </div>
                                         <div class="d-grid">
-                                            <button type="submit" class="btn btn-primary btn-lg">
+                                            <button type="submit" class="btn btn-primary btn-lg" id="forgotPasswordSubmitBtn" disabled>
                                                 <i class="bi bi-key me-2"></i>Update Password
                                             </button>
                                         </div>
@@ -2053,19 +1854,15 @@ $pageType = $seoData['type'];
                                 </div>
 
                                 <!-- Registration Section -->
-                                <div class="signup-section mt-4">
-                                    <div class="text-center">
-                                        <p class="mb-2">Don't have an account yet?</p>
-                                        <a href="modules/student/student_register.php" class="btn btn-outline-primary">
-                                            <i class="bi bi-person-plus me-2"></i>Create Account
-                                        </a>
-                                    </div>
+                                <div class="signup-section mt-3 text-center">
+                                    <span class="text-muted small">Don't have an account? </span>
+                                    <a href="modules/student/student_register.php" class="text-decoration-none small fw-semibold">
+                                        Create Account
+                                    </a>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                </div> <!-- Close row -->
+                </div> <!-- Close login-card -->
+            </div> <!-- Close form-section col-lg-6 -->
+        </div> <!-- Close row -->
             </div> <!-- Close container-fluid -->
         </div> <!-- Close login-main-wrapper -->
     </div> <!-- Close login-content-container -->
@@ -2074,6 +1871,7 @@ $pageType = $seoData['type'];
     <!-- Consistent mobile navbar behavior (burger → X, body.navbar-open) -->
     <script src="assets/js/website/mobile-navbar.js"></script>
     <script src="assets/js/login.js"></script>
+    <script src="assets/js/shared/password_strength_validator.js"></script>
     
     <!-- reCAPTCHA v2 modal + integration -->
     <script>
@@ -2106,12 +1904,7 @@ $pageType = $seoData['type'];
         function setButtonLoading(button, loading, originalText = '') {
             if (loading) {
                 button.disabled = true;
-                button.innerHTML = `
-                    <div class="d-flex align-items-center justify-content-center gap-2">
-                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                        <span>Processing...</span>
-                    </div>
-                `;
+                button.innerHTML = 'Processing...';
             } else {
                 button.disabled = false;
                 button.innerHTML = originalText || button.innerHTML;
@@ -2526,6 +2319,46 @@ $pageType = $seoData['type'];
         console.log('✅ Login Page Editor ready');
     </script>
     <?php endif; ?>
+
+    <!-- Password Strength Validator for Forgot Password -->
+    <script>
+        // Toggle password visibility for forgot password fields
+        function toggleForgotPassword(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(inputId + '-toggle-icon');
+            if (input && icon) {
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.classList.remove('bi-eye');
+                    icon.classList.add('bi-eye-slash');
+                } else {
+                    input.type = 'password';
+                    icon.classList.remove('bi-eye-slash');
+                    icon.classList.add('bi-eye');
+                }
+            }
+        }
+
+        // Initialize password strength validator for forgot password form
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if setupPasswordValidation function exists
+            if (typeof setupPasswordValidation === 'function') {
+                setupPasswordValidation({
+                    passwordInputId: 'forgot_new_password',
+                    confirmPasswordInputId: 'confirm_password',
+                    strengthBarId: 'forgotStrengthBar',
+                    strengthTextId: 'forgotStrengthText',
+                    passwordMatchTextId: 'forgotPasswordMatchText',
+                    submitButtonSelector: '#forgotPasswordSubmitBtn',
+                    minStrength: 70,
+                    requireMatch: true
+                });
+                console.log('✅ Password strength validator initialized for forgot password');
+            } else {
+                console.warn('⚠️ Password strength validator not loaded');
+            }
+        });
+    </script>
 
 </body>
 </html>

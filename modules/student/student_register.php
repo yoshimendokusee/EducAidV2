@@ -996,7 +996,7 @@ if (!$isAjaxRequest) {
 <head>
     <?php include __DIR__ . '/../../includes/seo_head.php'; ?>
     
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link href="../../assets/css/bootstrap-icons.css" rel="stylesheet" />
     <link href="../../assets/css/universal.css" rel="stylesheet" />
     <link href="../../assets/css/bootstrap.min.css" rel="stylesheet" />
@@ -1064,6 +1064,68 @@ if (!$isAjaxRequest) {
 
         body.registration-page .nav-link {
             font-weight: 500;
+        }
+
+        /* Hamburger to X animation - Consistent with unified login page */
+        .navbar-toggler {
+            border: none;
+            padding: 0.5rem;
+            position: relative;
+            width: 40px;
+            height: 40px;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: none;
+            outline: none;
+        }
+
+        .navbar-toggler-icon {
+            display: block;
+            position: relative;
+            width: 24px;
+            height: 2px;
+            background-color: var(--thm-primary, #0051f8);
+            transition: all 0.3s ease;
+            margin: auto;
+        }
+
+        .navbar-toggler-icon::before,
+        .navbar-toggler-icon::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--thm-primary, #0051f8);
+            transition: all 0.3s ease;
+        }
+
+        .navbar-toggler-icon::before {
+            top: -8px;
+        }
+
+        .navbar-toggler-icon::after {
+            bottom: -8px;
+        }
+
+        /* Active state (X) */
+        .navbar-toggler.active .navbar-toggler-icon,
+        .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
+            background-color: transparent;
+        }
+
+        .navbar-toggler.active .navbar-toggler-icon::before,
+        .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon::before {
+            top: 0;
+            transform: rotate(45deg);
+        }
+
+        .navbar-toggler.active .navbar-toggler-icon::after,
+        .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon::after {
+            bottom: 0;
+            transform: rotate(-45deg);
         }
 
         .step-panel.d-none { display: none !important; }

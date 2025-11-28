@@ -116,10 +116,7 @@
     function setButtonLoading(button, loading, originalText = '') {
         if (loading) {
             button.disabled = true;
-            button.innerHTML = `
-                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                <span>Processing...</span>
-            `;
+            button.innerHTML = 'Processing...';
         } else {
             button.disabled = false;
             button.innerHTML = originalText || button.innerHTML;
@@ -379,11 +376,8 @@
                     return;
                 }
                 
-                // Validate password strength
-                if (newPassword.length < 12) {
-                    showMessage('Password must be at least 12 characters long.', 'danger');
-                    return;
-                }
+                // Password strength is validated by the password_strength_validator.js
+                // which disables the submit button until requirements are met
                 
                 const formData = new FormData();
                 formData.append('forgot_action', 'set_new_password');
