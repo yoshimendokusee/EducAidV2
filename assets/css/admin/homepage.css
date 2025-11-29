@@ -18,30 +18,17 @@ body {
 
 #wrapper.admin-wrapper { display:flex; min-height:100vh; position:relative; }
 
-/* Header now sticky instead of fully fixed so main content flows correctly */
-/* Fixed header just below topbar; content pads beneath */
-.admin-main-header { 
-  position:fixed; 
-  top:var(--admin-topbar-h); 
-  left:250px; 
-  right:0; 
-  height:var(--admin-header-h); 
-  z-index:1030; 
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-.sidebar.close ~ .admin-main-header { left:70px; }
-
-/* On mobile header spans full width */
-@media (max-width:768px){
-  .admin-main-header { left:0 !important; right:0; }
+/* Admin header positioning is in admin_header.php inline <style> */
+/* This rule handles sidebar collapse state */
+.sidebar.close ~ .admin-main-header {
+  left: 70px;
 }
 
-/* Ensure main content clears fixed header (44px topbar + header height) */
+/* Ensure main content clears fixed header (topbar + header height) */
 /* Remove standalone extra padding-top (full padding managed in block below) */
 .home-section, #mainContent { padding-top: 0; }
 
 /* ===== Sidebar ===== */
-
 
 /* ===== Main Content ===== */
 /* Main content: width calculation prevents overflow + right gap when margin-left applied */
@@ -85,10 +72,14 @@ body {
   }
 }
 
-/* Mobile adjustments */
-@media (max-width:768px){
+/* Tablet/Mobile adjustments (992px and below) */
+@media (max-width:991.98px){
   .admin-main-header { margin-left:0 !important; left:0 !important; width:100% !important; }
-  .home-section,#mainContent { margin-left:0 !important; width:100% !important; }
+  .home-section,#mainContent { 
+    margin-left:0 !important; 
+    width:100% !important; 
+    padding-top: calc(var(--admin-topbar-h) + var(--admin-header-h) + 10px) !important;
+  }
 }
 
 /* ===== Dashboard Tiles (Fixed Row) ===== */

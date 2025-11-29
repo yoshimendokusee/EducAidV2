@@ -858,7 +858,7 @@ if (!function_exists('adjustColorOpacity')) {
   font-size: .75rem;
   border-radius: 999px;
 }
-@media (max-width:768px) {
+@media (max-width:992px) {
   .admin-sidebar .nav-item a { padding-right: 30px; }
   .admin-sidebar .nav-item a .badge { right: 8px; }
 }
@@ -922,8 +922,8 @@ if (!function_exists('adjustColorOpacity')) {
     font-weight: 600;
     opacity: .85;
 }
-/* ================= Mobile spacing & safe-area fixes ================= */
-@media (max-width: 768px) {
+/* ================= Tablet/Mobile spacing & safe-area fixes ================= */
+@media (max-width: 992px) {
   /* Ensure nav items start directly under profile without large gap if global CSS sets space-between */
   .admin-sidebar .nav-list { justify-content: flex-start !important; padding-top: .25rem; }
   /* Compact profile padding */
@@ -999,7 +999,7 @@ document.addEventListener('DOMContentLoaded', function(){
   const homeSection = document.querySelector('.home-section') || document.getElementById('mainContent');
   if(!sidebar || !toggleBtn) return;
 
-  const isMobile = () => window.innerWidth <= 768;
+  const isMobile = () => window.innerWidth <= 992;
 
   // Align header/content offsets with sidebar width on desktop
   const adjustLayout = () => {

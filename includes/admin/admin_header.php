@@ -154,7 +154,33 @@ if (!function_exists('educaid_get_header_theme')) {
 $__hdr = educaid_get_header_theme($connection ?? null);
 ?>
 <style>
-.admin-main-header {background: <?= htmlspecialchars($__hdr['header_bg_color']) ?>;border-bottom:1px solid <?= htmlspecialchars($__hdr['header_border_color']) ?>;box-shadow:0 2px 4px rgba(0,0,0,.06);padding:.55rem 0;z-index:1030;margin-top:0;color:<?= htmlspecialchars($__hdr['header_text_color']) ?>;}
+.admin-main-header {
+  background: <?= htmlspecialchars($__hdr['header_bg_color']) ?>;
+  border-bottom: 1px solid <?= htmlspecialchars($__hdr['header_border_color']) ?>;
+  box-shadow: 0 2px 4px rgba(0,0,0,.06);
+  padding: .55rem 0;
+  z-index: 1030;
+  position: fixed;
+  top: var(--admin-topbar-h, 52px);
+  left: 250px;
+  right: 0;
+  width: calc(100% - 250px);
+  height: 56px;
+  color: <?= htmlspecialchars($__hdr['header_text_color']) ?>;
+  overflow: visible;
+  box-sizing: border-box;
+}
+.sidebar.close ~ .admin-main-header {
+  left: 70px;
+  width: calc(100% - 70px);
+}
+@media (max-width:991.98px){
+  .admin-main-header {
+    left: 0 !important;
+    right: 0;
+    width: 100% !important;
+  }
+}
 .admin-main-header .container-fluid{height:100%;}
 .admin-header-content{display:flex;align-items:center;justify-content:space-between;}
 .admin-header-actions{display:flex;align-items:center;gap:1rem;}

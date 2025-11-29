@@ -110,7 +110,110 @@ if (isset($connection)) {
         }
     }
 }
+
+// Create semi-transparent background based on text color
+$text_color = $topbar_settings['topbar_text_color'];
+$r = hexdec(substr($text_color, 1, 2));
+$g = hexdec(substr($text_color, 3, 2));
+$b = hexdec(substr($text_color, 5, 2));
 ?>
+<style>
+.admin-topbar {
+  background: <?= htmlspecialchars($topbar_background_css, ENT_QUOTES) ?>;
+  color: <?= htmlspecialchars($topbar_settings['topbar_text_color']) ?>;
+  font-size: 0.775rem;
+  z-index: 1050;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  min-height: 52px;
+  box-shadow: 0 2px 4px rgba(0,0,0,.15);
+}
+.admin-topbar .container-fluid {
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+.admin-topbar a { color: <?= htmlspecialchars($topbar_settings['topbar_link_color']) ?>; text-decoration: none; }
+.admin-topbar a:hover { color: <?= htmlspecialchars($topbar_settings['topbar_text_color']) ?>; opacity: 0.85; }
+.admin-topbar .bi { color: <?= htmlspecialchars($topbar_settings['topbar_text_color']) ?>; opacity: 0.9; }
+
+/* Municipality Badge Styling */
+.admin-topbar .municipality-badge {
+  background: rgba(<?= "$r,$g,$b" ?>,.15);
+  padding: 3px 10px 3px 3px;
+  border-radius: 20px;
+  border: 1px solid rgba(<?= "$r,$g,$b" ?>,.25);
+  transition: all 0.3s ease;
+}
+.admin-topbar .municipality-badge:hover {
+  background: rgba(<?= "$r,$g,$b" ?>,.25);
+  border-color: rgba(<?= "$r,$g,$b" ?>,.4);
+}
+.admin-topbar .municipality-logo {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  border-radius: 50%;
+  background: white;
+  padding: 2px;
+  box-shadow: 0 2px 4px rgba(0,0,0,.2);
+}
+.admin-topbar .municipality-name {
+  font-weight: 600;
+  color: <?= htmlspecialchars($topbar_settings['topbar_text_color']) ?>;
+  font-size: 0.8rem;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 767.98px) {
+  .admin-topbar { font-size: 0.7rem; }
+  .admin-topbar .container-fluid {
+    gap: 0.4rem !important;
+    row-gap: 0.35rem;
+    justify-content: center !important;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    min-height: 40px;
+  }
+  .admin-topbar .d-flex.align-items-center.gap-3 {
+    gap: 0.4rem !important;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .admin-topbar a {
+    word-break: break-all;
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  /* Hide non-essential items on mobile */
+  .admin-topbar [data-topbar-email],
+  .admin-topbar .bi-envelope,
+  .admin-topbar [data-topbar-phone],
+  .admin-topbar .bi-telephone,
+  .admin-topbar [data-topbar-hours],
+  .admin-topbar [data-topbar-hours-mobile],
+  .admin-topbar .vr { display: none !important; }
+  .admin-topbar .municipality-badge { padding: 2px 6px 2px 2px; }
+  .admin-topbar .municipality-logo { width: 22px; height: 22px; }
+  .admin-topbar .municipality-name { font-size: 0.7rem; max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+}
+
+/* Tablet optimization (768px-991px) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .admin-topbar .municipality-badge { padding: 3px 8px 3px 3px; }
+  .admin-topbar .municipality-logo { width: 26px; height: 26px; }
+  .admin-topbar .municipality-name { font-size: 0.75rem; }
+  .admin-topbar-info { font-size: 0.8rem; }
+  .admin-topbar-info i { font-size: 0.85rem; }
+}
+</style>
+
 <div class="admin-topbar" id="adminTopbar" data-topbar-container>
   <div class="container-fluid d-flex align-items-center justify-content-between gap-3 flex-wrap">
     <div class="d-flex align-items-center gap-3 small">
@@ -143,147 +246,23 @@ if (isset($connection)) {
   </div>
 </div>
 
-<style>
-.admin-topbar {
-  background: <?= htmlspecialchars($topbar_background_css, ENT_QUOTES) ?>;
-  color: <?= htmlspecialchars($topbar_settings['topbar_text_color']) ?>;
-  font-size:0.775rem;
-  z-index:1050;
-  position:fixed;top:0;left:0;right:0;
-  min-height:52px;
-  box-shadow:0 2px 4px rgba(0,0,0,.15);
-}
-.admin-topbar .container-fluid{
-  min-height:52px;
-  display:flex;
-  align-items:center;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-}
-.admin-topbar a{color: <?= htmlspecialchars($topbar_settings['topbar_link_color']) ?>;text-decoration:none;}
-.admin-topbar a:hover{color: <?= htmlspecialchars($topbar_settings['topbar_text_color']) ?>;opacity:0.85;}
-.admin-topbar .bi{color: <?= htmlspecialchars($topbar_settings['topbar_text_color']) ?>;opacity:0.9;}
-
-/* Mobile responsive adjustments */
-@media (max-width: 767.98px) {
-  .admin-topbar {
-    font-size: 0.7rem;
-  }
-  .admin-topbar .container-fluid {
-    gap: 0.4rem !important;
-    row-gap: 0.35rem;
-    justify-content: center !important;
-    padding-top: 6px;
-    padding-bottom: 6px;
-    min-height: 40px;
-  }
-  .admin-topbar .d-flex.align-items-center.gap-3 {
-    gap: 0.4rem !important;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  .admin-topbar a {
-    word-break: break-all;
-    max-width: 180px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  /* Hide non-essential items on mobile: email, phone, hours, separators */
-  .admin-topbar [data-topbar-email],
-  .admin-topbar .bi-envelope,
-  .admin-topbar [data-topbar-phone],
-  .admin-topbar .bi-telephone,
-  .admin-topbar [data-topbar-hours],
-  .admin-topbar [data-topbar-hours-mobile],
-  .admin-topbar .vr { display: none !important; }
-}
-
-/* Municipality Badge Styling */
-<?php
-// Create semi-transparent background based on text color
-$text_color = $topbar_settings['topbar_text_color'];
-// Extract RGB from hex
-$r = hexdec(substr($text_color, 1, 2));
-$g = hexdec(substr($text_color, 3, 2));
-$b = hexdec(substr($text_color, 5, 2));
-?>
-.admin-topbar .municipality-badge {
-  background: rgba(<?= "$r,$g,$b" ?>,.15);
-  padding: 3px 10px 3px 3px;
-  border-radius: 20px;
-  border: 1px solid rgba(<?= "$r,$g,$b" ?>,.25);
-  transition: all 0.3s ease;
-}
-.admin-topbar .municipality-badge:hover {
-  background: rgba(<?= "$r,$g,$b" ?>,.25);
-  border-color: rgba(<?= "$r,$g,$b" ?>,.4);
-}
-.admin-topbar .municipality-logo {
-  width: 28px;
-  height: 28px;
-  object-fit: contain;
-  border-radius: 50%;
-  background: white;
-  padding: 2px;
-  box-shadow: 0 2px 4px rgba(0,0,0,.2);
-}
-.admin-topbar .municipality-name {
-  font-weight: 600;
-  color: <?= htmlspecialchars($topbar_settings['topbar_text_color']) ?>;
-  font-size: 0.8rem;
-}
-
-/* Tablet optimization for municipality badge (768px-991px) */
-@media (min-width: 768px) and (max-width: 991.98px) {
-  .admin-topbar .municipality-badge {
-    padding: 3px 8px 3px 3px;
-  }
-  .admin-topbar .municipality-logo {
-    width: 26px;
-    height: 26px;
-  }
-  .admin-topbar .municipality-name {
-    font-size: 0.75rem;
-  }
-  .admin-topbar-info {
-    font-size: 0.8rem;
-  }
-  .admin-topbar-info i {
-    font-size: 0.85rem;
-  }
-}
-
-/* Mobile optimization for municipality badge */
-@media (max-width: 767.98px) {
-  .admin-topbar .municipality-badge {
-    padding: 2px 6px 2px 2px;
-  }
-  .admin-topbar .municipality-logo {
-    width: 22px;
-    height: 22px;
-  }
-  .admin-topbar .municipality-name {
-    font-size: 0.7rem;
-    max-width: 100px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-}
-
-</style>
 <script>
-// Sync --admin-topbar-h to actual rendered height so header aligns perfectly
-document.addEventListener('DOMContentLoaded', function(){
-  var bar = document.getElementById('adminTopbar');
-  if(bar){
-    var setVar = function(){
-      var h = bar.getBoundingClientRect().height;
-      document.documentElement.style.setProperty('--admin-topbar-h', h + 'px');
-    };
-    setVar();
-    window.addEventListener('resize', setVar);
+(function () {
+  function updateTopbarHeight() {
+    var topbar = document.getElementById('adminTopbar');
+    if (!topbar) { return; }
+    var height = topbar.offsetHeight;
+    if (height > 0) {
+      document.documentElement.style.setProperty('--admin-topbar-h', height + 'px');
+    }
   }
-});
+
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    updateTopbarHeight();
+  } else {
+    document.addEventListener('DOMContentLoaded', updateTopbarHeight);
+  }
+
+  window.addEventListener('resize', updateTopbarHeight);
+})();
 </script>
