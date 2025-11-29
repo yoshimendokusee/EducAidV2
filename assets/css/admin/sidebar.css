@@ -46,17 +46,7 @@ html.sidebar-closed-initial .home-section {
   backface-visibility: hidden;
 }
 
-/* Mobile: sidebar covers entire screen including topbar when open */
-@media (max-width: 768px) {
-  .sidebar {
-    top: 0;
-    height: 100vh;
-    z-index: 1060; /* above topbar (1050) and header (1030) */
-    /* Use translate3d to leverage GPU during JS-driven animations */
-    transform: translate3d(-100%, 0, 0);
-    /* transition removed - animations are driven by JS requestAnimationFrame */
-  }
-}
+/* Old 768px rule removed - consolidated into 991.98px block below */
 
 .sidebar.close { width: 70px; }
 
@@ -404,7 +394,7 @@ html.sidebar-closed-initial .home-section {
 
   .sidebar-backdrop {
     display: block;
-    z-index: 1060; /* Below sidebar (1080) but above topbar (1050) */
+    z-index: 1070; /* Above topbar (1050) and header (1030), but below sidebar (1080) */
     will-change: opacity;
     backface-visibility: hidden;
   }

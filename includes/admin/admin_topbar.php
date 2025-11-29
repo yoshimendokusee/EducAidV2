@@ -172,15 +172,15 @@ $b = hexdec(substr($text_color, 5, 2));
 @media (max-width: 767.98px) {
   .admin-topbar { font-size: 0.7rem; }
   .admin-topbar .container-fluid {
-    gap: 0.4rem !important;
-    row-gap: 0.35rem;
+    gap: 0.5rem !important;
+    row-gap: 0.5rem;
     justify-content: center !important;
-    padding-top: 6px;
-    padding-bottom: 6px;
-    min-height: 40px;
+    min-height: 44px;
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
   }
   .admin-topbar .d-flex.align-items-center.gap-3 {
-    gap: 0.4rem !important;
+    gap: 0.5rem !important;
     flex-wrap: wrap;
     justify-content: center;
   }
@@ -191,17 +191,14 @@ $b = hexdec(substr($text_color, 5, 2));
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  /* Hide non-essential items on mobile */
-  .admin-topbar [data-topbar-email],
-  .admin-topbar .bi-envelope,
-  .admin-topbar [data-topbar-phone],
-  .admin-topbar .bi-telephone,
-  .admin-topbar [data-topbar-hours],
-  .admin-topbar [data-topbar-hours-mobile],
-  .admin-topbar .vr { display: none !important; }
-  .admin-topbar .municipality-badge { padding: 2px 6px 2px 2px; }
-  .admin-topbar .municipality-logo { width: 22px; height: 22px; }
-  .admin-topbar .municipality-name { font-size: 0.7rem; max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+}
+
+/* Small mobile - slightly more compact */
+@media (max-width: 479.98px) {
+  .admin-topbar { font-size: 0.65rem; }
+  .admin-topbar .container-fluid {
+    min-height: 40px;
+  }
 }
 
 /* Tablet optimization (768px-991px) */
@@ -229,16 +226,6 @@ $b = hexdec(substr($text_color, 5, 2));
       <span class="d-none d-sm-inline" data-topbar-phone><?= htmlspecialchars($topbar_settings['topbar_phone']) ?></span>
     </div>
     <div class="d-flex align-items-center gap-3 small">
-      <?php if ($active_municipality_logo && $active_municipality_name): ?>
-        <div class="d-flex align-items-center gap-2 municipality-badge">
-          <img src="<?= htmlspecialchars($active_municipality_logo) ?>" 
-               alt="<?= htmlspecialchars($active_municipality_name) ?>" 
-               class="municipality-logo"
-               onerror="this.style.display='none'">
-          <span class="municipality-name"><?= htmlspecialchars($active_municipality_name) ?></span>
-        </div>
-        <span class="vr mx-2 d-none d-md-inline"></span>
-      <?php endif; ?>
       <i class="bi bi-clock"></i>
       <span class="d-none d-md-inline" data-topbar-hours><?= htmlspecialchars($topbar_settings['topbar_office_hours']) ?></span>
       <span class="d-md-none" data-topbar-hours-mobile>Office Hours</span>

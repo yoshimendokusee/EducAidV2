@@ -1206,7 +1206,6 @@ document.addEventListener('DOMContentLoaded', function(){
 });
 </script>
 
-</style>
 <!-- No longer needed - Edit Landing Page moved to Content Areas -->
 <script>
 // Legacy modal functionality removed

@@ -67,7 +67,7 @@ if (!function_exists('truncateMessage')) {
         <div class="sidebar-toggle me-2">
             <i class="bi bi-list" id="menu-toggle" aria-label="Toggle Sidebar" role="button" tabindex="0"></i>
         </div>
-        <h5 class="mb-0 fw-semibold d-none d-md-inline text-success-emphasis">Dashboard</h5>
+        <h5 class="mb-0 fw-semibold d-none d-lg-inline text-success-emphasis">Dashboard</h5>
       </div>
       <div class="admin-header-actions">
         <button class="admin-icon-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="Notifications" data-unread-count="<?=$unreadNotificationCount?>">
@@ -164,7 +164,7 @@ $__hdr = educaid_get_header_theme($connection ?? null);
   top: var(--admin-topbar-h, 52px);
   left: 250px;
   right: 0;
-  width: calc(100% - 250px);
+  /* Use auto width - right:0 handles the sizing */
   height: 56px;
   color: <?= htmlspecialchars($__hdr['header_text_color']) ?>;
   overflow: visible;
@@ -172,13 +172,23 @@ $__hdr = educaid_get_header_theme($connection ?? null);
 }
 .sidebar.close ~ .admin-main-header {
   left: 70px;
-  width: calc(100% - 70px);
 }
 @media (max-width:991.98px){
   .admin-main-header {
     left: 0 !important;
     right: 0;
     width: 100% !important;
+    /* Keep default z-index (1030) so backdrop (1070) covers it */
+  }
+  /* Only the burger menu stays above the overlay */
+  .admin-main-header .sidebar-toggle {
+    position: fixed;
+    top: calc(var(--admin-topbar-h, 52px) + 10px);
+    left: 16px;
+    z-index: 1075;
+    background: rgba(255,255,255,0.95);
+    border-radius: 8px;
+    padding: 2px;
   }
 }
 .admin-main-header .container-fluid{height:100%;}
@@ -189,7 +199,7 @@ $__hdr = educaid_get_header_theme($connection ?? null);
 .admin-icon-btn:hover{background:<?= htmlspecialchars($__hdr['header_hover_bg']) ?>;border-color:<?= htmlspecialchars($__hdr['header_hover_bg']) ?>;color:<?= htmlspecialchars($__hdr['header_hover_icon_color']) ?>;}
 .admin-icon-btn .badge{position:absolute;top:-6px;right:-6px;font-size:.55rem;}
 #menu-toggle{font-size:30px;cursor:pointer;color:<?= htmlspecialchars($__hdr['header_icon_color']) ?>;border-radius:8px;padding:4px 8px;transition:.2s;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;touch-action:manipulation;}#menu-toggle:hover{background:<?= htmlspecialchars($__hdr['header_hover_bg']) ?>;color:<?= htmlspecialchars($__hdr['header_hover_icon_color']) ?>;}#menu-toggle:active{transform:scale(0.95);}
-.sidebar-toggle{display:inline-block;z-index:1070;position:relative;}
+.sidebar-toggle{display:inline-block;position:relative;z-index:1075;}
 .admin-main-header h5, .admin-main-header .dropdown-menu, .admin-main-header .admin-header-left span { color: <?= htmlspecialchars($__hdr['header_text_color']) ?>; }
 
 /* Enhanced notification dropdown styling */

@@ -3,7 +3,7 @@
 // Apply initial sidebar state before DOMContentLoaded to prevent flash
 (function() {
   function isMobile() {
-    return window.innerWidth <= 768;
+    return window.innerWidth <= 992; // Match CSS breakpoint 991.98px
   }
   
   // Set initial state as early as possible
@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function isMobile() {
-    return window.innerWidth <= 768;
+    return window.innerWidth <= 992; // Match CSS breakpoint 991.98px
   }
 
   const header = document.querySelector('.admin-main-header');
