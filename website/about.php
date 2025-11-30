@@ -282,19 +282,19 @@ include __DIR__ . '/../includes/website/cookie_consent.php';
             <div class="d-flex flex-column gap-2">
               <div class="d-flex gap-2">
                 <i class="bi bi-envelope text-primary"></i>
-                <span data-lp-key="about_contact_email"<?php echo about_block_style('about_contact_email'); ?>><?php echo about_block('about_contact_email','educaid@generaltrias.gov.ph'); ?></span>
+                <span><?php echo about_get_contact('contact_email'); ?></span>
               </div>
               <div class="d-flex gap-2">
                 <i class="bi bi-telephone text-primary"></i>
-                <span data-lp-key="about_contact_phone"<?php echo about_block_style('about_contact_phone'); ?>><?php echo about_block('about_contact_phone','(046) 886-4454'); ?></span>
+                <span><?php echo about_get_contact('contact_phone'); ?></span>
               </div>
               <div class="d-flex gap-2">
                 <i class="bi bi-geo-alt text-primary"></i>
-                <span data-lp-key="about_contact_address"<?php echo about_block_style('about_contact_address'); ?>><?php echo about_block('about_contact_address','City Government of General Trias, Cavite'); ?></span>
+                <span><?php echo about_get_contact('contact_address'); ?></span>
               </div>
               <div class="d-flex gap-2">
                 <i class="bi bi-clock text-primary"></i>
-                <span data-lp-key="about_contact_hours"<?php echo about_block_style('about_contact_hours'); ?>><?php echo about_block('about_contact_hours','Monday - Friday, 8:00 AM - 5:00 PM'); ?></span>
+                <span><?php echo about_get_contact('office_hours'); ?></span>
               </div>
             </div>
             <div class="mt-3 pt-3 border-top">

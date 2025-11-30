@@ -3,6 +3,7 @@
  * Dynamic Footer - Modular Component
  * CMS-Controlled footer for all website pages
  * Reads settings from footer_settings table
+ * Contact info pulled from municipalities table (centralized source)
  */
 
 // Ensure database connection
@@ -20,9 +21,9 @@ $footer_settings = [
     'footer_divider_color' => '#ffffff',
     'footer_title' => 'EducAid • General Trias',
     'footer_description' => 'Let\'s join forces for a more progressive GenTrias.',
-    'contact_address' => '123 Education Street, Academic City',
-    'contact_phone' => '+1 (555) 123-4567',
-    'contact_email' => 'info@educaid.com'
+    'contact_address' => 'General Trias City Hall, Cavite',
+    'contact_phone' => '(046) 886-4454',
+    'contact_email' => 'educaid@generaltrias.gov.ph'
 ];
 
 // Load settings from database
@@ -36,6 +37,21 @@ if (isset($connection)) {
             if ($value !== null && $value !== '') {
                 $footer_settings[$key] = $value;
             }
+        }
+    }
+    
+    // Fetch unified contact info from municipalities table (centralized source)
+    // This ensures footer displays consistent contact info managed in Municipality Content Hub
+    $checkContactQuery = @pg_query($connection, "SELECT column_name FROM information_schema.columns WHERE table_name = 'municipalities' AND column_name = 'contact_phone' LIMIT 1");
+    if ($checkContactQuery && pg_num_rows($checkContactQuery) > 0) {
+        $contactQuery = @pg_query_params($connection, 
+            "SELECT contact_phone, contact_email, contact_address, office_hours FROM municipalities WHERE municipality_id = $1 LIMIT 1", 
+            [1]
+        );
+        if ($contactQuery && ($contactRow = pg_fetch_assoc($contactQuery))) {
+            if (!empty($contactRow['contact_phone'])) $footer_settings['contact_phone'] = $contactRow['contact_phone'];
+            if (!empty($contactRow['contact_email'])) $footer_settings['contact_email'] = $contactRow['contact_email'];
+            if (!empty($contactRow['contact_address'])) $footer_settings['contact_address'] = $contactRow['contact_address'];
         }
     }
 }
@@ -142,7 +158,7 @@ if (isset($connection)) {
     <hr class="border-light my-4" />
     <div class="d-flex justify-content-between flex-wrap gap-2 small">
       <span>© <span id="year"><?= date('Y') ?></span> City Government of General Trias • EducAid</span>
-      <span>Powered by the Office of the Mayor • IT</span>
+      <span>Developed by <strong>CTRL+Solutions</strong></span>
     </div>
   </div>
 </footer>

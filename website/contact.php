@@ -304,16 +304,14 @@ $pageType = $seoData['type'];
         <div class="info-card h-100 text-center">
           <div class="mb-3"><i class="bi bi-telephone-fill text-success" style="font-size:2.5rem;"></i></div>
           <?php contact_block('call_title', 'Call Us', 'h5', 'fw-bold mb-2'); ?>
-          <?php contact_block('call_primary', '(046) 886-4454', 'p', 'small mb-1'); ?>
-          <?php contact_block('call_secondary', '(046) 509-5555 (Operator)', 'p', 'small text-body-secondary mb-0'); ?>
+          <?php contact_block('call_primary', '(046) 886-4454', 'p', 'small mb-0'); ?>
         </div>
       </div>
       <div class="col-md-4">
         <div class="info-card h-100 text-center">
           <div class="mb-3"><i class="bi bi-envelope-fill text-danger" style="font-size:2.5rem;"></i></div>
           <?php contact_block('email_title', 'Email Us', 'h5', 'fw-bold mb-2'); ?>
-          <?php contact_block('email_primary', 'educaid@generaltrias.gov.ph', 'p', 'small mb-1'); ?>
-          <?php contact_block('email_secondary', 'support@ (coming soon)', 'p', 'small text-body-secondary mb-0'); ?>
+          <?php contact_block('email_primary', 'educaid@generaltrias.gov.ph', 'p', 'small mb-0'); ?>
         </div>
       </div>
     </div>

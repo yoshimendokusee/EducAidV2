@@ -28,6 +28,14 @@ if ($current_admin_role !== 'super_admin') {
 $csrfTokenCreateAdmin = CSRFProtection::generateToken('create_admin');
 $csrfTokenToggleStatus = CSRFProtection::generateToken('toggle_admin_status');
 
+// Super Admin limit constant
+define('MAX_SUPER_ADMINS', 3);
+
+// Count current super admins
+$superAdminCountQuery = pg_query($connection, "SELECT COUNT(*) as count FROM admins WHERE role = 'super_admin'");
+$superAdminCount = (int) pg_fetch_result($superAdminCountQuery, 0, 'count');
+$superAdminLimitReached = $superAdminCount >= MAX_SUPER_ADMINS;
+
 // Handle form submissions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['create_admin'])) {
@@ -44,7 +52,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $password = $_POST['password'];
             $role = $_POST['role'];
             
-            if (strlen($password) < 6) {
+            // Check super admin limit before creating
+            if ($role === 'super_admin' && $superAdminLimitReached) {
+                $error = "Cannot create Super Admin. Maximum limit of " . MAX_SUPER_ADMINS . " Super Admins has been reached.";
+            } elseif (strlen($password) < 6) {
                 $error = "Password must be at least 6 characters.";
             } else {
                 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
@@ -54,6 +65,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $result = pg_query_params($connection, $insertQuery, [$municipality_id, $first_name, $middle_name, $last_name, $email, $username, $hashed_password, $role]);
                 
                 if ($result) {
+                    // Update super admin count if we just created one
+                    if ($role === 'super_admin') {
+                        $superAdminCount++;
+                        $superAdminLimitReached = $superAdminCount >= MAX_SUPER_ADMINS;
+                    }
+                    
                     // Add admin notification
                     $notification_msg = "New " . ($role === 'super_admin' ? 'Super Admin' : 'Sub Admin') . " created: " . $first_name . " " . $last_name . " (" . $username . ")";
                     pg_query_params($connection, "INSERT INTO admin_notifications (message) VALUES ($1)", [$notification_msg]);
@@ -345,9 +362,16 @@ $admins = pg_fetch_all($adminsResult) ?: [];
                                 <label for="role" class="form-label">Role <span class="text-danger">*</span></label>
                                 <select class="form-select" id="role" name="role" required>
                                     <option value="sub_admin">Sub Admin (Limited Access)</option>
-                                    <option value="super_admin">Super Admin (Full Access)</option>
+                                    <option value="super_admin" <?php echo $superAdminLimitReached ? 'disabled' : ''; ?>>Super Admin (Full Access) <?php echo $superAdminLimitReached ? '- Limit Reached' : ''; ?></option>
                                 </select>
-                                <small class="text-muted">Choose carefully - this determines what features the admin can access</small>
+                                <small class="text-muted">
+                                    Choose carefully - this determines what features the admin can access.
+                                    <?php if ($superAdminLimitReached): ?>
+                                    <br><span class="text-warning"><i class="bi bi-exclamation-triangle"></i> Super Admin limit reached (<?php echo $superAdminCount; ?>/<?php echo MAX_SUPER_ADMINS; ?>)</span>
+                                    <?php else: ?>
+                                    <br><span class="text-info"><i class="bi bi-info-circle"></i> Super Admins: <?php echo $superAdminCount; ?>/<?php echo MAX_SUPER_ADMINS; ?></span>
+                                    <?php endif; ?>
+                                </small>
                             </div>
                         </div>
                     </div>

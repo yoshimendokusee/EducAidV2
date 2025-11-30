@@ -951,6 +951,7 @@ section {
 .step {
   display: flex;
   gap: 1rem;
+  align-items: center;
 }
 .step-badge {
   flex: 0 0 42px;
@@ -961,6 +962,57 @@ section {
   place-items: center;
   font-weight: 700;
   color: var(--thm-primary);
+}
+
+.step h6 {
+  font-weight: 700;
+  color: #1e3a5f;
+  margin: 0;
+}
+
+/* Feature cards in "What is EducAid" section */
+#about .soft-card {
+  display: flex;
+  flex-direction: column;
+}
+
+#about .soft-card .d-flex.align-items-center {
+  margin-bottom: 0.5rem;
+}
+
+#about .soft-card .d-flex.align-items-center i {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+#about .soft-card .d-flex.align-items-center strong {
+  font-weight: 700;
+  color: #1e3a5f;
+  font-size: 1rem;
+}
+
+#about .soft-card p.mb-0.small {
+  font-weight: 500;
+  color: #4b5563;
+  line-height: 1.5;
+}
+
+/* Requirements section alignment */
+#requirements .soft-card ul {
+  padding-left: 0;
+}
+
+#requirements .soft-card ul li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+#requirements .soft-card ul li i.check {
+  flex-shrink: 0;
+  margin-top: 2px;
 }
 
 /* Announcements */
@@ -976,6 +1028,98 @@ section {
 /* Requirements */
 .check {
   color: var(--thm-green);
+}
+
+/* Enhanced text styling for soft-card content */
+.soft-card h6.fw-bold {
+  font-weight: 700 !important;
+  color: #1e3a5f;
+  font-size: 1rem;
+}
+
+.soft-card ul li {
+  font-weight: 500;
+  color: #374151;
+  font-size: 0.95rem;
+}
+
+.soft-card .d-flex strong {
+  font-weight: 700;
+  color: #1e3a5f;
+}
+
+.soft-card p.small {
+  font-weight: 500;
+  color: #4b5563;
+}
+
+/* Announcement modal styling */
+.announcement-modal .modal-content {
+  border-radius: 16px;
+  border: none;
+  overflow: hidden;
+}
+
+.announcement-modal .modal-header {
+  background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 100%);
+  color: white;
+  border: none;
+  padding: 1.25rem 1.5rem;
+}
+
+.announcement-modal .modal-header .btn-close {
+  filter: brightness(0) invert(1);
+  opacity: 0.8;
+}
+
+.announcement-modal .modal-header .btn-close:hover {
+  opacity: 1;
+}
+
+.announcement-modal .modal-body {
+  padding: 0;
+}
+
+.announcement-modal .ann-modal-image {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+}
+
+.announcement-modal .ann-modal-content {
+  padding: 1.5rem;
+}
+
+.announcement-modal .ann-modal-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.announcement-modal .ann-modal-meta i {
+  color: #3b82f6;
+  margin-right: 0.25rem;
+}
+
+.announcement-modal .ann-modal-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e3a5f;
+  margin-bottom: 1rem;
+}
+
+.announcement-modal .ann-modal-body {
+  color: #374151;
+  line-height: 1.7;
+  font-size: 1rem;
+}
+
+.announcement-modal .modal-footer {
+  border-top: 1px solid #e5e7eb;
+  padding: 1rem 1.5rem;
 }
 
 /* Tablet Responsive - Cards and Content Sections */

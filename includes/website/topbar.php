@@ -7,6 +7,7 @@ require_once __DIR__ . '/../../config/database.php';
 $topbar_settings = [
   'topbar_email' => 'educaid@generaltrias.gov.ph',
   'topbar_phone' => '(046) 886-4454',
+  'topbar_office_hours' => 'Mon–Fri 8:00AM - 5:00PM',
   'topbar_bg_color' => '#1565c0',
   'topbar_bg_gradient' => '#0d47a1',
   'topbar_text_color' => '#ffffff',
@@ -44,6 +45,20 @@ if (isset($connection)) {
       pg_free_result($result);
     }
   }
+  
+  // Fetch unified contact info from municipalities table (centralized source)
+  $checkContactQuery = @pg_query($connection, "SELECT column_name FROM information_schema.columns WHERE table_name = 'municipalities' AND column_name = 'contact_phone' LIMIT 1");
+  if ($checkContactQuery && pg_num_rows($checkContactQuery) > 0) {
+      $contactQuery = @pg_query_params($connection, 
+          "SELECT contact_phone, contact_email, office_hours FROM municipalities WHERE municipality_id = $1 LIMIT 1", 
+          [$muni_id]
+      );
+      if ($contactQuery && ($contactRow = pg_fetch_assoc($contactQuery))) {
+          if (!empty($contactRow['contact_phone'])) $topbar_settings['topbar_phone'] = $contactRow['contact_phone'];
+          if (!empty($contactRow['contact_email'])) $topbar_settings['topbar_email'] = $contactRow['contact_email'];
+          if (!empty($contactRow['office_hours'])) $topbar_settings['topbar_office_hours'] = $contactRow['office_hours'];
+      }
+  }
 }
 
 $bg_color = $topbar_settings['topbar_bg_color'] ?? '#1565c0';
@@ -55,17 +70,21 @@ $topbar_background_css = ($bg_gradient && trim($bg_gradient) !== '')
 <div class="landing-topbar">
   <div class="container-fluid d-flex align-items-center justify-content-center justify-content-md-between gap-3 flex-wrap">
     <div class="d-flex align-items-center gap-3 small flex-wrap justify-content-center">
-      <i class="bi bi-envelope"></i>
-      <a href="mailto:<?= htmlspecialchars($topbar_settings['topbar_email']) ?>">
-        <?= htmlspecialchars($topbar_settings['topbar_email']) ?>
-      </a>
-      <span class="vr mx-2 d-none d-lg-inline"></span>
-      <i class="bi bi-telephone"></i>
-      <span class="d-none d-sm-inline">
-        <?= htmlspecialchars($topbar_settings['topbar_phone']) ?>
+      <span class="d-flex align-items-center gap-1">
+        <i class="bi bi-envelope"></i>
+        <a href="mailto:<?= htmlspecialchars($topbar_settings['topbar_email']) ?>">
+          <?= htmlspecialchars($topbar_settings['topbar_email']) ?>
+        </a>
       </span>
-      <span class="d-sm-none">
-        <?= htmlspecialchars($topbar_settings['topbar_phone']) ?>
+      <span class="vr mx-1 d-none d-md-inline"></span>
+      <span class="d-flex align-items-center gap-1">
+        <i class="bi bi-telephone"></i>
+        <span><?= htmlspecialchars($topbar_settings['topbar_phone']) ?></span>
+      </span>
+      <span class="vr mx-1 d-none d-md-inline"></span>
+      <span class="d-none d-md-flex align-items-center gap-1">
+        <i class="bi bi-clock"></i>
+        <span><?= htmlspecialchars($topbar_settings['topbar_office_hours']) ?></span>
       </span>
     </div>
   </div>

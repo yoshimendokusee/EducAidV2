@@ -535,13 +535,16 @@ $pageType = $seoData['type'];
               $aid = (int)$a['announcement_id'];
               $title = lp_esc($a['title']);
               $posted = date('M d', strtotime($a['posted_at']));
+              $postedFull = date('F d, Y', strtotime($a['posted_at']));
               $remarks = lp_truncate($a['remarks'] ?? '', 110);
+              $remarksFull = lp_esc($a['remarks'] ?? '');
               $img = !empty($a['image_path']) ? '../'.lp_esc($a['image_path']) : 'https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=800&auto=format&fit=crop';
               $eventLine = lp_event_line($a);
+              $eventLineFull = lp_event_line($a);
               if(strlen($eventLine) > 26){ $eventLine = substr($eventLine,0,24).'…'; }
               $locLine = !empty($a['location']) ? lp_esc($a['location']) : '';
               echo '<div class="col-12 col-md-4 fade-in">';
-              echo '<div class="ann-compact-card">';
+              echo '<div class="ann-compact-card" role="button" onclick="openAnnouncementModal('.$aid.')" data-ann-id="'.$aid.'" data-ann-title="'.htmlspecialchars($title, ENT_QUOTES).'" data-ann-date="'.$postedFull.'" data-ann-event="'.htmlspecialchars($eventLineFull, ENT_QUOTES).'" data-ann-location="'.htmlspecialchars($locLine, ENT_QUOTES).'" data-ann-remarks="'.htmlspecialchars($remarksFull, ENT_QUOTES).'" data-ann-image="'.$img.'" style="cursor: pointer;">';
               if($a['is_active'] === 't' || $a['is_active'] === true){ echo '<span class="badge bg-success ann-compact-badge">Active</span>'; }
               echo '<img src="'.$img.'" alt="Announcement image" class="ann-compact-thumb" />';
               echo '<div class="ann-compact-body">';
@@ -549,7 +552,7 @@ $pageType = $seoData['type'];
               echo '<h6 class="ann-compact-title">'.$title.'</h6>';
               if($locLine){ echo '<div class="ann-compact-location"><i class="bi bi-geo-alt"></i><span>'.$locLine.'</span></div>'; }
               echo '<p class="ann-compact-remarks">'.lp_esc($remarks).'</p>';
-              echo '<a class="ann-compact-link" href="announcements.php?id='.$aid.'">Full details <i class="bi bi-arrow-right-short"></i></a>';
+              echo '<span class="ann-compact-link">View details <i class="bi bi-arrow-right-short"></i></span>';
               echo '</div></div></div>';
             }
           }
@@ -1086,6 +1089,81 @@ document.addEventListener('DOMContentLoaded', () => {
 <?php endif; ?>
 
 <?php include __DIR__ . '/../includes/website/anti_fouc_scripts.php'; ?>
+
+<!-- Announcement Preview Modal -->
+<div class="modal fade announcement-modal" id="announcementModal" tabindex="-1" aria-labelledby="announcementModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="announcementModalLabel">
+          <i class="bi bi-megaphone me-2"></i>Announcement
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <img src="" alt="Announcement image" class="ann-modal-image" id="annModalImage">
+        <div class="ann-modal-content">
+          <div class="ann-modal-meta">
+            <span id="annModalDate"><i class="bi bi-calendar3"></i> <span></span></span>
+            <span id="annModalEvent" style="display: none;"><i class="bi bi-clock"></i> <span></span></span>
+            <span id="annModalLocation" style="display: none;"><i class="bi bi-geo-alt"></i> <span></span></span>
+          </div>
+          <h4 class="ann-modal-title" id="annModalTitle"></h4>
+          <div class="ann-modal-body" id="annModalRemarks"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn btn-primary" id="annModalFullLink">
+          <i class="bi bi-box-arrow-up-right me-1"></i>View Full Page
+        </a>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function openAnnouncementModal(announcementId) {
+  const card = document.querySelector('[data-ann-id="' + announcementId + '"]');
+  if (!card) return;
+  
+  const title = card.dataset.annTitle || 'Announcement';
+  const date = card.dataset.annDate || '';
+  const event = card.dataset.annEvent || '';
+  const location = card.dataset.annLocation || '';
+  const remarks = card.dataset.annRemarks || '';
+  const image = card.dataset.annImage || '';
+  
+  // Populate modal
+  document.getElementById('annModalTitle').textContent = title;
+  document.getElementById('annModalDate').querySelector('span').textContent = date;
+  document.getElementById('annModalImage').src = image;
+  document.getElementById('annModalRemarks').innerHTML = remarks.replace(/\n/g, '<br>');
+  document.getElementById('annModalFullLink').href = 'announcements.php?id=' + announcementId;
+  
+  // Show/hide event time
+  const eventEl = document.getElementById('annModalEvent');
+  if (event) {
+    eventEl.querySelector('span').textContent = event;
+    eventEl.style.display = 'inline';
+  } else {
+    eventEl.style.display = 'none';
+  }
+  
+  // Show/hide location
+  const locationEl = document.getElementById('annModalLocation');
+  if (location) {
+    locationEl.querySelector('span').textContent = location;
+    locationEl.style.display = 'inline';
+  } else {
+    locationEl.style.display = 'none';
+  }
+  
+  // Open modal
+  const modal = new bootstrap.Modal(document.getElementById('announcementModal'));
+  modal.show();
+}
+</script>
 
 </body>
 </html>

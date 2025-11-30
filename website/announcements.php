@@ -375,12 +375,21 @@ include __DIR__ . '/../includes/website/critical_css.php';
       if(a.event_date){ try{ const d=new Date(a.event_date); if(!isNaN(d)) eventParts.push(d.toLocaleDateString('en-US',{month:'short', day:'2-digit', year:'numeric'})); }catch(e){} }
       if(a.event_time){ const tm=(a.event_time||'').substring(0,5); const [H,M]=tm.split(':'); if(H!==undefined){ let h=parseInt(H); const ampm=h>=12?'PM':'AM'; h=h%12||12; eventParts.push(`${h}:${M} ${ampm}`); } }
       const eventLine = eventParts.join(' • ');
-      const link = document.createElement('a');
-      link.href = `announcements.php?id=${encodeURIComponent(a.announcement_id)}&page=${currentPage}`;
-      link.className = 'ann-card-link';
-      link.innerHTML = `
-        <article class="ann-card fade-in">
-          <img src="${img}" alt="Announcement image" style="cursor: pointer;" onclick="event.preventDefault(); event.stopPropagation(); showImageModal('${img}', '${escapeHtml(a.title||'')}');" />
+      const postedDate = new Date(a.posted_at).toLocaleDateString('en-US',{month:'long', day:'2-digit', year:'numeric'});
+      
+      const card = document.createElement('div');
+      card.className = 'ann-card-wrapper';
+      card.innerHTML = `
+        <article class="ann-card fade-in" role="button" style="cursor: pointer;"
+          data-ann-id="${a.announcement_id}"
+          data-ann-title="${escapeHtml(a.title||'')}"
+          data-ann-date="${postedDate}"
+          data-ann-event="${escapeHtml(eventLine)}"
+          data-ann-location="${escapeHtml(a.location||'')}"
+          data-ann-remarks="${escapeHtml(a.remarks||'')}"
+          data-ann-image="${img}"
+          onclick="openAnnouncementModal(this)">
+          <img src="${img}" alt="Announcement image" />
           <div class="ann-card-body">
             <div class="ann-date">${new Date(a.posted_at).toLocaleDateString('en-US',{month:'short', day:'2-digit', year:'numeric'})}${(a.is_active==='t'||a.is_active===true)? ' <span class=\'badge bg-success ms-1\'>Active</span>':''}</div>
             <h6 class="ann-title">${escapeHtml(a.title||'')}</h6>
@@ -389,8 +398,8 @@ include __DIR__ . '/../includes/website/critical_css.php';
             <p class="ann-remarks mb-0">${escapeHtml(truncate((a.remarks||'').toString(),140))}</p>
           </div>
         </article>`;
-      requestAnimationFrame(()=> link.querySelector('.ann-card').classList.add('visible'));
-      return link;
+      requestAnimationFrame(()=> card.querySelector('.ann-card').classList.add('visible'));
+      return card;
     }
     function truncate(t,l){ t=t.trim(); return t.length>l? t.substring(0,l)+'…': t; }
     function escapeHtml(str){ return (str||'').replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c])); }
@@ -483,11 +492,82 @@ document.addEventListener('DOMContentLoaded', () => {
   </div>
 </div>
 
+<!-- Announcement Preview Modal -->
+<div class="modal fade announcement-modal" id="announcementModal" tabindex="-1" aria-labelledby="announcementModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header" style="background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 100%); color: white; border: none; padding: 1.25rem 1.5rem;">
+        <h5 class="modal-title" id="announcementModalLabel">
+          <i class="bi bi-megaphone me-2"></i>Announcement
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: brightness(0) invert(1);"></button>
+      </div>
+      <div class="modal-body p-0">
+        <img src="" alt="Announcement image" style="width: 100%; max-height: 300px; object-fit: cover;" id="annModalImage">
+        <div style="padding: 1.5rem;">
+          <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem; font-size: 0.875rem; color: #6b7280;">
+            <span id="annModalDate"><i class="bi bi-calendar3 text-primary me-1"></i><span></span></span>
+            <span id="annModalEvent" style="display: none;"><i class="bi bi-clock text-primary me-1"></i><span></span></span>
+            <span id="annModalLocation" style="display: none;"><i class="bi bi-geo-alt text-primary me-1"></i><span></span></span>
+          </div>
+          <h4 style="font-size: 1.5rem; font-weight: 700; color: #1e3a5f; margin-bottom: 1rem;" id="annModalTitle"></h4>
+          <div style="color: #374151; line-height: 1.7; font-size: 1rem;" id="annModalRemarks"></div>
+        </div>
+      </div>
+      <div class="modal-footer" style="border-top: 1px solid #e5e7eb; padding: 1rem 1.5rem;">
+        <a href="#" class="btn btn-primary" id="annModalFullLink">
+          <i class="bi bi-box-arrow-up-right me-1"></i>View Full Page
+        </a>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 function showImageModal(imageSrc, title) {
   const modal = new bootstrap.Modal(document.getElementById('imageModal'));
   document.getElementById('modalImage').src = imageSrc;
   document.getElementById('imageModalLabel').textContent = title || 'Announcement Image';
+  modal.show();
+}
+
+function openAnnouncementModal(cardElement) {
+  const title = cardElement.dataset.annTitle || 'Announcement';
+  const date = cardElement.dataset.annDate || '';
+  const event = cardElement.dataset.annEvent || '';
+  const location = cardElement.dataset.annLocation || '';
+  const remarks = cardElement.dataset.annRemarks || '';
+  const image = cardElement.dataset.annImage || '';
+  const id = cardElement.dataset.annId || '';
+  
+  // Populate modal
+  document.getElementById('annModalTitle').textContent = title;
+  document.getElementById('annModalDate').querySelector('span').textContent = date;
+  document.getElementById('annModalImage').src = image;
+  document.getElementById('annModalRemarks').innerHTML = remarks.replace(/\n/g, '<br>');
+  document.getElementById('annModalFullLink').href = 'announcements.php?id=' + id;
+  
+  // Show/hide event time
+  const eventEl = document.getElementById('annModalEvent');
+  if (event) {
+    eventEl.querySelector('span').textContent = event;
+    eventEl.style.display = 'inline';
+  } else {
+    eventEl.style.display = 'none';
+  }
+  
+  // Show/hide location
+  const locationEl = document.getElementById('annModalLocation');
+  if (location) {
+    locationEl.querySelector('span').textContent = location;
+    locationEl.style.display = 'inline';
+  } else {
+    locationEl.style.display = 'none';
+  }
+  
+  // Open modal
+  const modal = new bootstrap.Modal(document.getElementById('announcementModal'));
   modal.show();
 }
 </script>
