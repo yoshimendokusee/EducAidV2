@@ -663,44 +663,34 @@ if (empty($preview_text_color)) {
           <?= CSRFProtection::getTokenField('topbar_settings') ?>
           <div class="row">
             <div class="col-12">
-              <div class="settings-card">
-                <h5 class="mb-4">
-                  <i class="bi bi-telephone-fill"></i>
-                  Topbar Contact Information
+              <!-- Contact Information Notice -->
+              <div class="settings-card" style="background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%); border-left: 4px solid #0ea5e9;">
+                <h5 class="mb-3">
+                  <i class="bi bi-telephone-fill text-info"></i>
+                  Contact Information
                 </h5>
-                
-                <div class="mb-3">
-                  <label for="topbar_email" class="form-label">Email Address <span class="text-danger">*</span></label>
-                  <div class="input-group">
-                    <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                    <input type="email" class="form-control" id="topbar_email" name="topbar_email" 
-                           value="<?= htmlspecialchars($current_settings['topbar_email']) ?>" 
-                           placeholder="educaid@generaltrias.gov.ph" required>
-                  </div>
-                  <div class="form-text">This email will be displayed in the admin topbar and used for contact purposes.</div>
+                <div class="alert alert-info mb-3" style="background: rgba(255,255,255,0.7);">
+                  <i class="bi bi-info-circle me-2"></i>
+                  <strong>Contact details are now managed centrally.</strong> 
+                  Phone, email, and office hours are configured in the Municipality Content Hub for consistency across all pages.
                 </div>
-                
-                <div class="mb-3">
-                  <label for="topbar_phone" class="form-label">Phone Number <span class="text-danger">*</span></label>
-                  <div class="input-group">
-                    <span class="input-group-text"><i class="bi bi-telephone"></i></span>
-                    <input type="text" class="form-control" id="topbar_phone" name="topbar_phone" 
-                           value="<?= htmlspecialchars($current_settings['topbar_phone']) ?>" 
-                           placeholder="(046) 886-4454" required>
+                <div class="row g-3 mb-3">
+                  <div class="col-md-4">
+                    <label class="form-label fw-semibold"><i class="bi bi-telephone me-1"></i>Phone</label>
+                    <input type="text" class="form-control" value="<?= htmlspecialchars($current_settings['topbar_phone']) ?>" readonly style="background: #f8fafc;">
                   </div>
-                  <div class="form-text">Phone number for administrative inquiries.</div>
-                </div>
-                
-                <div class="mb-0">
-                  <label for="topbar_office_hours" class="form-label">Office Hours <span class="text-danger">*</span></label>
-                  <div class="input-group">
-                    <span class="input-group-text"><i class="bi bi-clock"></i></span>
-                    <input type="text" class="form-control" id="topbar_office_hours" name="topbar_office_hours" 
-                           value="<?= htmlspecialchars($current_settings['topbar_office_hours']) ?>" 
-                           placeholder="Mon–Fri 8:00AM - 5:00PM" required>
+                  <div class="col-md-4">
+                    <label class="form-label fw-semibold"><i class="bi bi-envelope me-1"></i>Email</label>
+                    <input type="text" class="form-control" value="<?= htmlspecialchars($current_settings['topbar_email']) ?>" readonly style="background: #f8fafc;">
                   </div>
-                  <div class="form-text">Operating hours for administrative services.</div>
+                  <div class="col-md-4">
+                    <label class="form-label fw-semibold"><i class="bi bi-clock me-1"></i>Office Hours</label>
+                    <input type="text" class="form-control" value="<?= htmlspecialchars($current_settings['topbar_office_hours']) ?>" readonly style="background: #f8fafc;">
+                  </div>
                 </div>
+                <a href="municipality_content.php" class="btn btn-info btn-sm text-white">
+                  <i class="bi bi-pencil-square me-1"></i>Edit in Municipality Hub
+                </a>
               </div>
               
               <!-- Color Settings Section -->

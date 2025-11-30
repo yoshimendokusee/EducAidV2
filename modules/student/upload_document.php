@@ -2150,6 +2150,7 @@ $page_title = 'Upload Documents';
         .home-section {
             margin-left: 260px;
             padding: 2rem;
+            padding-top: calc(var(--student-header-h, 56px) + 2rem);
             min-height: 100vh;
             background: #f8f9fa;
         }
@@ -2162,15 +2163,16 @@ $page_title = 'Upload Documents';
             .home-section {
                 margin-left: 0;
                 padding: 1rem;
+                padding-top: calc(var(--student-header-h, 56px) + 1rem);
             }
         }
         
         .page-header {
             background: white;
-            border-radius: 12px;
-            padding: 1.5rem;
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
             margin-bottom: 2rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
         }
         
         .page-header h1 {
@@ -2187,25 +2189,34 @@ $page_title = 'Upload Documents';
         
         .document-card {
             background: white;
-            border: 2px solid #e9ecef;
-            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
             padding: 1.5rem;
-            margin-bottom: 1.5rem;
+            height: 100%;
             transition: all 0.3s ease;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
         }
         
         .document-card:hover {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
             transform: translateY(-2px);
         }
         
         .document-card.uploaded {
-            border-color: #10b981;
+            border-color: #bbf7d0;
             background: linear-gradient(to bottom, #f0fdf4, white);
         }
         
-        .document-card.required {
-            border-left: 4px solid #ef4444;
+        .document-card.required:not(.uploaded) {
+            /* Subtle amber background for required documents not yet uploaded */
+            background: #fffbeb;
+            border-color: #fde68a;
+        }
+        
+        .document-card.required.uploaded {
+            /* Green when required and uploaded */
+            background: linear-gradient(to bottom, #f0fdf4, white);
+            border-color: #bbf7d0;
         }
         
         .document-header {
@@ -2218,14 +2229,20 @@ $page_title = 'Upload Documents';
         .document-icon {
             width: 56px;
             height: 56px;
-            background: linear-gradient(135deg, #0068da 0%, #0056b3 100%);
-            border-radius: 12px;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 28px;
+            font-size: 24px;
             flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+        
+        .document-card.uploaded .document-icon {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
         }
         
         .document-title {
@@ -2293,19 +2310,19 @@ $page_title = 'Upload Documents';
         }
         
         .view-only-banner, .reupload-banner {
-            padding: 1.25rem;
-            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            border-radius: 16px;
             margin-bottom: 2rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
         }
         
         .view-only-banner {
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
             color: white;
         }
         
         .view-only-banner.approved {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
             color: white;
         }
         
@@ -2426,16 +2443,13 @@ $page_title = 'Upload Documents';
                         <h1><i class="bi bi-cloud-upload"></i> Upload Documents</h1>
                         <p>Manage your application documents</p>
                     </div>
-                    <div class="text-center me-3" id="realtime-indicator" style="display: none;">
+                    <div class="text-center" id="realtime-indicator" style="display: none;">
                         <small class="text-success d-block">
                             <i class="bi bi-arrow-repeat" style="animation: spin 2s linear infinite;"></i>
                             <span>Auto-updating</span>
                         </small>
                         <small class="text-muted" style="font-size: 0.7rem;">Checks every 3s</small>
                     </div>
-                    <a href="student_homepage.php" class="btn btn-outline-secondary">
-                        <i class="bi bi-arrow-left"></i> Back
-                    </a>
                 </div>
             </div>
             
@@ -2576,7 +2590,7 @@ $page_title = 'Upload Documents';
             <?php endif; ?>
             
             <!-- Document Cards -->
-            <div class="row">
+            <div class="row g-4">
                 <?php foreach ($document_types as $type_code => $type_info): ?>
                 <?php 
                     $has_document = isset($existing_documents[$type_code]);

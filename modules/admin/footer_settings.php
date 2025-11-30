@@ -660,55 +660,32 @@ include __DIR__ . '/../../includes/admin/admin_head.php';
                 </div>
               </div>
               
-              <!-- Contact Information -->
-              <div class="settings-card">
-                <h5><i class="bi bi-telephone me-2"></i>Contact Information</h5>
-                <p class="text-muted small mb-4">Display your contact details in the footer</p>
-                
-                <div class="mb-3">
-                  <label for="contact_address" class="form-label">Address</label>
-                  <div class="input-group">
-                    <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
-                    <input type="text" 
-                           class="form-control" 
-                           id="contact_address" 
-                           name="contact_address" 
-                           value="<?= htmlspecialchars($current_settings['contact_address']) ?>" 
-                           placeholder="City Hall, Address">
-                  </div>
+              <!-- Contact Information Notice -->
+              <div class="settings-card" style="background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%); border-left: 4px solid #0ea5e9;">
+                <h5><i class="bi bi-telephone me-2 text-info"></i>Contact Information</h5>
+                <div class="alert alert-info mb-3" style="background: rgba(255,255,255,0.7);">
+                  <i class="bi bi-info-circle me-2"></i>
+                  <strong>Contact details are now managed centrally.</strong> 
+                  Phone, email, and address are configured in the Municipality Content Hub for consistency across all pages.
                 </div>
                 
-                <div class="mb-3">
-                  <label for="contact_phone" class="form-label">Phone Number</label>
-                  <div class="input-group">
-                    <span class="input-group-text"><i class="bi bi-telephone"></i></span>
-                    <input type="text" 
-                           class="form-control" 
-                           id="contact_phone" 
-                           name="contact_phone" 
-                           value="<?= htmlspecialchars($current_settings['contact_phone']) ?>" 
-                           placeholder="(046) 886-4454"
-                           readonly
-                           style="background-color: #f8f9fa;">
+                <div class="row g-3 mb-3">
+                  <div class="col-md-6">
+                    <label class="form-label fw-semibold"><i class="bi bi-telephone me-1"></i>Phone</label>
+                    <input type="text" class="form-control" value="<?= htmlspecialchars($current_settings['contact_phone']) ?>" readonly style="background: #f8fafc;">
                   </div>
-                  <div class="form-text"><i class="bi bi-info-circle me-1"></i>Managed in <a href="topbar_settings.php">Topbar Settings</a> for consistency across all pages.</div>
-                </div>
-                
-                <div class="mb-0">
-                  <label for="contact_email" class="form-label">Email Address</label>
-                  <div class="input-group">
-                    <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                    <input type="email" 
-                           class="form-control" 
-                           id="contact_email" 
-                           name="contact_email" 
-                           value="<?= htmlspecialchars($current_settings['contact_email']) ?>" 
-                           placeholder="educaid@generaltrias.gov.ph"
-                           readonly
-                           style="background-color: #f8f9fa;">
+                  <div class="col-md-6">
+                    <label class="form-label fw-semibold"><i class="bi bi-envelope me-1"></i>Email</label>
+                    <input type="text" class="form-control" value="<?= htmlspecialchars($current_settings['contact_email']) ?>" readonly style="background: #f8fafc;">
                   </div>
-                  <div class="form-text"><i class="bi bi-info-circle me-1"></i>Managed in <a href="topbar_settings.php">Topbar Settings</a> for consistency across all pages.</div>
+                  <div class="col-12">
+                    <label class="form-label fw-semibold"><i class="bi bi-geo-alt me-1"></i>Address</label>
+                    <input type="text" class="form-control" value="<?= htmlspecialchars($current_settings['contact_address']) ?>" readonly style="background: #f8fafc;">
+                  </div>
                 </div>
+                <a href="municipality_content.php" class="btn btn-info btn-sm text-white">
+                  <i class="bi bi-pencil-square me-1"></i>Edit in Municipality Hub
+                </a>
               </div>
               
               <div class="d-flex gap-3 mb-4">

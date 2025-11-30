@@ -108,7 +108,7 @@ if ($has_qr_code) {
   <script src="../../assets/js/student/accessibility.js"></script>
   <style>
     body {
-      background: linear-gradient(135deg, #0068DA 0%, #0088C8 50%, #00B1C6 100%);
+      background: #f8f9fa;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       min-height: 100vh;
       margin: 0;
@@ -123,62 +123,84 @@ if ($has_qr_code) {
     
     .main-content {
       padding: 2rem;
+      padding-top: calc(var(--student-header-h, 56px) + 2rem);
       width: 100%;
       max-width: 100%;
     }
     
     .home-section {
       min-height: 100vh;
-      padding-top: 80px; /* Account for header (56px) + some spacing */
     }
     
-    /* Use shared header for nav and menu toggle styling */
-    
+    /* Modern QR Card */
     .qr-card {
       background: white;
-      border-radius: 15px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      padding: 0;
       text-align: center;
       max-width: 800px;
       width: 100%;
       margin: 0 auto;
+      overflow: hidden;
     }
     
+    .qr-card:hover {
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    
+    /* Modern Header Section */
     .student-info {
-      background: linear-gradient(135deg, #007bff, #0056b3);
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      color: #1f2937;
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    
+    .student-info h2 {
+      color: #1f2937;
+      font-weight: 700;
+      font-size: 1.5rem;
+    }
+    
+    .student-info .header-icon {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       color: white;
-      padding: 1.5rem;
-      border-radius: 10px;
-      margin-bottom: 2rem;
+      font-size: 1.5rem;
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
     }
     
     .qr-display {
       padding: 2rem;
-      background: #f8f9fa;
-      border-radius: 10px;
-      margin: 2rem 0;
+      background: white;
     }
     
     .qr-image {
-      max-width: 350px;
+      max-width: 300px;
       height: auto;
-      border: 3px solid #007bff;
-      border-radius: 10px;
+      border: 2px solid #e2e8f0;
+      border-radius: 16px;
       padding: 15px;
       background: white;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     }
     
     .payroll-badge {
-      background: linear-gradient(45deg, #28a745, #20c997);
+      background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
       color: white;
       padding: 0.75rem 1.5rem;
       border-radius: 25px;
-      font-size: 1.2rem;
-      font-weight: bold;
+      font-size: 1.1rem;
+      font-weight: 600;
       display: inline-block;
       margin: 1rem 0;
+      box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
     }
     
     .status-badge {
@@ -186,26 +208,46 @@ if ($has_qr_code) {
       border-radius: 20px;
       font-weight: 600;
       text-transform: uppercase;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
     }
     
-    .status-given { background: #cfe2ff; color: #084298; }
-    .status-active { background: #d4edda; color: #155724; }
-    .status-applicant { background: #fff3cd; color: #856404; }
-    .status-pending { background: #fff3cd; color: #856404; }
-    .status-disabled { background: #f8d7da; color: #721c24; }
-    .status-inactive { background: #f8d7da; color: #721c24; }
+    .status-given { background: #dbeafe; color: #1e40af; }
+    .status-active { background: #dcfce7; color: #166534; }
+    .status-applicant { background: #fef3c7; color: #92400e; }
+    .status-pending { background: #fef3c7; color: #92400e; }
+    .status-disabled { background: #fee2e2; color: #991b1b; }
+    .status-inactive { background: #fee2e2; color: #991b1b; }
     
+    /* No QR Message - Modern Yellow Card */
     .no-qr-message {
-      background: linear-gradient(135deg, #ffc107, #e0a800);
-      color: #212529;
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      color: #92400e;
       padding: 2rem;
-      border-radius: 10px;
-      margin: 2rem 0;
+      border-radius: 16px;
+      margin: 1.5rem 2rem;
+      text-align: left;
+    }
+    
+    .no-qr-message h4 {
+      color: #92400e;
+      font-weight: 600;
+    }
+    
+    /* Info Alert - Modern Blue Card */
+    .info-alert {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1e40af;
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      margin: 0 2rem 2rem 2rem;
+      text-align: center;
+      font-size: 0.95rem;
     }
     
     .download-btn {
-      background: linear-gradient(45deg, #007bff, #0056b3);
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
       border: none;
       color: white;
       padding: 12px 30px;
@@ -215,11 +257,12 @@ if ($has_qr_code) {
       display: inline-block;
       transition: all 0.3s ease;
       margin-top: 1rem;
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
     }
     
     .download-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(0,123,255,0.4);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
       color: white;
     }
     
@@ -231,45 +274,44 @@ if ($has_qr_code) {
     }
     
     .info-item {
-      background: rgba(255,255,255,0.2);
+      background: white;
       padding: 1rem;
-      border-radius: 8px;
-      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      text-align: center;
     }
     
     .info-label {
-      font-size: 0.9rem;
-      opacity: 0.9;
+      font-size: 0.8rem;
+      color: #64748b;
       margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.025em;
     }
     
     .info-value {
-      font-size: 1.1rem;
+      font-size: 1rem;
       font-weight: 600;
+      color: #1f2937;
     }
 
     @media (max-width: 768px) {
-      .home-section {
-        padding-top: 80px; /* Ensure content doesn't go under header on mobile */
-      }
-      
       .main-content { 
         padding: 1rem 0.75rem; 
+        padding-top: calc(var(--student-header-h, 56px) + 1rem);
       }
       
       .qr-card { 
-        padding: 1rem; 
         margin: 0 0.5rem;
+        border-radius: 12px;
       }
       
       .student-info {
-        padding: 1rem;
-        margin-bottom: 1.5rem;
+        padding: 1rem 1.25rem;
       }
       
       .student-info h2 {
-        font-size: 1.3rem;
-        margin-bottom: 1rem !important;
+        font-size: 1.25rem;
       }
       
       .info-grid {
@@ -281,17 +323,8 @@ if ($has_qr_code) {
         padding: 0.75rem;
       }
       
-      .info-label {
-        font-size: 0.85rem;
-      }
-      
-      .info-value {
-        font-size: 1rem;
-      }
-      
       .qr-display {
-        padding: 1rem;
-        margin: 1rem 0;
+        padding: 1.5rem 1rem;
       }
       
       .qr-image { 
@@ -307,16 +340,22 @@ if ($has_qr_code) {
       
       .no-qr-message {
         padding: 1.25rem;
-        margin: 1rem 0;
+        margin: 1rem;
+        border-radius: 12px;
       }
       
-      .no-qr-message h3 {
-        font-size: 1.2rem;
+      .no-qr-message h4 {
+        font-size: 1.1rem;
       }
       
       .no-qr-message p,
       .no-qr-message ul {
         font-size: 0.9rem;
+      }
+      
+      .info-alert {
+        margin: 0 1rem 1.5rem 1rem;
+        padding: 0.875rem 1rem;
       }
       
       .download-btn {
@@ -327,22 +366,6 @@ if ($has_qr_code) {
       .home-section { 
         margin-left: 0 !important; 
       }
-      
-      /* Card adjustments for mobile */
-      .card-body {
-        padding: 0.75rem;
-      }
-      
-      .alert {
-        padding: 0.75rem;
-        font-size: 0.9rem;
-      }
-      
-      .alert h4 {
-        font-size: 1.1rem;
-      }
-      
-      /* Rely on shared header responsiveness */
     }
   </style>
 </head>
@@ -361,9 +384,15 @@ if ($has_qr_code) {
         <div class="qr-card">
           <!-- Student Information Header -->
           <div class="student-info">
-            <h2 class="mb-3">
-              <i class="bi bi-qr-code me-2"></i>My QR Code
-            </h2>
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <div class="header-icon">
+                <i class="bi bi-qr-code"></i>
+              </div>
+              <div class="text-start">
+                <h2 class="mb-0">My QR Code</h2>
+                <p class="mb-0 text-muted" style="font-size: 0.95rem;">View and download your QR code</p>
+              </div>
+            </div>
             <div class="info-grid">
               <div class="info-item">
                 <div class="info-label">Student Name</div>
@@ -511,20 +540,20 @@ if ($has_qr_code) {
             <div class="no-qr-message">
               <h4><i class="bi bi-exclamation-circle me-2"></i>No QR Code Available</h4>
               <p class="mb-3">Your QR code has not been generated yet. This usually means:</p>
-              <ul class="text-start">
+              <ul class="mb-0">
                 <li>Your application is still being processed</li>
                 <li>Payroll numbers haven't been assigned yet</li>
                 <li>The admin hasn't finalized the student list</li>
               </ul>
               <div class="mt-3">
-                <small class="text-muted">
+                <small>
                   <i class="bi bi-clock me-1"></i>
                   Please check back later or contact the admin for more information.
                 </small>
               </div>
             </div>
             
-            <div class="alert alert-primary">
+            <div class="info-alert">
               <i class="bi bi-info-circle me-2"></i>
               <strong>Current Status:</strong> <?= ucfirst($student_data['status']) ?><br>
               Your QR code will be automatically generated once your status becomes "Active" and payroll numbers are assigned.

@@ -221,14 +221,50 @@ $shouldEmailSchedule = !isset($_SESSION['schedule_emailed']);
       color: #0068da;
     }
     
+    /* Deadline Alert Banner */
+    .deadline-alert-banner {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: 16px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    .deadline-alert-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: #fef3c7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: #d97706;
+      font-size: 1.25rem;
+    }
+    .deadline-alert-content {
+      flex: 1;
+    }
+    .deadline-alert-text {
+      color: #92400e;
+      font-size: 0.95rem;
+    }
+    .deadline-alert-text strong {
+      color: #78350f;
+    }
+    
     /* Welcome Banner Styles - Matches info banner design */
     .welcome-banner {
       background: white;
-      border: 1px solid #e9ecef;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      border-left: 4px solid #0068da;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 20px 24px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    .welcome-banner:hover {
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     }
     .welcome-content {
       display: flex;
@@ -449,10 +485,12 @@ $shouldEmailSchedule = !isset($_SESSION['schedule_emailed']);
           }
           if (!empty($doc_deadline)):
         ?>
-          <div class="alert alert-warning d-flex align-items-center" role="alert">
-            <i class="bi bi-hourglass-split me-2"></i>
-            <div>
-              Document submissions are due on <strong><?= htmlspecialchars($doc_deadline) ?></strong>. Please upload required documents before this date.
+          <div class="deadline-alert-banner mb-4">
+            <div class="deadline-alert-icon">
+              <i class="bi bi-calendar-check"></i>
+            </div>
+            <div class="deadline-alert-content">
+              <span class="deadline-alert-text">Document submissions are due on <strong><?= htmlspecialchars($doc_deadline) ?></strong>. Please upload required documents before this date.</span>
             </div>
           </div>
         <?php endif; ?>
@@ -996,15 +1034,23 @@ $shouldEmailSchedule = !isset($_SESSION['schedule_emailed']);
     // Only show section if there are deadlines
     if ($activeCount > 0) {
     $hasOverdue = count($overdueItems) > 0;
-    $sectionClass = 'section-block section-deadlines section-spacing' . ($hasOverdue ? ' has-overdue' : '');
-    echo '<section class="' . $sectionClass . '">';
-    echo '  <div class="section-header d-flex justify-content-between align-items-center">';
-    echo '    <div><h3 class="section-title mb-0"><i class="bi bi-hourglass-top me-2"></i>Submission Deadlines</h3><p class="section-lead m-0">Upcoming and active requirements.</p></div>';
-    $badgeClass = $hasOverdue ? 'bg-danger-subtle text-danger border border-danger' : 'bg-success-subtle text-success border border-success';
-    echo '    <span class="badge ' . $badgeClass . '">' . $activeCount . ' item(s)</span>';
-    echo '  </div>';
+    echo '<section class="modern-announcement-section section-spacing">';
+    
+    // Modern header matching announcement style
+    echo '<div class="modern-section-header">';
+    $iconColorClass = $hasOverdue ? 'danger' : 'success';
+    echo '<div class="header-icon-wrapper ' . $iconColorClass . '">';
+    echo '<i class="bi bi-hourglass-split"></i>';
+    echo '</div>';
+    echo '<div class="header-content">';
+    echo '<h3 class="modern-section-title">Submission Deadlines</h3>';
+    echo '<p class="modern-section-subtitle">Upcoming and active requirements.</p>';
+    echo '</div>';
+    $badgeClass = $hasOverdue ? 'badge-count danger' : 'badge-count success';
+    echo '<span class="' . $badgeClass . '">' . $activeCount . ' item(s)</span>';
+    echo '</div>';
 
-    echo '  <div class="deadline-list">';
+    echo '<div class="deadline-list">';
     // Render overdue first with strong accents
     foreach ($overdueItems as $it) {
       $title = htmlspecialchars($it['label']);
@@ -1013,18 +1059,18 @@ $shouldEmailSchedule = !isset($_SESSION['schedule_emailed']);
         ? ('Overdue by ' . $it['daysAbs'] . ' day' . ($it['daysAbs'] != 1 ? 's' : ''))
         : 'Overdue';
       $link = $it['link'] ? htmlspecialchars($it['link']) : '';
-      echo '    <div class="deadline-item is-overdue">';
-      echo '      <div class="deadline-left">';
-      echo '        <div class="deadline-title"><i class="bi bi-exclamation-octagon-fill text-danger me-2"></i>' . $title . '</div>';
-      echo '        <div class="deadline-meta"><span class="due-date"><i class="bi bi-calendar-event me-1"></i>' . $dateText . '</span></div>';
-      echo '      </div>';
-      echo '      <div class="deadline-right">';
-      echo '        <span class="chip chip-overdue"><i class="bi bi-lightning-charge-fill me-1"></i>' . $statusText . '</span>';
+      echo '<div class="deadline-item is-overdue">';
+      echo '<div class="deadline-left">';
+      echo '<div class="deadline-title"><i class="bi bi-file-earmark-text me-2"></i>' . $title . '</div>';
+      echo '<div class="deadline-meta"><i class="bi bi-calendar3 me-1"></i>' . $dateText . '</div>';
+      echo '</div>';
+      echo '<div class="deadline-right">';
+      echo '<span class="chip chip-overdue"><i class="bi bi-exclamation-circle me-1"></i>' . $statusText . '</span>';
       if ($link) {
-        echo '        <a href="' . $link . '" class="btn btn-danger btn-sm ms-2">Resolve</a>';
+        echo '<a href="' . $link . '" class="btn btn-danger btn-sm">Resolve</a>';
       }
-      echo '      </div>';
-      echo '    </div>';
+      echo '</div>';
+      echo '</div>';
     }
 
     // Then on-time/upcoming
@@ -1039,35 +1085,35 @@ $shouldEmailSchedule = !isset($_SESSION['schedule_emailed']);
         $statusText = 'Upcoming';
       }
       $link = $it['link'] ? htmlspecialchars($it['link']) : '';
-      echo '    <div class="deadline-item is-ontime">';
-      echo '      <div class="deadline-left">';
-      echo '        <div class="deadline-title"><i class="bi bi-clipboard-check text-success me-2"></i>' . $title . '</div>';
-      echo '        <div class="deadline-meta"><span class="due-date"><i class="bi bi-calendar-event me-1"></i>' . $dateText . '</span></div>';
-      echo '      </div>';
-      echo '      <div class="deadline-right">';
-      echo '        <span class="chip chip-ontime"><i class="bi bi-clock me-1"></i>' . $statusText . '</span>';
+      echo '<div class="deadline-item is-ontime">';
+      echo '<div class="deadline-left">';
+      echo '<div class="deadline-title"><i class="bi bi-file-earmark-text me-2"></i>' . $title . '</div>';
+      echo '<div class="deadline-meta"><i class="bi bi-calendar3 me-1"></i>' . $dateText . '</div>';
+      echo '</div>';
+      echo '<div class="deadline-right">';
+      echo '<span class="chip chip-ontime"><i class="bi bi-clock me-1"></i>' . $statusText . '</span>';
       if ($link) {
-        echo '        <a href="' . $link . '" class="btn btn-primary btn-sm ms-2">Go</a>';
+        echo '<a href="' . $link . '" class="btn btn-success btn-sm">Go</a>';
       }
-      echo '      </div>';
-      echo '    </div>';
+      echo '</div>';
+      echo '</div>';
     }
-    echo '  </div>';
+    echo '</div>';
 
-    // Reminders section
+    // Reminders section - modernized
     $reminderDate = '';
     if (!empty($deadlines[0]['deadline_date'])) {
         $reminderDate = date('F j, Y', strtotime($deadlines[0]['deadline_date']));
     }
-    echo '  <div class="mt-3 pt-3 border-top">';
-    echo '    <h6 class="fw-bold mb-2"><i class="bi bi-bell-fill me-2"></i>Reminders</h6>';
-    echo '    <ul class="mb-0">';
+    echo '<div class="reminders-box">';
+    echo '<div class="reminders-header"><i class="bi bi-bell me-2"></i>Reminders</div>';
+    echo '<ul class="reminders-list">';
     if (!empty($reminderDate)) {
-        echo '      <li>Submit all required documents by <strong>' . htmlspecialchars($reminderDate) . '</strong>.</li>';
+        echo '<li>Submit all required documents by <strong>' . htmlspecialchars($reminderDate) . '</strong>.</li>';
     }
-    echo '      <li>Check notifications regularly for city updates.</li>';
-    echo '    </ul>';
-    echo '  </div>';
+    echo '<li>Check notifications regularly for city updates.</li>';
+    echo '</ul>';
+    echo '</div>';
     echo '</section>';
     }
         ?>
