@@ -246,16 +246,49 @@ $qr_stats = $qr_stats_result ? pg_fetch_assoc($qr_stats_result) : [
     <style>
         body { font-family: 'Poppins', sans-serif; }
         .stat-card {
-            border-left: 4px solid;
+            border-radius: 16px;
             transition: transform 0.2s;
+            border: none !important;
+            position: relative;
+            overflow: hidden;
         }
         .stat-card:hover {
             transform: translateY(-5px);
         }
-        .stat-card.applicant { border-left-color: #6c757d; }
-        .stat-card.active { border-left-color: #28a745; }
-        .stat-card.given { border-left-color: #dc3545; }
-        .stat-card.rejected { border-left-color: #6c757d; }
+        .stat-card .watermark-icon {
+            position: absolute;
+            right: -10px;
+            bottom: -10px;
+            font-size: 4rem;
+            opacity: 0.15;
+            transform: rotate(-10deg);
+            color: white;
+        }
+        .stat-card .card-body h6 {
+            color: rgba(255,255,255,0.85);
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .stat-card .card-body h2 {
+            color: white;
+            font-weight: 700;
+        }
+        .stat-applicant {
+            background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+            box-shadow: 0 4px 14px rgba(100, 116, 139, 0.35);
+        }
+        .stat-active {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            box-shadow: 0 4px 14px rgba(34, 197, 94, 0.35);
+        }
+        .stat-given {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
+        }
+        .stat-rejected {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            box-shadow: 0 4px 14px rgba(139, 92, 246, 0.35);
+        }
     </style>
 </head>
 <body>
@@ -266,8 +299,8 @@ $qr_stats = $qr_stats_result ? pg_fetch_assoc($qr_stats_result) : [
         
         <section class="home-section" id="page-content-wrapper">
             <div class="container py-5">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h1><i class="bi bi-arrow-counterclockwise me-2"></i>Reset Distribution</h1>
+                <div class="mb-4 d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <h1 class="fw-bold mb-0">Reset Distribution</h1>
                     <a href="verify_students.php" class="btn btn-outline-secondary">
                         <i class="bi bi-arrow-left me-1"></i>Back to Verify Students
                     </a>
@@ -311,33 +344,37 @@ $qr_stats = $qr_stats_result ? pg_fetch_assoc($qr_stats_result) : [
                     <div class="card-body">
                         <div class="row g-3">
                             <div class="col-md-3">
-                                <div class="card stat-card applicant">
+                                <div class="card stat-card stat-applicant">
                                     <div class="card-body">
-                                        <h6 class="text-muted">Applicants</h6>
+                                        <i class="bi bi-person-badge watermark-icon"></i>
+                                        <h6>Applicants</h6>
                                         <h2 class="mb-0"><?php echo number_format($stats['applicant_count']); ?></h2>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-3">
-                                <div class="card stat-card active">
+                                <div class="card stat-card stat-active">
                                     <div class="card-body">
-                                        <h6 class="text-success">Active (Eligible)</h6>
-                                        <h2 class="mb-0 text-success"><?php echo number_format($stats['active_count']); ?></h2>
+                                        <i class="bi bi-check-circle watermark-icon"></i>
+                                        <h6>Active (Eligible)</h6>
+                                        <h2 class="mb-0"><?php echo number_format($stats['active_count']); ?></h2>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-3">
-                                <div class="card stat-card given">
+                                <div class="card stat-card stat-given">
                                     <div class="card-body">
-                                        <h6 class="text-danger">Given (Distributed)</h6>
-                                        <h2 class="mb-0 text-danger"><?php echo number_format($stats['given_count']); ?></h2>
+                                        <i class="bi bi-gift watermark-icon"></i>
+                                        <h6>Given (Distributed)</h6>
+                                        <h2 class="mb-0"><?php echo number_format($stats['given_count']); ?></h2>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-3">
-                                <div class="card stat-card rejected">
+                                <div class="card stat-card stat-rejected">
                                     <div class="card-body">
-                                        <h6 class="text-muted">Rejected</h6>
+                                        <i class="bi bi-x-circle watermark-icon"></i>
+                                        <h6>Rejected</h6>
                                         <h2 class="mb-0"><?php echo number_format($stats['rejected_count']); ?></h2>
                                     </div>
                                 </div>

@@ -100,7 +100,7 @@ $active_distributions = $active_result ? pg_fetch_all($active_result) : [];
 <body>
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1><i class="bi bi-bell"></i> Slot Threshold Notifications</h1>
+            <h1 class="fw-bold mb-1">Slot Threshold Notifications</h1>
             <a href="../modules/admin/dashboard.php" class="btn btn-outline-secondary">
                 <i class="bi bi-arrow-left"></i> Back to Dashboard
             </a>

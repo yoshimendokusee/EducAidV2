@@ -315,7 +315,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $posted = isset($_GET['posted']);
 $updated = isset($_GET['updated']);
 ?>
-<?php $page_title='Manage Announcements'; $extra_css=['../../assets/css/admin/manage_announcements.css']; include __DIR__ . '/../../includes/admin/admin_head.php'; ?>
+<?php $page_title='Manage Announcements'; $extra_css=['../../assets/css/admin/manage_announcements.css', '../../assets/css/admin/table_core.css']; include __DIR__ . '/../../includes/admin/admin_head.php'; ?>
 
 <style>
   .card:hover { transform:none!important; transition:none!important; }
@@ -365,7 +365,9 @@ $updated = isset($_GET['updated']);
   <?php include __DIR__ . '/../../includes/admin/admin_header.php'; ?>
   <section class="home-section" id="mainContent">
   <div class="container-fluid py-4 px-4">
-      <h2 class="fw-bold mb-4"><i class="bi bi-megaphone-fill text-primary me-2"></i>Manage Announcements</h2>
+      <div class="mb-4">
+          <h1 class="fw-bold mb-1">Manage Announcements</h1>
+      </div>
 
       <div class="card p-4 mb-4">
         <form method="POST" enctype="multipart/form-data" id="announcementForm">
@@ -503,7 +505,7 @@ $updated = isset($_GET['updated']);
         <?php endif; ?>
       </div>
 
-      <h2 class="fw-bold mb-4"><i class="bi bi-card-text text-primary me-2"></i>Existing Announcements</h2>
+      <h2 class="fw-bold mb-3">Existing Announcements</h2>
       <div class="card p-4">
         <?php
   $annRes = pg_query($connection, "SELECT announcement_id, title, remarks, posted_at, is_active, event_date, event_time, location, image_path FROM announcements ORDER BY posted_at DESC");

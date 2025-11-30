@@ -452,7 +452,7 @@ if ($usedDatesResult) {
     }
 }
 ?>
-<?php $page_title='Manage Schedules'; include __DIR__ . '/../../includes/admin/admin_head.php'; ?>
+<?php $page_title='Manage Schedules'; $extra_css=['../../assets/css/admin/table_core.css']; include __DIR__ . '/../../includes/admin/admin_head.php'; ?>
     <style>
         .batch-card {
             border: 2px solid #e9ecef;
@@ -494,12 +494,9 @@ if ($usedDatesResult) {
     <?php include __DIR__ . '/../../includes/admin/admin_header.php'; ?>
     <section class="home-section" id="mainContent">
         <div class="container-fluid py-4 px-4">
-            <div class="section-header mb-4">
-                <h2 class="fw-bold text-primary">
-                    <i class="bi bi-calendar2-range"></i>
-                    Manage Student Schedules
-                </h2>
-                <p class="text-muted">Create flexible scheduling with custom batches and time slots</p>
+            <div class="mb-4">
+                <h1 class="fw-bold mb-1">Manage Student Schedules</h1>
+                <p class="text-muted mb-0">Create flexible scheduling with custom batches and time slots</p>
             </div>
 
             <!-- Alert Messages -->
@@ -517,18 +514,22 @@ if ($usedDatesResult) {
                 </div>
             <?php endif; ?>
 
-            <!-- Info about publish/unpublish functionality -->
-            <?php if ($scheduleExists): ?>
-                <div class="alert alert-info alert-dismissible fade show" role="alert">
-                    <i class="bi bi-info-circle-fill"></i> 
-                    <strong>Schedule Control:</strong> 
-                    Use "Hide from Students" to make schedules invisible without deleting data. 
-                    Use "Clear All Schedule Data" only if you want to permanently delete everything.
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            <?php endif; ?>
-
             <?php 
+            // Collect toast notifications to show
+            $toastNotifications = [];
+            
+            // Info about publish/unpublish functionality
+            if ($scheduleExists) {
+                $toastNotifications[] = [
+                    'type' => 'info',
+                    'icon' => 'info-circle-fill',
+                    'title' => 'Schedule Control',
+                    'message' => 'Use "Hide from Students" to make schedules invisible without deleting data. Use "Clear All Schedule Data" only if you want to permanently delete everything.',
+                    'autoHide' => true,
+                    'delay' => 10000
+                ];
+            }
+            
             // Check if unpublishing is allowed
             $can_unpublish = true;
             $unpublish_reason = '';
@@ -548,7 +549,7 @@ if ($usedDatesResult) {
                     $can_unpublish = false;
                     $snapshot_data = pg_fetch_assoc($uncompressed_snapshot_check);
                     $formatted_date = date('F j, Y g:i A', strtotime($snapshot_data['finalized_at']));
-                    $unpublish_reason = 'Distribution was completed on ' . $formatted_date . ' for ' . $snapshot_data['academic_year'] . ' ' . $snapshot_data['semester'] . ' but files have not been compressed yet. Please go to <a href="end_distribution.php" class="alert-link">End Distribution</a> to compress and archive first.';
+                    $unpublish_reason = 'Distribution was completed on ' . $formatted_date . ' for ' . $snapshot_data['academic_year'] . ' ' . $snapshot_data['semester'] . ' but files have not been compressed yet. Please go to <a href="end_distribution.php" class="toast-link">End Distribution</a> to compress and archive first.';
                 }
                 
                 // Check if any student has been scanned (only if not already blocked by snapshot check)
@@ -587,12 +588,16 @@ if ($usedDatesResult) {
                     }
                 }
                 
-                // Show warning if unpublishing is blocked
+                // Add warning toast if unpublishing is blocked
                 if (!$can_unpublish) {
-                    echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">';
-                    echo '<i class="bi bi-lock-fill"></i> <strong>Schedule Locked:</strong> ' . $unpublish_reason;
-                    echo '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>';
-                    echo '</div>';
+                    $toastNotifications[] = [
+                        'type' => 'warning',
+                        'icon' => 'lock-fill',
+                        'title' => 'Schedule Locked',
+                        'message' => $unpublish_reason,
+                        'autoHide' => false,
+                        'delay' => 0
+                    ];
                 }
             }
             ?>
@@ -1346,6 +1351,142 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log(`Document Deadline: ${documentsDeadline}`);
         console.log(`Minimum Schedule Date (Deadline + 5 days): ${minScheduleDate}`);
     }
+});
+</script>
+
+<!-- Toast Container -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1080; gap: 12px;">
+    <?php if (!empty($toastNotifications)): ?>
+        <?php foreach ($toastNotifications as $index => $toast): ?>
+            <div class="toast schedule-toast toast-<?= $toast['type'] ?>" 
+                 role="alert" 
+                 aria-live="assertive" 
+                 aria-atomic="true"
+                 data-bs-autohide="<?= $toast['autoHide'] ? 'true' : 'false' ?>"
+                 <?= $toast['autoHide'] ? 'data-bs-delay="' . $toast['delay'] . '"' : '' ?>
+                 id="scheduleToast<?= $index ?>">
+                <div class="toast-header">
+                    <i class="bi bi-<?= $toast['icon'] ?> me-2 toast-icon"></i>
+                    <strong class="me-auto"><?= htmlspecialchars($toast['title']) ?></strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    <?= $toast['message'] ?>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    <?php endif; ?>
+</div>
+
+<style>
+/* Toast Notification Styles */
+.schedule-toast {
+    min-width: 350px;
+    max-width: 420px;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    border: 1px solid #e0e0e0;
+    overflow: hidden;
+    background: #ffffff;
+    margin-bottom: 12px;
+}
+
+.schedule-toast .toast-header {
+    padding: 10px 14px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+    color: #495057;
+}
+
+.schedule-toast .toast-header .btn-close {
+    opacity: 0.5;
+}
+
+.schedule-toast .toast-header .btn-close:hover {
+    opacity: 1;
+}
+
+.schedule-toast .toast-body {
+    padding: 12px 14px;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: #6c757d;
+    background: #ffffff;
+}
+
+/* Info Toast - Neutral with subtle blue accent */
+.toast-info {
+    border-left: 3px solid #6c757d;
+}
+
+.toast-info .toast-icon {
+    color: #6c757d;
+}
+
+/* Warning Toast - Neutral with subtle amber accent */
+.toast-warning {
+    border-left: 3px solid #ffc107;
+}
+
+.toast-warning .toast-icon {
+    color: #e6a000;
+}
+
+/* Toast link styling */
+.toast-link {
+    color: #495057;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+.toast-link:hover {
+    color: #212529;
+}
+
+/* Animation */
+.schedule-toast.showing,
+.schedule-toast.show {
+    animation: slideInRight 0.3s ease-out;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 576px) {
+    .toast-container {
+        left: 0 !important;
+        right: 0 !important;
+        padding: 1rem !important;
+    }
+    
+    .schedule-toast {
+        min-width: unset;
+        max-width: 100%;
+        width: 100%;
+    }
+}
+</style>
+
+<script>
+// Initialize and show toasts on page load
+document.addEventListener('DOMContentLoaded', function() {
+    const toasts = document.querySelectorAll('.schedule-toast');
+    toasts.forEach((toastEl, index) => {
+        const toast = new bootstrap.Toast(toastEl);
+        // Stagger the appearance slightly
+        setTimeout(() => {
+            toast.show();
+        }, index * 200);
+    });
 });
 </script>
 

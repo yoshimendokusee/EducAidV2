@@ -425,8 +425,7 @@ while ($row = pg_fetch_assoc($barangayResult)) {
 /* Check workflow status for UI decisions */
 // This is now calculated after POST actions above
 ?>
-<?php $page_title='Verify Students'; $extra_css=['../../assets/css/admin/verify_students.css']; include __DIR__ . '/../../includes/admin/admin_head.php'; ?>
-<link rel="stylesheet" href="../../assets/css/admin/table_core.css"/>
+<?php $page_title='Verify Students'; $extra_css=['../../assets/css/admin/table_core.css', '../../assets/css/admin/verify_students.css']; include __DIR__ . '/../../includes/admin/admin_head.php'; ?>
 </head>
 <body>
 <?php include __DIR__ . '/../../includes/admin/admin_topbar.php'; ?>
@@ -472,20 +471,20 @@ while ($row = pg_fetch_assoc($barangayResult)) {
 
       <!-- Filters -->
       <div class="filter-section mb-4">
-          <form method="GET" class="row g-3">
-            <div class="col-md-4">
-              <label class="form-label">Sort by Surname</label>
+          <form method="GET" class="filter-grid filter-grid-4">
+            <div class="filter-group">
+              <label class="form-label">Sort</label>
               <select name="sort" class="form-select">
                 <option value="asc"  <?= $sort === 'asc'  ? 'selected' : '' ?>>A to Z</option>
                 <option value="desc" <?= $sort === 'desc' ? 'selected' : '' ?>>Z to A</option>
               </select>
             </div>
-            <div class="col-md-4">
-              <label class="form-label">Search by Surname</label>
+            <div class="filter-group">
+              <label class="form-label">Search Surname</label>
               <input type="text" name="search_surname" class="form-control" value="<?= htmlspecialchars($searchSurname) ?>" placeholder="Enter surname...">
             </div>
-            <div class="col-md-4">
-              <label class="form-label">Filter by Barangay</label>
+            <div class="filter-group">
+              <label class="form-label">Barangay</label>
               <select name="barangay" class="form-select">
                 <option value="">All Barangays</option>
                 <?php foreach ($barangayOptions as $b): ?>
@@ -495,13 +494,9 @@ while ($row = pg_fetch_assoc($barangayResult)) {
                 <?php endforeach; ?>
               </select>
             </div>
-            <div class="col-md-12 d-flex gap-2">
-              <button type="submit" class="btn btn-primary">
-                <i class="bi bi-funnel me-1"></i> Apply Filters
-              </button>
-              <button type="button" class="btn btn-outline-secondary" id="resetFiltersBtn">
-                <i class="bi bi-x-circle me-1"></i> Reset
-              </button>
+            <div class="filter-buttons">
+              <button type="submit" class="btn btn-primary">Filter</button>
+              <button type="button" class="btn btn-outline-secondary" id="resetFiltersBtn">Clear</button>
             </div>
           </form>
         </div>
@@ -518,10 +513,10 @@ while ($row = pg_fetch_assoc($barangayResult)) {
           <div class="card-body">
             <div class="table-card">
               <div class="table-responsive">
-                <table class="table align-middle">
+                <table class="table align-middle verify-table">
                   <thead>
                     <tr>
-                      <th style="width:44px;">
+                      <th class="checkbox-col">
                         <input type="checkbox" id="selectAllActive" <?= $isFinalized ? 'disabled' : '' ?>>
                       </th>
                       <th>Full Name</th>
@@ -552,7 +547,7 @@ while ($row = pg_fetch_assoc($barangayResult)) {
                       $has_qr = !empty($payroll) && !empty($unique_id);
                   ?>
                       <tr onclick="showStudentOptions('<?= $id ?>', '<?= htmlspecialchars($name, ENT_QUOTES) ?>', '<?= htmlspecialchars($email, ENT_QUOTES) ?>', '<?= htmlspecialchars($barangay, ENT_QUOTES) ?>')" style="cursor: pointer; <?= $admin_review_required ? 'background-color: #fff3cd;' : '' ?>" title="Click for options">
-                        <td data-label="Select" onclick="event.stopPropagation();">
+                        <td class="checkbox-col" data-label="Select" onclick="event.stopPropagation();">
                           <input type="checkbox" name="selected_actives[]" value="<?= $id ?>" <?= $isFinalized ? 'disabled' : '' ?> />
                         </td>
                         <td data-label="Full Name">

@@ -760,6 +760,60 @@ $yearLevels = pg_fetch_all(pg_query($connection, "SELECT year_level_id, name FRO
             padding: 20px;
             margin-bottom: 20px;
         }
+        
+        /* Filter section responsive grid */
+        .filter-grid {
+            display: grid;
+            gap: 16px;
+            grid-template-columns: 1fr;
+        }
+        
+        /* Tablet: 2 columns */
+        @media (min-width: 576px) {
+            .filter-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        /* Medium screens: 3 columns */
+        @media (min-width: 768px) {
+            .filter-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        /* Large screens: all filters in one row */
+        @media (min-width: 1200px) {
+            .filter-grid {
+                grid-template-columns: 2fr 1.5fr 2fr 1fr 1.5fr auto;
+            }
+        }
+        
+        .filter-grid .form-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 6px;
+            white-space: nowrap;
+        }
+        
+        .filter-grid .form-control,
+        .filter-grid .form-select {
+            width: 100%;
+            min-width: 0;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            gap: 8px;
+            align-items: flex-end;
+        }
+        
+        @media (max-width: 575.98px) {
+            .filter-buttons {
+                grid-column: 1 / -1;
+            }
+        }
+        
         /* Image Viewer Enhancements */
         .doc-viewer-wrapper { position: relative; background:#111; border-radius:8px; overflow:hidden; touch-action:none; user-select:none; }
         .doc-viewer-stage { position:relative; width:100%; height:70vh; max-height:800px; display:flex; align-items:center; justify-content:center; background:#111; }
@@ -771,7 +825,7 @@ $yearLevels = pg_fetch_all(pg_query($connection, "SELECT year_level_id, name FRO
         .doc-zoom-indicator { position:absolute; left:12px; top:12px; background:rgba(0,0,0,.55); color:#fff; padding:4px 10px; border-radius:20px; font-size:12px; font-weight:600; letter-spacing:.5px; z-index:50; pointer-events:none; }
         .doc-hint { position:absolute; bottom:10px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,.55); color:#fff; padding:4px 12px; border-radius:20px; font-size:12px; opacity:.85; z-index:50; pointer-events:none; }
         @media (max-width: 768px){ .doc-viewer-stage{ height:60vh; } }
-        /* Table layout now comes from table_core.css (shared). Keep only hover styling if desired. */
+        /* Table layout - scroll-friendly with min-width to prevent cramping */
         .table tbody tr:hover { background-color: #f8f9fa; }
         .action-buttons {
             display: flex;
@@ -787,68 +841,114 @@ $yearLevels = pg_fetch_all(pg_query($connection, "SELECT year_level_id, name FRO
             font-size: 0.75em;
             padding: 4px 8px;
         }
-        /* Compact multi-line column strategy (mimic audit_logs) */
-        .col-contact, td[data-label="Contact"],
-        .col-university, td[data-label="University"],
-        .col-course, td[data-label="Course"],
-        .col-applied, td[data-label="Applied"],
-        .col-name, td[data-label="Name"] {
-            white-space: normal !important;
-            word-break: break-word;
-            overflow-wrap: anywhere;
-            line-height: 1.25;
-            vertical-align: middle;
+        
+        /* ==================== SCROLL-FRIENDLY TABLE STYLES ==================== */
+        /* Set min-width to allow horizontal scroll instead of cramping content */
+        .registrations-table {
+            min-width: 1200px;
+            table-layout: fixed;
         }
-        /* Fixed width guidance to avoid overall overflow while preserving wrap */
-        .registrations-table thead th { font-size: .8rem; letter-spacing:.25px; }
-        .registrations-table th.col-name { width: 150px; }
-        .registrations-table th.col-contact { width: 180px; }
-        .registrations-table th.col-barangay { width: 110px; }
-        .registrations-table th.col-university { width: 170px; }
-        .registrations-table th.col-course { width: 160px; }
-        .registrations-table th.col-year { width: 70px; }
+        
+        /* Column widths - properly spaced for readability */
+        .registrations-table thead th { 
+            font-size: .85rem; 
+            letter-spacing: .25px;
+            white-space: nowrap;
+            background: #1182FF;
+            color: #fff;
+            padding: 12px 14px;
+            border: none;
+        }
+        .registrations-table th.col-select { width: 50px; }
+        .registrations-table th.col-name { width: 180px; }
+        .registrations-table th.col-contact { width: 200px; }
+        .registrations-table th.col-barangay { width: 120px; }
+        .registrations-table th.col-university { width: 200px; }
+        .registrations-table th.col-course { width: 180px; }
+        .registrations-table th.col-year { width: 80px; }
         .registrations-table th.col-applied { width: 110px; }
-        .registrations-table th.col-confidence { width: 130px; }
-        .registrations-table th.col-actions { width: 140px; }
-        /* Smaller font for secondary lines */
-        .registrations-table td small { display:block; font-size:.70rem; line-height:1.1; }
-        .registrations-table td .badge { font-size:.65rem; }
-        /* Reduce padding horizontally to fit without scroll */
-        .registrations-table td, .registrations-table th { padding: .55rem .6rem; }
-        .registrations-table td .fw-semibold { font-size:.82rem; }
-        .registrations-table td .primary-line { font-size:.8rem; font-weight:600; color:#212529; }
-        .registrations-table td .secondary-line { font-size:.7rem; color:#6c757d; }
+        .registrations-table th.col-confidence { width: 120px; }
+        .registrations-table th.col-actions { width: 160px; }
+        
+        /* Cell content styling - allow wrapping within fixed widths */
+        .registrations-table td {
+            padding: 12px 14px;
+            vertical-align: middle;
+            white-space: normal;
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        .registrations-table td small { display: block; font-size: .8rem; line-height: 1.3; }
+        .registrations-table td .badge { font-size: .75rem; }
+        .registrations-table td .fw-semibold { font-size: .9rem; }
+        .registrations-table td .primary-line { font-size: .85rem; font-weight: 600; color: #212529; }
+        .registrations-table td .secondary-line { font-size: .8rem; color: #6c757d; }
+        
         /* Improve badge contrast */
-        .registrations-table td .badge.bg-warning { color:#212529; }
-        .registrations-table td .badge.bg-primary { background:#0d6efd; }
-        @media (max-width: 1400px){
-            .registrations-table th.col-contact { width: 160px; }
-            .registrations-table th.col-university { width: 150px; }
-            .registrations-table th.col-course { width: 140px; }
+        .registrations-table td .badge.bg-warning { color: #212529; }
+        .registrations-table td .badge.bg-primary { background: #0d6efd; }
+        
+        /* Sticky first column (Select checkbox) */
+        .registrations-table th:first-child,
+        .registrations-table td:first-child {
+            position: sticky;
+            left: 0;
+            z-index: 2;
+            background: #fff;
+            box-shadow: 2px 0 4px rgba(0,0,0,0.05);
         }
-        @media (max-width: 1200px){
-            .registrations-table th.col-contact { width: 150px; }
-            .registrations-table th.col-university { width: 140px; }
-            .registrations-table th.col-course { width: 130px; }
-            .registrations-table th.col-applied { width: 95px; }
-            .registrations-table td .badge { font-size:.60rem; }
+        .registrations-table thead th:first-child {
+            background: #1182FF;
+            z-index: 3;
         }
-        @media (max-width: 992px){
-            .registrations-table th.col-contact { width: 140px; }
-            .registrations-table th.col-university { width: 135px; }
-            .registrations-table th.col-course { width: 120px; }
-        }
-        /* Mobile: card layout handled by table_core.css; allow full width */
+        
+        /* Mobile: Let table_core.css handle card layout - just reset table-specific styles */
         @media (max-width: 767.98px){
-            .registrations-table th.col-name,
-            .registrations-table th.col-contact,
-            .registrations-table th.col-barangay,
-            .registrations-table th.col-university,
-            .registrations-table th.col-course,
-            .registrations-table th.col-year,
-            .registrations-table th.col-applied,
-            .registrations-table th.col-confidence,
-            .registrations-table th.col-actions { width:auto; }
+            /* Reset min-width to allow table_core.css card layout */
+            .registrations-table {
+                min-width: 100% !important;
+                table-layout: auto !important;
+            }
+            
+            /* Reset sticky positioning */
+            .registrations-table th:first-child,
+            .registrations-table td:first-child {
+                position: static !important;
+                box-shadow: none !important;
+                background: transparent !important;
+            }
+            
+            /* Reset column widths */
+            .registrations-table th,
+            .registrations-table td { 
+                width: auto !important; 
+            }
+            
+            /* Reset thead styles for hiding */
+            .registrations-table thead th {
+                background: transparent !important;
+            }
+            
+            /* Ensure cell padding works with labels */
+            .registrations-table td {
+                padding: 12px 15px 12px 130px !important;
+            }
+            
+            /* Fix Select cell - use flexbox layout like table_core.css expects */
+            .registrations-table td[data-label="Select"] {
+                display: flex !important;
+                align-items: center !important;
+                justify-content: space-between !important;
+                padding: 12px 15px !important;
+            }
+            .registrations-table td[data-label="Select"]::before {
+                position: static !important;
+                left: auto !important;
+                top: auto !important;
+                width: auto !important;
+                margin: 0 !important;
+            }
         }
                 .bulk-actions {
                         background: #ffffff;
@@ -898,17 +998,64 @@ $yearLevels = pg_fetch_all(pg_query($connection, "SELECT year_level_id, name FRO
             margin-bottom: 20px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        .quick-actions .qa-row{display:grid;grid-template-columns:1fr;gap:16px;align-items:center}
-        @media (min-width:768px){.quick-actions .qa-row{grid-template-columns:1fr auto}}
+        .quick-actions .qa-row {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            align-items: stretch;
+        }
+        .quick-actions .qa-text {
+            flex: 1;
+            min-width: 0;
+        }
         .quick-actions h5 {
             color: white;
             margin-bottom: 5px;
+            font-size: 1.1rem;
         }
         .quick-actions small {
             color: rgba(255, 255, 255, 0.8);
+            display: block;
+            line-height: 1.4;
         }
-        .qa-actions{display:grid;grid-auto-flow:row;gap:12px}
-        @media (min-width:768px){.qa-actions{grid-auto-flow:column}}
+        .qa-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        /* Tablet and up - side by side layout */
+        @media (min-width: 992px) {
+            .quick-actions .qa-row {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+            }
+            .qa-actions {
+                flex-direction: row;
+                flex-shrink: 0;
+            }
+        }
+        
+        /* Medium screens - stack buttons but keep text/buttons side by side if space */
+        @media (min-width: 768px) and (max-width: 991.98px) {
+            .quick-actions .qa-row {
+                flex-direction: row;
+                flex-wrap: wrap;
+                align-items: center;
+            }
+            .quick-actions .qa-text {
+                flex: 1 1 100%;
+                margin-bottom: 12px;
+            }
+            .qa-actions {
+                flex: 1 1 100%;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: flex-start;
+            }
+        }
+        
         .auto-approve-btn {
             background: linear-gradient(45deg, #28a745, #20c997);
             border: none;
@@ -1018,12 +1165,12 @@ $yearLevels = pg_fetch_all(pg_query($connection, "SELECT year_level_id, name FRO
 
                 <!-- Filters Section -->
                 <div class="filter-section">
-                    <form method="GET" class="row g-3">
-                        <div class="col-md-3">
+                    <form method="GET" class="filter-grid">
+                        <div>
                             <label class="form-label">Search</label>
                             <input type="text" name="search" class="form-control" placeholder="Name or email..." value="<?php echo htmlspecialchars($search); ?>">
                         </div>
-                        <div class="col-md-2">
+                        <div>
                             <label class="form-label">Barangay</label>
                             <select name="barangay" class="form-select">
                                 <option value="">All Barangays</option>
@@ -1034,7 +1181,7 @@ $yearLevels = pg_fetch_all(pg_query($connection, "SELECT year_level_id, name FRO
                                 <?php endforeach; ?>
                             </select>
                         </div>
-                        <div class="col-md-3">
+                        <div>
                             <label class="form-label">University</label>
                             <select name="university" class="form-select">
                                 <option value="">All Universities</option>
@@ -1045,7 +1192,7 @@ $yearLevels = pg_fetch_all(pg_query($connection, "SELECT year_level_id, name FRO
                                 <?php endforeach; ?>
                             </select>
                         </div>
-                        <div class="col-md-2">
+                        <div>
                             <label class="form-label">Year Level</label>
                             <select name="year_level" class="form-select">
                                 <option value="">All Years</option>
@@ -1056,22 +1203,19 @@ $yearLevels = pg_fetch_all(pg_query($connection, "SELECT year_level_id, name FRO
                                 <?php endforeach; ?>
                             </select>
                         </div>
-                        <div class="col-md-2">
-                            <label class="form-label">Confidence Level</label>
+                        <div>
+                            <label class="form-label">Confidence</label>
                             <select name="confidence" class="form-select">
                                 <option value="">All Levels</option>
                                 <option value="very_high" <?php echo $confidence_filter == 'very_high' ? 'selected' : ''; ?>>Very High (85%+)</option>
                                 <option value="high" <?php echo $confidence_filter == 'high' ? 'selected' : ''; ?>>High (70-84%)</option>
                                 <option value="medium" <?php echo $confidence_filter == 'medium' ? 'selected' : ''; ?>>Medium (50-69%)</option>
-                                <option value="low" <?php echo $confidence_filter == 'low' ? 'selected' : ''; ?>>Low (<50%)</option>
+                                <option value="low" <?php echo $confidence_filter == 'low' ? 'selected' : ''; ?>>Low (&lt;50%)</option>
                             </select>
                         </div>
-                        <div class="col-md-2">
-                            <label class="form-label">&nbsp;</label>
-                            <div class="d-flex gap-2">
-                                <button type="submit" class="btn btn-primary">Filter</button>
-                                <a href="review_registrations.php" class="btn btn-outline-secondary">Clear</a>
-                            </div>
+                        <div class="filter-buttons">
+                            <button type="submit" class="btn btn-primary">Filter</button>
+                            <a href="review_registrations.php" class="btn btn-outline-secondary">Clear</a>
                         </div>
                     </form>
                 </div>
@@ -1079,7 +1223,7 @@ $yearLevels = pg_fetch_all(pg_query($connection, "SELECT year_level_id, name FRO
                 <!-- Auto-Approve Section -->
                 <div class="quick-actions">
                     <div class="qa-row">
-                        <div>
+                        <div class="qa-text">
                             <h5 class="mb-1"><i class="bi bi-lightning-charge me-2"></i>Quick Actions</h5>
                             <small>Streamline review process for high-confidence registrations (80%+)</small>
                         </div>
@@ -1138,13 +1282,13 @@ $yearLevels = pg_fetch_all(pg_query($connection, "SELECT year_level_id, name FRO
                 <?php else: ?>
                     <!-- Results Table -->
                     <div class="table-responsive">
-                        <table class="table table-bordered align-middle">
+                        <table class="table table-bordered align-middle registrations-table">
                             <thead>
                                 <tr>
-                                    <th width="40">
+                                    <th class="col-select checkbox-col">
                                         <input type="checkbox" id="selectAll" onchange="toggleSelectAll()">
                                     </th>
-                                    <th>
+                                    <th class="col-name">
                                         <a href="?<?php echo http_build_query(array_merge($_GET, ['sort' => 'first_name', 'order' => $sort_by === 'first_name' && $sort_order === 'ASC' ? 'DESC' : 'ASC'])); ?>" class="sort-link <?php echo $sort_by === 'first_name' ? 'sort-active' : ''; ?>">
                                             Name <?php if ($sort_by === 'first_name') echo $sort_order === 'ASC' ? '↑' : '↓'; ?>
                                         </a>
@@ -1170,7 +1314,7 @@ $yearLevels = pg_fetch_all(pg_query($connection, "SELECT year_level_id, name FRO
                             <tbody>
                                 <?php foreach ($pendingRegistrations as $registration): ?>
                                     <tr>
-                                        <td data-label="Select">
+                                        <td class="checkbox-col" data-label="Select">
                                             <input type="checkbox" class="row-select" value="<?php echo $registration['student_id']; ?>" onchange="updateSelection()">
                                         </td>
                                         <td data-label="Name">

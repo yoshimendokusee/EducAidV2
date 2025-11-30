@@ -483,16 +483,10 @@ while ($row = pg_fetch_assoc($barangaysResult)) {
                 </div>
 
                 <!-- Filters -->
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h5>
-                            Filter Options
-                        </h5>
-                    </div>
-                    <div class="card-body">
-                        <form method="GET" class="row g-3">
-                            <div class="col-12 col-md-3">
-                                <label class="form-label">Barangay</label>
+                <div class="filter-section mb-4">
+                    <form method="GET" class="filter-grid filter-grid-6">
+                        <div class="filter-group">
+                            <label class="form-label">Barangay</label>
                                 <select name="barangay" class="form-select">
                                     <option value="">All Barangays</option>
                                     <?php foreach ($barangays as $brgy): ?>
@@ -502,7 +496,7 @@ while ($row = pg_fetch_assoc($barangaysResult)) {
                                     <?php endforeach; ?>
                                 </select>
                             </div>
-                            <div class="col-12 col-md-2">
+                            <div class="filter-group">
                                 <label class="form-label">Status</label>
                                 <select name="override_status" class="form-select">
                                     <option value="">All</option>
@@ -510,24 +504,19 @@ while ($row = pg_fetch_assoc($barangaysResult)) {
                                     <option value="overridden" <?= $overrideFilter === 'overridden' ? 'selected' : '' ?>>Overridden</option>
                                 </select>
                             </div>
-                            <div class="col-12 col-sm-6 col-md-2">
+                            <div class="filter-group">
                                 <label class="form-label">Date From</label>
                                 <input type="date" name="date_from" class="form-control" value="<?= htmlspecialchars($dateFrom) ?>">
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-2">
-                                <label class="form-label">Date To</label>
-                                <input type="date" name="date_to" class="form-control" value="<?= htmlspecialchars($dateTo) ?>">
-                            </div>
-                            <div class="col-12 col-md-3 d-flex flex-column flex-sm-row align-items-stretch align-items-sm-end gap-2">
-                                <button type="submit" class="btn btn-primary flex-grow-1">
-                                    Apply Filters
-                                </button>
-                                <a href="household_blocked_registrations.php" class="btn btn-outline-secondary" title="Clear Filters">
-                                    Clear
-                                </a>
-                            </div>
-                        </form>
-                    </div>
+                        </div>
+                        <div class="filter-group">
+                            <label class="form-label">Date To</label>
+                            <input type="date" name="date_to" class="form-control" value="<?= htmlspecialchars($dateTo) ?>">
+                        </div>
+                        <div class="filter-buttons">
+                            <button type="submit" class="btn btn-primary">Filter</button>
+                            <a href="household_blocked_registrations.php" class="btn btn-outline-secondary">Clear</a>
+                        </div>
+                    </form>
                 </div>
 
                 <!-- Blocked Attempts Table -->
@@ -557,10 +546,10 @@ while ($row = pg_fetch_assoc($barangaysResult)) {
                     </div>
                 <?php else: ?>
                     <div class="table-responsive">
-                                <table class="table table-hover">
+                                <table class="table table-hover blocked-table">
                                     <thead>
                                         <tr>
-                                            <th>
+                                            <th class="checkbox-col">
                                                 <input type="checkbox" id="selectAll" class="form-check-input" onchange="toggleSelectAll(this)">
                                             </th>
                                             <th><i class="bi bi-clock me-1"></i>Date/Time</th>
@@ -576,7 +565,7 @@ while ($row = pg_fetch_assoc($barangaysResult)) {
                                     <tbody>
                                         <?php foreach ($records as $record): ?>
                                             <tr>
-                                                <td data-label="Select">
+                                                <td class="checkbox-col" data-label="Select">
                                                     <input type="checkbox" class="form-check-input record-checkbox" 
                                                            value="<?= $record['attempt_id'] ?>" 
                                                            onchange="updateBulkDeleteButton()">

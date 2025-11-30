@@ -900,7 +900,7 @@ $csrf_confirm_token = CSRFProtection::generateToken('confirm_distribution');
 $csrf_complete_token = CSRFProtection::generateToken('complete_distribution');
 ?>
 
-<?php $page_title='QR Code Scanner'; include __DIR__ . '/../../includes/admin/admin_head.php'; ?>
+<?php $page_title='QR Code Scanner'; $extra_css=['../../assets/css/admin/table_core.css']; include __DIR__ . '/../../includes/admin/admin_head.php'; ?>
   <style>
     body { font-family: 'Poppins', sans-serif; }
     #reader { 
@@ -986,8 +986,8 @@ $csrf_complete_token = CSRFProtection::generateToken('complete_distribution');
     <?php include __DIR__ . '/../../includes/admin/admin_header.php'; ?>
     <section class="home-section" id="page-content-wrapper">
       <div class="container py-5">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <h1><i class="bi bi-qr-code-scan me-2"></i>QR Code Scanner & Distribution</h1>
+        <div class="mb-4">
+          <h1 class="fw-bold mb-1">QR Code Scanner & Distribution</h1>
         </div>
 
         <!-- Flash Messages -->

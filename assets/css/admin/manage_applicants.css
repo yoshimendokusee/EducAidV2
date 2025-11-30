@@ -136,6 +136,213 @@ h1.fw-bold, h2.fw-bold {
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
+/* Responsive filter grid - replaces Bootstrap row/col */
+.filter-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr;
+}
+
+/* Small screens: 2 columns */
+@media (min-width: 576px) {
+  .filter-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Medium screens: 3 columns */
+@media (min-width: 768px) {
+  .filter-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Large screens: 4 columns */
+@media (min-width: 992px) {
+  .filter-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Extra large screens: all filters visible */
+@media (min-width: 1400px) {
+  .filter-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .filter-grid.filter-grid-8 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* 5-column filter grid (household_blocked_registrations) */
+.filter-grid-6 {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+@media (max-width: 1199.98px) {
+  .filter-grid-6 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 991.98px) {
+  .filter-grid-6 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 575.98px) {
+  .filter-grid-6 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==================== TABLE CARD & TOOLBAR ==================== */
+/* Wraps table with a card-like container and integrated toolbar */
+.table-card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border: 1px solid #dee2e6;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.table-toolbar {
+  background: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+  padding: 12px 16px;
+  border-radius: 8px 8px 0 0;
+}
+
+.table-toolbar .form-check-label {
+  font-size: 0.9rem;
+}
+
+.table-card .table-responsive {
+  border-radius: 0;
+  box-shadow: none;
+  margin-top: 0;
+}
+
+.table-card .table {
+  margin-bottom: 0;
+  border-radius: 0;
+}
+
+/* Mobile adjustments for table toolbar */
+@media (max-width: 575.98px) {
+  .table-toolbar {
+    padding: 12px;
+    gap: 12px;
+  }
+  
+  .table-toolbar .d-flex {
+    width: 100%;
+  }
+  
+  .table-toolbar .form-check {
+    font-size: 0.85rem;
+  }
+  
+  .table-toolbar .btn-sm {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────── */
+/* Scroll-Friendly Tables - Horizontal scroll on desktop       */
+/* ─────────────────────────────────────────────────────────── */
+.table.blocked-table {
+  min-width: 1100px;
+  table-layout: auto;
+}
+
+/* Compact table styling - similar to review_registrations */
+.table.blocked-table thead th {
+  font-size: .85rem !important;
+  letter-spacing: .25px;
+  white-space: nowrap !important;
+  background: #495057 !important;
+  color: #fff !important;
+  padding: 10px 12px !important;
+  border: none;
+}
+
+.table.blocked-table tbody td {
+  padding: 10px 12px !important;
+  vertical-align: middle;
+  font-size: .9rem !important;
+}
+
+/* Narrow checkbox column */
+.table.blocked-table th:first-child,
+.table.blocked-table td:first-child {
+  width: 44px !important;
+  max-width: 44px !important;
+  min-width: 44px !important;
+  text-align: center;
+  padding: 10px 8px !important;
+}
+
+/* Sticky first column (checkbox) */
+.table.blocked-table th:first-child,
+.table.blocked-table td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: #fff;
+  box-shadow: 2px 0 4px rgba(0,0,0,0.05);
+}
+
+.table.blocked-table thead th:first-child {
+  background: #495057 !important;
+  z-index: 3;
+}
+
+/* Mobile: Reset table styles for card layout */
+@media (max-width: 767.98px) {
+  .table.blocked-table {
+    min-width: unset !important;
+  }
+  
+  .table.blocked-table th:first-child,
+  .table.blocked-table td:first-child {
+    position: static !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    width: auto !important;
+    max-width: none !important;
+    min-width: 0 !important;
+  }
+}
+
+.filter-grid .form-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 6px;
+  white-space: nowrap;
+}
+
+.filter-grid .form-control,
+.filter-grid .form-select {
+  width: 100%;
+  min-width: 0;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+}
+
+@media (max-width: 575.98px) {
+  .filter-buttons {
+    grid-column: 1 / -1;
+  }
+}
+
 .filter-container {
   border-radius: 0.9rem;
   background: #ffffff;

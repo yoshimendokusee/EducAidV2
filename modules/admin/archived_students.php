@@ -486,44 +486,120 @@ $stats = pg_fetch_assoc($statsResult);
     @media (min-width: 1400px) { .stats-cards .stat-card { flex-basis: 260px; } }
 
     .stat-card {
-        background: white;
         padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        border-radius: 16px;
         transition: transform 0.3s ease;
         text-align: center;
+        position: relative;
+        overflow: hidden;
     }
 
     .stat-card:hover {
         transform: translateY(-5px);
-        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    
+    .stat-card .watermark-icon {
+        position: absolute;
+        right: -10px;
+        bottom: -10px;
+        font-size: 5rem;
+        opacity: 0.15;
+        transform: rotate(-10deg);
+        color: white;
     }
 
     .stat-number {
         font-size: 2.5rem;
         font-weight: bold;
         margin: 10px 0;
+        color: white;
     }
 
     .stat-label {
-        color: #7f8c8d;
+        color: rgba(255,255,255,0.85);
         font-size: 0.9rem;
         text-transform: uppercase;
         letter-spacing: 0.5px;
         font-weight: 500;
     }
-
-    .text-primary { color: var(--primary-color) !important; }
-    .text-success { color: var(--success-color) !important; }
-    .text-info { color: var(--info-color) !important; }
-    .text-warning { color: var(--warning-color) !important; }
+    
+    .stat-blue {
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
+    }
+    .stat-green {
+        background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+        box-shadow: 0 4px 14px rgba(34, 197, 94, 0.35);
+    }
+    .stat-cyan {
+        background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+        box-shadow: 0 4px 14px rgba(6, 182, 212, 0.35);
+    }
+    .stat-amber {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+    }
+    .stat-purple {
+        background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+        box-shadow: 0 4px 14px rgba(139, 92, 246, 0.35);
+    }
 
     .filter-card {
         background: white;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        margin-bottom: 20px;
+        padding: 1.25rem;
+        border-radius: 12px;
+        border: 1px solid #e5e7eb;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+        margin-bottom: 1.5rem;
+    }
+    .filter-card .form-label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #6b7280;
+        margin-bottom: 0.35rem;
+    }
+    .filter-card .form-control,
+    .filter-card .form-select {
+        font-size: 0.9rem;
+        border-radius: 8px;
+        border: 1px solid #d1d5db;
+    }
+    .filter-card .form-control:focus,
+    .filter-card .form-select:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(17, 130, 255, 0.1);
+    }
+    .filter-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr 1fr auto;
+        gap: 1rem;
+        align-items: end;
+    }
+    .filter-actions {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #f0f0f0;
+    }
+    @media (max-width: 1200px) {
+        .filter-grid {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+    }
+    @media (max-width: 768px) {
+        .filter-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+    @media (max-width: 576px) {
+        .filter-grid {
+            grid-template-columns: 1fr;
+        }
     }
 
     .table-card {
@@ -630,37 +706,42 @@ $stats = pg_fetch_assoc($statsResult);
 
     <section class="home-section" id="mainContent">
         <div class="container-fluid py-4 px-4">
-            <div class="section-header mb-4 d-flex justify-content-between align-items-center">
-                <h2 class="fw-bold text-primary mb-0">
-                    Archived Students
-                </h2>
+            <div class="mb-4 d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <div>
+                    <h1 class="fw-bold mb-1">Archived Students</h1>
+                </div>
                 <span class="badge bg-secondary fs-6"><?php echo $stats['total_archived']; ?> Archived</span>
             </div>
 
             <!-- Statistics Cards -->
             <div class="stats-cards">
-                <div class="stat-card">
-                    <div class="stat-number text-primary"><?php echo $stats['total_archived']; ?></div>
+                <div class="stat-card stat-blue">
+                    <i class="bi bi-archive watermark-icon"></i>
+                    <div class="stat-number"><?php echo $stats['total_archived']; ?></div>
                     <div class="stat-label">Total Archived</div>
                 </div>
 
-                <div class="stat-card">
-                    <div class="stat-number text-success"><?php echo $stats['auto_archived']; ?></div>
+                <div class="stat-card stat-green">
+                    <i class="bi bi-gear watermark-icon"></i>
+                    <div class="stat-number"><?php echo $stats['auto_archived']; ?></div>
                     <div class="stat-label">Automatic Archives</div>
                 </div>
 
-                <div class="stat-card">
-                    <div class="stat-number text-info"><?php echo $stats['manual_archived']; ?></div>
+                <div class="stat-card stat-cyan">
+                    <i class="bi bi-hand-index watermark-icon"></i>
+                    <div class="stat-number"><?php echo $stats['manual_archived']; ?></div>
                     <div class="stat-label">Manual Archives</div>
                 </div>
 
-                <div class="stat-card">
-                    <div class="stat-number text-warning"><?php echo $stats['archived_last_30_days']; ?></div>
+                <div class="stat-card stat-amber">
+                    <i class="bi bi-calendar-event watermark-icon"></i>
+                    <div class="stat-number"><?php echo $stats['archived_last_30_days']; ?></div>
                     <div class="stat-label">Last 30 Days</div>
                 </div>
                 
-                <div class="stat-card">
-                    <div class="stat-number text-secondary"><?php echo $stats['previously_unarchived']; ?></div>
+                <div class="stat-card stat-purple">
+                    <i class="bi bi-arrow-repeat watermark-icon"></i>
+                    <div class="stat-number"><?php echo $stats['previously_unarchived']; ?></div>
                     <div class="stat-label">Re-archived (Previously Restored)</div>
                 </div>
             </div>
@@ -668,15 +749,15 @@ $stats = pg_fetch_assoc($statsResult);
             <!-- Filter Card -->
             <div class="filter-card">
                 <form method="GET" id="filterForm">
-                <div class="row g-3">
-                    <div class="col-md-3">
+                <div class="filter-grid">
+                    <div>
                         <label class="form-label">Search</label>
                         <input type="text" class="form-control" name="search" 
                                placeholder="Name, Email, or ID" 
                                value="<?php echo htmlspecialchars($searchTerm); ?>">
                     </div>
 
-                    <div class="col-md-2">
+                    <div>
                         <label class="form-label">Archive Type</label>
                         <select class="form-select" name="archive_type">
                             <option value="">All Types</option>
@@ -685,7 +766,7 @@ $stats = pg_fetch_assoc($statsResult);
                         </select>
                     </div>
 
-                    <div class="col-md-2">
+                    <div>
                         <label class="form-label">Year Level</label>
                         <select class="form-select" name="year_level">
                             <option value="">All Levels</option>
@@ -698,40 +779,35 @@ $stats = pg_fetch_assoc($statsResult);
                         </select>
                     </div>
 
-                    <div class="col-md-2">
+                    <div>
                         <label class="form-label">Date From</label>
                         <input type="date" class="form-control" name="date_from" 
                                value="<?php echo htmlspecialchars($dateFrom); ?>">
                     </div>
 
-                    <div class="col-md-2">
+                    <div>
                         <label class="form-label">Date To</label>
                         <input type="date" class="form-control" name="date_to" 
                                value="<?php echo htmlspecialchars($dateTo); ?>">
                     </div>
 
-                    <div class="col-md-1 d-flex align-items-end">
-                        <button type="submit" class="btn btn-primary w-100">
-                            <i class="bi bi-funnel"></i> Filter
-                        </button>
+                    <div>
+                        <button type="submit" class="btn btn-primary">Filter</button>
                     </div>
                 </div>
 
-                <div class="row mt-3">
-                    <div class="col-12">
-                        <button type="button" class="btn btn-outline-secondary btn-sm" onclick="clearFilters()">
-                            <i class="bi bi-x-circle"></i> Clear Filters
-                        </button>
-                        <a href="?export=csv<?php 
-                            echo !empty($searchTerm) ? '&search=' . urlencode($searchTerm) : '';
-                            echo !empty($archiveType) ? '&archive_type=' . urlencode($archiveType) : '';
-                            echo !empty($yearLevel) ? '&year_level=' . urlencode($yearLevel) : '';
-                            echo !empty($dateFrom) ? '&date_from=' . urlencode($dateFrom) : '';
-                            echo !empty($dateTo) ? '&date_to=' . urlencode($dateTo) : '';
-                        ?>" class="btn btn-success btn-sm">
-                            <i class="bi bi-download"></i> Export to CSV
-                        </a>
-                    </div>
+                <div class="filter-actions">
+                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="clearFilters()">Clear</button>
+                    <a href="?export=csv<?php 
+                        echo !empty($searchTerm) ? '&search=' . urlencode($searchTerm) : '';
+                        echo !empty($archiveType) ? '&archive_type=' . urlencode($archiveType) : '';
+                        echo !empty($yearLevel) ? '&year_level=' . urlencode($yearLevel) : '';
+                        echo !empty($dateFrom) ? '&date_from=' . urlencode($dateFrom) : '';
+                        echo !empty($dateTo) ? '&date_to=' . urlencode($dateTo) : '';
+                    ?>" class="btn btn-success btn-sm">
+                        <i class="bi bi-download"></i> Export to CSV
+                    </a>
+                </div>
                 </div>
             </form>
         </div>

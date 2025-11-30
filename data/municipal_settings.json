@@ -1,5 +1,5 @@
 {
-    "schedule_published": false,
+    "schedule_published": true,
     "archive_file_retention_years": 5,
     "auto_compress_distributions": true,
     "compress_after_days": 30,

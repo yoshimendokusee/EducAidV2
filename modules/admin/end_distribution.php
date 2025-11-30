@@ -652,7 +652,7 @@ $endedAwaitingCompression = []; // Not needed for config-based system
 
 $pageTitle = "End Distribution";
 ?>
-<?php $page_title='End Distribution'; include __DIR__ . '/../../includes/admin/admin_head.php'; ?>
+<?php $page_title='End Distribution'; $extra_css=['../../assets/css/admin/table_core.css']; include __DIR__ . '/../../includes/admin/admin_head.php'; ?>
 <body>
 <?php include __DIR__ . '/../../includes/admin/admin_topbar.php'; ?>
     <div id="wrapper" class="admin-wrapper">
@@ -663,7 +663,7 @@ $pageTitle = "End Distribution";
                 
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <div>
-                        <h2 class="mb-1"><i class="bi bi-file-zip"></i> End Distribution</h2>
+                        <h1 class="fw-bold mb-1">End Distribution</h1>
                         <p class="text-muted mb-0">Compress student files and reset system for next cycle</p>
                     </div>
                 </div>

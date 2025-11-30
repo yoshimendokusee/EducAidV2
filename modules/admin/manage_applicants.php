@@ -1122,34 +1122,10 @@ function render_table($applicants, $connection) {
     $canApprove = $workflow_status['can_manage_applicants'] ?? false;
     ob_start();
     ?>
-            <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2" id="bulkControls"
-                data-approve-token="<?= htmlspecialchars($csrfBulkApproveToken) ?>"
-                data-can-approve="<?= $canApprove ? '1' : '0' ?>"
-                data-is-finalized="<?= $isListFinalized ? '1' : '0' ?>">
-        <div class="d-flex align-items-center gap-3">
-            <div class="form-check mb-0">
-                <input class="form-check-input" type="checkbox" id="selectAllApplicants">
-                <label class="form-check-label" for="selectAllApplicants">Select all</label>
-            </div>
-            <div class="form-check mb-0">
-                <input class="form-check-input" type="checkbox" id="selectOnlyComplete" checked>
-                <label class="form-check-label" for="selectOnlyComplete">Only complete documents</label>
-            </div>
-            <span class="text-muted small" id="selectedCount">0 selected</span>
-        </div>
-        <div class="d-flex align-items-center gap-2">
-            <button type="button" class="btn btn-success btn-sm" id="bulkVerifyBtn" <?= ($canApprove && !$isListFinalized) ? '' : 'disabled' ?> title="<?= $isListFinalized ? 'List is locked in Verify Students' : ($canApprove ? '' : 'Start a distribution first') ?>">
-                <i class="bi bi-check2-circle me-1"></i> <?= $isListFinalized ? 'List is locked' : 'Verify Selected' ?>
-            </button>
-            <button type="button" class="btn btn-outline-secondary btn-sm" id="bulkClearBtn">
-                <i class="bi bi-x-circle me-1"></i> Clear Selection
-            </button>
-        </div>
-    </div>
-    <table class="table table-bordered align-middle">
+    <table class="table table-bordered align-middle mb-0">
         <thead>
             <tr>
-                <th style="width:42px">
+                <th class="checkbox-col">
                     <input type="checkbox" class="form-check-input" id="headerSelectAll">
                 </th>
                 <th>Name</th>
@@ -1199,7 +1175,7 @@ function render_table($applicants, $connection) {
                 }
                 ?>
                 <tr data-student-id="<?= htmlspecialchars($student_id) ?>" data-doc-complete="<?= $isComplete ? '1' : '0' ?>">
-                    <td>
+                    <td class="checkbox-col" data-label="Select">
                         <input type="checkbox" class="form-check-input applicant-select" value="<?= htmlspecialchars($student_id) ?>" data-complete="<?= $isComplete ? '1' : '0' ?>">
                     </td>
                     <td data-label="Name">
@@ -2510,11 +2486,8 @@ if ($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '' === 'XMLHttpRequest' || (isset($_GET
     // Return table content and stats for real-time updates
     ob_start();
     ?>
-    <div class="section-header mb-3 d-flex justify-content-between align-items-center">
-        <h2 class="fw-bold text-primary mb-0">
-            <i class="bi bi-person-vcard"></i>
-            Manage Applicants
-        </h2>
+    <div class="mb-3 d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <h1 class="fw-bold mb-0">Manage Applicants</h1>
         <div class="d-flex align-items-center gap-2">
             <?php if ($hasActiveDistribution): ?>
                 <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#migrationModal">
@@ -2537,7 +2510,7 @@ if ($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '' === 'XMLHttpRequest' || (isset($_GET
 
 // Normal page output below...
 ?>
-<?php $page_title='Manage Applicants'; $extra_css=['../../assets/css/admin/manage_applicants.css']; include __DIR__ . '/../../includes/admin/admin_head.php'; ?>
+<?php $page_title='Manage Applicants'; $extra_css=['../../assets/css/admin/manage_applicants.css', '../../assets/css/admin/table_core.css']; include __DIR__ . '/../../includes/admin/admin_head.php'; ?>
 <body>
 <?php include __DIR__ . '/../../includes/admin/admin_topbar.php'; ?>
 <div id="wrapper" class="admin-wrapper">
@@ -2589,19 +2562,19 @@ if ($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '' === 'XMLHttpRequest' || (isset($_GET
 
             <!-- Filter Section - Clean style -->
             <div class="filter-section">
-                <form class="row g-3" id="filterForm" method="GET">
-                    <div class="col-md-3">
+                <form class="filter-grid filter-grid-8" id="filterForm" method="GET">
+                    <div>
                         <label class="form-label">Sort by Surname</label>
                         <select name="sort" class="form-select">
                             <option value="asc" <?= $sort === 'asc' ? 'selected' : '' ?>>A to Z</option>
                             <option value="desc" <?= $sort === 'desc' ? 'selected' : '' ?>>Z to A</option>
                         </select>
                     </div>
-                    <div class="col-md-3">
-                        <label class="form-label">Search by Surname</label>
+                    <div>
+                        <label class="form-label">Search Surname</label>
                         <input type="text" name="search_surname" class="form-control" value="<?= htmlspecialchars($search) ?>" placeholder="Enter surname...">
                     </div>
-                    <div class="col-md-2">
+                    <div>
                         <label class="form-label">Year Level</label>
                         <select name="filter_year_level" class="form-select">
                             <option value="">All Years</option>
@@ -2611,7 +2584,7 @@ if ($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '' === 'XMLHttpRequest' || (isset($_GET
                             <option value="5th Year or Higher" <?= $filterYearLevel === '5th Year or Higher' ? 'selected' : '' ?>>5th Year+</option>
                         </select>
                     </div>
-                    <div class="col-md-2">
+                    <div>
                         <label class="form-label">Documents</label>
                         <select name="filter_doc_status" class="form-select" id="filterDocStatus">
                             <option value="">All</option>
@@ -2619,24 +2592,24 @@ if ($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '' === 'XMLHttpRequest' || (isset($_GET
                             <option value="incomplete" <?= $filterDocStatus === 'incomplete' ? 'selected' : '' ?>>Incomplete</option>
                         </select>
                     </div>
-                    <div class="col-md-2">
+                    <div>
                         <label class="form-label">Type</label>
                         <select name="filter_type" class="form-select">
                             <option value="">All Types</option>
-                            <option value="new" <?= $filterType === 'new' ? 'selected' : '' ?>>New Registration</option>
+                            <option value="new" <?= $filterType === 'new' ? 'selected' : '' ?>>New</option>
                             <option value="re-upload" <?= $filterType === 're-upload' ? 'selected' : '' ?>>Re-upload</option>
                             <option value="migrated" <?= $filterType === 'migrated' ? 'selected' : '' ?>>Migrated</option>
                         </select>
                     </div>
-                    <div class="col-md-3">
+                    <div>
                         <label class="form-label">Past Beneficiary</label>
                         <select name="filter_beneficiary" class="form-select">
-                            <option value="">All Students</option>
-                            <option value="yes" <?= $filterBeneficiary === 'yes' ? 'selected' : '' ?>>Yes (Previous Recipient)</option>
-                            <option value="no" <?= $filterBeneficiary === 'no' ? 'selected' : '' ?>>No (First Time)</option>
+                            <option value="">All</option>
+                            <option value="yes" <?= $filterBeneficiary === 'yes' ? 'selected' : '' ?>>Yes</option>
+                            <option value="no" <?= $filterBeneficiary === 'no' ? 'selected' : '' ?>>No</option>
                         </select>
                     </div>
-                    <div class="col-md-3">
+                    <div>
                         <label class="form-label">Barangay</label>
                         <select name="filter_barangay" class="form-select">
                             <option value="">All Barangays</option>
@@ -2650,27 +2623,57 @@ if ($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '' === 'XMLHttpRequest' || (isset($_GET
                             ?>
                         </select>
                     </div>
-                    <div class="col-md-3">
-                        <label class="form-label">Registration Order</label>
+                    <div>
+                        <label class="form-label">Reg. Order</label>
                         <select name="filter_reg_order" class="form-select">
-                            <option value="">Default (Surname)</option>
-                            <option value="first" <?= $filterRegOrder === 'first' ? 'selected' : '' ?>>First to Register</option>
-                            <option value="last" <?= $filterRegOrder === 'last' ? 'selected' : '' ?>>Last to Register</option>
+                            <option value="">Default</option>
+                            <option value="first" <?= $filterRegOrder === 'first' ? 'selected' : '' ?>>First</option>
+                            <option value="last" <?= $filterRegOrder === 'last' ? 'selected' : '' ?>>Last</option>
                         </select>
                     </div>
-                    <div class="col-md-6">
-                        <label class="form-label">&nbsp;</label>
-                        <div class="d-flex gap-2">
-                            <button type="submit" class="btn btn-primary"><i class="bi bi-search me-1"></i> Apply Filters</button>
-                            <button type="button" class="btn btn-outline-secondary" id="clearFiltersBtn">Clear All</button>
-                        </div>
+                    <div class="filter-buttons">
+                        <button type="submit" class="btn btn-primary">Filter</button>
+                        <button type="button" class="btn btn-outline-secondary" id="clearFiltersBtn">Clear</button>
                     </div>
                 </form>
             </div>
 
             <!-- Applicants Table -->
-            <div class="table-responsive" id="tableWrapper">
-                <?= render_table($filteredApplicants, $connection) ?>
+            <div class="table-card">
+                <!-- Table Toolbar - Selection controls integrated with table -->
+                <div class="table-toolbar d-flex flex-wrap align-items-center justify-content-between gap-2 p-3 bg-light border-bottom" id="bulkControls"
+                    data-approve-token="<?= htmlspecialchars($csrfBulkApproveToken) ?>"
+                    data-can-approve="<?= ($workflow_status['can_manage_applicants'] ?? false) ? '1' : '0' ?>"
+                    data-is-finalized="<?= $isListFinalized ? '1' : '0' ?>">
+                    <div class="d-flex align-items-center gap-3 flex-wrap">
+                        <div class="form-check mb-0">
+                            <input class="form-check-input" type="checkbox" id="selectAllApplicants">
+                            <label class="form-check-label" for="selectAllApplicants">Select all</label>
+                        </div>
+                        <div class="form-check mb-0">
+                            <input class="form-check-input" type="checkbox" id="selectOnlyComplete" checked>
+                            <label class="form-check-label" for="selectOnlyComplete">Only complete documents</label>
+                        </div>
+                        <span class="text-muted small" id="selectedCount">0 selected</span>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <?php if ($isListFinalized): ?>
+                            <span class="btn btn-outline-success btn-sm disabled">
+                                <i class="bi bi-lock-fill me-1"></i> List is locked
+                            </span>
+                        <?php else: ?>
+                            <button type="button" class="btn btn-success btn-sm" id="bulkVerifyBtn" <?= ($workflow_status['can_manage_applicants'] ?? false) ? '' : 'disabled' ?> title="<?= ($workflow_status['can_manage_applicants'] ?? false) ? '' : 'Start a distribution first' ?>">
+                                <i class="bi bi-check2-circle me-1"></i> Verify Selected
+                            </button>
+                        <?php endif; ?>
+                        <button type="button" class="btn btn-outline-secondary btn-sm" id="bulkClearBtn">
+                            <i class="bi bi-x-circle me-1"></i> Clear Selection
+                        </button>
+                    </div>
+                </div>
+                <div class="table-responsive" id="tableWrapper">
+                    <?= render_table($filteredApplicants, $connection) ?>
+                </div>
             </div>
             <div id="pagination">
                 <?php render_pagination($page, $totalPages); ?>
@@ -3002,7 +3005,7 @@ if ($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '' === 'XMLHttpRequest' || (isset($_GET
                                     <table class="table table-sm align-middle mb-0 preview-table">
                                 <thead class="table-light">
                                     <tr>
-                                        <th><input type="checkbox" id="selectAllCheckbox" title="Select All"></th>
+                                        <th class="checkbox-col"><input type="checkbox" id="selectAllCheckbox" title="Select All"></th>
                                         <th>Name</th>
                                         <th>Sex</th>
                                         <th>Bdate</th>
@@ -3017,7 +3020,7 @@ if ($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '' === 'XMLHttpRequest' || (isset($_GET
                                 <tbody>
                                         <?php foreach ($mp['rows'] as $idx => $r): $row=$r['row']; $conf=$r['conflicts']; ?>
                                             <tr class="<?= $conf? 'table-warning':'' ?>" data-has-conflict="<?= $conf? '1':'0' ?>">
-                                                <td data-label="Select"><input type="checkbox" class="row-select" name="select[<?= $idx ?>]" <?= $conf? '':'checked' ?>></td>
+                                                <td class="checkbox-col" data-label="Select"><input type="checkbox" class="row-select" name="select[<?= $idx ?>]" <?= $conf? '':'checked' ?>></td>
                                                 <td data-label="Name"><?= htmlspecialchars(trim(($row['last_name'] ?? '') . ', ' . ($row['first_name'] ?? '') . ' ' . ($row['middle_name'] ?? '') . ' ' . ($row['extension_name'] ?? ''))) ?></td>
                                                 <td data-label="Sex"><?= htmlspecialchars($row['sex'] ?: '-') ?></td>
                                                 <td data-label="Bdate"><?= htmlspecialchars($row['bdate'] ?: '-') ?></td>

@@ -3,7 +3,7 @@
    Note: avoids card-conversion to keep markup-agnostic. */
 
 :root {
-  --table-cell-font: 1rem;
+  --table-cell-font: 0.9rem;
 }
 
 .table-responsive {
@@ -26,20 +26,58 @@
   table-layout: auto;
 }
 
-.table th, .table td {
-  vertical-align: middle;
-  font-size: var(--table-cell-font);
-  padding: 12px 14px;
-  border: none;
+/* ==================== COMPACT TABLE STYLING ==================== */
+/* Base header styling - dark gray with white text */
+.table thead th {
+  font-size: .85rem;
+  font-weight: 600;
+  letter-spacing: .25px;
   white-space: nowrap;
-  overflow: visible;
+  background: #495057;
+  color: #fff;
+  padding: 10px 12px;
+  border: none;
+  vertical-align: middle;
+}
+
+/* Base cell styling - compact padding */
+.table tbody td {
+  font-size: var(--table-cell-font);
+  padding: 10px 12px;
+  border: none;
+  vertical-align: middle;
+}
+
+/* Narrow checkbox/select column - only for tables with checkbox-col class */
+.table th.checkbox-col,
+.table td.checkbox-col {
+  width: 44px;
+  max-width: 44px;
+  min-width: 44px;
+  text-align: center;
+  padding: 10px 8px;
+}
+
+/* Sticky first column for horizontal scroll - only for checkbox columns */
+.table th.checkbox-col,
+.table td.checkbox-col {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: #fff;
+  box-shadow: 2px 0 4px rgba(0,0,0,0.05);
+}
+
+.table thead th.checkbox-col {
+  background: #495057;
+  z-index: 3;
 }
 
 /* At narrower widths, allow wrapping to reduce horizontal scroll */
 @media screen and (max-width: 1400px) {
-  .table th, .table td {
-    font-size: 0.95rem;
-    padding: 11px 12px;
+  .table tbody td {
+    font-size: 0.88rem;
+    padding: 10px 11px;
     white-space: normal;
     word-break: break-word;
     overflow-wrap: break-word;
@@ -47,9 +85,9 @@
 }
 
 @media screen and (max-width: 1200px) {
-  .table th, .table td {
-    font-size: 0.95rem;
-    padding: 11px 12px;
+  .table tbody td {
+    font-size: 0.88rem;
+    padding: 9px 10px;
     white-space: normal;
     word-break: break-word;
     overflow-wrap: break-word;
@@ -57,9 +95,9 @@
 }
 
 @media screen and (max-width: 992px) {
-  .table th, .table td {
-    font-size: 0.92rem;
-    padding: 10px 11px;
+  .table tbody td {
+    font-size: 0.85rem;
+    padding: 8px 9px;
   }
 }
 
@@ -82,6 +120,17 @@
   .table tbody,
   .table tr,
   .table td { display: block; width: 100%; }
+  
+  /* Reset sticky positioning and column constraints for mobile */
+  .table th:first-child,
+  .table td:first-child {
+    position: static !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    width: auto !important;
+    max-width: none !important;
+    min-width: 0 !important;
+  }
 
   /* Card styling for each row */
   .table tr {
@@ -90,132 +139,119 @@
     border-radius: 0.75rem;
     box-shadow: 0 2px 8px rgba(17,130,255,0.12);
     border: 1px solid #e9ecef;
-    padding: 1rem;
+    padding: 0.5rem;
     transition: all 0.2s ease;
   }
   .table tr:active { background-color: #f0f6ff; transform: scale(0.99); }
 
-  /* Cell styling with labels */
+  /* Cell styling with grid layout for proper label-value alignment */
   .table td {
     border: none;
     border-bottom: 1px solid #f2f2f2;
-    /* reserve space on the left for the label */
-    padding: 12px 15px 12px 130px;
+    padding: 10px 12px;
     text-align: left;
     position: relative;
     font-size: 0.9rem;
-    line-height: 1.6;
-    min-height: 48px;
-    display: block;
-    overflow: visible;
+    line-height: 1.5;
+    min-height: 44px;
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 8px;
+    align-items: start;
   }
-  .table td:last-child { border-bottom: none; padding-bottom: 0; }
+  .table td:last-child { border-bottom: none; }
 
-  /* Label styling (left side of each cell) */
+  /* Label styling (left column in grid) */
   .table td::before {
     content: attr(data-label);
-    color: #1182FF;
+    color: #6c757d;
     font-weight: 600;
-    font-size: 0.85rem;
-    line-height: 1.5;
-    position: absolute;
-    left: 15px;
-    top: 12px;
-    width: 110px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
     display: block;
   }
-  .table td > * { display: inline; vertical-align: top; }
+  
+  /* Content stays in second column */
+  .table td > * { 
+    display: inline; 
+    vertical-align: top; 
+  }
+  
+  /* Badges should not stretch full width */
+  .table td .badge {
+    display: inline-block;
+    width: auto;
+  }
 
   /* Graceful handling for placeholder/empty-state rows using colspan */
   .table td[colspan] {
     padding: 12px 15px !important;
     text-align: center !important;
+    display: block !important;
+    grid-template-columns: none;
   }
   .table td[colspan]::before { content: '' !important; display: none !important; }
 
-  /* Action column full width (handles Action/Actions label) */
+  /* Action column full width */
   .table td[data-label="Action"],
   .table td[data-label="Actions"] {
-    padding: 15px !important; margin-top: 8px; display: block !important; text-align: center;
+    display: block !important;
+    padding: 12px !important;
+    text-align: center;
   }
-  .table td[data-label="Action"] > *,
-  .table td[data-label="Actions"] > * { max-width: 100% !important; }
   .table td[data-label="Action"]::before,
   .table td[data-label="Actions"]::before {
-    position: relative !important; left: 0 !important; top: 0 !important; display: block !important;
-    width: 100% !important; margin: 0 0 12px 0 !important; padding: 0 !important; text-align: center !important;
-    min-width: auto !important; max-width: none !important;
+    display: block !important;
+    position: static !important;
+    width: 100% !important;
+    text-align: center !important;
+    margin-bottom: 10px;
   }
   .table td[data-label="Action"] .btn,
   .table td[data-label="Actions"] .btn {
-    width: 100%; max-width: 100%; padding: 12px 16px; font-size: 0.95rem; margin: 0 0 8px 0 !important;
-    display: flex; align-items: center; justify-content: center; gap: 8px;
+    width: 100%; 
+    max-width: 100%; 
+    padding: 12px 16px; 
+    font-size: 0.95rem; 
+    margin: 0 0 8px 0 !important;
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    gap: 8px;
   }
   .table td[data-label="Action"] .btn:last-child,
   .table td[data-label="Actions"] .btn:last-child { margin-bottom: 0 !important; }
 
   /* Select row cell: label left, checkbox right */
   .table td[data-label="Select"] {
-    display: flex;
+    display: flex !important;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
     width: 100%;
-    padding: 12px 15px;
+    padding: 12px;
   }
   .table td[data-label="Select"]::before {
     position: static;
-    margin: 0 10px 0 0;
-    min-width: auto;
+    margin: 0;
     width: auto;
-    font-weight: 700;
-    color: #1182FF;
-    display: inline-block;
-    white-space: nowrap;
-    letter-spacing: 0;
-    word-break: keep-all;
-    overflow-wrap: normal;
+    font-weight: 600;
+    color: #6c757d;
   }
   .table td[data-label="Select"] input[type="checkbox"] {
-    width: 22px; height: 22px;
+    width: 22px; 
+    height: 22px;
     accent-color: #1182FF;
-    margin-left: auto; /* push checkbox to the far right */
   }
 }
 
-/* ==================== COMPACT CARD VARIANT (labels inline) ==================== */
+/* ==================== COMPACT CARD VARIANT (wider label column) ==================== */
 @media (max-width: 767px) {
-  /* Use on tables with class .compact-cards for tighter, inline label-value rows */
-  .table.compact-cards { --label-col: 130px; }
-  .table.compact-cards tr { padding: 0.75rem; }
+  /* Use on tables with class .compact-cards for wider labels */
   .table.compact-cards td {
-    /* Grid guarantees labels align and values wrap on the right */
-    display: grid !important;
-    grid-template-columns: var(--label-col) 1fr;
-    grid-auto-rows: minmax(0, auto);
-    grid-auto-flow: row;
-    align-items: start;
-    gap: 8px 12px;
-    padding: 10px 15px !important;
-    padding-left: 15px !important; /* remove large left reserve from default */
-    text-align: left !important; /* override any .text-center on cells */
-    word-break: break-word;
-    overflow-wrap: anywhere;
+    grid-template-columns: 130px 1fr;
   }
-  .table.compact-cards td::before {
-    /* Label sits in the first grid column */
-    position: static !important;
-    display: block !important;
-    width: 100% !important;
-    min-width: 0 !important;
-    margin: 0 !important;
-    grid-column: 1;
-    grid-row: 1;
-  }
-  /* Content flows in second grid column */
-  .table.compact-cards td > * {
-    display: block !important;
-    grid-column: 2;
-    /* let items stack in successive rows to avoid overlap */
-    margin: 0;
+  .table.compact-cards tr { 
+    padding: 0.5rem; 
   }
 }

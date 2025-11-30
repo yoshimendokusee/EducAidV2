@@ -408,10 +408,10 @@ include __DIR__ . '/../../includes/admin/admin_head.php';
     <section class="home-section" id="mainContent">
       <div class="container-fluid py-4 px-4">
         
-        <div class="page-header">
+        <div class="mb-4">
           <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
             <div>
-              <h2 class="mb-1"><i class="bi bi-layout-text-sidebar-reverse me-2"></i>Footer Settings</h2>
+              <h1 class="fw-bold mb-1">Footer Settings</h1>
               <p class="text-muted mb-0">Customize footer colors, content, and contact information across all website pages</p>
             </div>
             <div class="d-flex align-items-center gap-2">

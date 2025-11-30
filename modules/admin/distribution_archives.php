@@ -119,7 +119,7 @@ $filteredDistributions = array_filter($allDistributions, function($dist) use ($f
 
 $pageTitle = "Distribution Archives";
 ?>
-<?php $page_title='Distribution Archives'; include __DIR__ . '/../../includes/admin/admin_head.php'; ?>
+<?php $page_title='Distribution Archives'; $extra_css=['../../assets/css/admin/table_core.css']; include __DIR__ . '/../../includes/admin/admin_head.php'; ?>
 <body>
 <?php include __DIR__ . '/../../includes/admin/admin_topbar.php'; ?>
     <div id="wrapper" class="admin-wrapper">
@@ -192,7 +192,7 @@ $pageTitle = "Distribution Archives";
     <div class="main-content">
         <div class="container-fluid py-4">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2><i class="bi bi-archive"></i> Distribution Archives</h2>
+                <h1 class="fw-bold mb-1">Distribution Archives</h1>
             </div>
 
             <!-- Compression Statistics Banner -->

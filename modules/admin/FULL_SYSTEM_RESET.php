@@ -305,11 +305,64 @@ $csrf_token = CSRFProtection::generateToken('nuclear_reset');
     }
     
     .stat-card {
-        background: white;
-        border-radius: 8px;
+        border-radius: 16px;
         padding: 20px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         margin-bottom: 20px;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.2s;
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-4px);
+    }
+    
+    .stat-card .watermark-icon {
+        position: absolute;
+        right: -10px;
+        bottom: -10px;
+        font-size: 4rem;
+        opacity: 0.15;
+        transform: rotate(-10deg);
+        color: white;
+    }
+    
+    .stat-card h5 {
+        color: rgba(255,255,255,0.85);
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+    }
+    
+    .stat-card h2 {
+        color: white;
+        font-weight: 700;
+        font-size: 2rem;
+    }
+    
+    .stat-blue {
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
+    }
+    .stat-cyan {
+        background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+        box-shadow: 0 4px 14px rgba(6, 182, 212, 0.35);
+    }
+    .stat-green {
+        background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+        box-shadow: 0 4px 14px rgba(34, 197, 94, 0.35);
+    }
+    .stat-amber {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+    }
+    .stat-slate {
+        background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+        box-shadow: 0 4px 14px rgba(100, 116, 139, 0.35);
+    }
+    .stat-red {
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
     }
     
     .warning-banner {
@@ -334,8 +387,8 @@ $csrf_token = CSRFProtection::generateToken('nuclear_reset');
     <?php include __DIR__ . '/../../includes/admin/admin_header.php'; ?>
     <section class="home-section" id="page-content-wrapper">
         <div class="container py-5">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1><i class="bi bi-radioactive me-2"></i>Full System Reset</h1>
+            <div class="mb-4 d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <h1 class="fw-bold mb-0">Full System Reset</h1>
                 <a href="verify_students.php" class="btn btn-secondary">
                     <i class="bi bi-arrow-left me-2"></i>Back to Dashboard
                 </a>
@@ -374,39 +427,45 @@ $csrf_token = CSRFProtection::generateToken('nuclear_reset');
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-4">
-                            <div class="stat-card">
-                                <h5 class="text-muted">Students</h5>
-                                <h2 class="mb-0 text-primary"><?php echo number_format($stats['students']); ?></h2>
+                            <div class="stat-card stat-blue">
+                                <i class="bi bi-mortarboard watermark-icon"></i>
+                                <h5>Students</h5>
+                                <h2 class="mb-0"><?php echo number_format($stats['students']); ?></h2>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="stat-card">
-                                <h5 class="text-muted">QR Codes</h5>
-                                <h2 class="mb-0 text-info"><?php echo number_format($stats['qr_codes']); ?></h2>
+                            <div class="stat-card stat-cyan">
+                                <i class="bi bi-qr-code watermark-icon"></i>
+                                <h5>QR Codes</h5>
+                                <h2 class="mb-0"><?php echo number_format($stats['qr_codes']); ?></h2>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="stat-card">
-                                <h5 class="text-muted">Distribution Snapshots</h5>
-                                <h2 class="mb-0 text-success"><?php echo number_format($stats['distribution_snapshots']); ?></h2>
+                            <div class="stat-card stat-green">
+                                <i class="bi bi-camera watermark-icon"></i>
+                                <h5>Distribution Snapshots</h5>
+                                <h2 class="mb-0"><?php echo number_format($stats['distribution_snapshots']); ?></h2>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="stat-card">
-                                <h5 class="text-muted">Distribution Records</h5>
-                                <h2 class="mb-0 text-warning"><?php echo number_format($stats['distribution_records']); ?></h2>
+                            <div class="stat-card stat-amber">
+                                <i class="bi bi-list-check watermark-icon"></i>
+                                <h5>Distribution Records</h5>
+                                <h2 class="mb-0"><?php echo number_format($stats['distribution_records']); ?></h2>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="stat-card">
-                                <h5 class="text-muted">Schedules</h5>
-                                <h2 class="mb-0 text-secondary"><?php echo number_format($stats['schedules']); ?></h2>
+                            <div class="stat-card stat-slate">
+                                <i class="bi bi-calendar3 watermark-icon"></i>
+                                <h5>Schedules</h5>
+                                <h2 class="mb-0"><?php echo number_format($stats['schedules']); ?></h2>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="stat-card">
-                                <h5 class="text-muted">Active Slots</h5>
-                                <h2 class="mb-0 text-danger"><?php echo number_format($stats['active_slots']); ?></h2>
+                            <div class="stat-card stat-red">
+                                <i class="bi bi-clock watermark-icon"></i>
+                                <h5>Active Slots</h5>
+                                <h2 class="mb-0"><?php echo number_format($stats['active_slots']); ?></h2>
                             </div>
                         </div>
                     </div>
@@ -416,21 +475,24 @@ $csrf_token = CSRFProtection::generateToken('nuclear_reset');
                     <h5 class="mb-3">File System Status</h5>
                     <div class="row">
                         <div class="col-md-4">
-                            <div class="stat-card">
-                                <h5 class="text-muted">Document Files</h5>
-                                <h2 class="mb-0 text-primary"><?php echo number_format($file_counts['documents']); ?></h2>
+                            <div class="stat-card stat-blue">
+                                <i class="bi bi-file-earmark-text watermark-icon"></i>
+                                <h5>Document Files</h5>
+                                <h2 class="mb-0"><?php echo number_format($file_counts['documents']); ?></h2>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="stat-card">
-                                <h5 class="text-muted">QR Code Images</h5>
-                                <h2 class="mb-0 text-info"><?php echo number_format($file_counts['qr_codes']); ?></h2>
+                            <div class="stat-card stat-cyan">
+                                <i class="bi bi-qr-code-scan watermark-icon"></i>
+                                <h5>QR Code Images</h5>
+                                <h2 class="mb-0"><?php echo number_format($file_counts['qr_codes']); ?></h2>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="stat-card">
-                                <h5 class="text-muted">Archive Files</h5>
-                                <h2 class="mb-0 text-success"><?php echo number_format($file_counts['archives']); ?></h2>
+                            <div class="stat-card stat-green">
+                                <i class="bi bi-archive watermark-icon"></i>
+                                <h5>Archive Files</h5>
+                                <h2 class="mb-0"><?php echo number_format($file_counts['archives']); ?></h2>
                             </div>
                         </div>
                     </div>

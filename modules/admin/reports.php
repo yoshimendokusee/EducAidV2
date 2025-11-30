@@ -102,7 +102,7 @@ include __DIR__ . '/../../includes/admin/admin_head.php';
             <div class="page-subtitle">Generate comprehensive reports with advanced filtering options</div>
         </div>
         <div class="mt-3 mt-md-0">
-            <button class="btn btn-outline-secondary" onclick="resetFilters()">Reset All Filters</button>
+            <button class="btn btn-outline-secondary" onclick="resetFilters()">Clear</button>
         </div>
     </div>
 
@@ -291,13 +291,11 @@ include __DIR__ . '/../../includes/admin/admin_head.php';
         <div class="col-md-3">
             <div class="card stat-card bg-gradient-primary text-white">
                 <div class="card-body">
+                    <i class="bi bi-people-fill watermark-icon"></i>
                     <div class="d-flex justify-content-between">
                         <div>
                             <h6 class="card-title mb-1">Total Students</h6>
                             <h2 class="mb-0" id="statTotalStudents">0</h2>
-                        </div>
-                        <div class="stat-icon">
-                            <i class="bi bi-people-fill"></i>
                         </div>
                     </div>
                 </div>
@@ -306,14 +304,12 @@ include __DIR__ . '/../../includes/admin/admin_head.php';
         <div class="col-md-3">
             <div class="card stat-card bg-gradient-success text-white">
                 <div class="card-body">
+                    <i class="bi bi-gender-male watermark-icon"></i>
                     <div class="d-flex justify-content-between">
                         <div>
                             <h6 class="card-title mb-1">Male</h6>
                             <h2 class="mb-0" id="statMale">0</h2>
                             <small id="statMalePercent">0%</small>
-                        </div>
-                        <div class="stat-icon">
-                            <i class="bi bi-gender-male"></i>
                         </div>
                     </div>
                 </div>
@@ -322,14 +318,12 @@ include __DIR__ . '/../../includes/admin/admin_head.php';
         <div class="col-md-3">
             <div class="card stat-card bg-gradient-info text-white">
                 <div class="card-body">
+                    <i class="bi bi-gender-female watermark-icon"></i>
                     <div class="d-flex justify-content-between">
                         <div>
                             <h6 class="card-title mb-1">Female</h6>
                             <h2 class="mb-0" id="statFemale">0</h2>
                             <small id="statFemalePercent">0%</small>
-                        </div>
-                        <div class="stat-icon">
-                            <i class="bi bi-gender-female"></i>
                         </div>
                     </div>
                 </div>
@@ -338,13 +332,11 @@ include __DIR__ . '/../../includes/admin/admin_head.php';
         <div class="col-md-3">
             <div class="card stat-card bg-gradient-warning text-white">
                 <div class="card-body">
+                    <i class="bi bi-graph-up watermark-icon"></i>
                     <div class="d-flex justify-content-between">
                         <div>
                             <h6 class="card-title mb-1">Avg Confidence</h6>
                             <h2 class="mb-0" id="statConfidence">0%</h2>
-                        </div>
-                        <div class="stat-icon">
-                            <i class="bi bi-graph-up"></i>
                         </div>
                     </div>
                 </div>

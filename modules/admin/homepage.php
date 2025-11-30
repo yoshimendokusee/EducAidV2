@@ -231,8 +231,9 @@ if ($DEMO_MODE) {
   <link rel="stylesheet" href="../../assets/css/bootstrap-icons.css" />
   <link rel="stylesheet" href="../../assets/css/admin/homepage.css" />
   <link rel="stylesheet" href="../../assets/css/admin/sidebar.css" />
+  <link rel="stylesheet" href="../../assets/css/admin/table_core.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
 <body>
   <?php include __DIR__ . '/../../includes/admin/admin_topbar.php'; ?>
@@ -255,121 +256,241 @@ if ($DEMO_MODE) {
         </div>
         <p class="text-muted mb-0">Here you can manage student registrations, verify applicants, and more.</p>
 
-        <!-- Dashboard Tiles -->
-        <div class="dashboard-tile-row">
-          <div class="dashboard-tile tile-blue">
-            <div class="tile-icon"><i class="bi bi-people-fill"></i></div>
-            <div class="tile-number">
-              <?php
-                if ($DEMO_MODE) {
-                  $totalStudents = array_sum($genderVerified ?? []) + array_sum($genderApplicant ?? []);
-                } else {
-                  // Include 'given' students in capacity calculation (exclude only blacklisted and archived)
-                  $result = pg_query($connection, "SELECT COUNT(*) AS total FROM students WHERE status IN ('applicant', 'active', 'given')");
-                  $row = pg_fetch_assoc($result);
-                  $totalStudents = (int)$row['total'];
-                }
-                echo $maxCapacity !== null ? ($totalStudents . '/' . $maxCapacity) : $totalStudents;
-              ?>
-            </div>
-            <div class="tile-label">
-              <?php echo $maxCapacity !== null ? 'Students / Max Capacity' : 'Total Students'; ?>
+        <!-- Dashboard Stats Cards -->
+        <div class="stats-grid">
+          <div class="stat-card stat-blue">
+            <div class="stat-icon"><i class="bi bi-people"></i></div>
+            <div class="stat-content">
+              <span class="stat-value">
+                <?php
+                  if ($DEMO_MODE) {
+                    $totalStudents = array_sum($genderVerified ?? []) + array_sum($genderApplicant ?? []);
+                  } else {
+                    $result = pg_query($connection, "SELECT COUNT(*) AS total FROM students WHERE status IN ('applicant', 'active', 'given')");
+                    $row = pg_fetch_assoc($result);
+                    $totalStudents = (int)$row['total'];
+                  }
+                  echo $maxCapacity !== null ? ($totalStudents . '/' . $maxCapacity) : $totalStudents;
+                ?>
+              </span>
+              <span class="stat-label"><?php echo $maxCapacity !== null ? 'Students / Capacity' : 'Total Students'; ?></span>
             </div>
           </div>
 
-          <div class="dashboard-tile tile-orange">
-            <div class="tile-icon"><i class="bi bi-clipboard-check"></i></div>
-            <div class="tile-number">
-              <?php
-                if ($DEMO_MODE) {
-                  echo 37; // sample
-                } else {
-                  $result = pg_query($connection, "SELECT COUNT(*) AS total FROM students WHERE status = 'under_registration'");
-                  $row = pg_fetch_assoc($result);
-                  echo $row['total'];
-                }
-              ?>
+          <div class="stat-card stat-orange">
+            <div class="stat-icon"><i class="bi bi-pencil-square"></i></div>
+            <div class="stat-content">
+              <span class="stat-value">
+                <?php
+                  if ($DEMO_MODE) {
+                    echo 37;
+                  } else {
+                    $result = pg_query($connection, "SELECT COUNT(*) AS total FROM students WHERE status = 'under_registration'");
+                    $row = pg_fetch_assoc($result);
+                    echo $row['total'];
+                  }
+                ?>
+              </span>
+              <span class="stat-label">Still on Registration</span>
             </div>
-            <div class="tile-label">Still on Registration</div>
           </div>
 
-          <div class="dashboard-tile tile-yellow">
-            <div class="tile-icon"><i class="bi bi-hourglass-split"></i></div>
-            <div class="tile-number">
-              <?php
-                if ($DEMO_MODE) {
-                  echo array_sum($genderApplicant ?? []);
-                } else {
-                  $result = pg_query($connection, "SELECT COUNT(*) AS total FROM students WHERE status = 'applicant'");
-                  $row = pg_fetch_assoc($result);
-                  echo $row['total'];
-                }
-              ?>
+          <div class="stat-card stat-amber">
+            <div class="stat-icon"><i class="bi bi-hourglass-split"></i></div>
+            <div class="stat-content">
+              <span class="stat-value">
+                <?php
+                  if ($DEMO_MODE) {
+                    echo array_sum($genderApplicant ?? []);
+                  } else {
+                    $result = pg_query($connection, "SELECT COUNT(*) AS total FROM students WHERE status = 'applicant'");
+                    $row = pg_fetch_assoc($result);
+                    echo $row['total'];
+                  }
+                ?>
+              </span>
+              <span class="stat-label">Pending Applications</span>
             </div>
-            <div class="tile-label">Pending Applications</div>
           </div>
 
-          <div class="dashboard-tile tile-green">
-            <div class="tile-icon"><i class="bi bi-check-circle"></i></div>
-            <div class="tile-number">
-              <?php
-                if ($DEMO_MODE) {
-                  echo array_sum($genderVerified ?? []);
-                } else {
-                  $result = pg_query($connection, "SELECT COUNT(*) AS total FROM students WHERE status = 'active'");
-                  $row = pg_fetch_assoc($result);
-                  echo $row['total'];
-                }
-              ?>
+          <div class="stat-card stat-green">
+            <div class="stat-icon"><i class="bi bi-check-circle"></i></div>
+            <div class="stat-content">
+              <span class="stat-value">
+                <?php
+                  if ($DEMO_MODE) {
+                    echo array_sum($genderVerified ?? []);
+                  } else {
+                    $result = pg_query($connection, "SELECT COUNT(*) AS total FROM students WHERE status = 'active'");
+                    $row = pg_fetch_assoc($result);
+                    echo $row['total'];
+                  }
+                ?>
+              </span>
+              <span class="stat-label">Verified Students</span>
             </div>
-            <div class="tile-label">Verified Students</div>
           </div>
           
-          <!-- NEW: Household Prevention Statistics -->
-          <div class="dashboard-tile tile-warning">
-            <div class="tile-icon"><i class="bi bi-shield-check"></i></div>
-            <div class="tile-number">
-              <?php
-                if ($DEMO_MODE) {
-                  echo '47';
-                } else {
-                  // Get blocked attempts count (last 30 days)
-                  $blockedQuery = "SELECT COUNT(*) AS total FROM household_block_attempts WHERE blocked_at >= CURRENT_DATE - INTERVAL '30 days'";
-                  $blockedResult = @pg_query($connection, $blockedQuery);
-                  if ($blockedResult) {
-                    $blockedRow = pg_fetch_assoc($blockedResult);
-                    echo $blockedRow['total'] ?? 0;
+          <div class="stat-card stat-purple">
+            <div class="stat-icon"><i class="bi bi-shield-check"></i></div>
+            <div class="stat-content">
+              <span class="stat-value">
+                <?php
+                  if ($DEMO_MODE) {
+                    echo '47';
                   } else {
-                    echo '0';
+                    $blockedQuery = "SELECT COUNT(*) AS total FROM household_block_attempts WHERE blocked_at >= CURRENT_DATE - INTERVAL '30 days'";
+                    $blockedResult = @pg_query($connection, $blockedQuery);
+                    if ($blockedResult) {
+                      $blockedRow = pg_fetch_assoc($blockedResult);
+                      echo $blockedRow['total'] ?? 0;
+                    } else {
+                      echo '0';
+                    }
                   }
-                }
-              ?>
+                ?>
+              </span>
+              <span class="stat-label">Household Blocks (30d)</span>
             </div>
-            <div class="tile-label">Household Blocks (30d)</div>
           </div>
           
-          <div class="dashboard-tile tile-info">
-            <div class="tile-icon"><i class="bi bi-exclamation-triangle"></i></div>
-            <div class="tile-number">
-              <?php
-                if ($DEMO_MODE) {
-                  echo '3';
-                } else {
-                  // Get students requiring admin review
-                  $reviewQuery = "SELECT COUNT(*) AS total FROM students WHERE admin_review_required = TRUE AND is_archived = FALSE";
-                  $reviewResult = @pg_query($connection, $reviewQuery);
-                  if ($reviewResult) {
-                    $reviewRow = pg_fetch_assoc($reviewResult);
-                    echo $reviewRow['total'] ?? 0;
+          <div class="stat-card stat-red">
+            <div class="stat-icon"><i class="bi bi-exclamation-triangle"></i></div>
+            <div class="stat-content">
+              <span class="stat-value">
+                <?php
+                  if ($DEMO_MODE) {
+                    echo '3';
                   } else {
-                    echo '0';
+                    $reviewQuery = "SELECT COUNT(*) AS total FROM students WHERE admin_review_required = TRUE AND is_archived = FALSE";
+                    $reviewResult = @pg_query($connection, $reviewQuery);
+                    if ($reviewResult) {
+                      $reviewRow = pg_fetch_assoc($reviewResult);
+                      echo $reviewRow['total'] ?? 0;
+                    } else {
+                      echo '0';
+                    }
                   }
-                }
-              ?>
+                ?>
+              </span>
+              <span class="stat-label">Requires Review</span>
             </div>
-            <div class="tile-label">Requires Review</div>
           </div>
         </div>
+
+        <style>
+          .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+          }
+          .stat-card {
+            position: relative;
+            padding: 1.5rem;
+            border-radius: 16px;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 120px;
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+          }
+          .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+          }
+          .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+          }
+          .stat-icon {
+            position: absolute;
+            top: 50%;
+            right: 1rem;
+            transform: translateY(-50%);
+            font-size: 3rem;
+            opacity: 0.2;
+          }
+          .stat-content {
+            position: relative;
+            z-index: 1;
+          }
+          .stat-value {
+            display: block;
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 0.25rem;
+          }
+          .stat-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            opacity: 0.9;
+          }
+          /* Modern gradient backgrounds */
+          .stat-blue {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
+          }
+          .stat-orange {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            box-shadow: 0 4px 14px rgba(249, 115, 22, 0.35);
+          }
+          .stat-amber {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+          }
+          .stat-green {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            box-shadow: 0 4px 14px rgba(34, 197, 94, 0.35);
+          }
+          .stat-purple {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            box-shadow: 0 4px 14px rgba(139, 92, 246, 0.35);
+          }
+          .stat-red {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
+          }
+          @media (max-width: 768px) {
+            .stats-grid {
+              grid-template-columns: repeat(2, 1fr);
+              gap: 0.75rem;
+            }
+            .stat-card {
+              padding: 1.25rem;
+              min-height: 100px;
+              border-radius: 12px;
+            }
+            .stat-value {
+              font-size: 1.5rem;
+            }
+            .stat-label {
+              font-size: 0.8rem;
+            }
+            .stat-icon {
+              font-size: 2.5rem;
+              right: 0.75rem;
+            }
+          }
+          @media (max-width: 480px) {
+            .stat-card {
+              padding: 1rem;
+            }
+            .stat-value {
+              font-size: 1.35rem;
+            }
+          }
+        </style>
 
         <!-- Website Content Management (Super Admin Only) -->
         <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'super_admin'): ?>
@@ -606,22 +727,114 @@ if ($DEMO_MODE) {
         <!-- Unified Chart with Filters -->
         <div class="row g-4 mt-4">
           <div class="col-12">
-            <div class="custom-card">
-              <div class="custom-card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                <h5><i class="bi bi-bar-chart-fill me-2"></i>Student Distribution</h5>
-                <select id="chartFilter" class="form-select form-select-sm text-dark" style="width: auto;">
+            <div class="chart-card">
+              <div class="chart-card-header">
+                <div class="chart-title">
+                  <span class="chart-icon"><i class="bi bi-bar-chart-line"></i></span>
+                  <div>
+                    <h5 id="chartTitle">Student Distribution</h5>
+                    <p class="chart-subtitle">Overview of student demographics</p>
+                  </div>
+                </div>
+                <select id="chartFilter" class="chart-filter-select">
                   <option value="gender">By Gender</option>
                   <option value="barangay">By Barangay</option>
                   <option value="university">By University</option>
                   <option value="yearLevel">By Year Level</option>
                 </select>
               </div>
-              <div class="custom-card-body">
-                <canvas id="unifiedChart"></canvas>
+              <div class="chart-card-body">
+                <div id="unifiedChart" style="min-height: 380px;"></div>
               </div>
             </div>
           </div>
         </div>
+
+        <style>
+          .chart-card {
+            background: #fff;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+            overflow: hidden;
+          }
+          .chart-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+          }
+          .chart-card-header {
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f1f5f9;
+            background: #fafbfc;
+          }
+          .chart-title {
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+          }
+          .chart-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #4f7df3 0%, #3b5fc7 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.1rem;
+          }
+          .chart-title h5 {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1e293b;
+          }
+          .chart-subtitle {
+            margin: 0;
+            font-size: 0.8rem;
+            color: #64748b;
+            font-weight: 400;
+          }
+          .chart-filter-select {
+            padding: 0.5rem 2rem 0.5rem 0.875rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #374151;
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.25em 1.25em;
+            transition: border-color 0.15s, box-shadow 0.15s;
+          }
+          .chart-filter-select:hover {
+            border-color: #d1d5db;
+          }
+          .chart-filter-select:focus {
+            outline: none;
+            border-color: #4f7df3;
+            box-shadow: 0 0 0 3px rgba(79,125,243,0.1);
+          }
+          .chart-card-body {
+            padding: 1.25rem 1.5rem 1.5rem;
+          }
+          @media (max-width: 576px) {
+            .chart-card-header {
+              flex-direction: column;
+              align-items: flex-start;
+              gap: 1rem;
+            }
+            .chart-filter-select {
+              width: 100%;
+            }
+          }
+        </style>
 
         <!-- Past Distributions Section -->
         <?php if (!empty($pastDistributions)): ?>
@@ -728,28 +941,32 @@ if ($DEMO_MODE) {
         verified: <?php echo json_encode($genderVerified); ?>,
         applicant: <?php echo json_encode($genderApplicant); ?>,
         title: "Gender Distribution",
-        icon: "bi-gender-ambiguous"
+        icon: "bi-gender-ambiguous",
+        horizontal: false
       },
       barangay: {
         labels: <?php echo json_encode($barangayLabels); ?>,
         verified: <?php echo json_encode($barangayVerified); ?>,
         applicant: <?php echo json_encode($barangayApplicant); ?>,
         title: "Barangay Distribution",
-        icon: "bi-house-door-fill"
+        icon: "bi-house-door-fill",
+        horizontal: true
       },
       university: {
         labels: <?php echo json_encode($universityLabels); ?>,
         verified: <?php echo json_encode($universityVerified); ?>,
         applicant: <?php echo json_encode($universityApplicant); ?>,
         title: "University Distribution",
-        icon: "bi-building"
+        icon: "bi-building",
+        horizontal: true
       },
       yearLevel: {
         labels: <?php echo json_encode($yearLevelLabels); ?>,
         verified: <?php echo json_encode($yearLevelVerified); ?>,
         applicant: <?php echo json_encode($yearLevelApplicant); ?>,
         title: "Year Level Distribution",
-        icon: "bi-mortarboard"
+        icon: "bi-mortarboard",
+        horizontal: false
       }
     };
   </script>
@@ -757,43 +974,35 @@ if ($DEMO_MODE) {
   <script>
     let unifiedChart = null;
 
-    function isDataEmpty(datasets) {
-      return datasets.every(ds => Array.isArray(ds.data) && ds.data.every(val => val === 0));
+    function isDataEmpty(verified, applicant) {
+      const allVerifiedZero = verified.every(val => val === 0);
+      const allApplicantZero = applicant.every(val => val === 0);
+      return allVerifiedZero && allApplicantZero;
     }
 
-    function showNoDataMessage(canvasId, message = "No data available") {
-      const container = document.getElementById(canvasId)?.parentElement;
+    function showNoDataMessage(containerId, message = "No data available") {
+      const container = document.getElementById(containerId);
       if (container) {
-        // Remove any existing no-data message
-        const existingMsg = container.querySelector('.no-data-message');
-        if (existingMsg) existingMsg.remove();
-        
-        const msg = document.createElement("p");
-        msg.innerHTML = `<i class="bi bi-info-circle me-2"></i>${message}`;
-        msg.className = "text-center text-muted mt-3 no-data-message";
-        container.appendChild(msg);
-      }
-    }
-
-    function removeNoDataMessage(canvasId) {
-      const container = document.getElementById(canvasId)?.parentElement;
-      if (container) {
-        const existingMsg = container.querySelector('.no-data-message');
-        if (existingMsg) existingMsg.remove();
+        container.innerHTML = `
+          <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 400px;">
+            <i class="bi bi-info-circle text-muted" style="font-size: 3rem; opacity: 0.5;"></i>
+            <p class="text-muted mt-3">${message}</p>
+          </div>
+        `;
       }
     }
 
     function updateChartTitle(filterType) {
-      const headerElement = document.querySelector('.custom-card-header h5');
+      const titleElement = document.getElementById('chartTitle');
       const data = window.chartData[filterType];
-      if (headerElement && data) {
-        headerElement.innerHTML = `<i class="bi ${data.icon} me-2"></i>${data.title}`;
+      if (titleElement && data) {
+        titleElement.textContent = data.title;
       }
     }
 
     function createUnifiedChart(filterType = 'gender') {
-      const canvas = document.getElementById('unifiedChart');
-      if (!canvas) return;
+      const container = document.getElementById('unifiedChart');
+      if (!container) return;
 
       const data = window.chartData[filterType];
       if (!data) return;
@@ -801,25 +1010,8 @@ if ($DEMO_MODE) {
       // Update chart title
       updateChartTitle(filterType);
 
-      const datasets = [
-        {
-          label: "Verified",
-          data: data.verified,
-          backgroundColor: "#3b8efc",
-          borderRadius: 8,
-          borderSkipped: false,
-        },
-        {
-          label: "Applicant",
-          data: data.applicant,
-          backgroundColor: "#ff9800",
-          borderRadius: 8,
-          borderSkipped: false,
-        }
-      ];
-
       // Check if data is empty
-      if (isDataEmpty(datasets)) {
+      if (isDataEmpty(data.verified, data.applicant)) {
         if (unifiedChart) {
           unifiedChart.destroy();
           unifiedChart = null;
@@ -828,66 +1020,237 @@ if ($DEMO_MODE) {
         return;
       }
 
-      // Remove no-data message if exists
-      removeNoDataMessage('unifiedChart');
-
       // Destroy existing chart
       if (unifiedChart) {
         unifiedChart.destroy();
+        unifiedChart = null;
       }
 
-      // Create new chart
-      unifiedChart = new Chart(canvas.getContext("2d"), {
-        type: "bar",
-        data: { 
-          labels: data.labels, 
-          datasets: datasets 
+      // Clear container
+      container.innerHTML = '';
+
+      // Calculate dynamic height for horizontal charts
+      const itemCount = data.labels.length;
+      const isHorizontal = data.horizontal;
+      const chartHeight = isHorizontal ? Math.max(380, itemCount * 45) : 380;
+
+      // Professional ApexCharts configuration
+      const options = {
+        series: [
+          {
+            name: 'Verified',
+            data: data.verified
+          },
+          {
+            name: 'Applicant',
+            data: data.applicant
+          }
+        ],
+        chart: {
+          type: 'bar',
+          height: chartHeight,
+          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+          toolbar: {
+            show: false
+          },
+          animations: {
+            enabled: true,
+            easing: 'easeinout',
+            speed: 400,
+            animateGradually: {
+              enabled: true,
+              delay: 50
+            }
+          },
+          background: 'transparent'
         },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              position: "top",
-              labels: {
-                boxWidth: 12,
-                font: { weight: "500" }
-              }
-            }
-          },
-          scales: {
-            x: { 
-              grid: { color: "#f1f1f1" },
-              ticks: {
-                maxRotation: filterType === 'university' ? 45 : 0,
-                font: {
-                  size: filterType === 'university' ? 10 : 12
-                }
-              }
-            },
-            y: { 
-              beginAtZero: true, 
-              grid: { color: "#f1f1f1" }
-            }
-          },
-          elements: {
-            bar: {
-              borderRadius: 8,
-              barPercentage: 0.6,
-              categoryPercentage: 0.5
+        plotOptions: {
+          bar: {
+            horizontal: isHorizontal,
+            borderRadius: 4,
+            columnWidth: isHorizontal ? '65%' : '55%',
+            barHeight: '65%',
+            distributed: false,
+            dataLabels: {
+              position: 'top'
             }
           }
-        }
-      });
+        },
+        colors: ['#4f7df3', '#94a3b8'],
+        dataLabels: {
+          enabled: !isHorizontal && itemCount <= 6,
+          formatter: function(val) {
+            return val > 0 ? val : '';
+          },
+          offsetY: -20,
+          style: {
+            fontSize: '11px',
+            fontWeight: 600,
+            colors: ['#64748b']
+          }
+        },
+        stroke: {
+          show: false
+        },
+        xaxis: {
+          categories: data.labels,
+          labels: {
+            style: {
+              fontSize: '12px',
+              fontWeight: 400,
+              colors: '#64748b'
+            },
+            rotate: isHorizontal ? 0 : (itemCount > 4 ? -45 : 0),
+            rotateAlways: !isHorizontal && itemCount > 4,
+            trim: true,
+            maxHeight: 100
+          },
+          axisBorder: {
+            show: false
+          },
+          axisTicks: {
+            show: false
+          }
+        },
+        yaxis: {
+          labels: {
+            style: {
+              fontSize: '12px',
+              fontWeight: 400,
+              colors: '#64748b'
+            },
+            maxWidth: isHorizontal ? 180 : undefined,
+            formatter: function(val) {
+              if (isHorizontal && typeof val === 'string' && val.length > 28) {
+                return val.substring(0, 28) + '...';
+              }
+              return val;
+            }
+          }
+        },
+        fill: {
+          opacity: 1,
+          type: 'solid'
+        },
+        tooltip: {
+          enabled: true,
+          shared: true,
+          intersect: false,
+          y: {
+            formatter: function(val) {
+              return val + " students";
+            }
+          },
+          style: {
+            fontSize: '12px',
+            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
+          },
+          marker: {
+            show: true
+          }
+        },
+        legend: {
+          show: true,
+          position: 'top',
+          horizontalAlign: 'right',
+          fontSize: '12px',
+          fontWeight: 500,
+          labels: {
+            colors: '#64748b'
+          },
+          markers: {
+            width: 10,
+            height: 10,
+            radius: 2
+          },
+          itemMargin: {
+            horizontal: 12,
+            vertical: 0
+          }
+        },
+        grid: {
+          show: true,
+          borderColor: '#e2e8f0',
+          strokeDashArray: 0,
+          position: 'back',
+          xaxis: {
+            lines: {
+              show: isHorizontal
+            }
+          },
+          yaxis: {
+            lines: {
+              show: !isHorizontal
+            }
+          },
+          padding: {
+            top: 0,
+            right: 20,
+            bottom: 0,
+            left: 15
+          }
+        },
+        states: {
+          hover: {
+            filter: {
+              type: 'darken',
+              value: 0.9
+            }
+          },
+          active: {
+            filter: {
+              type: 'darken',
+              value: 0.85
+            }
+          }
+        },
+        responsive: [
+          {
+            breakpoint: 768,
+            options: {
+              chart: {
+                height: isHorizontal ? Math.max(320, itemCount * 40) : 320
+              },
+              plotOptions: {
+                bar: {
+                  columnWidth: '70%',
+                  barHeight: '75%'
+                }
+              },
+              dataLabels: {
+                enabled: false
+              },
+              legend: {
+                position: 'top',
+                horizontalAlign: 'center'
+              },
+              xaxis: {
+                labels: {
+                  rotate: -45,
+                  style: {
+                    fontSize: '10px'
+                  }
+                }
+              },
+              yaxis: {
+                labels: {
+                  style: {
+                    fontSize: '10px'
+                  },
+                  maxWidth: 120
+                }
+              }
+            }
+          }
+        ]
+      };
+
+      // Create new chart
+      unifiedChart = new ApexCharts(container, options);
+      unifiedChart.render();
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-      // Set canvas height
-      const canvas = document.getElementById('unifiedChart');
-      if (canvas) {
-        canvas.style.height = '400px';
-      }
-
       // Initialize chart with default filter
       createUnifiedChart('gender');
 
@@ -898,7 +1261,6 @@ if ($DEMO_MODE) {
           createUnifiedChart(e.target.value);
         });
       }
-
     });
   </script>
   

@@ -309,9 +309,9 @@ $header_settings = $form_result['success'] && isset($form_result['data'])
     <section class="home-section" id="mainContent">
       <div class="container-fluid px-4 py-4">
         
-        <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="mb-4">
           <div>
-            <h2><i class="bi bi-layout-three-columns me-2"></i>Header Appearance</h2>
+            <h1 class="fw-bold mb-1">Header Appearance</h1>
             <p class="text-muted mb-0">Customize the look and feel of the admin header area</p>
           </div>
         </div>

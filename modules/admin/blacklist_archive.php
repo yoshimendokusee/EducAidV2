@@ -185,23 +185,23 @@ $reasonCategories = [
 <?php $page_title='Blacklist Archive'; include __DIR__ . '/../../includes/admin/admin_head.php'; ?>
 <link rel="stylesheet" href="../../assets/css/admin/table_core.css">
 <style>
-    .blacklist-hero{background:linear-gradient(135deg,#dc3545,#b71f28);color:#fff;border-radius:18px;padding:1.75rem 1.75rem;margin-bottom:1.75rem;position:relative;overflow:hidden;}
-    .blacklist-hero:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 85% 15%,rgba(255,255,255,.25),transparent 60%);pointer-events:none;}
-    .blacklist-hero h1{font-size:1.6rem;margin:0;font-weight:600;display:flex;align-items:center;gap:.65rem;}
-    .blacklist-hero .meta{font-size:.8rem;opacity:.9;margin-top:.35rem;}
     .filter-card{background:#ffffff;border:1px solid #e5e7eb;border-radius:16px;padding:1.25rem 1.25rem 1rem;margin-bottom:1.5rem;box-shadow:0 2px 4px rgba(0,0,0,.04);} 
     .filter-card h6{font-weight:600;font-size:.9rem;margin-bottom:.85rem;display:flex;align-items:center;gap:.4rem;color:#374151;letter-spacing:.5px;text-transform:uppercase;}
     .filter-card .form-label{font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:#6b7280;margin-bottom:.15rem;}
     .filter-card .btn{border-radius:10px;font-weight:500;}
+    /* Remove shadow from table-responsive since we use table-wrap */
+    .table-responsive{box-shadow:none;margin-top:0;border-radius:0;}
     .table-wrap{background:#fff;border:1px solid #e5e7eb;border-radius:18px;box-shadow:0 4px 10px -2px rgba(0,0,0,.05),0 2px 4px -2px rgba(0,0,0,.04);overflow:hidden;}
-    .table thead th{background:#f8f9fa;color:#374151;font-weight:600;font-size:.7rem;text-transform:uppercase;letter-spacing:.6px;border-top:none;border-bottom:1px solid #e5e7eb;padding:.75rem .85rem;}
-    /* Ensure dark header stays dark (override local rule above) */
-    .table thead.table-dark th{background:#343a40!important;color:#fff!important;border:none!important;}
+    /* Ensure dark header stays dark */
+    .table thead.table-dark th{background:#495057!important;color:#fff!important;border:none!important;}
     .table tbody td{vertical-align:middle;font-size:.85rem;padding:.7rem .85rem;border-color:#f0f2f4;}
-    .table tbody tr:hover{background:#fcfcfd;}
-    .reason-badge{font-size:.65rem;padding:.35rem .55rem;font-weight:600;letter-spacing:.4px;border-radius:20px;}
+    .table tbody tr:hover{background:#f8f9fa;}
+    /* Reason styling */
+    .reason-badge{font-size:.65rem;padding:.35rem .55rem;font-weight:600;letter-spacing:.4px;border-radius:20px;color:#fff;}
     .reason-fraudulent{background:#dc3545;} .reason-academic{background:#fd7e14;} .reason-system{background:#6f42c1;} .reason-other{background:#6c757d;}
-    .reason-badge{color:#fff;}
+    /* Ensure detailed reason text stays visible */
+    .detailed-reason{color:#6c757d!important;font-size:.8rem;font-style:italic;}
+    .table tbody tr:hover .detailed-reason{color:#555!important;}
     .pagination-info{font-size:.7rem;color:#6b7280;font-weight:500;}
     .pagination .page-link{font-size:.75rem;padding:.35rem .6rem;border-radius:8px;margin:0 .15rem;}
     .pagination .page-item.active .page-link{background:#2563eb;border-color:#2563eb;}
@@ -212,7 +212,7 @@ $reasonCategories = [
     .contact-icons i{font-size:.75rem;width:14px;text-align:center;opacity:.8;}
     .contact-icons small{display:block;line-height:1.15;margin-top:2px;}
     .truncate-50{max-width:240px;display:inline-block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;vertical-align:bottom;}
-    @media (max-width: 992px){.blacklist-hero{padding:1.25rem 1.25rem;} .blacklist-hero h1{font-size:1.35rem;} .filter-card{padding:1rem;} }
+    @media (max-width: 992px){.filter-card{padding:1rem;} }
     @media (max-width: 576px){.filter-card .row > div{margin-bottom:.75rem;} .filter-card .row > div:last-child{margin-bottom:0;} .table-wrap{border-radius:14px;} }
 
     /* Mobile-only compact modal size for details modal (align with Manage Applicant modal feel) */
@@ -238,9 +238,9 @@ $reasonCategories = [
     <?php include __DIR__ . '/../../includes/admin/admin_header.php'; ?>
     <section class="home-section" id="mainContent">
         <div class="container-fluid py-4 px-4">
-            <div class="blacklist-hero mb-3">
-                <h1><i class="bi bi-person-x-fill"></i> Blacklist Archive <span class="badge bg-light text-danger ms-2" style="font-size:.65rem;">Total <?= $totalRecords ?></span></h1>
-                <div class="meta">Manage and review all blacklisted student records with filtering & quick detail view.</div>
+            <div class="mb-4">
+                <h1 class="fw-bold mb-1">Blacklist Archive</h1>
+                <p class="text-muted mb-0">Manage and review all blacklisted student records with filtering & quick detail view.</p>
             </div>
             <div class="filter-card">
                 <h6><i class="bi bi-funnel"></i> FILTER & SEARCH</h6>
@@ -275,8 +275,8 @@ $reasonCategories = [
                         </select>
                     </div>
                     <div class="col-lg-2 col-sm-6 d-flex gap-1">
-                        <button type="submit" class="btn btn-sm btn-primary flex-grow-1"><i class="bi bi-search"></i> Go</button>
-                        <a href="blacklist_archive.php" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-clockwise"></i></a>
+                        <button type="submit" class="btn btn-sm btn-primary flex-grow-1">Filter</button>
+                        <a href="blacklist_archive.php" class="btn btn-sm btn-outline-secondary">Clear</a>
                     </div>
                 </form>
             </div>
@@ -320,8 +320,9 @@ $reasonCategories = [
                                         <?php $reasonClass = 'reason-' . str_replace('_','-',$student['reason_category']); ?>
                                         <span class="badge <?= $reasonClass ?> reason-badge"><?= $reasonCategories[$student['reason_category']] ?></span>
                                         <?php if (!empty($student['detailed_reason'])): ?>
-                                            <div class="text-muted mt-1 truncate-50" title="<?= htmlspecialchars($student['detailed_reason']) ?>">
+                                            <div class="detailed-reason mt-1 truncate-50" title="<?= htmlspecialchars($student['detailed_reason']) ?>">
                                                 <?= htmlspecialchars($student['detailed_reason']) ?>
+                                            </div>
                                             </div>
                                         <?php endif; ?>
                                     </td>

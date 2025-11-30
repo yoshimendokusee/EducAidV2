@@ -199,23 +199,50 @@ if (isset($_GET['export']) && $_GET['export'] === 'csv') {
 <?php $page_title='Audit Trail'; $extra_css=['../../assets/css/admin/table_core.css']; include __DIR__ . '/../../includes/admin/admin_head.php'; ?>
 <style>
     .stat-card {
-        border-radius: 12px;
+        border-radius: 16px;
         padding: 1.5rem;
         transition: transform 0.2s, box-shadow 0.2s;
+        position: relative;
+        overflow: hidden;
     }
     .stat-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        transform: translateY(-4px);
+    }
+    .stat-card .watermark-icon {
+        position: absolute;
+        right: -10px;
+        bottom: -10px;
+        font-size: 5rem;
+        opacity: 0.15;
+        transform: rotate(-10deg);
     }
     .stat-value {
-        font-size: 2rem;
+        font-size: 2.25rem;
         font-weight: 700;
         margin: 0;
+        color: white;
     }
     .stat-label {
-        color: #6c757d;
+        color: rgba(255,255,255,0.85);
         font-size: 0.875rem;
+        font-weight: 500;
         margin: 0;
+    }
+    .stat-blue {
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
+    }
+    .stat-cyan {
+        background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+        box-shadow: 0 4px 14px rgba(6, 182, 212, 0.35);
+    }
+    .stat-green {
+        background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+        box-shadow: 0 4px 14px rgba(34, 197, 94, 0.35);
+    }
+    .stat-red {
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
     }
     .filter-card {
         background: white;
@@ -353,13 +380,10 @@ if (isset($_GET['export']) && $_GET['export'] === 'csv') {
         <div class="container-fluid py-4 px-4">
             
             <!-- Page Header -->
-            <div class="section-header mb-4">
-                <div class="d-flex justify-content-between align-items-center flex-wrap">
+            <div class="mb-4">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
                     <div>
-                        <h2 class="fw-bold text-primary mb-0">
-                            <i class="bi bi-shield-lock-fill"></i>
-                            Audit Trail
-                        </h2>
+                        <h1 class="fw-bold mb-1">Audit Trail</h1>
                         <p class="text-muted mb-0">Comprehensive system activity log for security and compliance</p>
                     </div>
                     <div class="d-flex gap-2">
@@ -376,27 +400,31 @@ if (isset($_GET['export']) && $_GET['export'] === 'csv') {
             <!-- Statistics Cards -->
             <div class="row g-3 mb-4">
                 <div class="col-md-3">
-                    <div class="stat-card bg-primary text-white">
+                    <div class="stat-card stat-blue">
+                        <i class="bi bi-calendar-event watermark-icon"></i>
                         <p class="stat-value"><?= number_format($stats['total_events'] ?? 0) ?></p>
-                        <p class="stat-label text-white-50">Events (24h)</p>
+                        <p class="stat-label">Events (24h)</p>
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="stat-card bg-info text-white">
+                    <div class="stat-card stat-cyan">
+                        <i class="bi bi-person-gear watermark-icon"></i>
                         <p class="stat-value"><?= number_format($stats['admin_events'] ?? 0) ?></p>
-                        <p class="stat-label text-white-50">Admin Actions (24h)</p>
+                        <p class="stat-label">Admin Actions (24h)</p>
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="stat-card bg-success text-white">
+                    <div class="stat-card stat-green">
+                        <i class="bi bi-mortarboard watermark-icon"></i>
                         <p class="stat-value"><?= number_format($stats['student_events'] ?? 0) ?></p>
-                        <p class="stat-label text-white-50">Student Actions (24h)</p>
+                        <p class="stat-label">Student Actions (24h)</p>
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="stat-card bg-danger text-white">
+                    <div class="stat-card stat-red">
+                        <i class="bi bi-x-circle watermark-icon"></i>
                         <p class="stat-value"><?= number_format($stats['failed_events'] ?? 0) ?></p>
-                        <p class="stat-label text-white-50">Failed Events (24h)</p>
+                        <p class="stat-label">Failed Events (24h)</p>
                     </div>
                 </div>
             </div>
@@ -479,12 +507,8 @@ if (isset($_GET['export']) && $_GET['export'] === 'csv') {
                     </div>
                     
                     <div class="mt-3">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="bi bi-search me-1"></i> Apply Filters
-                        </button>
-                        <button type="button" class="btn btn-outline-secondary" onclick="clearFilters()">
-                            <i class="bi bi-x-circle me-1"></i> Clear
-                        </button>
+                        <button type="submit" class="btn btn-primary">Filter</button>
+                        <button type="button" class="btn btn-outline-secondary" onclick="clearFilters()">Clear</button>
                         <span class="ms-3 text-muted">
                             <i class="bi bi-info-circle me-1"></i>
                             Showing <?= number_format(count($logs)) ?> of <?= number_format($totalLogs) ?> events
