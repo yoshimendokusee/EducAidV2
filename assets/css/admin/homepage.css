@@ -162,12 +162,11 @@ body {
 
 /* ===== Cards ===== */
 .card {
-  border: none;
-  border-left: 5px solid #4A6FA5;
-  transition: transform 0.3s ease;
+  border: 1px solid #e2e8f0;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   background-color: #fff;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  border-radius: 16px;
 }
 
 

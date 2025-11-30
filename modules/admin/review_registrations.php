@@ -854,10 +854,12 @@ $yearLevels = pg_fetch_all(pg_query($connection, "SELECT year_level_id, name FRO
             font-size: .85rem; 
             letter-spacing: .25px;
             white-space: nowrap;
-            background: #1182FF;
-            color: #fff;
+            background: #f8f9fa;
+            color: #374151;
             padding: 12px 14px;
             border: none;
+            border-bottom: 2px solid #e2e8f0;
+            font-weight: 600;
         }
         .registrations-table th.col-select { width: 50px; }
         .registrations-table th.col-name { width: 180px; }
@@ -899,7 +901,7 @@ $yearLevels = pg_fetch_all(pg_query($connection, "SELECT year_level_id, name FRO
             box-shadow: 2px 0 4px rgba(0,0,0,0.05);
         }
         .registrations-table thead th:first-child {
-            background: #1182FF;
+            background: #f8f9fa;
             z-index: 3;
         }
         
@@ -991,12 +993,13 @@ $yearLevels = pg_fetch_all(pg_query($connection, "SELECT year_level_id, name FRO
             text-align: center;
         }
         .quick-actions {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: #f8f9fa;
+            color: #1e293b;
             padding: 20px;
-            border-radius: 12px;
+            border-radius: 16px;
             margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
         }
         .quick-actions .qa-row {
             display: flex;
@@ -1009,12 +1012,13 @@ $yearLevels = pg_fetch_all(pg_query($connection, "SELECT year_level_id, name FRO
             min-width: 0;
         }
         .quick-actions h5 {
-            color: white;
+            color: #1e293b;
             margin-bottom: 5px;
             font-size: 1.1rem;
+            font-weight: 600;
         }
         .quick-actions small {
-            color: rgba(255, 255, 255, 0.8);
+            color: #64748b;
             display: block;
             line-height: 1.4;
         }

@@ -118,43 +118,15 @@ function getNotificationIcon($type) {
     <section class="home-section" id="page-content-wrapper">
       <div class="container-fluid py-4 px-4" style="padding-top: calc(var(--student-header-h, 56px) + 1.5rem) !important;">
         
-        <!-- Modern Page Header -->
-        <div class="page-header-card mb-4">
-          <div class="d-flex align-items-center gap-3">
-            <div class="header-icon-box">
-              <i class="bi bi-bell-fill"></i>
-            </div>
-            <div>
-              <h3 class="fw-bold mb-0">Notifications
-                <?php if ($unreadCount > 0): ?>
-                <span class="badge bg-danger ms-2" id="unread-count"><?= $unreadCount ?></span>
-                <?php endif; ?>
-              </h3>
-              <p class="text-muted mb-0" style="font-size: 0.95rem;">Stay updated with your application status</p>
-            </div>
-          </div>
+        <!-- Simple Page Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h3 class="fw-bold mb-0">
+            Notifications
+            <?php if ($unreadCount > 0): ?>
+            <span class="badge bg-danger ms-1" id="unread-count"><?= $unreadCount ?></span>
+            <?php endif; ?>
+          </h3>
         </div>
-        
-        <style>
-          .page-header-card {
-            background: white;
-            border-radius: 16px;
-            padding: 1.5rem 2rem;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-          }
-          .header-icon-box {
-            width: 56px;
-            height: 56px;
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.5rem;
-            box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
-          }
-        </style>
 
         <!-- Filter Controls (Desktop) -->
         <div class="notification-actions-desktop d-none d-md-flex justify-content-between align-items-center mb-4">

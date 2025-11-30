@@ -72,40 +72,65 @@ function getNotificationIcon($type) {
 
   <div class="container-fluid py-4 px-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
-          <h3 class="fw-bold mb-0"><i class="bi bi-bell-fill me-2 text-warning"></i>Notifications
-            <span class="badge bg-danger" id="unread-count"><?= $unreadCount ?></span>
+          <h3 class="fw-bold mb-0">Notifications
+            <?php if ($unreadCount > 0): ?>
+            <span class="badge bg-danger ms-1" id="unread-count"><?= $unreadCount ?></span>
+            <?php endif; ?>
           </h3>
         </div>
 
         <!-- Filter Controls -->
         <div class="notification-actions-desktop d-none d-md-flex justify-content-between align-items-center mb-4">
-          <div class="btn-group" role="group">
-            <a href="?filter=unread&page=1" class="btn btn-outline-primary <?= $filterType === 'unread' ? 'active' : '' ?>">
+          <div class="btn-group filter-btn-group" role="group">
+            <a href="?filter=unread&page=1" class="btn <?= $filterType === 'unread' ? 'btn-primary' : 'btn-outline-secondary' ?>">
               Unread (<?= $unreadCount ?>)
             </a>
-            <a href="?filter=read&page=1" class="btn btn-outline-secondary <?= $filterType === 'read' ? 'active' : '' ?>">
+            <a href="?filter=read&page=1" class="btn <?= $filterType === 'read' ? 'btn-primary' : 'btn-outline-secondary' ?>">
               Read
             </a>
-            <a href="?filter=all&page=1" class="btn btn-outline-info <?= $filterType === 'all' ? 'active' : '' ?>">
+            <a href="?filter=all&page=1" class="btn <?= $filterType === 'all' ? 'btn-primary' : 'btn-outline-secondary' ?>">
               All
             </a>
           </div>
-          <button id="mark-all-read" class="btn btn-outline-success">
-            <i class="bi bi-envelope-open"></i> Mark All as Read
+          <button id="mark-all-read" class="btn btn-outline-primary">
+            <i class="bi bi-envelope-open me-1"></i> Mark All as Read
           </button>
         </div>
+        
+        <style>
+          .filter-btn-group .btn {
+            border-radius: 20px !important;
+            padding: 0.5rem 1.25rem;
+            font-weight: 500;
+          }
+          .filter-btn-group .btn:first-child {
+            border-top-right-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
+          }
+          .filter-btn-group .btn:last-child {
+            border-top-left-radius: 0 !important;
+            border-bottom-left-radius: 0 !important;
+          }
+          .filter-btn-group .btn:not(:first-child):not(:last-child) {
+            border-radius: 0 !important;
+          }
+          #mark-all-read {
+            border-radius: 20px;
+            font-weight: 500;
+          }
+        </style>
 
-        <div class="notification-actions-mobile d-flex d-md-none mb-3">
-          <a href="?filter=unread&page=1" class="btn btn-outline-primary flex-fill me-1 <?= $filterType === 'unread' ? 'active' : '' ?>">
+        <div class="notification-actions-mobile d-flex d-md-none mb-3 gap-2">
+          <a href="?filter=unread&page=1" class="btn <?= $filterType === 'unread' ? 'btn-primary' : 'btn-outline-secondary' ?> flex-fill">
             Unread
           </a>
-          <a href="?filter=read&page=1" class="btn btn-outline-secondary flex-fill mx-1 <?= $filterType === 'read' ? 'active' : '' ?>">
+          <a href="?filter=read&page=1" class="btn <?= $filterType === 'read' ? 'btn-primary' : 'btn-outline-secondary' ?> flex-fill">
             Read
           </a>
-          <a href="?filter=all&page=1" class="btn btn-outline-info flex-fill me-1 <?= $filterType === 'all' ? 'active' : '' ?>">
+          <a href="?filter=all&page=1" class="btn <?= $filterType === 'all' ? 'btn-primary' : 'btn-outline-secondary' ?> flex-fill">
             All
           </a>
-          <button class="btn btn-outline-success flex-fill ms-1" id="mark-all-read">
+          <button class="btn btn-outline-primary" id="mark-all-read-mobile">
             <i class="bi bi-envelope-open"></i>
           </button>
         </div>

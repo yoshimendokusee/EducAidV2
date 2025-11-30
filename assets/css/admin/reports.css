@@ -68,6 +68,9 @@
 /* Preview Table */
 #previewTable {
     font-size: 0.9rem;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
 }
 
 #previewTable thead {
@@ -77,20 +80,24 @@
 }
 
 #previewTable th {
-    background-color: #1182FF !important;
-    color: white;
+    background-color: #f8f9fa !important;
+    color: #374151;
     font-weight: 600;
     text-align: center;
     vertical-align: middle;
-    border-color: #0d6efd !important;
+    border-color: #e2e8f0 !important;
+    border-bottom: 2px solid #e2e8f0 !important;
+    padding: 0.875rem 0.75rem;
 }
 
 #previewTable tbody tr:hover {
-    background-color: #e7f3ff;
+    background-color: #f8fafc;
 }
 
 #previewTable td {
     vertical-align: middle;
+    border-color: #e2e8f0;
+    padding: 0.75rem;
 }
 
 /* Filter Badge */

@@ -11543,56 +11543,32 @@ document.getElementById('processGradesOcrBtn').addEventListener('click', async f
             </div>
             <div class="modal-body">
                 <div class="terms-content">
-                    <h6>1. Eligibility Requirements</h6>
-                    <p>To be eligible for EducAid scholarship, applicants must:</p>
-                    <ul>
-                        <li>Be currently enrolled in an accredited university/college</li>
-                        <li>Maintain good academic standing</li>
-                        <li>Be a resident of the participating municipality</li>
-                        <li>Meet financial need requirements</li>
-                    </ul>
+                    <div class="alert alert-danger mb-4">
+                        <h6 class="fw-bold mb-2"><i class="bi bi-exclamation-triangle-fill me-2"></i>IMPORTANT NOTICE</h6>
+                        <p class="mb-0">Please <strong>DO NOT REGISTER</strong> if you are not currently enrolled and if you are not a resident of the City of General Trias.</p>
+                    </div>
 
-                    <h6>2. Application Process</h6>
-                    <p>All applicants must complete the online registration process and provide:</p>
-                    <ul>
-                        <li>Valid enrollment assessment form</li>
-                        <li>Accurate personal and academic information</li>
-                        <li>Valid email address and phone number for verification</li>
-                    </ul>
+                    <div class="alert alert-warning mb-4">
+                        <h6 class="fw-bold mb-2"><i class="bi bi-x-circle-fill me-2"></i>NOT ELIGIBLE TO REGISTER:</h6>
+                        <p class="mb-0">Students enrolled for <strong>PhDs, Masters Degree, Post Baccalaureate, College of Law &amp; College of Medicine</strong> are NOT allowed to register.</p>
+                    </div>
 
-                    <h6>3. Data Privacy and Security</h6>
-                    <p>By registering, you consent to the collection and processing of your personal data for:</p>
-                    <ul>
-                        <li>Scholarship application evaluation</li>
-                        <li>Communication regarding application status</li>
-                        <li>Academic monitoring and reporting</li>
-                        <li>Statistical analysis for program improvement</li>
-                    </ul>
+                    <h6 class="fw-bold text-primary"><i class="bi bi-info-circle me-2"></i>Current Beneficiaries</h6>
+                    <p><strong>CURRENT BENEFICIARIES/SCHOLARS NEED NOT</strong> apply.</p>
 
-                    <h6>4. Obligations and Responsibilities</h6>
-                    <p>If selected for the scholarship, recipients must:</p>
-                    <ul>
-                        <li>Maintain satisfactory academic performance</li>
-                        <li>Provide regular updates on academic progress</li>
-                        <li>Attend mandatory orientation and meetings</li>
-                        <li>Use scholarship funds exclusively for educational purposes</li>
-                    </ul>
+                    <h6 class="fw-bold text-primary mt-4"><i class="bi bi-people me-2"></i>Family Limit</h6>
+                    <p>Only <strong>ONE (1) BENEFICIARY PER FAMILY</strong> is allowed. Siblings of current scholars will not be considered.</p>
 
-                    <h6>5. Program Rules and Regulations</h6>
-                    <ul>
-                        <li>Scholarship awards are subject to available funding</li>
-                        <li>Recipients must complete their program within the standard timeframe</li>
-                        <li>Failure to meet requirements may result in scholarship termination</li>
-                        <li>False information in the application may lead to immediate disqualification</li>
-                    </ul>
+                    <h6 class="fw-bold text-primary mt-4"><i class="bi bi-check-circle me-2"></i>Certification</h6>
+                    <p>I certify that the information given are true and correct. I agree that any misrepresentation and/or false statements will disqualify me as a beneficiary of this program.</p>
 
-                    <h6>6. Contact and Support</h6>
-                    <p>For questions or concerns about the EducAid program, please contact:</p>
-                    <ul>
-                        <li>Email: support@educaid.gov.ph</li>
-                        <li>Phone: (123) 456-7890</li>
-                        <li>Office Hours: Monday to Friday, 8:00 AM - 5:00 PM</li>
-                    </ul>
+                    <div class="alert alert-info mt-4">
+                        <h6 class="fw-bold mb-2"><i class="bi bi-clipboard-check me-2"></i>EVALUATION NOTICE</h6>
+                        <p class="mb-0"><strong>"ALL SUBMITTED APPLICATIONS WILL BE SUBJECT TO EVALUATION. APPLICANTS WITH FAILING GRADES AND INCOMPLETE REQUIREMENTS WILL NOT BE ACCEPTED."</strong></p>
+                    </div>
+
+                    <h6 class="fw-bold text-primary mt-4"><i class="bi bi-shield-check me-2"></i>Data Privacy Consent</h6>
+                    <p>I hereby give my consent to the City Government of General Trias to use all information provided herein for my application for Educational Assistance. I consent to the processing of my personal information contained in this form and in documents submitted for my Educational Assistance Application for the purpose of enabling the LGU to verify my identity, prevent fraud, process my application, and determine whether I am qualified to avail of this assistance.</p>
                 </div>
             </div>
             <div class="modal-footer">

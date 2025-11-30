@@ -80,9 +80,31 @@ include __DIR__ . '/../../includes/admin/admin_head.php';
 <style>
     .page-title { font-weight: 700; color: #111; }
     .page-subtitle { color: #6c757d; }
+    .card-gradient {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        border: 1px solid #e2e8f0;
+    }
     .card-gradient .card-header {
-        background: linear-gradient(135deg, #6f42c1 0%, #0d6efd 100%);
-        color: #fff;
+        background: #f8f9fa;
+        color: #111;
+        border-bottom: 1px solid #e2e8f0;
+        border-radius: 16px 16px 0 0;
+        padding: 1rem 1.25rem;
+    }
+    .card-gradient .card-header h5 {
+        font-weight: 600;
+    }
+    .card-gradient .card-body {
+        padding: 1.5rem;
+    }
+    #filterBadge {
+        background: #10b981 !important;
+        color: #fff !important;
+        font-weight: 500;
+        padding: 0.35rem 0.75rem;
+        border-radius: 20px;
     }
 </style>
 </head>
@@ -345,18 +367,18 @@ include __DIR__ . '/../../includes/admin/admin_head.php';
     </div>
 
     <!-- Preview Results -->
-    <div id="previewPanel" class="card shadow-sm" style="display: none;">
-        <div class="card-header bg-light d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">
-                <i class="bi bi-table"></i> Report Preview
-                <span class="badge bg-primary ms-2" id="previewCount">0 records</span>
+    <div id="previewPanel" class="card" style="display: none; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 2px 12px rgba(0,0,0,0.06);">
+        <div class="card-header d-flex justify-content-between align-items-center" style="background: #fff; border-bottom: 1px solid #e2e8f0; border-radius: 16px 16px 0 0; padding: 1rem 1.25rem;">
+            <h5 class="mb-0 fw-semibold">
+                <i class="bi bi-table me-2 text-muted"></i>Report Preview
+                <span class="badge ms-2" style="background: #3b82f6; font-weight: 500;" id="previewCount">0 records</span>
             </h5>
-            <button class="btn btn-sm btn-outline-secondary" onclick="$('#previewPanel').fadeOut()">
+            <button class="btn btn-sm btn-outline-secondary" onclick="$('#previewPanel').fadeOut()" style="border-radius: 8px;">
                 <i class="bi bi-x-lg"></i> Close
             </button>
         </div>
         <div class="card-body">
-            <div class="alert alert-info">
+            <div class="alert" style="background: #f0f9ff; border: 1px solid #bae6fd; color: #0369a1; border-radius: 10px;">
                 <strong>Preview Mode:</strong> Showing up to 50 records. Export to PDF/Excel for complete dataset.
             </div>
             <div class="table-responsive">
