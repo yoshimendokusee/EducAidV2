@@ -276,11 +276,7 @@ $pageType = $seoData['type'];
       <div class="col-12 col-lg-8">
         <div class="hero-card text-center fade-in">
           <?php contact_block('hero_title', 'Contact', 'h1', 'display-4 fw-bold mb-3'); ?>
-          <?php contact_block('hero_subtitle', 'We\'re here to assist with application issues, document submission, schedules, QR release, and portal access concerns.', 'p', 'lead mb-4'); ?>
-          <div class="d-flex gap-2 justify-content-center flex-wrap">
-            <a href="landingpage.php" class="btn btn-outline-custom cta-btn"><i class="bi bi-house me-2"></i>Back to Home</a>
-            <a href="#inquiry" class="btn btn-primary-custom cta-btn"><i class="bi bi-chat-dots me-2"></i>Send Inquiry</a>
-          </div>
+          <?php contact_block('hero_subtitle', 'We\'re here to assist with application issues, document submission, schedules, QR release, and portal access concerns.', 'p', 'lead mb-0'); ?>
         </div>
       </div>
     </div>
