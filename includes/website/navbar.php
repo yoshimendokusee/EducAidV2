@@ -125,13 +125,7 @@ if (isset($connection)) {
             $connection,
             "SELECT name,
                     custom_logo_image,
-                    preset_logo_image,
-                    use_custom_logo,
-                    CASE 
-                        WHEN use_custom_logo = TRUE AND custom_logo_image IS NOT NULL AND custom_logo_image != '' 
-                        THEN custom_logo_image
-                        ELSE preset_logo_image
-                    END AS active_logo
+                    preset_logo_image
              FROM municipalities 
              WHERE municipality_id = $1 
              LIMIT 1",
@@ -143,8 +137,9 @@ if (isset($connection)) {
             $navbar_municipality_name = $muni_data['name'];
             
             // Build logo path using the same base_path logic
-            if (!empty($muni_data['active_logo'])) {
-                $logo_path = trim($muni_data['active_logo']);
+            // Use custom_logo_image (EducAid logo) for the main brand logo in navbar
+            if (!empty($muni_data['custom_logo_image'])) {
+                $logo_path = trim($muni_data['custom_logo_image']);
                 
                 // Handle base64 data URIs
                 if (preg_match('#^data:image/[^;]+;base64,#i', $logo_path)) {

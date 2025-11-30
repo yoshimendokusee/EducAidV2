@@ -67,7 +67,6 @@ if (!function_exists('truncateMessage')) {
         <div class="sidebar-toggle me-2">
             <i class="bi bi-list" id="menu-toggle" aria-label="Toggle Sidebar" role="button" tabindex="0"></i>
         </div>
-        <h5 class="mb-0 fw-semibold d-none d-lg-inline text-success-emphasis">Dashboard</h5>
       </div>
       <div class="admin-header-actions">
         <button class="admin-icon-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="Notifications" data-unread-count="<?=$unreadNotificationCount?>">

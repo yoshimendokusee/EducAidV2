@@ -514,27 +514,52 @@ include __DIR__ . '/../../includes/admin/admin_head.php';
                 <div class="card-body">
                     <div class="row g-4 align-items-center">
                         <div class="col-auto">
-                            <div class="muni-logo-wrapper position-relative" id="logoContainer">
-                                <?php $logo = build_logo_src($activeMunicipality['active_logo']); ?>
-                                <?php if ($logo): ?>
-                                    <img src="<?= htmlspecialchars($logo) ?>?t=<?= time() ?>" 
-                                         alt="<?= htmlspecialchars($activeMunicipality['name']) ?> logo" 
-                                         id="municipalityLogo" 
-                                         loading="lazy"
-                                         onerror="console.error('Logo load error:', this.src); this.onerror=null; this.parentElement.innerHTML='<span class=\'text-danger fw-semibold\'><i class=\'bi bi-exclamation-triangle me-1\'></i>Logo Error</span><small class=\'d-block text-muted mt-1\'>Path: <?= htmlspecialchars($activeMunicipality['active_logo']) ?></small>';">
-                                <?php else: ?>
-                                    <span class="text-muted fw-semibold"><i class="bi bi-image me-1"></i>No Logo</span>
-                                <?php endif; ?>
-                                <?php 
-                                $hasPreset = !empty($activeMunicipality['preset_logo_image']);
-                                $hasCustom = !empty($activeMunicipality['custom_logo_image']);
-                                $usingCustom = in_array(strtolower((string) ($activeMunicipality['use_custom_logo'] ?? '')), ['t', 'true', '1'], true);
-                                ?>
-                                <?php if ($hasCustom): ?>
-                                    <span class="position-absolute top-0 end-0 badge bg-primary" style="font-size: 0.7rem;">
-                                        <?= $usingCustom ? 'Custom' : 'Preset' ?>
-                                    </span>
-                                <?php endif; ?>
+                            <div class="d-flex gap-3 align-items-center">
+                                <!-- EducAid Logo (Custom) -->
+                                <div class="text-center">
+                                    <div class="muni-logo-wrapper position-relative" id="customLogoContainer" style="width: 90px; height: 90px;">
+                                        <?php 
+                                        $customLogo = build_logo_src($activeMunicipality['custom_logo_image'] ?? null);
+                                        $hasCustom = !empty($activeMunicipality['custom_logo_image']);
+                                        ?>
+                                        <?php if ($customLogo): ?>
+                                            <img src="<?= htmlspecialchars($customLogo) ?>?t=<?= time() ?>" 
+                                                 alt="EducAid Logo" 
+                                                 id="customLogoImg" 
+                                                 loading="lazy"
+                                                 style="max-width: 100%; max-height: 100%; object-fit: contain;"
+                                                 onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                            <span class="text-muted small" style="display: none; height: 100%; align-items: center; justify-content: center;"><i class="bi bi-image me-1"></i>Error</span>
+                                        <?php else: ?>
+                                            <span class="text-muted small d-flex align-items-center justify-content-center h-100"><i class="bi bi-image me-1"></i>None</span>
+                                        <?php endif; ?>
+                                    </div>
+                                    <small class="text-muted d-block mt-1" style="font-size: 0.7rem;">EducAid Logo</small>
+                                </div>
+                                
+                                <div class="text-muted" style="font-size: 1.5rem;">+</div>
+                                
+                                <!-- Municipality Logo (Preset) -->
+                                <div class="text-center">
+                                    <div class="muni-logo-wrapper position-relative" id="presetLogoContainer" style="width: 90px; height: 90px;">
+                                        <?php 
+                                        $presetLogo = build_logo_src($activeMunicipality['preset_logo_image'] ?? null);
+                                        $hasPreset = !empty($activeMunicipality['preset_logo_image']);
+                                        ?>
+                                        <?php if ($presetLogo): ?>
+                                            <img src="<?= htmlspecialchars($presetLogo) ?>?t=<?= time() ?>" 
+                                                 alt="<?= htmlspecialchars($activeMunicipality['name']) ?> Logo" 
+                                                 id="presetLogoImg" 
+                                                 loading="lazy"
+                                                 style="max-width: 100%; max-height: 100%; object-fit: contain;"
+                                                 onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                            <span class="text-muted small" style="display: none; height: 100%; align-items: center; justify-content: center;"><i class="bi bi-image me-1"></i>Error</span>
+                                        <?php else: ?>
+                                            <span class="text-muted small d-flex align-items-center justify-content-center h-100"><i class="bi bi-image me-1"></i>None</span>
+                                        <?php endif; ?>
+                                    </div>
+                                    <small class="text-muted d-block mt-1" style="font-size: 0.7rem;">Municipality Logo</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col">
@@ -590,8 +615,11 @@ include __DIR__ . '/../../includes/admin/admin_head.php';
                         </div>
                         <div class="col-auto">
                             <div class="d-flex flex-column gap-2">
-                                <button type="button" class="btn btn-primary btn-sm shadow-sm" data-bs-toggle="modal" data-bs-target="#uploadLogoModal">
-                                    <i class="bi bi-upload me-1"></i>Upload Logo
+                                <button type="button" class="btn btn-primary btn-sm shadow-sm" data-bs-toggle="modal" data-bs-target="#uploadCustomLogoModal">
+                                    <i class="bi bi-upload me-1"></i>EducAid Logo
+                                </button>
+                                <button type="button" class="btn btn-info btn-sm shadow-sm text-white" data-bs-toggle="modal" data-bs-target="#uploadPresetLogoModal">
+                                    <i class="bi bi-upload me-1"></i>Municipality Logo
                                 </button>
                                 <a href="topbar_settings.php" class="btn btn-outline-success btn-sm">
                                     <i class="bi bi-layout-text-window me-1"></i>Topbar
@@ -809,58 +837,98 @@ include __DIR__ . '/../../includes/admin/admin_head.php';
     </section>
 </div>
 
-<!-- Upload Logo Modal -->
-<div class="modal fade" id="uploadLogoModal" tabindex="-1" aria-labelledby="uploadLogoModalLabel" aria-hidden="true">
+<!-- Upload EducAid (Custom) Logo Modal -->
+<div class="modal fade" id="uploadCustomLogoModal" tabindex="-1" aria-labelledby="uploadCustomLogoModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="uploadLogoModalLabel">
-                    <i class="bi bi-upload me-2"></i>Upload Custom Logo
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="uploadCustomLogoModalLabel">
+                    <i class="bi bi-upload me-2"></i>Upload EducAid Logo
                 </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="alert alert-info">
                     <i class="bi bi-info-circle me-2"></i>
-                    Upload a custom logo for <strong><?= htmlspecialchars($activeMunicipality['name'] ?? 'this municipality') ?></strong>.
+                    Upload the <strong>EducAid system logo</strong>. This will appear alongside the municipality logo.
                     Recommended: PNG with transparent background, max 5MB.
                 </div>
                 
-                <?php if ($hasPreset && $hasCustom): ?>
-                <div class="alert alert-warning">
-                    <i class="bi bi-exclamation-triangle me-2"></i>
-                    You have both preset and custom logos. Currently using: <strong><?= $usingCustom ? 'Custom' : 'Preset' ?></strong>
-                    <button type="button" class="btn btn-sm btn-outline-primary ms-2" id="toggleLogoType">
-                        <i class="bi bi-arrow-repeat me-1"></i>Switch to <?= $usingCustom ? 'Preset' : 'Custom' ?>
-                    </button>
-                </div>
-                <?php endif; ?>
+                <div id="customUploadFeedback"></div>
                 
-                <div id="uploadFeedback"></div>
-                
-                <form id="logoUploadForm" enctype="multipart/form-data">
+                <form id="customLogoUploadForm" enctype="multipart/form-data">
                     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(CSRFProtection::generateToken('municipality-logo-upload')) ?>">
                     <input type="hidden" name="municipality_id" value="<?= $activeMunicipality['municipality_id'] ?? '' ?>">
+                    <input type="hidden" name="logo_type" value="custom">
                     
                     <div class="mb-3">
-                        <label for="logoFile" class="form-label">Select Image File</label>
-                        <input type="file" class="form-control" id="logoFile" name="logo_file" 
+                        <label for="customLogoFile" class="form-label">Select Image File</label>
+                        <input type="file" class="form-control" id="customLogoFile" name="logo_file" 
                                accept="image/png,image/jpeg,image/jpg,image/gif,image/webp,image/svg+xml" required>
                         <div class="form-text">Allowed: PNG, JPG, GIF, WebP, SVG. Max size: 5MB</div>
                     </div>
                     
-                    <div id="previewContainer" class="mb-3" style="display: none;">
+                    <div id="customPreviewContainer" class="mb-3" style="display: none;">
                         <label class="form-label">Preview</label>
                         <div class="border rounded p-3 text-center bg-light">
-                            <img id="previewImage" src="" alt="Preview" style="max-width: 100%; max-height: 200px;">
+                            <img id="customPreviewImage" src="" alt="Preview" style="max-width: 100%; max-height: 200px;">
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" id="uploadLogoBtn">
-                    <i class="bi bi-upload me-1"></i>Upload Logo
+                <button type="button" class="btn btn-primary" id="uploadCustomLogoBtn">
+                    <i class="bi bi-upload me-1"></i>Upload EducAid Logo
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Upload Municipality (Preset) Logo Modal -->
+<div class="modal fade" id="uploadPresetLogoModal" tabindex="-1" aria-labelledby="uploadPresetLogoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title" id="uploadPresetLogoModalLabel">
+                    <i class="bi bi-upload me-2"></i>Upload Municipality Logo
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle me-2"></i>
+                    Upload the <strong><?= htmlspecialchars($activeMunicipality['name'] ?? 'municipality') ?> official logo</strong> (e.g., GenTri seal).
+                    Recommended: PNG with transparent background, max 5MB.
+                </div>
+                
+                <div id="presetUploadFeedback"></div>
+                
+                <form id="presetLogoUploadForm" enctype="multipart/form-data">
+                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(CSRFProtection::generateToken('municipality-logo-upload')) ?>">
+                    <input type="hidden" name="municipality_id" value="<?= $activeMunicipality['municipality_id'] ?? '' ?>">
+                    <input type="hidden" name="logo_type" value="preset">
+                    
+                    <div class="mb-3">
+                        <label for="presetLogoFile" class="form-label">Select Image File</label>
+                        <input type="file" class="form-control" id="presetLogoFile" name="logo_file" 
+                               accept="image/png,image/jpeg,image/jpg,image/gif,image/webp,image/svg+xml" required>
+                        <div class="form-text">Allowed: PNG, JPG, GIF, WebP, SVG. Max size: 5MB</div>
+                    </div>
+                    
+                    <div id="presetPreviewContainer" class="mb-3" style="display: none;">
+                        <label class="form-label">Preview</label>
+                        <div class="border rounded p-3 text-center bg-light">
+                            <img id="presetPreviewImage" src="" alt="Preview" style="max-width: 100%; max-height: 200px;">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-info text-white" id="uploadPresetLogoBtn">
+                    <i class="bi bi-upload me-1"></i>Upload Municipality Logo
                 </button>
             </div>
         </div>
@@ -870,162 +938,125 @@ include __DIR__ . '/../../includes/admin/admin_head.php';
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const logoFileInput = document.getElementById('logoFile');
-    const previewContainer = document.getElementById('previewContainer');
-    const previewImage = document.getElementById('previewImage');
-    const uploadLogoBtn = document.getElementById('uploadLogoBtn');
-    const uploadFeedback = document.getElementById('uploadFeedback');
-    const logoUploadForm = document.getElementById('logoUploadForm');
-    const toggleLogoTypeBtn = document.getElementById('toggleLogoType');
+    // Setup logo upload handlers for both types
+    setupLogoUpload('custom', 'customLogoFile', 'customPreviewContainer', 'customPreviewImage', 'uploadCustomLogoBtn', 'customUploadFeedback', 'customLogoUploadForm', 'uploadCustomLogoModal', 'customLogoImg');
+    setupLogoUpload('preset', 'presetLogoFile', 'presetPreviewContainer', 'presetPreviewImage', 'uploadPresetLogoBtn', 'presetUploadFeedback', 'presetLogoUploadForm', 'uploadPresetLogoModal', 'presetLogoImg');
     
-    // Debug: Log current logo info
-    const logoImg = document.getElementById('municipalityLogo');
-    if (logoImg) {
-        console.log('Current logo src:', logoImg.src);
-        console.log('Logo load status:', logoImg.complete ? 'loaded' : 'loading');
-    }
-    
-    // Preview selected image
-    logoFileInput?.addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (file) {
-            console.log('File selected:', file.name, 'Size:', file.size, 'Type:', file.type);
-            
-            // Validate file size
-            if (file.size > 5 * 1024 * 1024) {
-                showFeedback('danger', 'File size exceeds 5MB limit');
-                logoFileInput.value = '';
+    function setupLogoUpload(type, fileInputId, previewContainerId, previewImageId, uploadBtnId, feedbackId, formId, modalId, logoImgId) {
+        const fileInput = document.getElementById(fileInputId);
+        const previewContainer = document.getElementById(previewContainerId);
+        const previewImage = document.getElementById(previewImageId);
+        const uploadBtn = document.getElementById(uploadBtnId);
+        const feedbackEl = document.getElementById(feedbackId);
+        const form = document.getElementById(formId);
+        const modal = document.getElementById(modalId);
+        
+        if (!fileInput || !uploadBtn || !form) return;
+        
+        // Preview selected image
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                // Validate file size
+                if (file.size > 5 * 1024 * 1024) {
+                    showFeedback(feedbackEl, 'danger', 'File size exceeds 5MB limit');
+                    fileInput.value = '';
+                    previewContainer.style.display = 'none';
+                    return;
+                }
+                
+                // Show preview
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImage.src = e.target.result;
+                    previewContainer.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
                 previewContainer.style.display = 'none';
+            }
+        });
+        
+        // Handle upload
+        uploadBtn.addEventListener('click', async function() {
+            const formData = new FormData(form);
+            
+            if (!fileInput.files[0]) {
+                showFeedback(feedbackEl, 'warning', 'Please select a file to upload');
                 return;
             }
             
-            // Show preview
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                previewImage.src = e.target.result;
-                previewContainer.style.display = 'block';
-                console.log('Preview loaded');
-            };
-            reader.readAsDataURL(file);
-        } else {
-            previewContainer.style.display = 'none';
-        }
-    });
-    
-    // Handle logo type toggle
-    toggleLogoTypeBtn?.addEventListener('click', async function() {
-        const currentlyUsingCustom = <?= json_encode($usingCustom ?? false) ?>;
-        const municipalityId = <?= json_encode($activeMunicipality['municipality_id'] ?? 0) ?>;
-        const csrfToken = '<?= htmlspecialchars(CSRFProtection::generateToken('municipality-logo-toggle')) ?>';
-        
-        toggleLogoTypeBtn.disabled = true;
-        const originalHtml = toggleLogoTypeBtn.innerHTML;
-        toggleLogoTypeBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span>';
-        
-        try {
-            const formData = new FormData();
-            formData.append('municipality_id', municipalityId);
-            formData.append('use_custom', currentlyUsingCustom ? 'false' : 'true');
-            formData.append('csrf_token', csrfToken);
+            const originalBtnText = uploadBtn.innerHTML;
+            uploadBtn.disabled = true;
+            uploadBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Uploading...';
+            feedbackEl.innerHTML = '';
             
-            const response = await fetch('toggle_municipality_logo.php', {
-                method: 'POST',
-                body: formData
-            });
-            
-            const result = await response.json();
-            
-            if (result.success) {
-                window.location.reload();
-            } else {
-                alert(result.message || 'Failed to toggle logo type');
-                toggleLogoTypeBtn.disabled = false;
-                toggleLogoTypeBtn.innerHTML = originalHtml;
-            }
-        } catch (error) {
-            alert('Network error: ' + error.message);
-            toggleLogoTypeBtn.disabled = false;
-            toggleLogoTypeBtn.innerHTML = originalHtml;
-        }
-    });
-    
-    // Handle upload
-    uploadLogoBtn?.addEventListener('click', async function() {
-        const formData = new FormData(logoUploadForm);
-        
-        if (!logoFileInput.files[0]) {
-            showFeedback('warning', 'Please select a file to upload');
-            return;
-        }
-        
-        uploadLogoBtn.disabled = true;
-        uploadLogoBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Uploading...';
-        uploadFeedback.innerHTML = '';
-        
-        try {
-            const response = await fetch('upload_municipality_logo.php', {
-                method: 'POST',
-                body: formData
-            });
-            
-            // Check if response is ok
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            
-            const contentType = response.headers.get('content-type');
-            if (!contentType || !contentType.includes('application/json')) {
-                const text = await response.text();
-                console.error('Non-JSON response:', text);
-                throw new Error('Server returned non-JSON response');
-            }
-            
-            const result = await response.json();
-            console.log('Upload result:', result);
-            
-            if (result.success) {
-                showFeedback('success', result.message || 'Logo uploaded successfully!');
+            try {
+                const response = await fetch('upload_municipality_logo.php', {
+                    method: 'POST',
+                    body: formData
+                });
                 
-                // Update the logo image immediately if present
-                const logoImg = document.getElementById('municipalityLogo');
-                if (logoImg && result.logo_url) {
-                    // Add cache-busting parameter to force reload
-                    logoImg.src = result.logo_url + '?t=' + new Date().getTime();
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 
-                setTimeout(() => {
-                    // Force hard reload to clear any cached assets
-                    window.location.reload(true);
-                }, 1500);
-            } else {
-                showFeedback('danger', result.message || 'Upload failed');
-                uploadLogoBtn.disabled = false;
-                uploadLogoBtn.innerHTML = '<i class="bi bi-upload me-1"></i>Upload Logo';
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    const text = await response.text();
+                    console.error('Non-JSON response:', text);
+                    throw new Error('Server returned non-JSON response');
+                }
+                
+                const result = await response.json();
+                console.log('Upload result:', result);
+                
+                if (result.success) {
+                    showFeedback(feedbackEl, 'success', result.message || 'Logo uploaded successfully!');
+                    
+                    // Update the logo image immediately
+                    const logoImg = document.getElementById(logoImgId);
+                    if (logoImg && result.logo_url) {
+                        logoImg.src = result.logo_url + '?t=' + new Date().getTime();
+                        logoImg.style.display = 'block';
+                        const placeholder = logoImg.nextElementSibling;
+                        if (placeholder) placeholder.style.display = 'none';
+                    }
+                    
+                    setTimeout(() => {
+                        window.location.reload(true);
+                    }, 1500);
+                } else {
+                    showFeedback(feedbackEl, 'danger', result.message || 'Upload failed');
+                    uploadBtn.disabled = false;
+                    uploadBtn.innerHTML = originalBtnText;
+                }
+            } catch (error) {
+                showFeedback(feedbackEl, 'danger', 'Network error: ' + error.message);
+                uploadBtn.disabled = false;
+                uploadBtn.innerHTML = originalBtnText;
             }
-        } catch (error) {
-            showFeedback('danger', 'Network error: ' + error.message);
-            uploadLogoBtn.disabled = false;
-            uploadLogoBtn.innerHTML = '<i class="bi bi-upload me-1"></i>Upload Logo';
-        }
-    });
+        });
+        
+        // Reset form when modal is closed
+        modal?.addEventListener('hidden.bs.modal', function() {
+            form?.reset();
+            previewContainer.style.display = 'none';
+            feedbackEl.innerHTML = '';
+            uploadBtn.disabled = false;
+            uploadBtn.innerHTML = type === 'custom' ? '<i class="bi bi-upload me-1"></i>Upload EducAid Logo' : '<i class="bi bi-upload me-1"></i>Upload Municipality Logo';
+        });
+    }
     
-    function showFeedback(type, message) {
-        uploadFeedback.innerHTML = `
+    function showFeedback(feedbackEl, type, message) {
+        if (!feedbackEl) return;
+        feedbackEl.innerHTML = `
             <div class="alert alert-${type} alert-dismissible fade show" role="alert">
                 ${message}
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         `;
     }
-    
-    // Reset form when modal is closed
-    document.getElementById('uploadLogoModal')?.addEventListener('hidden.bs.modal', function() {
-        logoUploadForm?.reset();
-        previewContainer.style.display = 'none';
-        uploadFeedback.innerHTML = '';
-        uploadLogoBtn.disabled = false;
-        uploadLogoBtn.innerHTML = '<i class="bi bi-upload me-1"></i>Upload Logo';
-    });
 
     // Content Editor Warning Modal
     const editContentModal = new bootstrap.Modal(document.getElementById('editContentWarningModal'));

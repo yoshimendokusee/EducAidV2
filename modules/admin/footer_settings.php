@@ -76,8 +76,17 @@ if ($isPostRequest) {
 // Get current footer settings
 $current_settings = $footerService->getCurrentSettings();
 
-// Get current footer settings
-$current_settings = $footerService->getCurrentSettings();
+// Fetch preset_logo_image from municipalities for preview
+$preview_logo_image = null;
+$logoQuery = @pg_query_params($connection, 
+    "SELECT preset_logo_image FROM municipalities WHERE municipality_id = $1 LIMIT 1", 
+    [1]
+);
+if ($logoQuery && ($logoRow = pg_fetch_assoc($logoQuery))) {
+    if (!empty($logoRow['preset_logo_image'])) {
+        $preview_logo_image = '../../' . str_replace('\\', '/', $logoRow['preset_logo_image']);
+    }
+}
 
 // Page title and extra CSS
 $page_title = 'Footer Settings';
@@ -443,8 +452,12 @@ include __DIR__ . '/../../includes/admin/admin_head.php';
             <div class="row g-4 align-items-center">
               <div class="col-lg-6">
                 <div class="d-flex align-items-center gap-3">
-                  <div id="preview-badge" style="width: 48px; height: 48px; background: <?= htmlspecialchars($current_settings['footer_link_hover_color']) ?>; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.1rem; color: <?= htmlspecialchars($current_settings['footer_bg_color']) ?>;">
-                    EA
+                  <div id="preview-badge" style="width: 64px; height: 64px; background: <?= htmlspecialchars($current_settings['footer_link_hover_color']) ?>; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.1rem; color: <?= htmlspecialchars($current_settings['footer_bg_color']) ?>; overflow: hidden;">
+                    <?php if ($preview_logo_image): ?>
+                      <img src="<?= htmlspecialchars($preview_logo_image) ?>" alt="Municipality Logo" style="width: 100%; height: 100%; object-fit: contain; padding: 4px;" onerror="this.style.display='none'; this.parentElement.textContent='EA';">
+                    <?php else: ?>
+                      EA
+                    <?php endif; ?>
                   </div>
                   <div>
                     <div id="preview-title" style="font-size: 1.2rem; font-weight: 600; color: <?= htmlspecialchars($current_settings['footer_heading_color']) ?>;">
@@ -464,6 +477,7 @@ include __DIR__ . '/../../includes/admin/admin_head.php';
                       <li><a href="#" style="color: <?= htmlspecialchars($current_settings['footer_link_color']) ?>; text-decoration: none;">Home</a></li>
                       <li><a href="#" style="color: <?= htmlspecialchars($current_settings['footer_link_color']) ?>; text-decoration: none;">About</a></li>
                       <li><a href="#" style="color: <?= htmlspecialchars($current_settings['footer_link_color']) ?>; text-decoration: none;">Process</a></li>
+                      <li><a href="#" style="color: <?= htmlspecialchars($current_settings['footer_link_color']) ?>; text-decoration: none;">Announcements</a></li>
                     </ul>
                   </div>
                   <div class="col-6 col-md-4">
@@ -488,7 +502,7 @@ include __DIR__ . '/../../includes/admin/admin_head.php';
             <hr id="preview-divider" style="border-color: <?= htmlspecialchars($current_settings['footer_divider_color']) ?>; opacity: 0.25; margin: 1.5rem 0;">
             <div class="d-flex justify-content-between flex-wrap gap-2 small" style="color: <?= htmlspecialchars($current_settings['footer_text_color']) ?>;">
               <span>© <span id="year"><?= date('Y') ?></span> City Government of General Trias • EducAid</span>
-              <span>Powered by the Office of the Mayor • IT</span>
+              <span>Developed by <strong>CTRL+Solutions</strong></span>
             </div>
           </div>
         </div>

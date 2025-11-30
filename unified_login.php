@@ -23,6 +23,7 @@ if (
 // Fetch municipality data for navbar (General Trias as default)
 $municipality_logo = null;
 $municipality_name = 'General Trias';
+$preset_logo = null; // For municipality logo display on login page
 
 if (isset($connection)) {
     // Fetch General Trias municipality data with correct logo logic
@@ -57,6 +58,16 @@ if (isset($connection)) {
             $cacheKey = file_exists($absolutePath) ? filemtime($absolutePath) : '1';
             $municipality_logo .= '?v=' . $cacheKey;
         }
+        
+        // Get preset logo (municipality seal) for left side display
+        if (!empty($muni_data['preset_logo_image'])) {
+            $preset_path = trim($muni_data['preset_logo_image']);
+            $preset_logo = ltrim($preset_path, '/');
+            $presetAbsPath = $_SERVER['DOCUMENT_ROOT'] . '/' . $preset_logo;
+            $presetCacheKey = file_exists($presetAbsPath) ? filemtime($presetAbsPath) : '1';
+            $preset_logo .= '?v=' . $presetCacheKey;
+        }
+        
         pg_free_result($muni_result);
     }
 }
@@ -973,6 +984,25 @@ $pageType = $seoData['type'];
             text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
         }
         
+        /* Municipality Logo on Login Page */
+        .municipality-logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .municipality-logo-login {
+            width: 140px;
+            height: 140px;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.3));
+            transition: transform 0.3s ease;
+        }
+        
+        .municipality-logo-login:hover {
+            transform: scale(1.05);
+        }
+        
         /* Brand tagline */
         .brand-tagline {
             font-size: 1.5rem;
@@ -1640,6 +1670,16 @@ $pageType = $seoData['type'];
             <!-- Brand Section - Hidden on mobile, visible on tablet+ -->
             <div class="col-lg-6 d-none d-lg-flex brand-section">
                 <div class="brand-content text-center">
+                    <!-- Municipality Logo -->
+                    <?php if ($preset_logo): ?>
+                    <div class="municipality-logo-container mb-4">
+                        <img src="<?= htmlspecialchars($preset_logo) ?>" 
+                             alt="<?= htmlspecialchars($municipality_name) ?> Logo" 
+                             class="municipality-logo-login"
+                             onerror="this.style.display='none';">
+                    </div>
+                    <?php endif; ?>
+                    
                     <!-- Main Title -->
                     <h1 class="brand-title">EducAid</h1>
                     

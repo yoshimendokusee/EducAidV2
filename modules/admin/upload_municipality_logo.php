@@ -50,6 +50,12 @@ if (!$municipalityId) {
     exit;
 }
 
+// Determine which logo type is being uploaded (custom = EducAid logo, preset = Municipality logo)
+$logoType = $_POST['logo_type'] ?? 'custom';
+if (!in_array($logoType, ['custom', 'preset'], true)) {
+    $logoType = 'custom';
+}
+
 // Verify municipality exists and admin has access
 $checkQuery = "SELECT municipality_id, name FROM municipalities WHERE municipality_id = $1";
 $checkResult = pg_query_params($connection, $checkQuery, [$municipalityId]);
@@ -164,10 +170,10 @@ if (empty($extension)) {
     $extension = $extensionMap[$mimeType] ?? 'png';
 }
 
-// Create safe filename: municipality_slug_timestamp.ext
+// Create safe filename: municipality_slug_logotype_timestamp.ext
 $municipalitySlug = $municipality['slug'] ?? preg_replace('/[^a-z0-9]+/', '-', strtolower($municipality['name']));
 $timestamp = time();
-$filename = sprintf('%s_%d.%s', $municipalitySlug, $timestamp, $extension);
+$filename = sprintf('%s_%s_%d.%s', $municipalitySlug, $logoType, $timestamp, $extension);
 $filepath = $uploadDir . DIRECTORY_SEPARATOR . $filename;
 
 // Move uploaded file
@@ -180,10 +186,10 @@ if (!move_uploaded_file($file['tmp_name'], $filepath)) {
 // Ensures value like: assets/uploads/municipality_logos/<file>
 $dbPath = $pathConfig->getRelativePath($filepath);
 
-// Update database
+// Update database - custom_logo_image for EducAid logo, preset_logo_image for Municipality logo
+$columnToUpdate = ($logoType === 'custom') ? 'custom_logo_image' : 'preset_logo_image';
 $updateQuery = "UPDATE municipalities 
-                SET custom_logo_image = $1, 
-                    use_custom_logo = TRUE,
+                SET {$columnToUpdate} = $1, 
                     updated_at = NOW()
                 WHERE municipality_id = $2";
 
@@ -199,11 +205,13 @@ if (!$updateResult) {
 // Success response
 // Generate the URL for the uploaded logo (relative from modules/admin/)
 $logoUrl = '../../' . str_replace('\\', '/', $dbPath);
+$logoLabel = ($logoType === 'custom') ? 'EducAid' : 'Municipality';
 
 echo json_encode([
     'success' => true,
-    'message' => 'Logo uploaded successfully',
+    'message' => $logoLabel . ' logo uploaded successfully',
     'logo_url' => $logoUrl,
+    'logo_type' => $logoType,
     'data' => [
         'municipality_id' => $municipalityId,
         'municipality_name' => $municipality['name'],
@@ -216,9 +224,11 @@ echo json_encode([
 
 // Log the upload
 error_log(sprintf(
-    'Municipality logo uploaded: Municipality #%d (%s), File: %s, Size: %d bytes, Admin: #%d',
+    'Municipality logo uploaded: Municipality #%d (%s), Type: %s (%s), File: %s, Size: %d bytes, Admin: #%d',
     $municipalityId,
     $municipality['name'],
+    $logoType,
+    $logoLabel,
     $filename,
     $file['size'],
     $_SESSION['admin_id']

@@ -40,18 +40,48 @@ if (isset($connection)) {
         }
     }
     
-    // Fetch unified contact info from municipalities table (centralized source)
+    // Fetch unified contact info and preset_logo from municipalities table (centralized source)
     // This ensures footer displays consistent contact info managed in Municipality Content Hub
     $checkContactQuery = @pg_query($connection, "SELECT column_name FROM information_schema.columns WHERE table_name = 'municipalities' AND column_name = 'contact_phone' LIMIT 1");
     if ($checkContactQuery && pg_num_rows($checkContactQuery) > 0) {
         $contactQuery = @pg_query_params($connection, 
-            "SELECT contact_phone, contact_email, contact_address, office_hours FROM municipalities WHERE municipality_id = $1 LIMIT 1", 
+            "SELECT contact_phone, contact_email, contact_address, office_hours, preset_logo_image FROM municipalities WHERE municipality_id = $1 LIMIT 1", 
             [1]
         );
         if ($contactQuery && ($contactRow = pg_fetch_assoc($contactQuery))) {
             if (!empty($contactRow['contact_phone'])) $footer_settings['contact_phone'] = $contactRow['contact_phone'];
             if (!empty($contactRow['contact_email'])) $footer_settings['contact_email'] = $contactRow['contact_email'];
             if (!empty($contactRow['contact_address'])) $footer_settings['contact_address'] = $contactRow['contact_address'];
+            
+            // Build proper path for preset_logo_image
+            if (!empty($contactRow['preset_logo_image'])) {
+                $logo_path = trim($contactRow['preset_logo_image']);
+                
+                // Determine base path based on current script location
+                $footer_base_path = '';
+                if (strpos($_SERVER['PHP_SELF'], '/website/') !== false) {
+                    $footer_base_path = '../';
+                } elseif (strpos($_SERVER['PHP_SELF'], '/modules/student/') !== false) {
+                    $footer_base_path = '../../';
+                } elseif (strpos($_SERVER['PHP_SELF'], '/modules/admin/') !== false) {
+                    $footer_base_path = '../../';
+                }
+                
+                // Handle different path formats
+                if (preg_match('#^data:image/[^;]+;base64,#i', $logo_path)) {
+                    // Base64 data URI - use as-is
+                    $footer_settings['preset_logo_image'] = $logo_path;
+                } elseif (preg_match('#^(?:https?:)?//#i', $logo_path)) {
+                    // External URL - use as-is
+                    $footer_settings['preset_logo_image'] = $logo_path;
+                } elseif (str_starts_with($logo_path, '/')) {
+                    // Absolute web path
+                    $footer_settings['preset_logo_image'] = $footer_base_path . ltrim($logo_path, '/');
+                } else {
+                    // Relative path (e.g., assets/uploads/municipality_logos/...)
+                    $footer_settings['preset_logo_image'] = $footer_base_path . str_replace('\\', '/', $logo_path);
+                }
+            }
         }
     }
 }
@@ -88,8 +118,8 @@ if (isset($connection)) {
         opacity: 0.25;
     }
     #dynamic-footer .brand-badge {
-        width: 48px;
-        height: 48px;
+        width: 64px;
+        height: 64px;
         background: <?= htmlspecialchars($footer_settings['footer_link_hover_color']) ?>;
         border-radius: 12px;
         display: flex;
@@ -98,6 +128,13 @@ if (isset($connection)) {
         font-weight: 700;
         font-size: 1.1rem;
         color: <?= htmlspecialchars($footer_settings['footer_bg_color']) ?>;
+        overflow: hidden;
+    }
+    #dynamic-footer .brand-badge img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        padding: 4px;
     }
     #dynamic-footer .btn-light {
         background: #fff;
@@ -118,7 +155,13 @@ if (isset($connection)) {
     <div class="row g-4 align-items-center">
       <div class="col-lg-6">
         <div class="d-flex align-items-center gap-3">
-            <div class="brand-badge">EA</div>
+            <div class="brand-badge">
+              <?php if (!empty($footer_settings['preset_logo_image'])): ?>
+                <img src="<?= htmlspecialchars($footer_settings['preset_logo_image']) ?>" alt="Municipality Logo" onerror="this.style.display='none'; this.parentElement.textContent='EA';">
+              <?php else: ?>
+                EA
+              <?php endif; ?>
+            </div>
             <div>
               <div class="footer-logo"><?= htmlspecialchars($footer_settings['footer_title']) ?></div>
               <small><?= htmlspecialchars($footer_settings['footer_description']) ?></small>
