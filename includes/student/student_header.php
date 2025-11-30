@@ -28,7 +28,7 @@ if (isset($connection) && $studentId) {
     <div class="student-header-content">
       <div class="student-header-left d-flex align-items-center">
         <div class="sidebar-toggle me-2"><i class="bi bi-list" id="menu-toggle" aria-label="Toggle Sidebar"></i></div>
-        <h5 class="mb-0 fw-semibold d-none d-md-inline text-primary-emphasis">Dashboard</h5>
+        <h5 class="mb-0 fw-bold d-none d-md-inline" style="color: #1e40af;">Dashboard</h5>
       </div>
       <div class="student-header-actions">
         <?php 

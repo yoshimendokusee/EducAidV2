@@ -26,7 +26,7 @@ $student_info = pg_fetch_assoc($student_info_result);
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Security & Privacy - EducAid</title>
+  <title>Password - EducAid</title>
   <link href="../../assets/css/bootstrap.min.css" rel="stylesheet" />
   <link href="../../assets/css/bootstrap-icons.css" rel="stylesheet" />
   <link href="../../assets/css/student/sidebar.css" rel="stylesheet" />
@@ -512,10 +512,10 @@ $student_info = pg_fetch_assoc($student_info_result);
 
           <!-- Main Content -->
           <div class="col-12 col-lg-9">
-            <!-- Security & Privacy Section -->
+            <!-- Password Section -->
             <div class="settings-content-section">
-              <h2 class="section-title">Security & Privacy</h2>
-              <p class="section-description">Protect your account with strong security settings</p>
+              <h2 class="section-title">Password</h2>
+              <p class="section-description">Protect your account with a strong password</p>
               
               <!-- Content Card -->
               <div class="content-card">

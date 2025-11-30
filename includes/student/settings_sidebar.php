@@ -22,8 +22,8 @@ $current_page = basename($_SERVER['PHP_SELF']);
         Account
     </a>
     <a href="security_privacy.php" class="settings-nav-item <?= $current_page === 'security_privacy.php' ? 'active' : '' ?>" data-section="security">
-        <i class="bi bi-shield-lock me-2"></i>
-        Security & Privacy
+        <i class="bi bi-key me-2"></i>
+        Password
     </a>
     
     <a href="accessibility.php" class="settings-nav-item <?= $current_page === 'accessibility.php' ? 'active' : '' ?>">

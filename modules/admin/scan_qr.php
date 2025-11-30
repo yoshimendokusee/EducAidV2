@@ -1090,16 +1090,16 @@ $csrf_complete_token = CSRFProtection::generateToken('complete_distribution');
           <div class="card-body p-0">
             <div class="table-container">
               <table class="table table-striped table-hover mb-0" id="studentsTable">
-                <thead class="table-dark sticky-top">
+                <thead class="sticky-top" style="background: #f8f9fa;">
                   <tr>
-                    <th>#</th>
-                    <th></th>Payroll #</th>
-                    <th>Student Name</th>
-                    <th>Student ID</th>
-                    <th>Status</th>
-                    <th>Date & Time</th>
-                    <th>Scanned By</th>
-                    <th>QR Code</th>
+                    <th style="color: #374151; font-weight: 600; border-bottom: 2px solid #e2e8f0;">#</th>
+                    <th style="color: #374151; font-weight: 600; border-bottom: 2px solid #e2e8f0;">Payroll #</th>
+                    <th style="color: #374151; font-weight: 600; border-bottom: 2px solid #e2e8f0;">Student Name</th>
+                    <th style="color: #374151; font-weight: 600; border-bottom: 2px solid #e2e8f0;">Student ID</th>
+                    <th style="color: #374151; font-weight: 600; border-bottom: 2px solid #e2e8f0;">Status</th>
+                    <th style="color: #374151; font-weight: 600; border-bottom: 2px solid #e2e8f0;">Date & Time</th>
+                    <th style="color: #374151; font-weight: 600; border-bottom: 2px solid #e2e8f0;">Scanned By</th>
+                    <th style="color: #374151; font-weight: 600; border-bottom: 2px solid #e2e8f0;">QR Code</th>
                   </tr>
                 </thead>
                 <tbody>

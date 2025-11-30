@@ -27,16 +27,17 @@
 }
 
 /* ==================== COMPACT TABLE STYLING ==================== */
-/* Base header styling - dark gray with white text */
+/* Base header styling - light gray with dark text */
 .table thead th {
   font-size: .85rem;
   font-weight: 600;
   letter-spacing: .25px;
   white-space: nowrap;
-  background: #495057;
-  color: #fff;
+  background: #f8f9fa;
+  color: #374151;
   padding: 10px 12px;
   border: none;
+  border-bottom: 2px solid #e2e8f0;
   vertical-align: middle;
 }
 
@@ -69,7 +70,7 @@
 }
 
 .table thead th.checkbox-col {
-  background: #495057;
+  background: #f8f9fa;
   z-index: 3;
 }
 

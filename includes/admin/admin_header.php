@@ -180,15 +180,24 @@ $__hdr = educaid_get_header_theme($connection ?? null);
     width: 100% !important;
     /* Keep default z-index (1030) so backdrop (1070) covers it */
   }
-  /* Only the burger menu stays above the overlay */
+  /* Burger menu button styling for mobile */
   .admin-main-header .sidebar-toggle {
-    position: fixed;
-    top: calc(var(--admin-topbar-h, 52px) + 10px);
-    left: 16px;
+    position: relative;
     z-index: 1075;
-    background: rgba(255,255,255,0.95);
+    background: transparent;
     border-radius: 8px;
-    padding: 2px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .admin-main-header .sidebar-toggle #menu-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
   }
 }
 .admin-main-header .container-fluid{height:100%;}
@@ -198,8 +207,8 @@ $__hdr = educaid_get_header_theme($connection ?? null);
 .admin-icon-btn .bi{font-size:1.05rem;}
 .admin-icon-btn:hover{background:<?= htmlspecialchars($__hdr['header_hover_bg']) ?>;border-color:<?= htmlspecialchars($__hdr['header_hover_bg']) ?>;color:<?= htmlspecialchars($__hdr['header_hover_icon_color']) ?>;}
 .admin-icon-btn .badge{position:absolute;top:-6px;right:-6px;font-size:.55rem;}
-#menu-toggle{font-size:30px;cursor:pointer;color:<?= htmlspecialchars($__hdr['header_icon_color']) ?>;border-radius:8px;padding:4px 8px;transition:.2s;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;touch-action:manipulation;}#menu-toggle:hover{background:<?= htmlspecialchars($__hdr['header_hover_bg']) ?>;color:<?= htmlspecialchars($__hdr['header_hover_icon_color']) ?>;}#menu-toggle:active{transform:scale(0.95);}
-.sidebar-toggle{display:inline-block;position:relative;z-index:1075;}
+#menu-toggle{font-size:28px;cursor:pointer;color:<?= htmlspecialchars($__hdr['header_icon_color']) ?>;border-radius:8px;padding:4px 8px;transition:.2s;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;touch-action:manipulation;display:flex;align-items:center;justify-content:center;line-height:1;}#menu-toggle:hover{background:<?= htmlspecialchars($__hdr['header_hover_bg']) ?>;color:<?= htmlspecialchars($__hdr['header_hover_icon_color']) ?>;}#menu-toggle:active{transform:scale(0.95);}
+.sidebar-toggle{display:inline-flex;align-items:center;justify-content:center;position:relative;z-index:1075;}
 .admin-main-header h5, .admin-main-header .dropdown-menu, .admin-main-header .admin-header-left span { color: <?= htmlspecialchars($__hdr['header_text_color']) ?>; }
 
 /* Enhanced notification dropdown styling */

@@ -713,12 +713,6 @@ include __DIR__ . '/../../includes/admin/admin_head.php';
                                                 <h6 class="mb-1 fw-bold" style="color: #1e293b;">
                                                     <?= htmlspecialchars($action['label']) ?>
                                                 </h6>
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <span class="badge" style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); color: #166534; font-size: 0.75rem;">
-                                                        <i class="bi bi-database me-1"></i>
-                                                        <?= $action['count'] === null ? 'N/A' : $action['count'] ?> blocks
-                                                    </span>
-                                                </div>
                                             </div>
                                         </div>
                                         <p class="text-muted mb-3" style="font-size: 0.9rem; line-height: 1.6;">
