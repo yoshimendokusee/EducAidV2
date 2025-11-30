@@ -14,6 +14,7 @@ class FooterThemeService {
 
     /**
      * Get current footer settings for a municipality
+     * Contact info (phone/email) is fetched from theme_settings for consistency with topbar
      */
     public function getCurrentSettings($municipalityId = 1) {
         $query = "
@@ -33,15 +34,63 @@ class FooterThemeService {
                 $settings['social_links'] = json_decode($settings['social_links'], true);
             }
             
+            // Fetch unified contact info from municipalities table (centralized source)
+            $unifiedContact = $this->getUnifiedContactInfo($municipalityId);
+            if ($unifiedContact) {
+                $settings['contact_phone'] = $unifiedContact['contact_phone'];
+                $settings['contact_email'] = $unifiedContact['contact_email'];
+                $settings['contact_address'] = $unifiedContact['contact_address'];
+                $settings['office_hours'] = $unifiedContact['office_hours'];
+            }
+            
             return $settings;
         }
         
         // Return defaults if no settings found
         return $this->getDefaultSettings();
     }
+    
+    /**
+     * Get unified contact info from municipalities table
+     * This ensures topbar, footer, and all pages display consistent contact information
+     * Contact info is managed in the Municipality Content Hub
+     */
+    private function getUnifiedContactInfo($municipalityId = 1) {
+        // First check if the contact columns exist in municipalities table
+        $checkQuery = "SELECT column_name FROM information_schema.columns 
+                       WHERE table_name = 'municipalities' AND column_name = 'contact_phone' LIMIT 1";
+        $checkResult = pg_query($this->connection, $checkQuery);
+        
+        if (!$checkResult || pg_num_rows($checkResult) === 0) {
+            // Columns don't exist yet, return null to use defaults
+            return null;
+        }
+        
+        $query = "
+            SELECT contact_phone, contact_email, contact_address, office_hours 
+            FROM municipalities 
+            WHERE municipality_id = $1 
+            LIMIT 1
+        ";
+        
+        $result = pg_query_params($this->connection, $query, [$municipalityId]);
+        
+        if ($result && pg_num_rows($result) > 0) {
+            $row = pg_fetch_assoc($result);
+            return [
+                'contact_phone' => $row['contact_phone'] ?? '',
+                'contact_email' => $row['contact_email'] ?? '',
+                'contact_address' => $row['contact_address'] ?? '',
+                'office_hours' => $row['office_hours'] ?? ''
+            ];
+        }
+        
+        return null;
+    }
 
     /**
      * Get default footer settings
+     * Note: contact_phone and contact_email default to topbar values for consistency
      */
     private function getDefaultSettings() {
         return [
@@ -54,8 +103,8 @@ class FooterThemeService {
             'footer_title' => 'EducAid',
             'footer_description' => 'Making education accessible throughout General Trias City through innovative scholarship solutions.',
             'contact_address' => 'General Trias City Hall, Cavite',
-            'contact_phone' => '+63 (046) 123-4567',
-            'contact_email' => 'info@educaid-gentrias.gov.ph'
+            'contact_phone' => '(046) 886-4454',           // Matches topbar default
+            'contact_email' => 'educaid@generaltrias.gov.ph' // Matches topbar default
         ];
     }
 

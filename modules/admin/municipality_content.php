@@ -230,6 +230,10 @@ if (isset($_GET['system_info_updated'])) {
     $feedback = ['type' => 'success', 'message' => 'System information updated successfully!'];
 }
 
+if (isset($_GET['contact_info_updated'])) {
+    $feedback = ['type' => 'success', 'message' => 'Contact information updated successfully! This will be reflected across all pages (topbar, footer, etc.).'];
+}
+
 // Handle system information update
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_system_info'])) {
     $token = $_POST['csrf_token'] ?? '';
@@ -269,6 +273,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_system_info'])
                 }
             } else {
                 $feedback = ['type' => 'danger', 'message' => 'Database error updating system information.'];
+            }
+        }
+    }
+}
+
+// Handle contact information update
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_contact_info'])) {
+    $token = $_POST['csrf_token'] ?? '';
+    if (!CSRFProtection::validateToken('municipality-contact-info', $token)) {
+        $feedback = ['type' => 'danger', 'message' => 'Security token expired. Please try again.'];
+    } else {
+        $contactPhone = trim($_POST['contact_phone'] ?? '');
+        $contactEmail = trim($_POST['contact_email'] ?? '');
+        $contactAddress = trim($_POST['contact_address'] ?? '');
+        $officeHours = trim($_POST['office_hours'] ?? '');
+        $municipalityId = (int) ($_POST['municipality_id'] ?? 0);
+        
+        if (empty($contactPhone)) {
+            $feedback = ['type' => 'danger', 'message' => 'Phone number is required.'];
+        } elseif (empty($contactEmail)) {
+            $feedback = ['type' => 'danger', 'message' => 'Email address is required.'];
+        } elseif (!filter_var($contactEmail, FILTER_VALIDATE_EMAIL)) {
+            $feedback = ['type' => 'danger', 'message' => 'Please enter a valid email address.'];
+        } elseif ($municipalityId <= 0) {
+            $feedback = ['type' => 'danger', 'message' => 'Invalid municipality selected.'];
+        } else {
+            // Update contact info in municipalities table
+            $updateRes = pg_query_params(
+                $connection,
+                'UPDATE municipalities SET contact_phone = $1, contact_email = $2, contact_address = $3, office_hours = $4, updated_at = CURRENT_TIMESTAMP WHERE municipality_id = $5',
+                [$contactPhone, $contactEmail, $contactAddress, $officeHours, $municipalityId]
+            );
+            
+            if ($updateRes) {
+                header("Location: municipality_content.php?contact_info_updated=1");
+                exit;
+            } else {
+                $feedback = ['type' => 'danger', 'message' => 'Database error updating contact information. Make sure the contact columns exist in the municipalities table.'];
             }
         }
     }
@@ -333,6 +375,33 @@ if ($systemInfoQuery && ($systemInfoRow = pg_fetch_assoc($systemInfoQuery))) {
     $systemInfoSettings = $systemInfoRow;
 } else {
     $systemInfoSettings = ['system_name' => 'EducAid', 'municipality_name' => 'City of General Trias'];
+}
+
+// Fetch contact information from municipalities table
+$contactInfoSettings = [
+    'contact_phone' => '(046) 886-4454',
+    'contact_email' => 'educaid@generaltrias.gov.ph',
+    'contact_address' => 'General Trias City Hall, Cavite',
+    'office_hours' => 'Mon–Fri 8:00AM - 5:00PM'
+];
+
+// Check if contact columns exist in municipalities table
+$contactColumnsExist = false;
+$checkContactColumns = pg_query($connection, "SELECT column_name FROM information_schema.columns WHERE table_name = 'municipalities' AND column_name = 'contact_phone' LIMIT 1");
+if ($checkContactColumns && pg_num_rows($checkContactColumns) > 0) {
+    $contactColumnsExist = true;
+    if ($activeMunicipality) {
+        $contactQuery = pg_query_params($connection, 
+            "SELECT contact_phone, contact_email, contact_address, office_hours FROM municipalities WHERE municipality_id = $1", 
+            [$activeMunicipality['municipality_id']]
+        );
+        if ($contactQuery && ($contactRow = pg_fetch_assoc($contactQuery))) {
+            $contactInfoSettings['contact_phone'] = $contactRow['contact_phone'] ?? $contactInfoSettings['contact_phone'];
+            $contactInfoSettings['contact_email'] = $contactRow['contact_email'] ?? $contactInfoSettings['contact_email'];
+            $contactInfoSettings['contact_address'] = $contactRow['contact_address'] ?? $contactInfoSettings['contact_address'];
+            $contactInfoSettings['office_hours'] = $contactRow['office_hours'] ?? $contactInfoSettings['office_hours'];
+        }
+    }
 }
 
 $quickActions = [];
@@ -419,33 +488,12 @@ include __DIR__ . '/../../includes/admin/admin_head.php';
             <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3 mb-4">
                 <div>
                     <div class="d-flex align-items-center gap-2 mb-2">
-                        <i class="bi bi-geo-alt-fill" style="font-size: 1.75rem; color: #10b981;"></i>
                         <h2 class="fw-bold mb-0" style="color: #1e293b;">Municipality Content Hub</h2>
                     </div>
                     <p class="text-muted mb-0" style="font-size: 0.95rem;">
-                        <i class="bi bi-info-circle me-1"></i>
                         Review assigned local government units and jump directly into their content editors.
                     </p>
                 </div>
-                <?php if (!empty($assignedMunicipalities)): ?>
-                <form method="post" class="d-flex gap-2 align-items-center flex-wrap">
-                    <input type="hidden" name="select_municipality" value="1">
-                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken) ?>">
-                    <label for="municipality_id" class="text-muted small mb-0 fw-semibold">
-                        <i class="bi bi-building me-1"></i>Active municipality
-                    </label>
-                    <select id="municipality_id" name="municipality_id" class="form-select form-select-sm shadow-sm" style="min-width: 240px;">
-                        <?php foreach ($assignedMunicipalities as $muni): ?>
-                            <option value="<?= $muni['municipality_id'] ?>" <?= ($activeMunicipality && $muni['municipality_id'] === $activeMunicipality['municipality_id']) ? 'selected' : '' ?>>
-                                <?= htmlspecialchars($muni['name']) ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                    <button type="submit" class="btn btn-sm btn-success shadow-sm">
-                        <i class="bi bi-check-circle me-1"></i>Apply
-                    </button>
-                </form>
-                <?php endif; ?>
             </div>
 
             <?php if ($feedback): ?>
@@ -588,6 +636,54 @@ include __DIR__ . '/../../includes/admin/admin_head.php';
                         <div class="col-12">
                             <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editSystemInfoModal">
                                 <i class="bi bi-pencil-square me-1"></i>Edit System Information
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Information Section -->
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0">
+                        <i class="bi bi-telephone-fill me-2 text-info"></i>Contact Information
+                        <span class="badge bg-info-subtle text-info ms-2" style="font-size: 0.7rem;">
+                            <i class="bi bi-globe me-1"></i>Used across all pages
+                        </span>
+                    </h5>
+                </div>
+                <div class="card-body p-4">
+                    <?php if (!$contactColumnsExist): ?>
+                    <div class="alert alert-warning mb-3">
+                        <i class="bi bi-exclamation-triangle me-2"></i>
+                        <strong>Setup Required:</strong> Contact columns not found in database. 
+                        <a href="../../add_municipality_contact_fields.php" target="_blank" class="alert-link">Run migration script</a> to enable this feature.
+                    </div>
+                    <?php endif; ?>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold"><i class="bi bi-telephone me-1"></i>Phone Number</label>
+                            <input type="text" class="form-control" value="<?= htmlspecialchars($contactInfoSettings['contact_phone']) ?>" readonly>
+                            <div class="form-text">Displayed in topbar, footer, and contact pages.</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold"><i class="bi bi-envelope me-1"></i>Email Address</label>
+                            <input type="email" class="form-control" value="<?= htmlspecialchars($contactInfoSettings['contact_email']) ?>" readonly>
+                            <div class="form-text">Displayed in topbar, footer, and contact pages.</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold"><i class="bi bi-geo-alt me-1"></i>Address</label>
+                            <input type="text" class="form-control" value="<?= htmlspecialchars($contactInfoSettings['contact_address']) ?>" readonly>
+                            <div class="form-text">Physical office address shown in footer.</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold"><i class="bi bi-clock me-1"></i>Office Hours</label>
+                            <input type="text" class="form-control" value="<?= htmlspecialchars($contactInfoSettings['office_hours']) ?>" readonly>
+                            <div class="form-text">Business hours shown in topbar.</div>
+                        </div>
+                        <div class="col-12">
+                            <button type="button" class="btn btn-info btn-sm text-white" data-bs-toggle="modal" data-bs-target="#editContactInfoModal" <?= !$contactColumnsExist ? 'disabled' : '' ?>>
+                                <i class="bi bi-pencil-square me-1"></i>Edit Contact Information
                             </button>
                         </div>
                     </div>
@@ -1325,6 +1421,77 @@ document.getElementById('saveColorsBtn')?.addEventListener('click', async functi
           </button>
           <button type="submit" class="btn btn-primary">
             <i class="bi bi-check-circle me-1"></i>Save Changes
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Contact Information Modal -->
+<div class="modal fade" id="editContactInfoModal" tabindex="-1" aria-labelledby="editContactInfoModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <form method="POST" action="">
+        <input type="hidden" name="update_contact_info" value="1">
+        <input type="hidden" name="municipality_id" value="<?= $activeMunicipality ? $activeMunicipality['municipality_id'] : 0 ?>">
+        <input type="hidden" name="csrf_token" value="<?= CSRFProtection::generateToken('municipality-contact-info') ?>">
+        <div class="modal-header bg-info bg-opacity-10">
+          <h5 class="modal-title" id="editContactInfoModalLabel">
+            <i class="bi bi-telephone-fill me-2"></i>Edit Contact Information
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="alert alert-info mb-3">
+            <i class="bi bi-info-circle me-2"></i>
+            <strong>Unified Contact Info:</strong> These details will be displayed consistently across the topbar, footer, and all contact pages.
+          </div>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="contactPhoneInput" class="form-label fw-semibold">
+                <i class="bi bi-telephone me-1"></i>Phone Number <span class="text-danger">*</span>
+              </label>
+              <input type="text" class="form-control" id="contactPhoneInput" name="contact_phone" 
+                     value="<?= htmlspecialchars($contactInfoSettings['contact_phone']) ?>" required 
+                     placeholder="(046) 886-4454">
+              <div class="form-text">Main contact number for inquiries.</div>
+            </div>
+            <div class="col-md-6">
+              <label for="contactEmailInput" class="form-label fw-semibold">
+                <i class="bi bi-envelope me-1"></i>Email Address <span class="text-danger">*</span>
+              </label>
+              <input type="email" class="form-control" id="contactEmailInput" name="contact_email" 
+                     value="<?= htmlspecialchars($contactInfoSettings['contact_email']) ?>" required 
+                     placeholder="educaid@generaltrias.gov.ph">
+              <div class="form-text">Primary email for correspondence.</div>
+            </div>
+            <div class="col-md-6">
+              <label for="contactAddressInput" class="form-label fw-semibold">
+                <i class="bi bi-geo-alt me-1"></i>Office Address
+              </label>
+              <input type="text" class="form-control" id="contactAddressInput" name="contact_address" 
+                     value="<?= htmlspecialchars($contactInfoSettings['contact_address']) ?>" 
+                     placeholder="City Hall, Address">
+              <div class="form-text">Physical office location.</div>
+            </div>
+            <div class="col-md-6">
+              <label for="officeHoursInput" class="form-label fw-semibold">
+                <i class="bi bi-clock me-1"></i>Office Hours
+              </label>
+              <input type="text" class="form-control" id="officeHoursInput" name="office_hours" 
+                     value="<?= htmlspecialchars($contactInfoSettings['office_hours']) ?>" 
+                     placeholder="Mon–Fri 8:00AM - 5:00PM">
+              <div class="form-text">Business hours displayed in topbar.</div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <i class="bi bi-x-circle me-1"></i>Cancel
+          </button>
+          <button type="submit" class="btn btn-info text-white">
+            <i class="bi bi-check-circle me-1"></i>Save Contact Info
           </button>
         </div>
       </form>

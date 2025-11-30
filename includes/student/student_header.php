@@ -54,7 +54,7 @@ if (isset($connection) && $studentId) {
   </div>
 </div><!-- /student-main-header -->
 <?php
-// Pull header theme settings (gracefully fallback to blue theme)
+// Pull header theme settings from shared table (same as admin header)
 if (!function_exists('educaid_get_student_header_theme')) {
   function educaid_get_student_header_theme($connection) {
     $defaults = [
@@ -66,9 +66,10 @@ if (!function_exists('educaid_get_student_header_theme')) {
       'header_hover_icon_color' => '#0a58ca'
     ];
     if (!$connection) return $defaults;
-    $check = @pg_query_params($connection, "SELECT 1 FROM information_schema.tables WHERE table_name=$1", ['student_header_theme_settings']);
+    // Use shared header_theme_settings table (same as admin)
+    $check = @pg_query_params($connection, "SELECT 1 FROM information_schema.tables WHERE table_name=$1", ['header_theme_settings']);
     if (!$check || !pg_fetch_row($check)) return $defaults;
-    $res = @pg_query($connection, "SELECT header_bg_color, header_border_color, header_text_color, header_icon_color, header_hover_bg, header_hover_icon_color FROM student_header_theme_settings WHERE municipality_id=1 LIMIT 1");
+    $res = @pg_query($connection, "SELECT header_bg_color, header_border_color, header_text_color, header_icon_color, header_hover_bg, header_hover_icon_color FROM header_theme_settings WHERE municipality_id=1 LIMIT 1");
     if ($res && ($row = pg_fetch_assoc($res))) {
       return array_merge($defaults, array_filter($row));
     }

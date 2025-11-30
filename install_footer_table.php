@@ -41,8 +41,8 @@ CREATE TABLE IF NOT EXISTS footer_settings (
     footer_title     VARCHAR(100) NOT NULL DEFAULT 'EducAid',
     footer_description TEXT DEFAULT 'Making education accessible throughout General Trias City through innovative scholarship solutions.',
     contact_address  TEXT DEFAULT 'General Trias City Hall, Cavite',
-    contact_phone    VARCHAR(50)  DEFAULT '+63 (046) 123-4567',
-    contact_email    VARCHAR(100) DEFAULT 'info@educaid-gentrias.gov.ph',
+    contact_phone    VARCHAR(50)  DEFAULT '(046) 886-4454',
+    contact_email    VARCHAR(100) DEFAULT 'educaid@generaltrias.gov.ph',
     is_active        BOOLEAN NOT NULL DEFAULT TRUE,
     created_at       TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at       TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP

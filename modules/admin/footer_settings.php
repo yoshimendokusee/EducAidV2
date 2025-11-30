@@ -498,7 +498,7 @@ include __DIR__ . '/../../includes/admin/admin_head.php';
           <?= CSRFProtection::getTokenField('footer_settings') ?>
           
           <div class="row">
-            <div class="col-lg-8">
+            <div class="col-12">
               
               <!-- Color Settings -->
               <div class="settings-card">
@@ -687,8 +687,11 @@ include __DIR__ . '/../../includes/admin/admin_head.php';
                            id="contact_phone" 
                            name="contact_phone" 
                            value="<?= htmlspecialchars($current_settings['contact_phone']) ?>" 
-                           placeholder="+63 (046) 123-4567">
+                           placeholder="(046) 886-4454"
+                           readonly
+                           style="background-color: #f8f9fa;">
                   </div>
+                  <div class="form-text"><i class="bi bi-info-circle me-1"></i>Managed in <a href="topbar_settings.php">Topbar Settings</a> for consistency across all pages.</div>
                 </div>
                 
                 <div class="mb-0">
@@ -700,8 +703,11 @@ include __DIR__ . '/../../includes/admin/admin_head.php';
                            id="contact_email" 
                            name="contact_email" 
                            value="<?= htmlspecialchars($current_settings['contact_email']) ?>" 
-                           placeholder="info@example.gov.ph">
+                           placeholder="educaid@generaltrias.gov.ph"
+                           readonly
+                           style="background-color: #f8f9fa;">
                   </div>
+                  <div class="form-text"><i class="bi bi-info-circle me-1"></i>Managed in <a href="topbar_settings.php">Topbar Settings</a> for consistency across all pages.</div>
                 </div>
               </div>
               
@@ -712,70 +718,6 @@ include __DIR__ . '/../../includes/admin/admin_head.php';
                 <a href="homepage.php" class="btn btn-outline-secondary btn-lg">
                   <i class="bi bi-x-lg"></i>
                 </a>
-              </div>
-            </div>
-            
-            <div class="col-lg-4">
-              <div class="settings-card sticky-save">
-                <h6 class="mb-3"><i class="bi bi-lightbulb me-2 text-warning"></i>Quick Guide</h6>
-                <ul class="list-unstyled small mb-4">
-                  <li class="mb-2">
-                    <i class="bi bi-check-circle-fill text-success me-2"></i>
-                    Preview updates in real-time
-                  </li>
-                  <li class="mb-2">
-                    <i class="bi bi-check-circle-fill text-success me-2"></i>
-                    Changes apply to all 7 website pages
-                  </li>
-                  <li class="mb-2">
-                    <i class="bi bi-check-circle-fill text-success me-2"></i>
-                    Use hex colors for consistency
-                  </li>
-                  <li class="mb-2">
-                    <i class="bi bi-check-circle-fill text-success me-2"></i>
-                    AJAX saves without page reload
-                  </li>
-                  <li class="mb-0">
-                    <i class="bi bi-check-circle-fill text-success me-2"></i>
-                    Modular design - edit once, apply everywhere
-                  </li>
-                </ul>
-                
-                <hr class="my-4">
-                
-                <h6 class="mb-3"><i class="bi bi-palette me-2 text-primary"></i>Pages Using This Footer</h6>
-                <ul class="list-unstyled small">
-                  <li class="mb-2">
-                    <i class="bi bi-house me-2 text-muted"></i>Landing Page
-                  </li>
-                  <li class="mb-2">
-                    <i class="bi bi-megaphone me-2 text-muted"></i>Announcements
-                  </li>
-                  <li class="mb-2">
-                    <i class="bi bi-info-circle me-2 text-muted"></i>How It Works
-                  </li>
-                  <li class="mb-2">
-                    <i class="bi bi-people me-2 text-muted"></i>About Us
-                  </li>
-                  <li class="mb-2">
-                    <i class="bi bi-envelope me-2 text-muted"></i>Contact
-                  </li>
-                  <li class="mb-2">
-                    <i class="bi bi-file-text me-2 text-muted"></i>Requirements
-                  </li>
-                  <li class="mb-0">
-                    <i class="bi bi-plus-circle me-2 text-muted"></i>More pages as added
-                  </li>
-                </ul>
-                
-                <div class="alert alert-info border-0 mt-4 mb-0" style="background: #eff6ff; color: #1e40af;">
-                  <div class="d-flex align-items-start">
-                    <i class="bi bi-info-circle-fill me-2 mt-1"></i>
-                    <small>
-                      <strong>Tip:</strong> Test your changes on the landing page before finalizing.
-                    </small>
-                  </div>
-                </div>
               </div>
             </div>
           </div>

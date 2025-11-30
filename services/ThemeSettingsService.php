@@ -26,16 +26,50 @@ class ThemeSettingsService {
     
     /**
      * Get current theme settings from database
+     * Contact info (phone, email, office_hours) is fetched from municipalities table for consistency
      */
     public function getCurrentSettings() {
         $query = "SELECT * FROM theme_settings WHERE municipality_id = $1 AND is_active = TRUE LIMIT 1";
         $result = pg_query_params($this->connection, $query, [$this->municipality_id]);
         
         if ($result && pg_num_rows($result) > 0) {
-            return pg_fetch_assoc($result);
+            $settings = pg_fetch_assoc($result);
+            
+            // Override contact info from municipalities table (centralized source)
+            $contactInfo = $this->getContactInfoFromMunicipality();
+            if ($contactInfo) {
+                $settings['topbar_phone'] = $contactInfo['contact_phone'];
+                $settings['topbar_email'] = $contactInfo['contact_email'];
+                $settings['topbar_office_hours'] = $contactInfo['office_hours'];
+            }
+            
+            return $settings;
         }
         
         return $this->getDefaultSettings();
+    }
+    
+    /**
+     * Get contact info from municipalities table (centralized source)
+     */
+    private function getContactInfoFromMunicipality() {
+        // Check if contact columns exist
+        $checkQuery = "SELECT column_name FROM information_schema.columns 
+                       WHERE table_name = 'municipalities' AND column_name = 'contact_phone' LIMIT 1";
+        $checkResult = pg_query($this->connection, $checkQuery);
+        
+        if (!$checkResult || pg_num_rows($checkResult) === 0) {
+            return null;
+        }
+        
+        $query = "SELECT contact_phone, contact_email, office_hours FROM municipalities WHERE municipality_id = $1 LIMIT 1";
+        $result = pg_query_params($this->connection, $query, [$this->municipality_id]);
+        
+        if ($result && pg_num_rows($result) > 0) {
+            return pg_fetch_assoc($result);
+        }
+        
+        return null;
     }
     
     /**

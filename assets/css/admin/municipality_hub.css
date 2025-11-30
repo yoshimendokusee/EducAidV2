@@ -63,17 +63,6 @@
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.municipality-hub-page .muni-hero-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, #10b981 0%, #059669 100%);
-    opacity: 0.8;
-}
-
 .municipality-hub-page .muni-hero-card:hover {
     box-shadow: 
         0 24px 72px rgba(15, 23, 42, 0.15),
@@ -177,21 +166,22 @@
     overflow: hidden;
 }
 
-.municipality-hub-page .quick-action-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, #10b981, #059669);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.3s ease;
+/* Remove any pseudo-element decorations and border-left from cards */
+.municipality-hub-page .quick-action-card::before,
+.municipality-hub-page .quick-action-card::after,
+.municipality-hub-page .muni-hero-card::before,
+.municipality-hub-page .muni-hero-card::after,
+.municipality-hub-page .card::before,
+.municipality-hub-page .card::after {
+    display: none !important;
+    content: none !important;
 }
 
-.municipality-hub-page .quick-action-card:hover::before {
-    transform: scaleX(1);
+/* Override the default card border-left from homepage.css */
+.municipality-hub-page .card,
+.municipality-hub-page .quick-action-card,
+.municipality-hub-page .muni-hero-card {
+    border-left: none !important;
 }
 
 .municipality-hub-page .quick-action-card:hover {

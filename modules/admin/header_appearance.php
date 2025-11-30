@@ -335,7 +335,7 @@ $header_settings = $form_result['success'] && isset($form_result['data'])
         <form method="POST" id="headerAppearanceForm" action="">
           <?= CSRFProtection::getTokenField('header_appearance') ?>
           <div class="row">
-            <div class="col-lg-8">
+            <div class="col-12">
               <!-- Header Color Settings (with inline preview) -->
               <div class="settings-card">
                 <h5>
@@ -429,50 +429,6 @@ $header_settings = $form_result['success'] && isset($form_result['data'])
                   <i class="bi bi-check-circle"></i>
                   <span>Save Changes</span>
                 </button>
-              </div>
-            </div>
-            
-            <div class="col-lg-4">
-              <div class="settings-card instruction-card">
-                <h6 class="mb-3"><i class="bi bi-info-circle me-2"></i>Instructions</h6>
-                <ul class="list-unstyled small">
-                  <li class="mb-2">
-                    <i class="bi bi-check me-2"></i>
-                    Changes will be applied immediately after saving
-                  </li>
-                  <li class="mb-2">
-                    <i class="bi bi-check me-2"></i>
-                    Colors must be valid hex codes (e.g., #2e7d32)
-                  </li>
-                  <li class="mb-3">
-                    <i class="bi bi-check me-2"></i>
-                    Use the live preview to see how changes will look
-                  </li>
-                </ul>
-              </div>
-              
-              <div class="settings-card" style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-left: 4px solid #f59e0b;">
-                <h6 class="mb-3"><i class="bi bi-palette me-2"></i>Color Guide</h6>
-                <ul class="list-unstyled small">
-                  <li class="mb-2">
-                    <strong>Background:</strong> Main header background color
-                  </li>
-                  <li class="mb-2">
-                    <strong>Border:</strong> Border around the header area
-                  </li>
-                  <li class="mb-2">
-                    <strong>Text:</strong> Color for header text and labels
-                  </li>
-                  <li class="mb-2">
-                    <strong>Icon:</strong> Color for icons in the header
-                  </li>
-                  <li class="mb-2">
-                    <strong>Hover BG:</strong> Background on hover/active state
-                  </li>
-                  <li class="mb-0">
-                    <strong>Hover Icon:</strong> Icon color on hover state
-                  </li>
-                </ul>
               </div>
             </div>
           </div>

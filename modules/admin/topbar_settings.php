@@ -662,7 +662,7 @@ if (empty($preview_text_color)) {
   <form method="POST" id="settingsForm" action="">
           <?= CSRFProtection::getTokenField('topbar_settings') ?>
           <div class="row">
-            <div class="col-lg-8">
+            <div class="col-12">
               <div class="settings-card">
                 <h5 class="mb-4">
                   <i class="bi bi-telephone-fill"></i>
@@ -803,52 +803,6 @@ if (empty($preview_text_color)) {
                   <i class="bi bi-check-circle"></i>
                   <span>Save Changes</span>
                 </button>
-              </div>
-            </div>
-            
-            <div class="col-lg-4">
-              <div class="settings-card instruction-card">
-                <h6 class="mb-3"><i class="bi bi-info-circle me-2"></i>Instructions</h6>
-                <ul class="list-unstyled small">
-                  <li class="mb-2">
-                    <i class="bi bi-check me-2"></i>
-                    Changes will be applied immediately after saving
-                  </li>
-                  <li class="mb-2">
-                    <i class="bi bi-check me-2"></i>
-                    Email must be a valid email address format
-                  </li>
-                  <li class="mb-2">
-                    <i class="bi bi-check me-2"></i>
-                    Phone number can include formatting characters
-                  </li>
-                  <li class="mb-2">
-                    <i class="bi bi-check me-2"></i>
-                    Colors must be valid hex codes (e.g., #2e7d32)
-                  </li>
-                  <li class="mb-3">
-                    <i class="bi bi-check me-2"></i>
-                    Use the preview above to see how changes will look
-                  </li>
-                </ul>
-              </div>
-              
-              <div class="settings-card" style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-left: 4px solid #f59e0b;">
-                <h6 class="mb-3"><i class="bi bi-palette me-2"></i>Color Guide</h6>
-                <ul class="list-unstyled small">
-                  <li class="mb-2">
-                    <strong>Background Color:</strong> Main topbar background
-                  </li>
-                  <li class="mb-2">
-                    <strong>Gradient Color:</strong> Creates depth with background
-                  </li>
-                  <li class="mb-2">
-                    <strong>Text Color:</strong> Main text and icon color
-                  </li>
-                  <li class="mb-0">
-                    <strong>Link Color:</strong> Email and other link colors
-                  </li>
-                </ul>
               </div>
             </div>
           </div>
