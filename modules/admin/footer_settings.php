@@ -421,12 +421,7 @@ include __DIR__ . '/../../includes/admin/admin_head.php';
           <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
             <div>
               <h1 class="fw-bold mb-1">Footer Settings</h1>
-              <p class="text-muted mb-0">Customize footer colors, content, and contact information across all website pages</p>
-            </div>
-            <div class="d-flex align-items-center gap-2">
-              <a href="homepage.php" class="btn btn-outline-secondary">
-                <i class="bi bi-arrow-left me-2"></i>Dashboard
-              </a>
+              <p class="text-muted mb-0">Customize footer colors and content across all website pages</p>
             </div>
           </div>
         </div>
@@ -674,41 +669,10 @@ include __DIR__ . '/../../includes/admin/admin_head.php';
                 </div>
               </div>
               
-              <!-- Contact Information Notice -->
-              <div class="settings-card" style="background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%); border-left: 4px solid #0ea5e9;">
-                <h5><i class="bi bi-telephone me-2 text-info"></i>Contact Information</h5>
-                <div class="alert alert-info mb-3" style="background: rgba(255,255,255,0.7);">
-                  <i class="bi bi-info-circle me-2"></i>
-                  <strong>Contact details are now managed centrally.</strong> 
-                  Phone, email, and address are configured in the Municipality Content Hub for consistency across all pages.
-                </div>
-                
-                <div class="row g-3 mb-3">
-                  <div class="col-md-6">
-                    <label class="form-label fw-semibold"><i class="bi bi-telephone me-1"></i>Phone</label>
-                    <input type="text" class="form-control" value="<?= htmlspecialchars($current_settings['contact_phone']) ?>" readonly style="background: #f8fafc;">
-                  </div>
-                  <div class="col-md-6">
-                    <label class="form-label fw-semibold"><i class="bi bi-envelope me-1"></i>Email</label>
-                    <input type="text" class="form-control" value="<?= htmlspecialchars($current_settings['contact_email']) ?>" readonly style="background: #f8fafc;">
-                  </div>
-                  <div class="col-12">
-                    <label class="form-label fw-semibold"><i class="bi bi-geo-alt me-1"></i>Address</label>
-                    <input type="text" class="form-control" value="<?= htmlspecialchars($current_settings['contact_address']) ?>" readonly style="background: #f8fafc;">
-                  </div>
-                </div>
-                <a href="municipality_content.php" class="btn btn-info btn-sm text-white">
-                  <i class="bi bi-pencil-square me-1"></i>Edit in Municipality Hub
-                </a>
-              </div>
-              
               <div class="d-flex gap-3 mb-4">
                 <button type="submit" class="btn btn-primary btn-lg flex-grow-1" id="footerSettingsSubmit">
-                  <i class="bi bi-save me-2"></i>Save Footer Settings
+                  Save Footer Settings
                 </button>
-                <a href="homepage.php" class="btn btn-outline-secondary btn-lg">
-                  <i class="bi bi-x-lg"></i>
-                </a>
               </div>
             </div>
           </div>

@@ -412,16 +412,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_sidebar_theme'
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <div>
                         <h2 class="mb-2 d-flex align-items-center gap-2">
-                            <i class="bi bi-sliders" style="color: #2e7d32; font-size: 1.8rem;"></i>
                             Sidebar Theme Settings
                         </h2>
                         <p class="text-muted mb-0">Customize the colors and gradients used in the admin sidebar</p>
-                    </div>
-                    <div class="d-flex align-items-center gap-3">
-                        <a href="homepage.php" class="btn btn-outline-secondary d-flex align-items-center gap-2">
-                            <i class="bi bi-arrow-left"></i>
-                            <span>Back to Dashboard</span>
-                        </a>
                     </div>
                 </div>
 

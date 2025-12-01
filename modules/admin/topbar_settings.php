@@ -592,18 +592,11 @@ if (empty($preview_text_color)) {
         <div class="d-flex justify-content-between align-items-center mb-4">
           <div>
             <h2 class="mb-2 d-flex align-items-center gap-2">
-              <i class="bi bi-gear-fill" style="color: #2e7d32; font-size: 1.8rem;"></i>
               Topbar Settings
             </h2>
             <p class="text-muted mb-0" style="font-size: 1.05rem;">
-              Customize the contact information displayed in the admin topbar
+              Customize the colors and appearance of the admin topbar
             </p>
-          </div>
-          <div class="d-flex align-items-center gap-3">
-            <a href="homepage.php" class="btn btn-outline-secondary d-flex align-items-center gap-2">
-              <i class="bi bi-arrow-left"></i>
-              <span>Back to Dashboard</span>
-            </a>
           </div>
         </div>
         
@@ -663,36 +656,6 @@ if (empty($preview_text_color)) {
           <?= CSRFProtection::getTokenField('topbar_settings') ?>
           <div class="row">
             <div class="col-12">
-              <!-- Contact Information Notice -->
-              <div class="settings-card" style="background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%); border-left: 4px solid #0ea5e9;">
-                <h5 class="mb-3">
-                  <i class="bi bi-telephone-fill text-info"></i>
-                  Contact Information
-                </h5>
-                <div class="alert alert-info mb-3" style="background: rgba(255,255,255,0.7);">
-                  <i class="bi bi-info-circle me-2"></i>
-                  <strong>Contact details are now managed centrally.</strong> 
-                  Phone, email, and office hours are configured in the Municipality Content Hub for consistency across all pages.
-                </div>
-                <div class="row g-3 mb-3">
-                  <div class="col-md-4">
-                    <label class="form-label fw-semibold"><i class="bi bi-telephone me-1"></i>Phone</label>
-                    <input type="text" class="form-control" value="<?= htmlspecialchars($current_settings['topbar_phone']) ?>" readonly style="background: #f8fafc;">
-                  </div>
-                  <div class="col-md-4">
-                    <label class="form-label fw-semibold"><i class="bi bi-envelope me-1"></i>Email</label>
-                    <input type="text" class="form-control" value="<?= htmlspecialchars($current_settings['topbar_email']) ?>" readonly style="background: #f8fafc;">
-                  </div>
-                  <div class="col-md-4">
-                    <label class="form-label fw-semibold"><i class="bi bi-clock me-1"></i>Office Hours</label>
-                    <input type="text" class="form-control" value="<?= htmlspecialchars($current_settings['topbar_office_hours']) ?>" readonly style="background: #f8fafc;">
-                  </div>
-                </div>
-                <a href="municipality_content.php" class="btn btn-info btn-sm text-white">
-                  <i class="bi bi-pencil-square me-1"></i>Edit in Municipality Hub
-                </a>
-              </div>
-              
               <!-- Color Settings Section -->
               <div class="settings-card">
                 <h5 class="mb-4">
@@ -790,16 +753,11 @@ if (empty($preview_text_color)) {
                   <span>Cancel</span>
                 </a>
                 <button type="submit" class="btn btn-success d-flex align-items-center gap-2" id="topbarSettingsSubmit">
-                  <i class="bi bi-check-circle"></i>
-                  <span>Save Changes</span>
+              <div class="d-flex justify-content-end gap-3 mt-4">
+                <button type="submit" class="btn btn-success d-flex align-items-center gap-2" id="topbarSettingsSubmit">
+                  Save Changes
                 </button>
               </div>
-            </div>
-          </div>
-        </form>
-        
-      </div>
-    </section>
   </div>
   
   
