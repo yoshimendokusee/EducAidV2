@@ -2110,6 +2110,13 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
             $iconColor = "text-warning";
         }
         
+        // Determine icon based on state
+        if ($slotsFull) {
+            $iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="status-icon text-danger mb-3" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/></svg>';
+        } else {
+            $iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="status-icon text-warning mb-3" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/><path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/></svg>';
+        }
+        
         echo <<<HTML
         <!DOCTYPE html>
         <html lang="en">
@@ -2118,6 +2125,7 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
             <title>$title</title>
             <link href="../../assets/css/bootstrap.min.css" rel="stylesheet" />
+            <link href="../../assets/css/bootstrap-icons.css" rel="stylesheet" />
             <style>
                 body {
                     background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #4b79a1 100%);
@@ -2136,35 +2144,44 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
                     max-width: 520px;
                     width: 100%;
                     margin: 0 auto;
-                    background: rgba(255, 255, 255, 0.95);
+                    background: rgba(255, 255, 255, 0.97);
                     padding: 2.5rem 2rem;
                     border-radius: 1.5rem;
                     box-shadow: 0 20px 45px rgba(18, 38, 66, 0.35);
                     text-align: center;
                 }
-                .spinner {
-                    width: 3rem;
-                    height: 3rem;
+                .status-icon {
+                    width: 4rem;
+                    height: 4rem;
                     margin-bottom: 1rem;
-                    animation: spin 1s linear infinite;
                 }
-                @keyframes spin {
-                    from { transform: rotate(0deg); }
-                    to { transform: rotate(360deg); }
+                .alert-container h4 {
+                    font-weight: 600;
+                    margin-bottom: 0.5rem;
+                }
+                .alert-container p {
+                    color: #6c757d;
+                    margin-bottom: 0;
+                }
+                .btn-group-actions {
+                    display: flex;
+                    gap: 0.75rem;
+                    flex-wrap: wrap;
+                    justify-content: center;
+                    margin-top: 1.5rem;
                 }
             </style>
         </head>
         <body>
             <div class="container alert-container">
                 <div class="text-center">
-                    <svg class="spinner $iconColor" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
-                        <circle cx="50" cy="50" fill="none" stroke="currentColor" stroke-width="10" r="35" stroke-dasharray="164.93361431346415 56.97787143782138">
-                            <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;360 50 50" keyTimes="0;1"/>
-                        </circle>
-                    </svg>
+                    $iconSvg
                     <h4 class="$iconColor">$headerText</h4>
                     <p>$messageText</p>
-                    <a href="../../unified_login.php" class="btn btn-outline-primary mt-3">Back to Login</a>
+                    <div class="btn-group-actions">
+                        <a href="../../unified_login.php" class="btn btn-outline-primary"><i class="bi bi-box-arrow-in-right me-1"></i>Sign In</a>
+                        <a href="../../website/landingpage.php" class="btn btn-primary"><i class="bi bi-house me-1"></i>Back to Home</a>
+                    </div>
                 </div>
             </div>
         </body>
@@ -5761,13 +5778,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['register'])) {
         $currentAcademicYear = null;
     }
 
-    // Terms and conditions validation bypassed - allowing registration without acceptance
-    // if (!isset($_POST['agree_terms']) || $_POST['agree_terms'] !== 'on') {
-    //     json_response([
-    //         'status' => 'error',
-    //         'message' => 'You must accept the Terms and Conditions to proceed with registration.'
-    //     ]);
-    // }
+    // Terms and conditions validation - required for registration
+    if (!isset($_POST['agree_terms']) || $_POST['agree_terms'] !== 'on') {
+        json_response([
+            'status' => 'error',
+            'message' => 'You must accept the Terms and Conditions to proceed with registration.'
+        ]);
+    }
 
     // Server-side required field validation disabled; client-side handles this
     

@@ -607,44 +607,57 @@ $pageType = $seoData['type'];
       <div class="row justify-content-center">
         <div class="col-lg-8">
           <div class="accordion soft-card" id="faqAcc">
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#a1" data-lp-key="faq_q1"<?php echo lp_block_style('faq_q1'); ?>>
-              <?php echo lp_block('faq_q1','Who can apply?'); ?>
-            </button>
-          </h2>
-          <div id="a1" class="accordion-collapse collapse show" data-bs-parent="#faqAcc">
-            <div class="accordion-body" data-lp-key="faq_a1"<?php echo lp_block_style('faq_a1'); ?>>
-              <?php echo lp_block('faq_a1','Students residing in General Trias who meet program criteria set by the LGU and partner agencies.'); ?>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#a1" data-lp-key="faq_q1"<?php echo lp_block_style('faq_q1'); ?>>
+                  <?php echo lp_block('faq_q1','Who can apply for educational assistance?'); ?>
+                </button>
+              </h2>
+              <div id="a1" class="accordion-collapse collapse show" data-bs-parent="#faqAcc">
+                <div class="accordion-body" data-lp-key="faq_a1"<?php echo lp_block_style('faq_a1'); ?>>
+                  <?php echo lp_block('faq_a1','College students residing in General Trias, Cavite who are currently enrolled and can submit the required documents.'); ?>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#a2" data-lp-key="faq_q2"<?php echo lp_block_style('faq_q2'); ?>>
-              <?php echo lp_block('faq_q2','How are slots allocated?'); ?>
-            </button>
-          </h2>
-          <div id="a2" class="accordion-collapse collapse" data-bs-parent="#faqAcc">
-            <div class="accordion-body" data-lp-key="faq_a2"<?php echo lp_block_style('faq_a2'); ?>>
-              <?php echo lp_block('faq_a2','Slots are released per batch and barangay. Availability appears during registration and closes automatically when filled.'); ?>
+            
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#a2" data-lp-key="faq_q2"<?php echo lp_block_style('faq_q2'); ?>>
+                  <?php echo lp_block('faq_q2','What documents do I need to submit?'); ?>
+                </button>
+              </h2>
+              <div id="a2" class="accordion-collapse collapse" data-bs-parent="#faqAcc">
+                <div class="accordion-body" data-lp-key="faq_a2"<?php echo lp_block_style('faq_a2'); ?>>
+                  <?php echo lp_block('faq_a2','You will need to upload: (1) a valid ID with your photo, (2) Letter to the Mayor, (3) Certificate of Indigency from your barangay, and (4) proof of enrollment or grades. All documents are verified through our OCR system.'); ?>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#a3" data-lp-key="faq_q3"<?php echo lp_block_style('faq_q3'); ?>>
-              <?php echo lp_block('faq_q3','What if I lose my QR code?'); ?>
-            </button>
-          </h2>
-          <div id="a3" class="accordion-collapse collapse" data-bs-parent="#faqAcc">
-            <div class="accordion-body" data-lp-key="faq_a3"<?php echo lp_block_style('faq_a3'); ?>>
-              <?php echo lp_block('faq_a3','You can re-download it from your dashboard. Bring a valid ID on distribution day for identity verification.'); ?>
+            
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#a3" data-lp-key="faq_q3"<?php echo lp_block_style('faq_q3'); ?>>
+                  <?php echo lp_block('faq_q3','How do I claim my assistance on distribution day?'); ?>
+                </button>
+              </h2>
+              <div id="a3" class="accordion-collapse collapse" data-bs-parent="#faqAcc">
+                <div class="accordion-body" data-lp-key="faq_a3"<?php echo lp_block_style('faq_a3'); ?>>
+                  <?php echo lp_block('faq_a3','Once approved, you will receive a QR code in your student dashboard. Present this QR code at the distribution venue for quick scanning and verification. Bring a valid ID as backup.'); ?>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+            
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#a4" data-lp-key="faq_q4"<?php echo lp_block_style('faq_q4'); ?>>
+                  <?php echo lp_block('faq_q4','How will I know the status of my application?'); ?>
+                </button>
+              </h2>
+              <div id="a4" class="accordion-collapse collapse" data-bs-parent="#faqAcc">
+                <div class="accordion-body" data-lp-key="faq_a4"<?php echo lp_block_style('faq_a4'); ?>>
+                  <?php echo lp_block('faq_a4','You can track your application status by signing in to your EducAid account. You will also receive email notifications when your application is reviewed, approved, or if additional documents are needed.'); ?>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

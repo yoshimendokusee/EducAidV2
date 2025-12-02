@@ -18,7 +18,7 @@
 // ====================================================================
 // SET THIS TO true TO ENABLE BYPASS (false TO DISABLE)
 // ====================================================================
-define('OCR_BYPASS_ENABLED', true);  // ⚠️ TEMPORARY BYPASS ENABLED
+define('OCR_BYPASS_ENABLED', false);  // ✅ BYPASS DISABLED - Normal document verification active
 
 // Bypass reason (for logging)
 define('OCR_BYPASS_REASON', 'CVSCU Gentri Testing Event - November 24, 2025');
