@@ -573,16 +573,10 @@ if (!$toolbar_config['exit_url']) {
     <div class="lp-toolbar-section">Actions</div>
     <div class="lp-toolbar-actions">
         <?php if ($toolbar_config['show_save']): ?>
-        <div class="btn-row">
-            <button id="lp-save-btn" class="btn lp-save-primary" disabled title="Save selected element">
-                <i class="bi bi-check-lg"></i>
-                <span>Save</span>
-            </button>
-            <button id="lp-save-all-btn" class="btn btn-outline-success" disabled title="Save all changes">
-                <i class="bi bi-cloud-check"></i>
-                <span>Save All</span>
-            </button>
-        </div>
+        <button id="lp-save-btn" class="btn lp-save-primary" disabled title="Save changes">
+            <i class="bi bi-cloud-check"></i>
+            <span>Save Changes</span>
+        </button>
         <?php endif; ?>
         
         <div class="btn-row">
