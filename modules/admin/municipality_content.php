@@ -1655,10 +1655,7 @@ document.getElementById('confirmGenerateThemeBtn')?.addEventListener('click', as
             
             // Show success message
             alert('✅ Theme generated and applied successfully!\n\n' +
-                  `• ${result.data.colors_applied || 19} colors applied\n` +
-                  '• Sidebar theme updated\n' +
-                  '• Topbar theme updated\n' +
-                  '• Footer theme updated\n\n' +
+                  'All theme colors have been updated based on your Primary and Secondary colors.\n\n' +
                   'Changes applied live! No page refresh needed.');
             
         } else {

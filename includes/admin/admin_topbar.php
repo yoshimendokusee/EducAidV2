@@ -1,25 +1,21 @@
 <?php
-// Admin Topbar (mirroring student topbar structure but green-dominant)
-// Get dynamic topbar settings from database
+// Admin Topbar - consistent styling across all admin pages
+// Get dynamic topbar settings from database (background color only, text always white)
 $topbar_settings = [
   'topbar_email' => 'educaid@generaltrias.gov.ph',
   'topbar_phone' => '(046) 886-4454',
   'topbar_office_hours' => 'Mon–Fri 8:00AM - 5:00PM',
-  'topbar_bg_color' => '#2e7d32',
-  'topbar_bg_gradient' => null, // Default to no gradient - use solid color
+  'topbar_bg_color' => '#0288d1',
   'topbar_text_color' => '#ffffff',
-  'topbar_link_color' => '#e8f5e9'
+  'topbar_link_color' => '#ffffff'
 ];
 
 if (isset($connection)) {
-  $result = pg_query($connection, "SELECT topbar_email, topbar_phone, topbar_office_hours, topbar_bg_color, topbar_bg_gradient, topbar_text_color, topbar_link_color FROM theme_settings WHERE municipality_id = 1 AND is_active = TRUE LIMIT 1");
+  // Only fetch background color and contact info from database - text colors are fixed white for consistency
+  $result = pg_query($connection, "SELECT topbar_email, topbar_phone, topbar_office_hours, topbar_bg_color FROM theme_settings WHERE municipality_id = 1 AND is_active = TRUE LIMIT 1");
   if ($result && pg_num_rows($result) > 0) {
     $db_settings = pg_fetch_assoc($result);
     foreach ($db_settings as $key => $value) {
-      if ($key === 'topbar_bg_gradient') {
-        $topbar_settings[$key] = $value; // allow null to disable gradient
-        continue;
-      }
       if ($value !== null && $value !== '') {
         $topbar_settings[$key] = $value;
       }
@@ -27,11 +23,9 @@ if (isset($connection)) {
   }
 }
 
-$bg_color = $topbar_settings['topbar_bg_color'] ?? '#2e7d32';
-$bg_gradient = $topbar_settings['topbar_bg_gradient'] ?? null;
-$topbar_background_css = ($bg_gradient && trim($bg_gradient) !== '')
-  ? sprintf('linear-gradient(135deg, %s 0%%, %s 100%%)', $bg_color, $bg_gradient)
-  : $bg_color;
+// Always use solid background color (no gradient)
+$bg_color = $topbar_settings['topbar_bg_color'] ?? '#0288d1';
+$topbar_background_css = $bg_color;
 
 // Fetch active municipality logo and name
 $active_municipality_logo = null;

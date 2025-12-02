@@ -2,7 +2,7 @@
 /**
  * generate_and_apply_theme.php
  * AJAX endpoint to generate and apply theme colors from primary/secondary colors
- * Applies to sidebar, topbar, and footer themes (universal across all pages)
+ * Applies to sidebar, topbar, header, and footer themes (universal across all pages)
  */
 
 if (session_status() === PHP_SESSION_NONE) {
@@ -11,8 +11,10 @@ if (session_status() === PHP_SESSION_NONE) {
 require_once __DIR__ . '/../../config/database.php';
 require_once __DIR__ . '/../../includes/permissions.php';
 require_once __DIR__ . '/../../includes/CSRFProtection.php';
+require_once __DIR__ . '/../../services/ColorGeneratorService.php';
 require_once __DIR__ . '/../../services/ThemeGeneratorService.php';
 require_once __DIR__ . '/../../services/FooterThemeService.php';
+require_once __DIR__ . '/../../services/HeaderThemeService.php';
 
 // Prevent any output before JSON
 ob_start();
@@ -115,6 +117,27 @@ try {
         exit;
     }
 
+    // Also generate and apply header theme colors
+    error_log("THEME GEN: Starting header theme generation...");
+    $headerService = new HeaderThemeService($connection, $municipalityId);
+    
+    // Generate header colors from primary/secondary
+    $primaryLight = ColorGeneratorService::lighten($municipality['primary_color'], 0.95);
+    $primaryHover = ColorGeneratorService::lighten($municipality['primary_color'], 0.85);
+    $primaryDark = ColorGeneratorService::darken($municipality['primary_color'], 0.15);
+    
+    $headerColors = [
+        'header_bg_color' => '#ffffff',
+        'header_border_color' => ColorGeneratorService::lighten($municipality['primary_color'], 0.80),
+        'header_text_color' => $municipality['primary_color'],
+        'header_icon_color' => $municipality['primary_color'],
+        'header_hover_bg' => $primaryLight,
+        'header_hover_icon_color' => $primaryDark
+    ];
+    
+    $headerResult = $headerService->save($headerColors, $_SESSION['admin_id']);
+    error_log("THEME GEN: Header generation result - " . json_encode($headerResult));
+
     // Also generate and apply footer theme colors
     error_log("THEME GEN: Starting footer theme generation...");
     $footerService = new FooterThemeService($connection);
@@ -148,6 +171,7 @@ try {
             'municipality_name' => $municipality['name'],
             'sidebar_updated' => true,
             'topbar_updated' => true,
+            'header_updated' => isset($headerResult['success']) ? $headerResult['success'] : true,
             'footer_updated' => isset($footerResult['success']) ? $footerResult['success'] : true,
             'colors_applied' => $result['colors_applied'] ?? 19
         ]

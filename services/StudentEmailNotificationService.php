@@ -119,14 +119,9 @@ class StudentEmailNotificationService {
         $cta = '';
         if ($actionUrl) {
             require_once __DIR__ . '/../includes/env_url_helper.php';
-            // Build environment-aware absolute URL if relative
-            $finalUrl = preg_match('#^https?://#i', $actionUrl) ? $actionUrl : buildAbsoluteUrl($actionUrl);
-            // Button label adjustments: use Login Now for document rejection scenario
-            $btnLabel = 'View Details';
-            if ($type === 'error' && stripos($title, 'Document Rejected') !== false) {
-                $btnLabel = 'Login Now';
-            }
-            $cta = '<p><a href="' . htmlspecialchars($finalUrl, ENT_QUOTES) . '" style="display:inline-block;padding:10px 16px;background:#2563eb;color:#fff;text-decoration:none;border-radius:6px;font-weight:600;">' . htmlspecialchars($btnLabel, ENT_QUOTES) . '</a></p>';    
+            // Build environment-aware absolute URL - always point to login
+            $loginUrl = buildAbsoluteUrl('unified_login.php');
+            $cta = '<p><a href="' . htmlspecialchars($loginUrl, ENT_QUOTES) . '" style="display:inline-block;padding:10px 16px;background:#2563eb;color:#fff;text-decoration:none;border-radius:6px;font-weight:600;">Login Now</a></p>';    
         }
         return "<div style='font-family:Arial,sans-serif;color:#111;line-height:1.6'>
             <h2 style='margin:0 0 8px'>{$safeTitle}</h2>
@@ -153,7 +148,9 @@ class StudentEmailNotificationService {
             $t = htmlspecialchars($it['title'] ?? 'Notification', ENT_QUOTES);
             $m = nl2br(htmlspecialchars($it['message'] ?? '', ENT_QUOTES));
             $created = isset($it['created_at']) ? date('M j, Y g:i A', strtotime($it['created_at'])) : '';
-            $btn = !empty($it['action_url']) ? ("<p style='margin:8px 0'><a href='" . htmlspecialchars($it['action_url'], ENT_QUOTES) . "' style='display:inline-block;padding:8px 12px;background:#2563eb;color:#fff;text-decoration:none;border-radius:6px;'>Open</a></p>") : '';
+            require_once __DIR__ . '/../includes/env_url_helper.php';
+            $loginUrl = buildAbsoluteUrl('unified_login.php');
+            $btn = !empty($it['action_url']) ? ("<p style='margin:8px 0'><a href='" . htmlspecialchars($loginUrl, ENT_QUOTES) . "' style='display:inline-block;padding:8px 12px;background:#2563eb;color:#fff;text-decoration:none;border-radius:6px;'>Login Now</a></p>") : '';
             $htmlItems .= "<div style='padding:12px;border:1px solid #eee;border-radius:8px;margin:10px 0'>
                 <div style='font-weight:600;margin-bottom:4px'>{$t}</div>
                 <div style='font-size:14px;color:#333'>{$m}</div>
