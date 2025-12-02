@@ -6,7 +6,7 @@ $topbar_settings = [
   'topbar_phone' => '(046) 886-4454',
   'topbar_office_hours' => 'Mon–Fri 8:00AM - 5:00PM',
   'topbar_bg_color' => '#2e7d32',
-  'topbar_bg_gradient' => '#1b5e20',
+  'topbar_bg_gradient' => null, // Default to no gradient - use solid color
   'topbar_text_color' => '#ffffff',
   'topbar_link_color' => '#e8f5e9'
 ];

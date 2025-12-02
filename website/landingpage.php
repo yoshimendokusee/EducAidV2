@@ -477,7 +477,6 @@ $pageType = $seoData['type'];
       <div class="row mb-4">
         <div class="col-lg-8 fade-in-left">
           <?php echo '<h2 class="section-title" data-lp-key="how_title"'.lp_block_style('how_title').'>'.lp_block('how_title','How it works').'</h2>'; ?>
-          <?php echo '<p class="section-lead" data-lp-key="how_lead"'.lp_block_style('how_lead').'>'.lp_block('how_lead','A simple four-step process from online application to aid claiming.').'</p>'; ?>
         </div>
       </div>
       <div class="row g-3 g-lg-4 fade-in-stagger">

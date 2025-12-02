@@ -316,6 +316,13 @@ $compressionService = new FileCompressionService();
 
 // Handle AJAX requests BEFORE workflow check
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Extend execution time for compression operations (can take several minutes)
+    set_time_limit(600); // 10 minutes
+    ini_set('max_execution_time', 600);
+    
+    // Prevent connection timeout during long operations
+    ignore_user_abort(true);
+    
     // Start output buffering to catch any stray output
     ob_start();
     
@@ -1078,12 +1085,23 @@ $pageTitle = "End Distribution";
                 params.append('allow_empty', '1');
             }
 
+            // Use AbortController for timeout (10 minutes for compression)
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 600000); // 10 minutes
+
             fetch('', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                body: params.toString()
+                body: params.toString(),
+                signal: controller.signal
             })
-            .then(response => response.json())
+            .then(response => {
+                clearTimeout(timeoutId);
+                if (!response.ok) {
+                    throw new Error('Server returned ' + response.status);
+                }
+                return response.json();
+            })
             .then(data => {
                 if (data.success) {
                     updateProgress(50, data.message || 'Distribution ended successfully', '✓ Distribution marked as ended');
@@ -1145,8 +1163,23 @@ $pageTitle = "End Distribution";
                 }
             })
             .catch(error => {
-                updateProgress(0, 'Network error', '✗ Error: ' + error);
-                document.getElementById('statusMessage').className = 'alert alert-danger';
+                clearTimeout(timeoutId);
+                
+                // Check if the error is a timeout/abort
+                if (error.name === 'AbortError') {
+                    updateProgress(50, 'Request timeout', '⚠️ The operation is taking longer than expected...');
+                    document.getElementById('statusMessage').innerHTML =
+                        '<i class="bi bi-hourglass-split"></i> <strong>Operation may still be running.</strong><br>' +
+                        'The server is still processing. Please wait a moment and then refresh the page to check if the distribution was completed successfully.';
+                    document.getElementById('statusMessage').className = 'alert alert-warning';
+                } else {
+                    // Network error - operation may have completed on server
+                    updateProgress(50, 'Connection issue', '⚠️ Lost connection to server');
+                    document.getElementById('statusMessage').innerHTML =
+                        '<i class="bi bi-exclamation-triangle"></i> <strong>Connection lost during processing.</strong><br>' +
+                        'The operation may have completed successfully on the server. Please refresh the page to verify.';
+                    document.getElementById('statusMessage').className = 'alert alert-warning';
+                }
                 document.getElementById('closeProgressBtn').disabled = false;
             });
         }
