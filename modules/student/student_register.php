@@ -939,7 +939,10 @@ if (!function_exists('verify_recaptcha_v3')) {
         } else {
             $json = @json_decode($raw, true);
             if (!is_array($json) || empty($json['success'])) { 
-                $result = ['ok'=>false,'score'=>0.0,'reason'=>'api_fail'];
+                // Log the actual error codes from Google for debugging
+                $errorCodes = isset($json['error-codes']) ? implode(', ', $json['error-codes']) : 'unknown';
+                error_log("reCAPTCHA verification failed. Error codes: " . $errorCodes . " | Raw response: " . $raw);
+                $result = ['ok'=>false,'score'=>0.0,'reason'=>'api_fail','error_codes'=>$errorCodes];
             } else {
                 $score = (float)($json['score'] ?? 0);
                 $action = $json['action'] ?? '';
@@ -3174,10 +3177,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['processLetterOcr'])) 
         // Provide more detailed error message
         $reason = $captcha['reason'] ?? 'unknown';
         $score = $captcha['score'] ?? 0;
+        $errorCodes = $captcha['error_codes'] ?? '';
+        $debugMsg = 'Reason: ' . $reason . ', Score: ' . $score;
+        if ($errorCodes) {
+            $debugMsg .= ', Error: ' . $errorCodes;
+        }
         json_response([
             'status'=>'error',
             'message'=>'Security verification failed (captcha).',
-            'debug' => 'Reason: ' . $reason . ', Score: ' . $score
+            'debug' => $debugMsg
         ]); 
     }
     

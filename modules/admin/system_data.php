@@ -38,9 +38,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $name = trim($_POST['university_name']);
         $code = trim(strtoupper($_POST['university_code']));
         
-        error_log("Adding university: $name ($code)");
+        // Grading policy fields
+        $scale_type = trim($_POST['scale_type'] ?? 'NUMERIC_1_TO_5');
+        $higher_is_better = isset($_POST['higher_is_better']) && $_POST['higher_is_better'] === '1';
+        $highest_value = trim($_POST['highest_value'] ?? '1.0');
+        $passing_value = trim($_POST['passing_value'] ?? '3.0');
+        $letter_order = !empty($_POST['letter_order']) ? trim($_POST['letter_order']) : null;
         
-        if (!empty($name) && !empty($code)) {
+        error_log("Adding university: $name ($code) with grading policy: $scale_type");
+        
+        if (!empty($name) && !empty($code) && !empty($highest_value) && !empty($passing_value)) {
+            // Start transaction
+            pg_query($connection, "BEGIN");
+            
             $insertQuery = "INSERT INTO universities (name, code) VALUES ($1, $2) RETURNING university_id";
             $result = pg_query_params($connection, $insertQuery, [$name, $code]);
             
@@ -48,46 +58,80 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $new_university = pg_fetch_assoc($result);
                 $university_id = $new_university['university_id'];
                 
-                error_log("University added successfully with ID: $university_id");
+                // Insert grading policy
+                $letter_order_array = null;
+                if ($scale_type === 'LETTER' && !empty($letter_order)) {
+                    // Convert comma-separated string to PostgreSQL array format
+                    $letters = array_map('trim', explode(',', $letter_order));
+                    $letter_order_array = '{' . implode(',', $letters) . '}';
+                }
                 
-                $notification_msg = "New university added: " . $name . " (" . $code . ")";
-                pg_query_params($connection, "INSERT INTO admin_notifications (message) VALUES ($1)", [$notification_msg]);
+                $policyQuery = "INSERT INTO grading.university_passing_policy 
+                    (university_key, scale_type, higher_is_better, highest_value, passing_value, letter_order, is_active) 
+                    VALUES ($1, $2, $3, $4, $5, $6, TRUE)";
+                $policyResult = pg_query_params($connection, $policyQuery, [
+                    $code, 
+                    $scale_type, 
+                    $higher_is_better ? 't' : 'f', 
+                    $highest_value, 
+                    $passing_value,
+                    $letter_order_array
+                ]);
                 
-                // Audit Trail
-                $auditLogger->logEvent(
-                    'university_added',
-                    'system_data',
-                    "Added new university: {$name} ({$code})",
-                    [
-                        'user_id' => $_SESSION['admin_id'] ?? null,
-                        'user_type' => 'admin',
-                        'username' => $_SESSION['admin_username'] ?? 'Unknown',
-                        'affected_table' => 'universities',
-                        'affected_record_id' => $university_id,
-                        'new_values' => [
-                            'university_id' => $university_id,
-                            'name' => $name,
-                            'code' => $code
-                        ],
-                        'metadata' => [
-                            'action' => 'add',
-                            'admin_role' => $current_admin_role
+                if ($policyResult) {
+                    pg_query($connection, "COMMIT");
+                    
+                    error_log("University added successfully with ID: $university_id and grading policy");
+                    
+                    $notification_msg = "New university added: " . $name . " (" . $code . ") with " . $scale_type . " grading";
+                    pg_query_params($connection, "INSERT INTO admin_notifications (message) VALUES ($1)", [$notification_msg]);
+                    
+                    // Audit Trail
+                    $auditLogger->logEvent(
+                        'university_added',
+                        'system_data',
+                        "Added new university: {$name} ({$code}) with grading policy",
+                        [
+                            'user_id' => $_SESSION['admin_id'] ?? null,
+                            'user_type' => 'admin',
+                            'username' => $_SESSION['admin_username'] ?? 'Unknown',
+                            'affected_table' => 'universities',
+                            'affected_record_id' => $university_id,
+                            'new_values' => [
+                                'university_id' => $university_id,
+                                'name' => $name,
+                                'code' => $code,
+                                'scale_type' => $scale_type,
+                                'higher_is_better' => $higher_is_better,
+                                'highest_value' => $highest_value,
+                                'passing_value' => $passing_value
+                            ],
+                            'metadata' => [
+                                'action' => 'add',
+                                'admin_role' => $current_admin_role
+                            ]
                         ]
-                    ]
-                );
-                
-                $success = "University added successfully!";
-                
-                // Redirect to prevent form resubmission
-                header("Location: " . $_SERVER['PHP_SELF'] . "?success=university_added");
-                exit;
+                    );
+                    
+                    $success = "University added successfully with grading policy!";
+                    
+                    // Redirect to prevent form resubmission
+                    header("Location: " . $_SERVER['PHP_SELF'] . "?success=university_added");
+                    exit;
+                } else {
+                    pg_query($connection, "ROLLBACK");
+                    $db_error = pg_last_error($connection);
+                    error_log("Failed to add grading policy: $db_error");
+                    $error = "Failed to add grading policy. Error: " . $db_error;
+                }
             } else {
+                pg_query($connection, "ROLLBACK");
                 $db_error = pg_last_error($connection);
                 error_log("Failed to add university: $db_error");
                 $error = "Failed to add university. Code may already exist. Error: " . $db_error;
             }
         } else {
-            $error = "Please fill in all required fields.";
+            $error = "Please fill in all required fields including grading policy.";
         }
     }
     
@@ -97,47 +141,107 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $name = trim($_POST['university_name']);
         $code = trim(strtoupper($_POST['university_code']));
         
-        if (!empty($name) && !empty($code)) {
+        // Grading policy fields
+        $scale_type = trim($_POST['scale_type'] ?? 'NUMERIC_1_TO_5');
+        $higher_is_better = isset($_POST['higher_is_better']) && $_POST['higher_is_better'] === '1';
+        $highest_value = trim($_POST['highest_value'] ?? '1.0');
+        $passing_value = trim($_POST['passing_value'] ?? '3.0');
+        $letter_order = !empty($_POST['letter_order']) ? trim($_POST['letter_order']) : null;
+        
+        if (!empty($name) && !empty($code) && !empty($highest_value) && !empty($passing_value)) {
             // Get old values for audit
-            $oldQuery = "SELECT name, code FROM universities WHERE university_id = $1";
+            $oldQuery = "SELECT u.name, u.code, p.scale_type, p.higher_is_better, p.highest_value, p.passing_value 
+                         FROM universities u 
+                         LEFT JOIN grading.university_passing_policy p ON u.code = p.university_key
+                         WHERE u.university_id = $1";
             $oldResult = pg_query_params($connection, $oldQuery, [$university_id]);
             $oldValues = pg_fetch_assoc($oldResult);
+            $old_code = $oldValues['code'];
+            
+            // Start transaction
+            pg_query($connection, "BEGIN");
             
             $updateQuery = "UPDATE universities SET name = $1, code = $2 WHERE university_id = $3";
             $result = pg_query_params($connection, $updateQuery, [$name, $code, $university_id]);
             
             if ($result) {
-                $notification_msg = "University updated: " . $name . " (" . $code . ")";
-                pg_query_params($connection, "INSERT INTO admin_notifications (message) VALUES ($1)", [$notification_msg]);
+                // Update or insert grading policy
+                $letter_order_array = null;
+                if ($scale_type === 'LETTER' && !empty($letter_order)) {
+                    $letters = array_map('trim', explode(',', $letter_order));
+                    $letter_order_array = '{' . implode(',', $letters) . '}';
+                }
                 
-                // Audit Trail
-                $auditLogger->logEvent(
-                    'university_updated',
-                    'system_data',
-                    "Updated university (ID: {$university_id}): {$oldValues['name']} → {$name}",
-                    [
-                        'user_id' => $_SESSION['admin_id'] ?? null,
-                        'user_type' => 'admin',
-                        'username' => $_SESSION['admin_username'] ?? 'Unknown',
-                        'affected_table' => 'universities',
-                        'affected_record_id' => $university_id,
-                        'old_values' => [
-                            'name' => $oldValues['name'],
-                            'code' => $oldValues['code']
-                        ],
-                        'new_values' => [
-                            'name' => $name,
-                            'code' => $code
-                        ],
-                        'metadata' => [
-                            'action' => 'edit',
-                            'admin_role' => $current_admin_role
+                // Check if policy exists for old code
+                $policyExistsQuery = "SELECT policy_id FROM grading.university_passing_policy WHERE university_key = $1";
+                $policyExists = pg_query_params($connection, $policyExistsQuery, [$old_code]);
+                
+                if ($policyExists && pg_num_rows($policyExists) > 0) {
+                    // Update existing policy (update university_key if code changed)
+                    $policyUpdateQuery = "UPDATE grading.university_passing_policy 
+                        SET university_key = $1, scale_type = $2, higher_is_better = $3, 
+                            highest_value = $4, passing_value = $5, letter_order = $6, updated_at = NOW()
+                        WHERE university_key = $7";
+                    $policyResult = pg_query_params($connection, $policyUpdateQuery, [
+                        $code, $scale_type, $higher_is_better ? 't' : 'f', 
+                        $highest_value, $passing_value, $letter_order_array, $old_code
+                    ]);
+                } else {
+                    // Insert new policy
+                    $policyInsertQuery = "INSERT INTO grading.university_passing_policy 
+                        (university_key, scale_type, higher_is_better, highest_value, passing_value, letter_order, is_active) 
+                        VALUES ($1, $2, $3, $4, $5, $6, TRUE)";
+                    $policyResult = pg_query_params($connection, $policyInsertQuery, [
+                        $code, $scale_type, $higher_is_better ? 't' : 'f', 
+                        $highest_value, $passing_value, $letter_order_array
+                    ]);
+                }
+                
+                if ($policyResult) {
+                    pg_query($connection, "COMMIT");
+                    
+                    $notification_msg = "University updated: " . $name . " (" . $code . ")";
+                    pg_query_params($connection, "INSERT INTO admin_notifications (message) VALUES ($1)", [$notification_msg]);
+                    
+                    // Audit Trail
+                    $auditLogger->logEvent(
+                        'university_updated',
+                        'system_data',
+                        "Updated university (ID: {$university_id}): {$oldValues['name']} → {$name}",
+                        [
+                            'user_id' => $_SESSION['admin_id'] ?? null,
+                            'user_type' => 'admin',
+                            'username' => $_SESSION['admin_username'] ?? 'Unknown',
+                            'affected_table' => 'universities',
+                            'affected_record_id' => $university_id,
+                            'old_values' => [
+                                'name' => $oldValues['name'],
+                                'code' => $oldValues['code'],
+                                'scale_type' => $oldValues['scale_type'],
+                                'passing_value' => $oldValues['passing_value']
+                            ],
+                            'new_values' => [
+                                'name' => $name,
+                                'code' => $code,
+                                'scale_type' => $scale_type,
+                                'passing_value' => $passing_value
+                            ],
+                            'metadata' => [
+                                'action' => 'edit',
+                                'admin_role' => $current_admin_role
+                            ]
                         ]
-                    ]
-                );
-                
-                $success = "University updated successfully!";
+                    );
+                    
+                    $success = "University updated successfully!";
+                    header("Location: " . $_SERVER['PHP_SELF'] . "?success=university_updated");
+                    exit;
+                } else {
+                    pg_query($connection, "ROLLBACK");
+                    $error = "Failed to update grading policy.";
+                }
             } else {
+                pg_query($connection, "ROLLBACK");
                 $error = "Failed to update university. Code may already exist.";
             }
         }
@@ -255,10 +359,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $getResult = pg_query_params($connection, $getQuery, [$university_id]);
             $universityData = pg_fetch_assoc($getResult);
             
+            // Start transaction
+            pg_query($connection, "BEGIN");
+            
+            // Delete grading policy first
+            $deletePolicyQuery = "DELETE FROM grading.university_passing_policy WHERE university_key = $1";
+            pg_query_params($connection, $deletePolicyQuery, [$universityData['code']]);
+            
             $deleteQuery = "DELETE FROM universities WHERE university_id = $1";
             $result = pg_query_params($connection, $deleteQuery, [$university_id]);
             
             if ($result) {
+                pg_query($connection, "COMMIT");
+                
                 $notification_msg = "University deleted: {$universityData['name']} (ID: {$university_id})";
                 pg_query_params($connection, "INSERT INTO admin_notifications (message) VALUES ($1)", [$notification_msg]);
                 
@@ -287,6 +400,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 );
                 
                 $success = "University deleted successfully!";
+            } else {
+                pg_query($connection, "ROLLBACK");
             }
         }
     }
@@ -345,7 +460,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Fetch data
-$universitiesQuery = "SELECT u.university_id, u.name, u.code, u.created_at, COUNT(s.student_id) as student_count FROM universities u LEFT JOIN students s ON u.university_id = s.university_id GROUP BY u.university_id, u.name, u.code, u.created_at ORDER BY u.name";
+$universitiesQuery = "SELECT u.university_id, u.name, u.code, u.created_at, 
+    COUNT(s.student_id) as student_count,
+    COALESCE(p.scale_type, 'NUMERIC_1_TO_5') as scale_type,
+    COALESCE(p.higher_is_better, FALSE) as higher_is_better,
+    COALESCE(p.highest_value, '1.0') as highest_value,
+    COALESCE(p.passing_value, '3.0') as passing_value,
+    p.letter_order
+FROM universities u 
+LEFT JOIN students s ON u.university_id = s.university_id 
+LEFT JOIN grading.university_passing_policy p ON u.code = p.university_key
+GROUP BY u.university_id, u.name, u.code, u.created_at, p.scale_type, p.higher_is_better, p.highest_value, p.passing_value, p.letter_order 
+ORDER BY u.name";
 $universitiesResult = pg_query($connection, $universitiesQuery);
 $universities = pg_fetch_all($universitiesResult) ?: [];
 
@@ -499,6 +625,7 @@ if (isset($_GET['error'])) {
                                             <th style="width: 50px;">#</th>
                                             <th>University Name</th>
                                             <th>Code</th>
+                                            <th>Grading Scale</th>
                                             <th>Students</th>
                                             <th>Created</th>
                                             <th>Actions</th>
@@ -507,15 +634,25 @@ if (isset($_GET['error'])) {
                                     <tbody>
                                         <?php 
                                         $displayNumber = 1;
-                                        foreach ($universities as $university): ?>
+                                        foreach ($universities as $university): 
+                                            $letterOrderStr = '';
+                                            if (!empty($university['letter_order'])) {
+                                                // Convert PostgreSQL array format {A,B,C} to comma-separated
+                                                $letterOrderStr = trim($university['letter_order'], '{}');
+                                            }
+                                        ?>
                                             <tr>
                                                 <td data-label="#" class="fw-semibold text-muted"><?= $displayNumber++ ?></td>
                                                 <td data-label="University Name"><?= htmlspecialchars($university['name']) ?></td>
                                                 <td data-label="Code"><span class="badge text-bg-info"><?= htmlspecialchars($university['code']) ?></span></td>
+                                                <td data-label="Grading Scale">
+                                                    <small class="text-muted"><?= htmlspecialchars($university['scale_type']) ?></small><br>
+                                                    <small>Pass: <?= htmlspecialchars($university['passing_value']) ?></small>
+                                                </td>
                                                 <td data-label="Students"><?= $university['student_count'] ?> students</td>
                                                 <td data-label="Created"><?= date('M d, Y', strtotime($university['created_at'])) ?></td>
                                                 <td data-label="Actions">
-                                                    <button type="button" class="btn btn-sm btn-outline-primary me-1" onclick="showEditUniversityModal(<?= $university['university_id'] ?>, '<?= htmlspecialchars($university['name'], ENT_QUOTES) ?>', '<?= htmlspecialchars($university['code'], ENT_QUOTES) ?>')">Edit</button>
+                                                    <button type="button" class="btn btn-sm btn-outline-primary me-1" onclick="showEditUniversityModal(<?= $university['university_id'] ?>, '<?= htmlspecialchars($university['name'], ENT_QUOTES) ?>', '<?= htmlspecialchars($university['code'], ENT_QUOTES) ?>', '<?= htmlspecialchars($university['scale_type'], ENT_QUOTES) ?>', <?= $university['higher_is_better'] === 't' ? 'true' : 'false' ?>, '<?= htmlspecialchars($university['highest_value'], ENT_QUOTES) ?>', '<?= htmlspecialchars($university['passing_value'], ENT_QUOTES) ?>', '<?= htmlspecialchars($letterOrderStr, ENT_QUOTES) ?>')">Edit</button>
                                                     <?php if ($university['student_count'] == 0): ?>
                                                         <button type="button" class="btn btn-sm btn-outline-danger" onclick="showDeleteUniversityModal(<?= $university['university_id'] ?>, '<?= htmlspecialchars($university['name'], ENT_QUOTES) ?>')">Delete</button>
                                                     <?php else: ?>
@@ -642,7 +779,7 @@ if (isset($_GET['error'])) {
 
 <!-- Add University Modal -->
 <div class="modal fade modal-mobile-compact" id="addUniversityModal" tabindex="-1" aria-labelledby="addUniversityModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="addUniversityModalLabel">Add New University</h5>
@@ -650,14 +787,74 @@ if (isset($_GET['error'])) {
             </div>
             <form method="POST" id="addUniversityForm">
                 <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="university_name" class="form-label">University Name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="university_name" name="university_name" required>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="university_name" class="form-label">University Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="university_name" name="university_name" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="university_code" class="form-label">University Code <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="university_code" name="university_code" placeholder="e.g., UST" maxlength="10" required>
+                                <small class="text-muted">Short code/abbreviation for the university</small>
+                            </div>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="university_code" class="form-label">University Code <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="university_code" name="university_code" placeholder="e.g., UST" maxlength="10" required>
-                        <small class="text-muted">Short code/abbreviation for the university</small>
+                    
+                    <hr class="my-3">
+                    <h6 class="mb-3"><i class="fas fa-graduation-cap me-2"></i>Grading Policy (OCR Grade Checking)</h6>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="scale_type" class="form-label">Grading Scale Type <span class="text-danger">*</span></label>
+                                <select class="form-select" id="scale_type" name="scale_type" required onchange="toggleLetterOrderField(this, 'add')">
+                                    <option value="NUMERIC_1_TO_5" selected>Numeric 1 to 5 (1 = highest)</option>
+                                    <option value="NUMERIC_0_TO_4">Numeric 0 to 4 (4 = highest)</option>
+                                    <option value="PERCENT">Percentage (0-100%)</option>
+                                    <option value="LETTER">Letter Grades (A, B, C, etc.)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label d-block">Grade Direction</label>
+                                <div class="form-check form-switch mt-2">
+                                    <input class="form-check-input" type="checkbox" id="higher_is_better" name="higher_is_better" value="1">
+                                    <label class="form-check-label" for="higher_is_better">Higher grade is better</label>
+                                </div>
+                                <small class="text-muted">Check if higher numbers mean better grades (e.g., percentage)</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="highest_value" class="form-label">Highest/Best Grade Value <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="highest_value" name="highest_value" value="1.0" required>
+                                <small class="text-muted">e.g., 1.0 for 1-5 scale, 100 for percentage</small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="passing_value" class="form-label">Passing Grade Value <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="passing_value" name="passing_value" value="3.0" required>
+                                <small class="text-muted">e.g., 3.0 for 1-5 scale, 75 for percentage</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row" id="add_letter_order_row" style="display: none;">
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label for="letter_order" class="form-label">Letter Grade Order (Best to Worst)</label>
+                                <input type="text" class="form-control" id="letter_order" name="letter_order" placeholder="e.g., A+, A, A-, B+, B, B-, C+, C, C-, D, F">
+                                <small class="text-muted">Comma-separated list from best to worst grade</small>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -671,7 +868,7 @@ if (isset($_GET['error'])) {
 
 <!-- Edit University Modal -->
 <div class="modal fade modal-mobile-compact" id="editUniversityModal" tabindex="-1" aria-labelledby="editUniversityModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="editUniversityModalLabel">Edit University</h5>
@@ -680,14 +877,74 @@ if (isset($_GET['error'])) {
             <form method="POST" id="editUniversityForm">
                 <div class="modal-body">
                     <input type="hidden" id="edit_university_id" name="university_id">
-                    <div class="mb-3">
-                        <label for="edit_university_name" class="form-label">University Name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="edit_university_name" name="university_name" required>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="edit_university_name" class="form-label">University Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="edit_university_name" name="university_name" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="edit_university_code" class="form-label">University Code <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="edit_university_code" name="university_code" placeholder="e.g., UST" maxlength="10" required>
+                                <small class="text-muted">Short code/abbreviation for the university</small>
+                            </div>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="edit_university_code" class="form-label">University Code <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="edit_university_code" name="university_code" placeholder="e.g., UST" maxlength="10" required>
-                        <small class="text-muted">Short code/abbreviation for the university</small>
+                    
+                    <hr class="my-3">
+                    <h6 class="mb-3"><i class="fas fa-graduation-cap me-2"></i>Grading Policy (OCR Grade Checking)</h6>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="edit_scale_type" class="form-label">Grading Scale Type <span class="text-danger">*</span></label>
+                                <select class="form-select" id="edit_scale_type" name="scale_type" required onchange="toggleLetterOrderField(this, 'edit')">
+                                    <option value="NUMERIC_1_TO_5">Numeric 1 to 5 (1 = highest)</option>
+                                    <option value="NUMERIC_0_TO_4">Numeric 0 to 4 (4 = highest)</option>
+                                    <option value="PERCENT">Percentage (0-100%)</option>
+                                    <option value="LETTER">Letter Grades (A, B, C, etc.)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label d-block">Grade Direction</label>
+                                <div class="form-check form-switch mt-2">
+                                    <input class="form-check-input" type="checkbox" id="edit_higher_is_better" name="higher_is_better" value="1">
+                                    <label class="form-check-label" for="edit_higher_is_better">Higher grade is better</label>
+                                </div>
+                                <small class="text-muted">Check if higher numbers mean better grades</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="edit_highest_value" class="form-label">Highest/Best Grade Value <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="edit_highest_value" name="highest_value" required>
+                                <small class="text-muted">e.g., 1.0 for 1-5 scale, 100 for percentage</small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="edit_passing_value" class="form-label">Passing Grade Value <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="edit_passing_value" name="passing_value" required>
+                                <small class="text-muted">e.g., 3.0 for 1-5 scale, 75 for percentage</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row" id="edit_letter_order_row" style="display: none;">
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label for="edit_letter_order" class="form-label">Letter Grade Order (Best to Worst)</label>
+                                <input type="text" class="form-control" id="edit_letter_order" name="letter_order" placeholder="e.g., A+, A, A-, B+, B, B-, C+, C, C-, D, F">
+                                <small class="text-muted">Comma-separated list from best to worst grade</small>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -963,6 +1220,48 @@ class TableManager {
     }
 }
 
+// Toggle letter order field visibility based on scale type
+function toggleLetterOrderField(selectElement, prefix) {
+    const rowId = prefix === 'edit' ? 'edit_letter_order_row' : 'add_letter_order_row';
+    const letterOrderRow = document.getElementById(rowId);
+    if (selectElement.value === 'LETTER') {
+        letterOrderRow.style.display = 'flex';
+    } else {
+        letterOrderRow.style.display = 'none';
+    }
+}
+
+// Update defaults based on scale type selection
+function updateScaleDefaults(selectElement, prefix) {
+    const scaleType = selectElement.value;
+    const highestInput = document.getElementById(prefix + '_highest_value') || document.getElementById('highest_value');
+    const passingInput = document.getElementById(prefix + '_passing_value') || document.getElementById('passing_value');
+    const higherIsBetter = document.getElementById(prefix + '_higher_is_better') || document.getElementById('higher_is_better');
+    
+    switch(scaleType) {
+        case 'NUMERIC_1_TO_5':
+            highestInput.value = '1.0';
+            passingInput.value = '3.0';
+            higherIsBetter.checked = false;
+            break;
+        case 'NUMERIC_0_TO_4':
+            highestInput.value = '4.0';
+            passingInput.value = '2.0';
+            higherIsBetter.checked = true;
+            break;
+        case 'PERCENT':
+            highestInput.value = '100';
+            passingInput.value = '75';
+            higherIsBetter.checked = true;
+            break;
+        case 'LETTER':
+            highestInput.value = 'A';
+            passingInput.value = 'C';
+            higherIsBetter.checked = false;
+            break;
+    }
+}
+
 // Initialize table managers
 document.addEventListener('DOMContentLoaded', function() {
     new TableManager('universitiesTable', 'universitySearch', 'universitiesPerPage', 'universitiesPagination', 'universitiesInfo');
@@ -983,10 +1282,20 @@ function showDeleteBarangayModal(barangayId, barangayName) {
 }
 
 // Functions for edit modals
-function showEditUniversityModal(universityId, universityName, universityCode) {
+function showEditUniversityModal(universityId, universityName, universityCode, scaleType, higherIsBetter, highestValue, passingValue, letterOrder) {
     document.getElementById('edit_university_id').value = universityId;
     document.getElementById('edit_university_name').value = universityName;
     document.getElementById('edit_university_code').value = universityCode;
+    document.getElementById('edit_scale_type').value = scaleType || 'NUMERIC_1_TO_5';
+    document.getElementById('edit_higher_is_better').checked = higherIsBetter;
+    document.getElementById('edit_highest_value').value = highestValue || '1.0';
+    document.getElementById('edit_passing_value').value = passingValue || '3.0';
+    document.getElementById('edit_letter_order').value = letterOrder || '';
+    
+    // Toggle letter order visibility
+    const letterOrderRow = document.getElementById('edit_letter_order_row');
+    letterOrderRow.style.display = (scaleType === 'LETTER') ? 'flex' : 'none';
+    
     new bootstrap.Modal(document.getElementById('editUniversityModal')).show();
 }
 
