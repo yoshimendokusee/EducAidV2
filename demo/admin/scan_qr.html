@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scan QR - EducAid Admin (Demo)</title>
+  <style>body{opacity:0;transition:opacity .25s}body.ready{opacity:1}</style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/admin-demo.css">
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="admin-topbar" id="adminTopbar">
+  <div class="container-fluid d-flex align-items-center justify-content-between gap-3 flex-wrap py-2">
+    <div class="d-flex align-items-center gap-3 small"><i class="bi bi-shield-lock"></i><span>Administrative Panel</span>
+      <span class="vr mx-2 d-none d-md-inline"></span><i class="bi bi-envelope"></i><a href="#">educaid@generaltrias.gov.ph</a></div>
+    <div class="d-flex align-items-center gap-3 small"><i class="bi bi-clock"></i><span class="d-none d-md-inline">Mon–Fri 8:00 AM – 5:00 PM</span></div>
+  </div>
+</div>
+
+<div id="wrapper" class="admin-wrapper">
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+    <a href="index.html" class="sidebar-profile-link">
+      <div class="sidebar-profile"><div class="avatar-circle">J</div><div class="profile-text"><span class="name">Juan Dela Cruz</span><span class="role">Admin</span></div></div>
+    </a>
+    <ul class="nav-list flex-grow-1 d-flex flex-column">
+      <li class="nav-item"><a href="index.html"><i class="bi bi-house-door icon"></i><span class="links_name">Dashboard</span></a></li>
+      <li class="nav-item"><a href="review_registrations.html"><i class="bi bi-clipboard-check icon"></i><span class="links_name">Review Registrations</span></a></li>
+      <li class="nav-item"><a href="manage_applicants.html"><i class="bi bi-people icon"></i><span class="links_name">Manage Applicants</span></a></li>
+      <li class="nav-item dropdown">
+        <a href="#submenu-distribution" data-bs-toggle="collapse"><i class="bi bi-box-seam icon"></i><span class="links_name">Distribution</span><i class="bi bi-chevron-down ms-auto small"></i></a>
+        <ul class="collapse show list-unstyled ms-3" id="submenu-distribution">
+          <li><a class="submenu-link" href="distribution_control.html"><i class="bi bi-gear-fill me-2"></i> Distribution Control</a></li>
+          <li><a class="submenu-link" href="verify_students.html"><i class="bi bi-person-check me-2"></i> Verify Students</a></li>
+          <li><a class="submenu-link" href="manage_schedules.html"><i class="bi bi-calendar me-2"></i> Scheduling</a></li>
+          <li><a class="submenu-link active" href="scan_qr.html"><i class="bi bi-qr-code-scan me-2"></i> Scan QR</a></li>
+          <li><hr class="dropdown-divider my-2"></li>
+          <li><a class="submenu-link" href="#"><i class="bi bi-stop-circle me-2"></i> End Distribution</a></li>
+          <li><a class="submenu-link" href="#"><i class="bi bi-archive me-2"></i> Archives</a></li>
+        </ul>
+      </li>
+      <li class="nav-item"><a href="#"><i class="bi bi-megaphone icon"></i><span class="links_name">Announcements</span></a></li>
+      <li class="mt-auto p-0 m-0"></li>
+      <li class="nav-item logout mt-2 pt-1"><a href="#" onclick="alert('Demo')"><i class="bi bi-box-arrow-right icon"></i><span class="links_name">Logout</span></a></li>
+    </ul>
+  </div>
+  <div class="sidebar-backdrop d-none" id="sidebar-backdrop"></div>
+
+  <!-- HEADER -->
+  <div class="admin-main-header">
+    <div class="container-fluid px-4">
+      <div class="admin-header-content">
+        <div class="admin-header-left"><i class="bi bi-list" id="menu-toggle" role="button" tabindex="0" style="font-size:1.4rem;cursor:pointer;color:var(--gt-sky)"></i></div>
+        <div class="admin-header-actions">
+          <button class="admin-icon-btn"><i class="bi bi-bell"></i><span class="badge rounded-pill bg-danger">5</span></button>
+          <button class="admin-icon-btn"><i class="bi bi-person-circle"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <section class="home-section" id="mainContent">
+    <div class="container-fluid py-4 px-4">
+
+      <!-- Page Header -->
+      <div class="mb-3">
+        <h1 class="fw-bold mb-1" style="font-size:1.6rem">QR Code Scanner & Distribution</h1>
+        <p class="text-muted mb-0">Scan student QR codes to confirm aid distribution. Batch 2 in progress.</p>
+      </div>
+
+      <!-- Distribution Progress Card -->
+      <div class="distribution-progress">
+        <small class="text-uppercase" style="letter-spacing:2px;opacity:0.8">Students Distributed</small>
+        <div class="display-3">127 <small class="fs-5 opacity-75">/ 484</small></div>
+        <div class="progress mt-3" style="height:14px;border-radius:7px;background:rgba(255,255,255,0.2)">
+          <div class="progress-bar" style="width:26.2%;background:#fff;border-radius:7px"></div>
+        </div>
+        <small class="d-block mt-2 opacity-75">Batch 1: 162 complete &bull; Batch 2: 127 in progress &bull; Batch 3: Upcoming</small>
+      </div>
+
+      <!-- Scanner Section -->
+      <div class="row g-4">
+        <div class="col-lg-5">
+          <div class="scanner-section">
+            <h5 class="fw-bold mb-3"><i class="bi bi-qr-code-scan me-2 text-success"></i>Scanner</h5>
+            <!-- Simulated scanner -->
+            <div class="scanner-box">
+              <div class="scanning-line"></div>
+              <div class="scanner-overlay"></div>
+              <div class="scanner-corners"></div>
+              <i class="bi bi-qr-code text-white" style="font-size:4rem;opacity:0.3"></i>
+            </div>
+            <!-- Controls -->
+            <div class="d-flex gap-2 justify-content-center flex-wrap">
+              <select class="form-select form-select-sm" style="width:auto">
+                <option>Front Camera</option>
+                <option>Back Camera</option>
+              </select>
+              <button class="btn btn-success btn-sm" id="btnStartScanner"><i class="bi bi-camera-video me-1"></i> Start Scanner</button>
+              <button class="btn btn-outline-danger btn-sm" disabled><i class="bi bi-stop-fill me-1"></i> Stop</button>
+            </div>
+            <div class="alert alert-info mt-3 mb-0 small">
+              <i class="bi bi-info-circle me-1"></i> Point camera at student QR code. The scanner will automatically detect and process.
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Scans -->
+        <div class="col-lg-7">
+          <div class="card shadow-sm">
+            <div class="card-header bg-white d-flex justify-content-between align-items-center py-3" style="border-radius:16px 16px 0 0">
+              <h6 class="mb-0 fw-semibold"><i class="bi bi-list-check me-2"></i>Recently Scanned Students</h6>
+              <button class="btn btn-outline-success btn-sm"><i class="bi bi-download me-1"></i> Export CSV</button>
+            </div>
+            <div class="table-responsive" style="border-radius:0 0 16px 16px;max-height:500px;overflow-y:auto">
+              <table class="table mb-0">
+                <thead style="position:sticky;top:0;z-index:2;background:#f8f9fa">
+                  <tr>
+                    <th>#</th>
+                    <th>Payroll #</th>
+                    <th>Student Name</th>
+                    <th>Status</th>
+                    <th>Time</th>
+                    <th>Scanned By</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="background:#f0fdf4">
+                    <td data-label="#">127</td>
+                    <td data-label="Payroll"><code class="text-success">PR-2026-0289</code></td>
+                    <td data-label="Name"><strong>SANTOS,</strong> Maria Isabel G.</td>
+                    <td data-label="Status"><span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>Given</span></td>
+                    <td data-label="Time">11:42 AM</td>
+                    <td data-label="By">Juan</td>
+                  </tr>
+                  <tr>
+                    <td data-label="#">126</td>
+                    <td data-label="Payroll"><code>PR-2026-0287</code></td>
+                    <td data-label="Name"><strong>REYES,</strong> Pedro Antonio L.</td>
+                    <td data-label="Status"><span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>Given</span></td>
+                    <td data-label="Time">11:40 AM</td>
+                    <td data-label="By">Juan</td>
+                  </tr>
+                  <tr>
+                    <td data-label="#">125</td>
+                    <td data-label="Payroll"><code>PR-2026-0285</code></td>
+                    <td data-label="Name"><strong>VILLANUEVA,</strong> Lovely Mae C.</td>
+                    <td data-label="Status"><span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>Given</span></td>
+                    <td data-label="Time">11:38 AM</td>
+                    <td data-label="By">Maria</td>
+                  </tr>
+                  <tr>
+                    <td data-label="#">124</td>
+                    <td data-label="Payroll"><code>PR-2026-0280</code></td>
+                    <td data-label="Name"><strong>LUNA,</strong> Angelo Jose R.</td>
+                    <td data-label="Status"><span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>Given</span></td>
+                    <td data-label="Time">11:35 AM</td>
+                    <td data-label="By">Juan</td>
+                  </tr>
+                  <tr>
+                    <td data-label="#">123</td>
+                    <td data-label="Payroll"><code>PR-2026-0278</code></td>
+                    <td data-label="Name"><strong>MENDOZA,</strong> Charlene Faith T.</td>
+                    <td data-label="Status"><span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>Given</span></td>
+                    <td data-label="Time">11:33 AM</td>
+                    <td data-label="By">Maria</td>
+                  </tr>
+                  <tr>
+                    <td data-label="#">122</td>
+                    <td data-label="Payroll"><code>PR-2026-0275</code></td>
+                    <td data-label="Name"><strong>TORRES,</strong> Mark Daniel A.</td>
+                    <td data-label="Status"><span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>Given</span></td>
+                    <td data-label="Time">11:30 AM</td>
+                    <td data-label="By">Juan</td>
+                  </tr>
+                  <tr>
+                    <td data-label="#">121</td>
+                    <td data-label="Payroll"><code>PR-2026-0270</code></td>
+                    <td data-label="Name"><strong>NAVARRO,</strong> Jasmine Rose D.</td>
+                    <td data-label="Status"><span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>Given</span></td>
+                    <td data-label="Time">11:27 AM</td>
+                    <td data-label="By">Maria</td>
+                  </tr>
+                  <tr>
+                    <td data-label="#">120</td>
+                    <td data-label="Payroll"><code>PR-2026-0268</code></td>
+                    <td data-label="Name"><strong>PASCUAL,</strong> Kenneth James M.</td>
+                    <td data-label="Status"><span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>Given</span></td>
+                    <td data-label="Time">11:25 AM</td>
+                    <td data-label="By">Juan</td>
+                  </tr>
+                  <tr>
+                    <td data-label="#">119</td>
+                    <td data-label="Payroll"><code>PR-2026-0265</code></td>
+                    <td data-label="Name"><strong>RAMOS,</strong> Kyla Marie S.</td>
+                    <td data-label="Status"><span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>Given</span></td>
+                    <td data-label="Time">11:22 AM</td>
+                    <td data-label="By">Maria</td>
+                  </tr>
+                  <tr>
+                    <td data-label="#">118</td>
+                    <td data-label="Payroll"><code>PR-2026-0260</code></td>
+                    <td data-label="Name"><strong>AQUINO,</strong> Frederick B.</td>
+                    <td data-label="Status"><span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>Given</span></td>
+                    <td data-label="Time">11:19 AM</td>
+                    <td data-label="By">Juan</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Simulated QR Scan Demo -->
+      <div class="alert alert-warning d-flex align-items-center mt-4" style="border-radius:12px">
+        <i class="bi bi-info-circle-fill me-2 fs-5"></i>
+        <div>
+          <strong>Demo Simulation:</strong> Click the button below to simulate scanning a student's QR code.
+          <button class="btn btn-success btn-sm ms-2" id="btnSimulateScan"><i class="bi bi-qr-code me-1"></i> Simulate QR Scan</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<!-- QR Confirmation Modal -->
+<div class="modal fade" id="qrConfirmModal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content" style="border-radius:16px;overflow:hidden;border:0">
+      <div class="modal-header text-white" style="background:linear-gradient(135deg,#22c55e,#16a34a)">
+        <h5 class="modal-title"><i class="bi bi-qr-code-scan me-2"></i>Student QR Verified</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-sm-6">
+            <div class="info-panel">
+              <div class="info-row"><span class="info-label">Full Name</span><span class="info-value">DELA CRUZ, Juan Carlos M.</span></div>
+              <div class="info-row"><span class="info-label">Payroll #</span><span class="info-value"><code>PR-2026-0291</code></span></div>
+              <div class="info-row"><span class="info-label">Barangay</span><span class="info-value">Santiago</span></div>
+              <div class="info-row"><span class="info-label">University</span><span class="info-value">Cavite State University</span></div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="info-panel">
+              <div class="info-row"><span class="info-label">Year Level</span><span class="info-value">3rd Year</span></div>
+              <div class="info-row"><span class="info-label">Course</span><span class="info-value">BSIT</span></div>
+              <div class="info-row"><span class="info-label">Batch</span><span class="info-value">Batch 2</span></div>
+              <div class="info-row"><span class="info-label">Status</span><span class="info-value"><span class="badge bg-primary">Active</span></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="alert alert-warning mt-3 mb-0">
+          <i class="bi bi-exclamation-triangle me-1"></i> Confirm that aid has been physically distributed to this student.
+        </div>
+      </div>
+      <div class="modal-footer border-0">
+        <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn btn-success px-4" onclick="confirmDistribution()"><i class="bi bi-check-circle me-1"></i> Confirm Distribution</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="demo-badge"><i class="bi bi-lightning-charge me-1"></i> Demo Mode — No Database</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/admin-demo.js"></script>
+<script>
+// Simulate QR scan
+document.getElementById('btnSimulateScan').addEventListener('click', function() {
+  var modal = new bootstrap.Modal(document.getElementById('qrConfirmModal'));
+  modal.show();
+});
+
+document.getElementById('btnStartScanner').addEventListener('click', function() {
+  alert('Demo: Camera access would be requested. In production, the html5-qrcode library handles this.');
+});
+
+function confirmDistribution() {
+  var modal = bootstrap.Modal.getInstance(document.getElementById('qrConfirmModal'));
+  modal.hide();
+  // Update counter
+  var counter = document.querySelector('.distribution-progress .display-3');
+  counter.innerHTML = '128 <small class="fs-5 opacity-75">/ 484</small>';
+  // Update progress bar
+  var pct = (128/484*100).toFixed(1);
+  document.querySelector('.distribution-progress .progress-bar').style.width = pct + '%';
+  // Flash success
+  var flash = document.createElement('div');
+  flash.className = 'alert alert-success alert-dismissible fade show mt-3';
+  flash.style.borderRadius = '12px';
+  flash.innerHTML = '<i class="bi bi-check-circle-fill me-2"></i><strong>Success!</strong> Aid distributed to DELA CRUZ, Juan Carlos M. (PR-2026-0291).' +
+    '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>';
+  document.querySelector('.container-fluid').insertBefore(flash, document.querySelector('.container-fluid').children[1]);
+  setTimeout(function(){ flash.remove(); }, 4000);
+}
+</script>
+</body>
+</html>

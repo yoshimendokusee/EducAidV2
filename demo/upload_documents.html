@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Upload Documents – EducAid (Demo)</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/demo.css" />
+  <style>body { opacity: 0; transition: opacity 0.3s ease; background: #f5f5f5; } body.ready { opacity: 1; }</style>
+</head>
+<body>
+
+  <!-- TOPBAR -->
+  <div class="student-topbar">
+    <div class="container-fluid d-flex align-items-center justify-content-between gap-3 flex-wrap">
+      <div class="d-flex align-items-center gap-3 small">
+        <i class="bi bi-mortarboard-fill"></i><span>Student Portal</span>
+        <span class="vr mx-2 d-none d-md-inline"></span>
+        <i class="bi bi-envelope"></i><a href="mailto:educaid@generaltrias.gov.ph">educaid@generaltrias.gov.ph</a>
+        <span class="vr mx-2 d-none d-lg-inline"></span>
+        <i class="bi bi-telephone"></i><span class="d-none d-sm-inline">(046) 886-4454</span>
+      </div>
+      <div class="d-flex align-items-center gap-3 small">
+        <i class="bi bi-clock"></i><span class="d-none d-md-inline">Mon–Fri 8:00AM - 5:00PM</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="wrapper" style="padding-top: var(--topbar-h, 44px);">
+    <!-- SIDEBAR -->
+    <div class="sidebar student-sidebar" id="sidebar">
+      <a href="profile.html" class="sidebar-profile-link">
+        <div class="sidebar-profile">
+          <div class="avatar-circle" title="Maria Santos">M</div>
+          <div class="profile-text"><span class="name">Maria Santos</span><span class="role">Student</span></div>
+        </div>
+      </a>
+      <ul class="nav-list flex-grow-1 d-flex flex-column">
+        <li class="nav-item"><a href="index.html"><i class="bi bi-house-door icon"></i><span class="links_name">Dashboard</span></a></li>
+        <li class="nav-item active"><a href="upload_documents.html"><i class="bi bi-upload icon"></i><span class="links_name">Upload Documents</span></a></li>
+        <li class="nav-item"><a href="qr_code.html"><i class="bi bi-qr-code-scan icon"></i><span class="links_name">My QR Code</span></a></li>
+        <li class="nav-item"><a href="profile.html"><i class="bi bi-person icon"></i><span class="links_name">Profile</span></a></li>
+        <li class="nav-item"><a href="notifications.html"><i class="bi bi-bell icon"></i><span class="links_name">Notifications</span></a></li>
+        <li class="nav-item"><a href="settings.html"><i class="bi bi-gear icon"></i><span class="links_name">Settings</span></a></li>
+        <li class="mt-auto p-0 m-0"></li>
+        <li class="nav-item logout mt-2 pt-1"><a href="#" class="logout-link" onclick="alert('Demo – no logout.');return false;"><i class="bi bi-box-arrow-right icon"></i><span class="links_name">Logout</span></a></li>
+      </ul>
+    </div>
+    <div class="sidebar-backdrop d-none" id="sidebar-backdrop"></div>
+
+    <!-- HEADER -->
+    <div class="student-main-header">
+      <div class="container-fluid px-4">
+        <div class="student-header-content">
+          <div class="student-header-left"><div class="sidebar-toggle me-2"><i class="bi bi-list" id="menu-toggle"></i></div></div>
+          <div class="student-header-actions">
+            <div class="dropdown">
+              <button class="student-icon-btn" type="button" data-bs-toggle="dropdown"><i class="bi bi-person-circle"></i></button>
+              <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                <li><h6 class="dropdown-header">Maria Santos</h6></li>
+                <li><a class="dropdown-item" href="profile.html"><i class="bi bi-person me-2"></i>Profile</a></li>
+                <li><a class="dropdown-item" href="settings.html"><i class="bi bi-gear me-2"></i>Settings</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE CONTENT -->
+    <section class="home-section" id="page-content-wrapper">
+      <div class="container-fluid py-4 px-4">
+
+        <!-- Page Header -->
+        <div class="page-header-upload mb-4">
+          <h1><i class="bi bi-upload me-2"></i>Upload Documents</h1>
+          <div>
+            <span class="badge bg-success" style="font-size:0.85rem;padding:8px 14px;">
+              <i class="bi bi-wifi me-1"></i> Distribution Active
+            </span>
+          </div>
+        </div>
+
+        <!-- Re-upload Banner -->
+        <div class="alert alert-info d-flex align-items-start gap-3 mb-4" role="alert">
+          <i class="bi bi-arrow-repeat fs-4"></i>
+          <div>
+            <h6 class="alert-heading mb-1">Document Re-upload Required</h6>
+            <p class="mb-0" style="font-size:0.9rem;">A new distribution cycle has started for A.Y. 2025-2026 2nd Semester. Please upload your updated documents below.</p>
+          </div>
+        </div>
+
+        <!-- Document Cards Grid -->
+        <div class="row g-4">
+
+          <!-- ID Picture - Approved -->
+          <div class="col-lg-6">
+            <div class="document-card-upload uploaded">
+              <div class="document-header">
+                <div class="document-title"><i class="bi bi-person-bounding-box text-primary"></i> ID Picture</div>
+                <span class="document-status-badge badge-approved"><i class="bi bi-check-circle me-1"></i>Approved</span>
+              </div>
+              <div class="document-preview" style="background: linear-gradient(135deg, #f0f4ff, #e8ecf8);">
+                <div style="width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;color:white;font-size:3rem;font-weight:700;">M</div>
+              </div>
+              <div class="document-meta">
+                <small><i class="bi bi-clock me-1"></i>Uploaded: Feb 5, 2026 at 10:30 AM</small><br>
+                <small><i class="bi bi-file-earmark me-1"></i>id_picture_maria_santos.jpg (245 KB)</small>
+              </div>
+              <div class="mt-3">
+                <button class="btn btn-sm btn-outline-primary me-1" onclick="alert('Demo – preview not available.')"><i class="bi bi-eye me-1"></i>View</button>
+                <button class="btn btn-sm btn-outline-secondary" onclick="alert('Demo – download not available.')"><i class="bi bi-download me-1"></i>Download</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Enrollment Assistance Form - Approved -->
+          <div class="col-lg-6">
+            <div class="document-card-upload uploaded">
+              <div class="document-header">
+                <div class="document-title"><i class="bi bi-file-earmark-text text-success"></i> Enrollment Assistance Form</div>
+                <span class="document-status-badge badge-approved"><i class="bi bi-check-circle me-1"></i>Approved</span>
+              </div>
+              <div class="document-preview">
+                <i class="bi bi-file-earmark-pdf" style="font-size:4rem;color:#ef4444;"></i>
+              </div>
+              <div class="document-meta">
+                <small><i class="bi bi-clock me-1"></i>Uploaded: Feb 3, 2026 at 2:15 PM</small><br>
+                <small><i class="bi bi-file-earmark me-1"></i>enrollment_form_2026.pdf (1.2 MB)</small>
+              </div>
+              <div class="mt-3">
+                <button class="btn btn-sm btn-outline-primary me-1" onclick="alert('Demo – preview not available.')"><i class="bi bi-eye me-1"></i>View</button>
+                <button class="btn btn-sm btn-outline-secondary" onclick="alert('Demo – download not available.')"><i class="bi bi-download me-1"></i>Download</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Grades - Pending Review -->
+          <div class="col-lg-6">
+            <div class="document-card-upload uploaded" style="border-left-color: #f59e0b;">
+              <div class="document-header">
+                <div class="document-title"><i class="bi bi-journal-text text-warning"></i> Grades</div>
+                <span class="document-status-badge badge-pending"><i class="bi bi-hourglass-split me-1"></i>Pending Review</span>
+              </div>
+              <div class="document-preview">
+                <i class="bi bi-file-earmark-image" style="font-size:4rem;color:#f59e0b;"></i>
+              </div>
+              <div class="document-meta">
+                <small><i class="bi bi-clock me-1"></i>Uploaded: Feb 10, 2026 at 9:00 AM</small><br>
+                <small><i class="bi bi-file-earmark me-1"></i>grades_1st_sem_2025-2026.jpg (890 KB)</small>
+              </div>
+              <div class="mt-3">
+                <button class="btn btn-sm btn-outline-primary me-1" onclick="alert('Demo – preview not available.')"><i class="bi bi-eye me-1"></i>View</button>
+                <button class="btn btn-sm btn-outline-warning" onclick="alert('Demo – re-upload not available.')"><i class="bi bi-arrow-repeat me-1"></i>Re-upload</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Letter to Mayor - Required (not yet uploaded) -->
+          <div class="col-lg-6">
+            <div class="document-card-upload required">
+              <div class="document-header">
+                <div class="document-title"><i class="bi bi-envelope-paper text-danger"></i> Letter to Mayor</div>
+                <span class="document-status-badge badge-required"><i class="bi bi-exclamation-circle me-1"></i>Required</span>
+              </div>
+              <div class="upload-zone" onclick="alert('Demo – file upload not functional.\n\nIn the real system, you would drag & drop or click to select your letter to the mayor.')">
+                <i class="bi bi-cloud-arrow-up d-block"></i>
+                <p class="mb-1 fw-semibold">Drag & drop your file here</p>
+                <small class="text-muted">or click to browse (PDF, JPG, PNG – max 10MB)</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Certificate of Indigency - Required (not yet uploaded) -->
+          <div class="col-lg-6">
+            <div class="document-card-upload required">
+              <div class="document-header">
+                <div class="document-title"><i class="bi bi-file-earmark-medical text-danger"></i> Certificate of Indigency</div>
+                <span class="document-status-badge badge-required"><i class="bi bi-exclamation-circle me-1"></i>Required</span>
+              </div>
+              <div class="upload-zone" onclick="alert('Demo – file upload not functional.\n\nIn the real system, you would drag & drop or click to select your certificate of indigency.')">
+                <i class="bi bi-cloud-arrow-up d-block"></i>
+                <p class="mb-1 fw-semibold">Drag & drop your file here</p>
+                <small class="text-muted">or click to browse (PDF, JPG, PNG – max 10MB)</small>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Summary -->
+        <div class="alert alert-light border mt-4 d-flex align-items-center gap-3" role="alert">
+          <i class="bi bi-bar-chart-fill text-primary fs-4"></i>
+          <div>
+            <strong>Upload Progress:</strong> 3 of 5 documents uploaded. 2 remaining.
+            <div class="progress mt-2" style="height: 8px;">
+              <div class="progress-bar bg-success" style="width: 60%;" role="progressbar"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+  <footer class="main-footer"><div class="footer-chip"><i class="bi bi-c-circle"></i><span>2026 EducAid (Demo)</span></div></footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/demo.js"></script>
+</body>
+</html>

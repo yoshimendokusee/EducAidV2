@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verify Students - EducAid Admin (Demo)</title>
+  <style>body{opacity:0;transition:opacity .25s}body.ready{opacity:1}</style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/admin-demo.css">
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="admin-topbar" id="adminTopbar">
+  <div class="container-fluid d-flex align-items-center justify-content-between gap-3 flex-wrap py-2">
+    <div class="d-flex align-items-center gap-3 small">
+      <i class="bi bi-shield-lock"></i><span>Administrative Panel</span>
+      <span class="vr mx-2 d-none d-md-inline"></span>
+      <i class="bi bi-envelope"></i><a href="#">educaid@generaltrias.gov.ph</a>
+    </div>
+    <div class="d-flex align-items-center gap-3 small"><i class="bi bi-clock"></i><span class="d-none d-md-inline">Mon–Fri 8:00 AM – 5:00 PM</span></div>
+  </div>
+</div>
+
+<div id="wrapper" class="admin-wrapper">
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+    <a href="index.html" class="sidebar-profile-link">
+      <div class="sidebar-profile"><div class="avatar-circle">J</div><div class="profile-text"><span class="name">Juan Dela Cruz</span><span class="role">Admin</span></div></div>
+    </a>
+    <ul class="nav-list flex-grow-1 d-flex flex-column">
+      <li class="nav-item"><a href="index.html"><i class="bi bi-house-door icon"></i><span class="links_name">Dashboard</span></a></li>
+      <li class="nav-item"><a href="review_registrations.html"><i class="bi bi-clipboard-check icon"></i><span class="links_name">Review Registrations</span></a></li>
+      <li class="nav-item"><a href="manage_applicants.html"><i class="bi bi-people icon"></i><span class="links_name">Manage Applicants</span></a></li>
+      <li class="nav-item"><a href="#"><i class="bi bi-shield-x icon"></i><span class="links_name">Blocked Registrations</span></a></li>
+      <li class="nav-item dropdown">
+        <a href="#submenu-distribution" data-bs-toggle="collapse"><i class="bi bi-box-seam icon"></i><span class="links_name">Distribution</span><i class="bi bi-chevron-down ms-auto small"></i></a>
+        <ul class="collapse show list-unstyled ms-3" id="submenu-distribution">
+          <li><a class="submenu-link" href="distribution_control.html"><i class="bi bi-gear-fill me-2"></i> Distribution Control</a></li>
+          <li><a class="submenu-link" href="#"><i class="bi bi-sliders me-2"></i> Signup Slots</a></li>
+          <li><a class="submenu-link active" href="verify_students.html"><i class="bi bi-person-check me-2"></i> Verify Students</a></li>
+          <li><a class="submenu-link" href="manage_schedules.html"><i class="bi bi-calendar me-2"></i> Scheduling</a></li>
+          <li><a class="submenu-link" href="scan_qr.html"><i class="bi bi-qr-code-scan me-2"></i> Scan QR</a></li>
+          <li><hr class="dropdown-divider my-2"></li>
+          <li><a class="submenu-link" href="#"><i class="bi bi-stop-circle me-2"></i> End Distribution</a></li>
+          <li><a class="submenu-link" href="#"><i class="bi bi-archive me-2"></i> Archives</a></li>
+        </ul>
+      </li>
+      <li class="nav-item"><a href="#"><i class="bi bi-megaphone icon"></i><span class="links_name">Announcements</span></a></li>
+      <li class="mt-auto p-0 m-0"></li>
+      <li class="nav-item logout mt-2 pt-1"><a href="#" onclick="alert('Demo')"><i class="bi bi-box-arrow-right icon"></i><span class="links_name">Logout</span></a></li>
+    </ul>
+  </div>
+  <div class="sidebar-backdrop d-none" id="sidebar-backdrop"></div>
+
+  <!-- HEADER -->
+  <div class="admin-main-header">
+    <div class="container-fluid px-4">
+      <div class="admin-header-content">
+        <div class="admin-header-left"><i class="bi bi-list" id="menu-toggle" role="button" tabindex="0" style="font-size:1.4rem;cursor:pointer;color:var(--gt-sky)"></i></div>
+        <div class="admin-header-actions">
+          <button class="admin-icon-btn"><i class="bi bi-bell"></i><span class="badge rounded-pill bg-danger">5</span></button>
+          <button class="admin-icon-btn"><i class="bi bi-person-circle"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <section class="home-section" id="mainContent">
+    <div class="container-fluid py-4 px-4">
+
+      <!-- Page Header -->
+      <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
+        <div>
+          <h1 class="fw-bold mb-1" style="font-size:1.6rem">Manage Student Status</h1>
+          <p class="text-muted mb-0">View and manage verified student list for the current distribution cycle.</p>
+        </div>
+        <span class="badge bg-primary fs-6 px-3 py-2">484 Active Students</span>
+      </div>
+
+      <!-- Workflow Status -->
+      <div class="quick-actions mb-4">
+        <div>
+          <h6><i class="bi bi-diagram-3 me-2"></i> Workflow Status</h6>
+        </div>
+        <div class="status-grid">
+          <span class="status-chip"><i class="bi bi-lock-fill"></i> List Locked</span>
+          <span class="status-chip"><i class="bi bi-check-circle-fill"></i> Payroll & QR Generated</span>
+          <span class="status-chip"><i class="bi bi-calendar-check-fill"></i> Schedules Created</span>
+          <span class="status-chip status-chip--alert"><i class="bi bi-exclamation-triangle-fill"></i> Schedules exist — list edits disabled</span>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="filter-section">
+        <div class="filter-grid filter-grid-4">
+          <div>
+            <label class="form-label small fw-semibold">Sort by</label>
+            <select class="form-select form-select-sm">
+              <option>Surname A-Z</option><option>Surname Z-A</option><option>Barangay</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label small fw-semibold">Search Surname</label>
+            <input type="text" class="form-control form-control-sm" placeholder="Type to search...">
+          </div>
+          <div>
+            <label class="form-label small fw-semibold">Barangay</label>
+            <select class="form-select form-select-sm">
+              <option value="">All Barangays</option><option>Santiago</option><option>San Roque</option><option>Poblacion</option><option>Mataas na Bayan</option><option>Bucal</option><option>Tamacan</option>
+            </select>
+          </div>
+          <div class="d-flex gap-2 align-items-end">
+            <button class="btn btn-primary btn-sm"><i class="bi bi-funnel me-1"></i> Filter</button>
+            <button class="btn btn-outline-secondary btn-sm"><i class="bi bi-x-circle me-1"></i> Clear</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Students Table -->
+      <div class="card shadow-sm mt-3">
+        <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+          <h6 class="mb-0 fw-semibold">Active Students <span class="badge bg-warning text-dark ms-2"><i class="bi bi-lock-fill me-1"></i>Locked</span></h6>
+        </div>
+        <div class="table-responsive" style="border-radius:0 0 16px 16px">
+          <table class="table mb-0">
+            <thead>
+              <tr>
+                <th class="checkbox-col"><input type="checkbox" disabled title="Locked"></th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Mobile</th>
+                <th>Barangay</th>
+                <th>Payroll #</th>
+                <th>QR</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="checkbox-col"><input type="checkbox" disabled></td>
+                <td data-label="Name"><strong>ABELLA,</strong> Carlos M.</td>
+                <td data-label="Email">carlos.abella@email.com</td>
+                <td data-label="Mobile">0917-xxx-1234</td>
+                <td data-label="Barangay">Santiago</td>
+                <td data-label="Payroll"><code>PR-2026-0001</code></td>
+                <td data-label="QR"><span class="badge bg-success">Generated</span></td>
+              </tr>
+              <tr>
+                <td class="checkbox-col"><input type="checkbox" disabled></td>
+                <td data-label="Name"><strong>BAUTISTA,</strong> Angelika R.</td>
+                <td data-label="Email">angelika.bautista@email.com</td>
+                <td data-label="Mobile">0918-xxx-5678</td>
+                <td data-label="Barangay">San Roque</td>
+                <td data-label="Payroll"><code>PR-2026-0002</code></td>
+                <td data-label="QR"><span class="badge bg-success">Generated</span></td>
+              </tr>
+              <tr>
+                <td class="checkbox-col"><input type="checkbox" disabled></td>
+                <td data-label="Name"><strong>CRUZ,</strong> Jerome P.</td>
+                <td data-label="Email">jerome.cruz@email.com</td>
+                <td data-label="Mobile">0919-xxx-9012</td>
+                <td data-label="Barangay">Poblacion</td>
+                <td data-label="Payroll"><code>PR-2026-0003</code></td>
+                <td data-label="QR"><span class="badge bg-success">Generated</span></td>
+              </tr>
+              <tr style="background:#fffbeb">
+                <td class="checkbox-col"><input type="checkbox" disabled></td>
+                <td data-label="Name"><strong>DELOS REYES,</strong> Maria L. <span class="badge bg-warning text-dark ms-1">Review</span></td>
+                <td data-label="Email">maria.delosreyes@email.com</td>
+                <td data-label="Mobile">0920-xxx-3456</td>
+                <td data-label="Barangay">Mataas na Bayan</td>
+                <td data-label="Payroll"><code>PR-2026-0004</code></td>
+                <td data-label="QR"><span class="badge bg-success">Generated</span></td>
+              </tr>
+              <tr>
+                <td class="checkbox-col"><input type="checkbox" disabled></td>
+                <td data-label="Name"><strong>ENRIQUEZ,</strong> Patrick A.</td>
+                <td data-label="Email">patrick.enriquez@email.com</td>
+                <td data-label="Mobile">0921-xxx-7890</td>
+                <td data-label="Barangay">Bucal</td>
+                <td data-label="Payroll"><code>PR-2026-0005</code></td>
+                <td data-label="QR"><span class="badge bg-success">Generated</span></td>
+              </tr>
+              <tr>
+                <td class="checkbox-col"><input type="checkbox" disabled></td>
+                <td data-label="Name"><strong>FLORES,</strong> Rica Mae D.</td>
+                <td data-label="Email">rica.flores@email.com</td>
+                <td data-label="Mobile">0922-xxx-1122</td>
+                <td data-label="Barangay">Tamacan</td>
+                <td data-label="Payroll"><code>PR-2026-0006</code></td>
+                <td data-label="QR"><span class="badge bg-success">Generated</span></td>
+              </tr>
+              <tr>
+                <td class="checkbox-col"><input type="checkbox" disabled></td>
+                <td data-label="Name"><strong>GARCIA,</strong> John Rafael S.</td>
+                <td data-label="Email">john.garcia@email.com</td>
+                <td data-label="Mobile">0923-xxx-3344</td>
+                <td data-label="Barangay">Santiago</td>
+                <td data-label="Payroll"><code>PR-2026-0007</code></td>
+                <td data-label="QR"><span class="badge bg-success">Generated</span></td>
+              </tr>
+              <tr>
+                <td class="checkbox-col"><input type="checkbox" disabled></td>
+                <td data-label="Name"><strong>HERNANDEZ,</strong> Sofia T.</td>
+                <td data-label="Email">sofia.hernandez@email.com</td>
+                <td data-label="Mobile">0924-xxx-5566</td>
+                <td data-label="Barangay">Poblacion</td>
+                <td data-label="Payroll"><code>PR-2026-0008</code></td>
+                <td data-label="QR"><span class="badge bg-success">Generated</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="d-flex gap-2 flex-wrap mt-3">
+        <button class="btn btn-outline-secondary btn-sm" disabled><i class="bi bi-arrow-counterclockwise me-1"></i> Revert to Applicant</button>
+        <button class="btn btn-outline-warning btn-sm" disabled><i class="bi bi-lock-fill me-1"></i> Unlock List</button>
+        <button class="btn btn-outline-primary btn-sm" disabled><i class="bi bi-hash me-1"></i> Generate Payroll Numbers</button>
+        <button class="btn btn-outline-info btn-sm"><i class="bi bi-qr-code me-1"></i> View QR Codes (DEV)</button>
+      </div>
+
+      <!-- Next Steps -->
+      <div class="alert alert-success d-flex align-items-center mt-4" style="border-radius:12px">
+        <i class="bi bi-check-circle-fill me-2 fs-5"></i>
+        <div><strong>All steps complete!</strong> Payroll numbers generated, QR codes created, and schedules published. Ready for distribution day scanning.</div>
+      </div>
+
+      <!-- Pagination -->
+      <nav class="mt-3">
+        <ul class="pagination pagination-sm justify-content-center">
+          <li class="page-item disabled"><a class="page-link" href="#">&laquo;</a></li>
+          <li class="page-item active"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item"><a class="page-link" href="#">...</a></li>
+          <li class="page-item"><a class="page-link" href="#">25</a></li>
+          <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+        </ul>
+        <p class="text-center text-muted small">Showing 1-8 of 484 students</p>
+      </nav>
+
+    </div>
+  </section>
+</div>
+
+<div class="demo-badge"><i class="bi bi-lightning-charge me-1"></i> Demo Mode — No Database</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/admin-demo.js"></script>
+</body>
+</html>

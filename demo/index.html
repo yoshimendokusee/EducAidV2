@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EducAid – Student Dashboard (Demo)</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/demo.css" />
+  <style>
+    body { opacity: 0; transition: opacity 0.3s ease; background: #f5f5f5; }
+    body.ready { opacity: 1; }
+  </style>
+</head>
+<body>
+
+  <!-- ========== TOPBAR ========== -->
+  <div class="student-topbar">
+    <div class="container-fluid d-flex align-items-center justify-content-between gap-3 flex-wrap">
+      <div class="d-flex align-items-center gap-3 small">
+        <i class="bi bi-mortarboard-fill"></i>
+        <span>Student Portal</span>
+        <span class="vr mx-2 d-none d-md-inline"></span>
+        <i class="bi bi-envelope"></i>
+        <a href="mailto:educaid@generaltrias.gov.ph">educaid@generaltrias.gov.ph</a>
+        <span class="vr mx-2 d-none d-lg-inline"></span>
+        <i class="bi bi-telephone"></i>
+        <span class="d-none d-sm-inline">(046) 886-4454</span>
+      </div>
+      <div class="d-flex align-items-center gap-3 small">
+        <i class="bi bi-clock"></i>
+        <span class="d-none d-md-inline">Mon–Fri 8:00AM - 5:00PM</span>
+        <span class="d-md-none">Office Hours</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== WRAPPER ========== -->
+  <div id="wrapper" style="padding-top: var(--topbar-h, 44px);">
+
+    <!-- ========== SIDEBAR ========== -->
+    <div class="sidebar student-sidebar" id="sidebar">
+      <a href="index.html" class="sidebar-profile-link">
+        <div class="sidebar-profile">
+          <div class="avatar-circle" title="Maria Santos">M</div>
+          <div class="profile-text">
+            <span class="name" title="Maria Santos">Maria Santos</span>
+            <span class="role">Student</span>
+          </div>
+        </div>
+      </a>
+      <ul class="nav-list flex-grow-1 d-flex flex-column">
+        <li class="nav-item active"><a href="index.html"><i class="bi bi-house-door icon"></i><span class="links_name">Dashboard</span></a></li>
+        <li class="nav-item"><a href="upload_documents.html"><i class="bi bi-upload icon"></i><span class="links_name">Upload Documents</span></a></li>
+        <li class="nav-item"><a href="qr_code.html"><i class="bi bi-qr-code-scan icon"></i><span class="links_name">My QR Code</span></a></li>
+        <li class="nav-item"><a href="profile.html"><i class="bi bi-person icon"></i><span class="links_name">Profile</span></a></li>
+        <li class="nav-item"><a href="notifications.html"><i class="bi bi-bell icon"></i><span class="links_name">Notifications</span></a></li>
+        <li class="nav-item"><a href="settings.html"><i class="bi bi-gear icon"></i><span class="links_name">Settings</span></a></li>
+        <li class="mt-auto p-0 m-0"></li>
+        <li class="nav-item logout mt-2 pt-1">
+          <a href="#" data-bs-toggle="modal" data-bs-target="#logoutModal" class="logout-link">
+            <i class="bi bi-box-arrow-right icon"></i>
+            <span class="links_name">Logout</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidebar-backdrop d-none" id="sidebar-backdrop"></div>
+
+    <!-- ========== HEADER ========== -->
+    <div class="student-main-header">
+      <div class="container-fluid px-4">
+        <div class="student-header-content">
+          <div class="student-header-left d-flex align-items-center">
+            <div class="sidebar-toggle me-2"><i class="bi bi-list" id="menu-toggle"></i></div>
+          </div>
+          <div class="student-header-actions">
+            <!-- Bell Notification -->
+            <div class="dropdown" style="position:relative;">
+              <button class="student-icon-btn" type="button" data-bs-toggle="dropdown" title="Notifications" style="position:relative;">
+                <i class="bi bi-bell"></i>
+                <span class="notification-bell-badge">3</span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end notification-dropdown p-0">
+                <li>
+                  <div class="dropdown-header"><span>Notifications</span><a href="notifications.html" class="text-primary text-decoration-none" style="font-size:0.8rem;">View All</a></div>
+                </li>
+                <li><a class="dropdown-item py-2 px-3" href="notifications.html"><small class="text-primary fw-bold">📋 Your schedule has been published</small><br><small class="text-muted">2 hours ago</small></a></li>
+                <li><a class="dropdown-item py-2 px-3" href="notifications.html"><small class="text-success fw-bold">✅ Document approved: Enrollment Form</small><br><small class="text-muted">Yesterday</small></a></li>
+                <li><a class="dropdown-item py-2 px-3" href="notifications.html"><small class="text-warning fw-bold">⚠️ Document deadline approaching</small><br><small class="text-muted">2 days ago</small></a></li>
+              </ul>
+            </div>
+            <!-- Profile Dropdown -->
+            <div class="dropdown">
+              <button class="student-icon-btn" type="button" data-bs-toggle="dropdown" title="Profile">
+                <i class="bi bi-person-circle"></i>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                <li><h6 class="dropdown-header">Maria Santos</h6></li>
+                <li><a class="dropdown-item" href="profile.html"><i class="bi bi-person me-2"></i>Profile</a></li>
+                <li><a class="dropdown-item" href="settings.html"><i class="bi bi-gear me-2"></i>Settings</a></li>
+                <li><hr class="dropdown-divider"/></li>
+                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== PAGE CONTENT ========== -->
+    <section class="home-section" id="page-content-wrapper">
+      <div class="container-fluid py-4 px-4">
+
+        <!-- Welcome Banner -->
+        <div class="welcome-banner mb-4">
+          <div class="welcome-content">
+            <div class="profile-section">
+              <div class="profile-avatar">
+                <div class="avatar-img">M</div>
+                <div class="status-indicator bg-success"></div>
+              </div>
+              <div class="profile-info">
+                <h4 class="welcome-title">Welcome back, Maria!</h4>
+                <p class="login-info"><i class="bi bi-clock me-1"></i>Last login: 2 hours ago</p>
+              </div>
+            </div>
+            <div class="welcome-actions">
+              <a href="settings.html" class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-person-gear me-1"></i>Edit Profile
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Deadline Alert Banner -->
+        <div class="deadline-alert-banner mb-4">
+          <div class="deadline-alert-icon"><i class="bi bi-calendar-check"></i></div>
+          <div class="deadline-alert-content">
+            <span class="deadline-alert-text">Document submissions are due on <strong>March 15, 2026</strong>. Please upload required documents before this date.</span>
+          </div>
+        </div>
+
+        <!-- Info Banners (3-up) -->
+        <div class="row g-3 info-banners">
+          <div class="col-md-4">
+            <div class="info-banner banner-primary">
+              <span class="icon text-primary"><i class="bi bi-award"></i></span>
+              <div>
+                <div class="label">Scholarship Program</div>
+                <div class="value">Tertiary Education Assistance</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="info-banner banner-status">
+              <span class="icon text-success"><i class="bi bi-check2-circle"></i></span>
+              <div>
+                <div class="label">Application Status</div>
+                <div class="value"><span class="badge bg-success">Verified</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="info-banner banner-muted">
+              <span class="icon text-muted"><i class="bi bi-clock-history"></i></span>
+              <div>
+                <div class="label">Last Updated</div>
+                <div class="value text-muted">Feb 12, 2026</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Schedule Section -->
+        <section class="modern-schedule-section section-spacing">
+          <div class="modern-section-header">
+            <div class="header-icon-wrapper blue"><i class="bi bi-calendar3"></i></div>
+            <div class="header-content">
+              <h3 class="modern-section-title">Your Schedule</h3>
+              <p class="modern-section-subtitle">Your upcoming distribution schedule</p>
+            </div>
+          </div>
+          <div class="location-badge mb-3"><i class="bi bi-geo-alt-fill"></i><span>General Trias City Hall Grounds</span></div>
+          <div class="schedule-timeline">
+            <div class="schedule-item">
+              <div class="schedule-date">
+                <div class="date-icon"><i class="bi bi-calendar-event"></i></div>
+                <div class="date-info">
+                  <div class="date-day">Saturday</div>
+                  <div class="date-full">March 22, 2026</div>
+                </div>
+              </div>
+              <div class="schedule-details">
+                <div class="detail-row">
+                  <span class="detail-label"><i class="bi bi-clock"></i> Time</span>
+                  <span class="detail-value">9:00 AM - 11:00 AM</span>
+                </div>
+                <div class="detail-row">
+                  <span class="detail-label"><i class="bi bi-people"></i> Batch</span>
+                  <span class="detail-value">Batch 2</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Past Distributions History -->
+        <section class="section-block section-history section-spacing">
+          <div class="section-header">
+            <h3 class="section-title mb-0"><i class="bi bi-archive me-2"></i>Your Distribution History</h3>
+            <p class="section-lead m-0">Previous distributions you have participated in:</p>
+          </div>
+          <div class="distribution-carousel-container">
+            <div class="distribution-carousel" id="distributionCarousel">
+              <div class="carousel-track" id="carouselTrack">
+                <!-- Page 1 -->
+                <div class="carousel-page">
+                  <div class="row g-3">
+                    <div class="col-md-4">
+                      <div class="distribution-card border rounded p-3 h-100">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                          <h6 class="mb-0 text-success fw-bold"><i class="bi bi-calendar-check me-1"></i>Oct 15, 2025</h6>
+                          <span class="badge bg-success">Distributed</span>
+                        </div>
+                        <small class="text-muted d-block mb-2"><i class="bi bi-geo-alt me-1"></i><strong>Location:</strong> Gen. Trias City Hall</small>
+                        <small class="text-muted d-block mb-2"><i class="bi bi-mortarboard me-1"></i><strong>Academic Period:</strong> AY 2025-2026, 1st Semester</small>
+                        <small class="text-muted d-block mb-2"><i class="bi bi-clock me-1"></i><strong>Processed:</strong> Oct 15, 2025 2:30 PM</small>
+                        <small class="text-muted d-block mb-2"><i class="bi bi-person-check me-1"></i><strong>Processed by:</strong> Admin Juan Dela Cruz</small>
+                        <small class="text-muted d-block"><i class="bi bi-hash me-1"></i><strong>Payroll #:</strong> PR-2025-0472</small>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="distribution-card border rounded p-3 h-100">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                          <h6 class="mb-0 text-success fw-bold"><i class="bi bi-calendar-check me-1"></i>Apr 20, 2025</h6>
+                          <span class="badge bg-success">Distributed</span>
+                        </div>
+                        <small class="text-muted d-block mb-2"><i class="bi bi-geo-alt me-1"></i><strong>Location:</strong> Gen. Trias City Hall</small>
+                        <small class="text-muted d-block mb-2"><i class="bi bi-mortarboard me-1"></i><strong>Academic Period:</strong> AY 2024-2025, 2nd Semester</small>
+                        <small class="text-muted d-block mb-2"><i class="bi bi-clock me-1"></i><strong>Processed:</strong> Apr 20, 2025 10:15 AM</small>
+                        <small class="text-muted d-block mb-2"><i class="bi bi-person-check me-1"></i><strong>Processed by:</strong> Admin Juan Dela Cruz</small>
+                        <small class="text-muted d-block"><i class="bi bi-hash me-1"></i><strong>Payroll #:</strong> PR-2025-0198</small>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="distribution-card border rounded p-3 h-100">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                          <h6 class="mb-0 text-success fw-bold"><i class="bi bi-calendar-check me-1"></i>Nov 10, 2024</h6>
+                          <span class="badge bg-success">Distributed</span>
+                        </div>
+                        <small class="text-muted d-block mb-2"><i class="bi bi-geo-alt me-1"></i><strong>Location:</strong> Gen. Trias City Hall</small>
+                        <small class="text-muted d-block mb-2"><i class="bi bi-mortarboard me-1"></i><strong>Academic Period:</strong> AY 2024-2025, 1st Semester</small>
+                        <small class="text-muted d-block mb-2"><i class="bi bi-clock me-1"></i><strong>Processed:</strong> Nov 10, 2024 3:00 PM</small>
+                        <small class="text-muted d-block mb-2"><i class="bi bi-person-check me-1"></i><strong>Processed by:</strong> Admin Maria Garcia</small>
+                        <small class="text-muted d-block"><i class="bi bi-hash me-1"></i><strong>Payroll #:</strong> PR-2024-0891</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Page 2 -->
+                <div class="carousel-page">
+                  <div class="row g-3">
+                    <div class="col-md-4">
+                      <div class="distribution-card border rounded p-3 h-100">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                          <h6 class="mb-0 text-success fw-bold"><i class="bi bi-calendar-check me-1"></i>May 05, 2024</h6>
+                          <span class="badge bg-success">Distributed</span>
+                        </div>
+                        <small class="text-muted d-block mb-2"><i class="bi bi-geo-alt me-1"></i><strong>Location:</strong> Gen. Trias City Hall</small>
+                        <small class="text-muted d-block mb-2"><i class="bi bi-mortarboard me-1"></i><strong>Academic Period:</strong> AY 2023-2024, 2nd Semester</small>
+                        <small class="text-muted d-block mb-2"><i class="bi bi-clock me-1"></i><strong>Processed:</strong> May 5, 2024 1:45 PM</small>
+                        <small class="text-muted d-block"><i class="bi bi-hash me-1"></i><strong>Payroll #:</strong> PR-2024-0305</small>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="distribution-card border rounded p-3 h-100">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                          <h6 class="mb-0 text-success fw-bold"><i class="bi bi-calendar-check me-1"></i>Dec 12, 2023</h6>
+                          <span class="badge bg-success">Distributed</span>
+                        </div>
+                        <small class="text-muted d-block mb-2"><i class="bi bi-geo-alt me-1"></i><strong>Location:</strong> Gen. Trias Covered Court</small>
+                        <small class="text-muted d-block mb-2"><i class="bi bi-mortarboard me-1"></i><strong>Academic Period:</strong> AY 2023-2024, 1st Semester</small>
+                        <small class="text-muted d-block mb-2"><i class="bi bi-clock me-1"></i><strong>Processed:</strong> Dec 12, 2023 11:00 AM</small>
+                        <small class="text-muted d-block"><i class="bi bi-hash me-1"></i><strong>Payroll #:</strong> PR-2023-0744</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Carousel Controls -->
+            <div class="carousel-controls">
+              <button class="carousel-btn carousel-prev" id="carouselPrev"><i class="bi bi-chevron-left"></i></button>
+              <button class="carousel-btn carousel-next" id="carouselNext"><i class="bi bi-chevron-right"></i></button>
+            </div>
+            <div class="carousel-indicators">
+              <button class="carousel-dot active" data-page="0"></button>
+              <button class="carousel-dot" data-page="1"></button>
+            </div>
+          </div>
+          <div class="text-center mt-3">
+            <small class="text-muted"><i class="bi bi-info-circle me-1"></i>Showing 5 distributions across 2 pages</small>
+          </div>
+        </section>
+
+        <!-- Announcement Section -->
+        <section class="modern-announcement-section section-spacing">
+          <div class="modern-section-header">
+            <div class="header-icon-wrapper orange"><i class="bi bi-megaphone"></i></div>
+            <div class="header-content">
+              <h3 class="modern-section-title">Latest Announcement</h3>
+              <p class="modern-section-subtitle">Stay updated with news and information</p>
+            </div>
+          </div>
+          <div class="announcement-content">
+            <div class="announcement-meta-row">
+              <div class="meta-badges">
+                <span class="meta-badge date"><i class="bi bi-calendar3"></i>Feb 10, 2026</span>
+                <span class="meta-badge event"><i class="bi bi-calendar-event"></i> Event</span>
+                <span class="meta-badge active"><i class="bi bi-lightning-charge-fill"></i> Active</span>
+              </div>
+            </div>
+            <div class="announcement-header">
+              <h4 class="announcement-title">2nd Semester A.Y. 2025-2026 Distribution Schedule Released</h4>
+              <div class="event-details">
+                <div class="event-detail-item"><i class="bi bi-calendar2-week"></i><span>Mar 22, 2026 • 9:00 AM</span></div>
+                <div class="event-detail-item"><i class="bi bi-geo-alt-fill"></i><span>General Trias City Hall Grounds</span></div>
+              </div>
+            </div>
+            <div class="announcement-body">
+              <p>Dear scholars, we are pleased to announce that the distribution schedule for the 2nd Semester of Academic Year 2025-2026 has been finalized. Please check your individual schedules on the dashboard. All scholars are required to bring a valid ID and their QR code during the distribution. Please arrive at least 15 minutes before your scheduled batch time.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Submission Deadlines -->
+        <section class="modern-announcement-section section-spacing">
+          <div class="modern-section-header">
+            <div class="header-icon-wrapper success"><i class="bi bi-hourglass-split"></i></div>
+            <div class="header-content">
+              <h3 class="modern-section-title">Submission Deadlines</h3>
+              <p class="modern-section-subtitle">Upcoming and active requirements.</p>
+            </div>
+            <span class="badge-count success">1 item(s)</span>
+          </div>
+          <div class="deadline-list">
+            <div class="deadline-item is-ontime">
+              <div class="deadline-left">
+                <div class="deadline-title"><i class="bi bi-file-earmark-text me-2"></i>Document Submission</div>
+                <div class="deadline-meta"><i class="bi bi-calendar3 me-1"></i>March 15, 2026</div>
+              </div>
+              <div class="deadline-right">
+                <span class="chip chip-ontime"><i class="bi bi-clock me-1"></i>Due in 31 days</span>
+                <a href="upload_documents.html" class="btn btn-success btn-sm">Go</a>
+              </div>
+            </div>
+          </div>
+          <div class="reminders-box">
+            <div class="reminders-header"><i class="bi bi-bell me-2"></i>Reminders</div>
+            <ul class="reminders-list">
+              <li>Submit all required documents by <strong>March 15, 2026</strong>.</li>
+              <li>Check notifications regularly for city updates.</li>
+            </ul>
+          </div>
+        </section>
+
+      </div>
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="footer-chip"><i class="bi bi-c-circle"></i><span>2026 EducAid (Demo)</span></div>
+  </footer>
+
+  <!-- Logout Modal -->
+  <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered student-logout-modal">
+      <div class="modal-content" style="border-radius: 16px; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.2);">
+        <div class="modal-header border-0" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 24px 28px; border-radius: 16px 16px 0 0;">
+          <div class="d-flex align-items-center gap-3">
+            <div style="width: 48px; height: 48px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+              <i class="bi bi-box-arrow-right" style="font-size: 24px;"></i>
+            </div>
+            <div>
+              <h5 class="modal-title mb-0" id="logoutModalLabel" style="font-weight: 700;">Logout Confirmation</h5>
+              <small style="opacity: 0.9;">This is a demo – no session to end</small>
+            </div>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" style="padding: 28px;">
+          <div class="d-flex align-items-start gap-3">
+            <div style="width: 40px; height: 40px; background: #fef3c7; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <i class="bi bi-info-circle-fill" style="color: #f59e0b; font-size: 20px;"></i>
+            </div>
+            <div>
+              <p class="mb-2" style="color: #1f2937; font-weight: 500;">This is a static demo site.</p>
+              <p class="mb-0" style="color: #6b7280; font-size: 0.9rem;">There is no real session. This modal demonstrates the logout confirmation UX.</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer border-0" style="padding: 0 28px 24px; gap: 12px;">
+          <button type="button" class="btn btn-light" data-bs-dismiss="modal" style="border-radius: 10px; padding: 10px 20px; font-weight: 600; border: 2px solid #e5e7eb;">
+            <i class="bi bi-x-circle me-1"></i> Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/demo.js"></script>
+</body>
+</html>

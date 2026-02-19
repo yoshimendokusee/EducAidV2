@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Schedules - EducAid Admin (Demo)</title>
+  <style>body{opacity:0;transition:opacity .25s}body.ready{opacity:1}</style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/admin-demo.css">
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="admin-topbar" id="adminTopbar">
+  <div class="container-fluid d-flex align-items-center justify-content-between gap-3 flex-wrap py-2">
+    <div class="d-flex align-items-center gap-3 small"><i class="bi bi-shield-lock"></i><span>Administrative Panel</span>
+      <span class="vr mx-2 d-none d-md-inline"></span><i class="bi bi-envelope"></i><a href="#">educaid@generaltrias.gov.ph</a></div>
+    <div class="d-flex align-items-center gap-3 small"><i class="bi bi-clock"></i><span class="d-none d-md-inline">Mon–Fri 8:00 AM – 5:00 PM</span></div>
+  </div>
+</div>
+
+<div id="wrapper" class="admin-wrapper">
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+    <a href="index.html" class="sidebar-profile-link">
+      <div class="sidebar-profile"><div class="avatar-circle">J</div><div class="profile-text"><span class="name">Juan Dela Cruz</span><span class="role">Admin</span></div></div>
+    </a>
+    <ul class="nav-list flex-grow-1 d-flex flex-column">
+      <li class="nav-item"><a href="index.html"><i class="bi bi-house-door icon"></i><span class="links_name">Dashboard</span></a></li>
+      <li class="nav-item"><a href="review_registrations.html"><i class="bi bi-clipboard-check icon"></i><span class="links_name">Review Registrations</span></a></li>
+      <li class="nav-item"><a href="manage_applicants.html"><i class="bi bi-people icon"></i><span class="links_name">Manage Applicants</span></a></li>
+      <li class="nav-item dropdown">
+        <a href="#submenu-distribution" data-bs-toggle="collapse"><i class="bi bi-box-seam icon"></i><span class="links_name">Distribution</span><i class="bi bi-chevron-down ms-auto small"></i></a>
+        <ul class="collapse show list-unstyled ms-3" id="submenu-distribution">
+          <li><a class="submenu-link" href="distribution_control.html"><i class="bi bi-gear-fill me-2"></i> Distribution Control</a></li>
+          <li><a class="submenu-link" href="verify_students.html"><i class="bi bi-person-check me-2"></i> Verify Students</a></li>
+          <li><a class="submenu-link active" href="manage_schedules.html"><i class="bi bi-calendar me-2"></i> Scheduling</a></li>
+          <li><a class="submenu-link" href="scan_qr.html"><i class="bi bi-qr-code-scan me-2"></i> Scan QR</a></li>
+          <li><hr class="dropdown-divider my-2"></li>
+          <li><a class="submenu-link" href="#"><i class="bi bi-stop-circle me-2"></i> End Distribution</a></li>
+          <li><a class="submenu-link" href="#"><i class="bi bi-archive me-2"></i> Archives</a></li>
+        </ul>
+      </li>
+      <li class="nav-item"><a href="#"><i class="bi bi-megaphone icon"></i><span class="links_name">Announcements</span></a></li>
+      <li class="mt-auto p-0 m-0"></li>
+      <li class="nav-item logout mt-2 pt-1"><a href="#" onclick="alert('Demo')"><i class="bi bi-box-arrow-right icon"></i><span class="links_name">Logout</span></a></li>
+    </ul>
+  </div>
+  <div class="sidebar-backdrop d-none" id="sidebar-backdrop"></div>
+
+  <!-- HEADER -->
+  <div class="admin-main-header">
+    <div class="container-fluid px-4">
+      <div class="admin-header-content">
+        <div class="admin-header-left"><i class="bi bi-list" id="menu-toggle" role="button" tabindex="0" style="font-size:1.4rem;cursor:pointer;color:var(--gt-sky)"></i></div>
+        <div class="admin-header-actions">
+          <button class="admin-icon-btn"><i class="bi bi-bell"></i><span class="badge rounded-pill bg-danger">5</span></button>
+          <button class="admin-icon-btn"><i class="bi bi-person-circle"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <section class="home-section" id="mainContent">
+    <div class="container-fluid py-4 px-4">
+
+      <!-- Page Header -->
+      <div class="mb-3">
+        <h1 class="fw-bold mb-1" style="font-size:1.6rem">Manage Student Schedules</h1>
+        <p class="text-muted mb-0">Create and manage distribution schedules for verified students.</p>
+      </div>
+
+      <!-- Stats Cards -->
+      <div class="schedule-stats-row">
+        <div class="schedule-stat-card" style="background:linear-gradient(135deg,#667eea,#764ba2)">
+          <div class="stat-text">TOTAL STUDENTS</div>
+          <div class="stat-number">484</div>
+        </div>
+        <div class="schedule-stat-card" style="background:linear-gradient(135deg,#11998e,#38ef7d)">
+          <div class="stat-text">MAX PAYROLL #</div>
+          <div class="stat-number">484</div>
+        </div>
+        <div class="schedule-stat-card" style="background:linear-gradient(135deg,#4facfe,#00f2fe)">
+          <div class="stat-text">DATES USED</div>
+          <div class="stat-number">1</div>
+        </div>
+      </div>
+
+      <!-- Current Schedule (Published) -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-header text-white d-flex justify-content-between align-items-center flex-wrap gap-2" style="background:linear-gradient(135deg,#22c55e,#16a34a);border-radius:16px 16px 0 0">
+          <div>
+            <h5 class="mb-0"><i class="bi bi-calendar-check me-2"></i> Current Schedule</h5>
+          </div>
+          <div class="d-flex gap-2 align-items-center">
+            <span class="badge bg-white text-success px-3 py-2"><i class="bi bi-eye me-1"></i> Published</span>
+            <button class="btn btn-outline-light btn-sm" onclick="alert('Demo: Would hide schedule')"><i class="bi bi-eye-slash me-1"></i> Hide</button>
+            <button class="btn btn-outline-light btn-sm" onclick="alert('Demo: Would clear schedule')"><i class="bi bi-trash me-1"></i> Clear</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <!-- Info boxes -->
+          <div class="row g-3 mb-4">
+            <div class="col-md-6">
+              <div class="d-flex align-items-center gap-3 p-3 rounded-3" style="background:#f0fdf4;border:1px solid #bbf7d0">
+                <div class="d-flex align-items-center justify-content-center" style="width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#22c55e,#16a34a)">
+                  <i class="bi bi-calendar3 text-white fs-5"></i>
+                </div>
+                <div>
+                  <small class="text-muted d-block">Distribution Date</small>
+                  <strong>February 15, 2026</strong>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="d-flex align-items-center gap-3 p-3 rounded-3" style="background:#eff6ff;border:1px solid #bfdbfe">
+                <div class="d-flex align-items-center justify-content-center" style="width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#3b82f6,#2563eb)">
+                  <i class="bi bi-geo-alt text-white fs-5"></i>
+                </div>
+                <div>
+                  <small class="text-muted d-block">Location</small>
+                  <strong>General Trias Town Plaza</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Schedule Table -->
+          <div class="table-responsive" style="box-shadow:none">
+            <table class="table table-bordered mb-0">
+              <thead style="background:#f8fafc">
+                <tr>
+                  <th>Batch #</th>
+                  <th>Time Slot</th>
+                  <th>Students</th>
+                  <th>Duration</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="background:#fef2f2">
+                  <td data-label="Batch"><span class="badge bg-primary px-3 py-2">Batch 1</span></td>
+                  <td data-label="Time">8:00 AM – 10:00 AM</td>
+                  <td data-label="Students"><strong>162</strong> students (PR-0001 to PR-0162)</td>
+                  <td data-label="Duration"><span class="badge bg-info">2 hours</span></td>
+                  <td data-label="Status"><span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>Completed</span></td>
+                </tr>
+                <tr style="background:#fffbeb">
+                  <td data-label="Batch"><span class="badge bg-warning text-dark px-3 py-2"><i class="bi bi-broadcast me-1"></i>Batch 2</span></td>
+                  <td data-label="Time">10:00 AM – 12:00 PM</td>
+                  <td data-label="Students"><strong>162</strong> students (PR-0163 to PR-0324)</td>
+                  <td data-label="Duration"><span class="badge bg-info">2 hours</span></td>
+                  <td data-label="Status"><span class="badge bg-warning text-dark"><i class="bi bi-hourglass-split me-1"></i>In Progress</span></td>
+                </tr>
+                <tr>
+                  <td data-label="Batch"><span class="badge bg-secondary px-3 py-2">Batch 3</span></td>
+                  <td data-label="Time">1:00 PM – 3:00 PM</td>
+                  <td data-label="Students"><strong>160</strong> students (PR-0325 to PR-0484)</td>
+                  <td data-label="Duration"><span class="badge bg-info">2 hours</span></td>
+                  <td data-label="Status"><span class="badge bg-secondary"><i class="bi bi-clock me-1"></i>Upcoming</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Progress indicator -->
+          <div class="mt-3 p-3 rounded-3" style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1px solid #bbf7d0">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <strong class="text-success"><i class="bi bi-collection-play me-2"></i>Distribution Progress</strong>
+              <span class="fw-bold text-success">127 / 484 (26.2%)</span>
+            </div>
+            <div class="progress" style="height:10px;border-radius:5px">
+              <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" style="width:26.2%"></div>
+            </div>
+            <small class="text-muted mt-1 d-block">Batch 1 complete (162). Batch 2 in progress — 127 scanned so far today.</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Used Dates -->
+      <div class="card shadow-sm">
+        <div class="card-header text-white" style="background:linear-gradient(135deg,#f59e0b,#d97706);border-radius:16px 16px 0 0">
+          <h6 class="mb-0"><i class="bi bi-calendar-x me-2"></i> Previously Used Dates</h6>
+        </div>
+        <div class="card-body">
+          <div class="d-flex flex-wrap gap-2">
+            <span class="badge bg-light text-dark border px-3 py-2"><i class="bi bi-calendar3 me-1"></i> January 24, 2026</span>
+            <span class="badge bg-light text-dark border px-3 py-2"><i class="bi bi-calendar3 me-1"></i> November 15, 2025</span>
+            <span class="badge bg-light text-dark border px-3 py-2"><i class="bi bi-calendar3 me-1"></i> July 28, 2025</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<div class="demo-badge"><i class="bi bi-lightning-charge me-1"></i> Demo Mode — No Database</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/admin-demo.js"></script>
+</body>
+</html>

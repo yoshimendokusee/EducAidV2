@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - EducAid Admin (Demo)</title>
+  <style>body{opacity:0;transition:opacity .25s}body.ready{opacity:1}</style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/admin-demo.css">
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+</head>
+<body>
+
+<!-- ========== TOPBAR ========== -->
+<div class="admin-topbar" id="adminTopbar">
+  <div class="container-fluid d-flex align-items-center justify-content-between gap-3 flex-wrap py-2">
+    <div class="d-flex align-items-center gap-3 small">
+      <i class="bi bi-shield-lock"></i>
+      <span>Administrative Panel</span>
+      <span class="vr mx-2 d-none d-md-inline"></span>
+      <i class="bi bi-envelope"></i>
+      <a href="#">educaid@generaltrias.gov.ph</a>
+      <span class="vr mx-2 d-none d-lg-inline"></span>
+      <i class="bi bi-telephone"></i>
+      <span class="d-none d-sm-inline">(046) 886-4454</span>
+    </div>
+    <div class="d-flex align-items-center gap-3 small">
+      <i class="bi bi-clock"></i>
+      <span class="d-none d-md-inline">Mon–Fri 8:00 AM – 5:00 PM</span>
+      <span class="d-md-none">Office Hours</span>
+    </div>
+  </div>
+</div>
+
+<!-- ========== SIDEBAR ========== -->
+<div id="wrapper" class="admin-wrapper">
+  <div class="sidebar" id="sidebar">
+    <a href="index.html" class="sidebar-profile-link">
+      <div class="sidebar-profile">
+        <div class="avatar-circle">J</div>
+        <div class="profile-text">
+          <span class="name">Juan Dela Cruz</span>
+          <span class="role">Admin</span>
+        </div>
+      </div>
+    </a>
+    <ul class="nav-list flex-grow-1 d-flex flex-column">
+      <li class="nav-item active"><a href="index.html"><i class="bi bi-house-door icon"></i><span class="links_name">Dashboard</span></a></li>
+      <li class="nav-item"><a href="review_registrations.html"><i class="bi bi-clipboard-check icon"></i><span class="links_name">Review Registrations</span></a></li>
+      <li class="nav-item"><a href="manage_applicants.html"><i class="bi bi-people icon"></i><span class="links_name">Manage Applicants</span><span class="badge bg-info ms-2">24</span></a></li>
+      <li class="nav-item"><a href="#"><i class="bi bi-shield-x icon"></i><span class="links_name">Blocked Registrations</span><span class="badge bg-danger ms-2">3</span></a></li>
+      <!-- Distribution Submenu -->
+      <li class="nav-item dropdown">
+        <a href="#submenu-distribution" data-bs-toggle="collapse" class="dropdown-toggle">
+          <i class="bi bi-box-seam icon"></i>
+          <span class="links_name">Distribution</span>
+          <i class="bi bi-chevron-down ms-auto small"></i>
+        </a>
+        <ul class="collapse show list-unstyled ms-3" id="submenu-distribution">
+          <li><a class="submenu-link" href="distribution_control.html"><i class="bi bi-gear-fill me-2"></i> Distribution Control</a></li>
+          <li><a class="submenu-link" href="#"><i class="bi bi-sliders me-2"></i> Signup Slots <span class="badge bg-info ms-2">Ready</span></a></li>
+          <li><a class="submenu-link" href="verify_students.html"><i class="bi bi-person-check me-2"></i> Verify Students</a></li>
+          <li><a class="submenu-link" href="manage_schedules.html"><i class="bi bi-calendar me-2"></i> Scheduling <span class="badge bg-info ms-2">Ready</span></a></li>
+          <li><a class="submenu-link" href="scan_qr.html"><i class="bi bi-qr-code-scan me-2"></i> Scan QR <span class="badge bg-success ms-2">Ready</span></a></li>
+          <li><hr class="dropdown-divider my-2"></li>
+          <li><a class="submenu-link" href="#"><i class="bi bi-stop-circle me-2"></i> End Distribution <span class="badge bg-info ms-2">Ready</span></a></li>
+          <li><a class="submenu-link" href="#"><i class="bi bi-archive me-2"></i> Distribution Archives</a></li>
+        </ul>
+      </li>
+      <!-- System Controls -->
+      <li class="nav-item dropdown">
+        <a href="#submenu-sys" data-bs-toggle="collapse" class="dropdown-toggle">
+          <i class="bi bi-gear-wide-connected icon"></i>
+          <span class="links_name">System Controls</span>
+          <i class="bi bi-chevron-down ms-auto small"></i>
+        </a>
+        <ul class="collapse list-unstyled ms-3" id="submenu-sys">
+          <li><a class="submenu-link" href="#"><i class="bi bi-person-x-fill me-2"></i> Blacklist Archive</a></li>
+          <li><a class="submenu-link" href="#"><i class="bi bi-archive-fill me-2"></i> Archived Students</a></li>
+          <li><a class="submenu-link" href="#"><i class="bi bi-people-fill me-2"></i> Admin Management</a></li>
+          <li><a class="submenu-link" href="#"><i class="bi bi-database me-2"></i> System Data</a></li>
+          <li><a class="submenu-link" href="#"><i class="bi bi-gear me-2"></i> Settings</a></li>
+        </ul>
+      </li>
+      <li class="nav-item"><a href="#"><i class="bi bi-megaphone icon"></i><span class="links_name">Announcements</span></a></li>
+      <li class="nav-item"><a href="#"><i class="bi bi-shield-lock-fill icon"></i><span class="links_name">Audit Trail</span></a></li>
+      <li class="nav-item"><a href="#"><i class="bi bi-file-earmark-bar-graph-fill icon"></i><span class="links_name">Reports & Analytics</span></a></li>
+      <li class="mt-auto p-0 m-0"></li>
+      <li class="nav-item logout mt-2 pt-1">
+        <a href="#" data-bs-toggle="modal" data-bs-target="#logoutModal" class="logout-link">
+          <i class="bi bi-box-arrow-right icon"></i><span class="links_name">Logout</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="sidebar-backdrop d-none" id="sidebar-backdrop"></div>
+
+  <!-- ========== HEADER ========== -->
+  <div class="admin-main-header">
+    <div class="container-fluid px-4">
+      <div class="admin-header-content">
+        <div class="admin-header-left d-flex align-items-center">
+          <i class="bi bi-list" id="menu-toggle" role="button" tabindex="0" style="font-size:1.4rem;cursor:pointer;color:var(--gt-sky)"></i>
+        </div>
+        <div class="admin-header-actions">
+          <!-- Notification bell -->
+          <div class="dropdown">
+            <button class="admin-icon-btn" data-bs-toggle="dropdown" title="Notifications">
+              <i class="bi bi-bell"></i>
+              <span class="badge rounded-pill bg-danger">5</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm notif-dropdown p-0">
+              <li class="px-3 py-2 border-bottom d-flex justify-content-between align-items-center">
+                <strong class="small">Notifications</strong>
+                <span class="badge bg-danger">5 new</span>
+              </li>
+              <li class="notif-item unread d-flex gap-2 align-items-start">
+                <div class="notif-icon bg-success bg-opacity-10 text-success"><i class="bi bi-check-circle"></i></div>
+                <div><div class="notif-title">Distribution started</div><div class="notif-time">2 minutes ago</div></div>
+              </li>
+              <li class="notif-item unread d-flex gap-2 align-items-start">
+                <div class="notif-icon bg-warning bg-opacity-10 text-warning"><i class="bi bi-exclamation-triangle"></i></div>
+                <div><div class="notif-title">3 registrations need review</div><div class="notif-time">15 minutes ago</div></div>
+              </li>
+              <li class="notif-item unread d-flex gap-2 align-items-start">
+                <div class="notif-icon bg-info bg-opacity-10 text-info"><i class="bi bi-person-plus"></i></div>
+                <div><div class="notif-title">12 new applicants verified</div><div class="notif-time">1 hour ago</div></div>
+              </li>
+              <li class="notif-item d-flex gap-2 align-items-start">
+                <div class="notif-icon bg-primary bg-opacity-10 text-primary"><i class="bi bi-calendar-check"></i></div>
+                <div><div class="notif-title">Schedule published for Feb 15</div><div class="notif-time">3 hours ago</div></div>
+              </li>
+              <li class="notif-item d-flex gap-2 align-items-start">
+                <div class="notif-icon bg-secondary bg-opacity-10 text-secondary"><i class="bi bi-file-earmark-check"></i></div>
+                <div><div class="notif-title">Payroll #s generated (484 students)</div><div class="notif-time">Yesterday</div></div>
+              </li>
+              <li class="text-center py-2 border-top">
+                <a href="#" class="small text-decoration-none">View all notifications</a>
+              </li>
+            </ul>
+          </div>
+          <!-- Profile -->
+          <div class="dropdown">
+            <button class="admin-icon-btn" data-bs-toggle="dropdown" title="Profile">
+              <i class="bi bi-person-circle"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+              <li><h6 class="dropdown-header">Juan Dela Cruz</h6></li>
+              <li><a class="dropdown-item" href="#">Profile</a></li>
+              <li><a class="dropdown-item" href="#">Settings</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item text-danger" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <section class="home-section" id="mainContent">
+    <div class="container-fluid py-4 px-4">
+
+      <!-- Welcome + Demo Badge -->
+      <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+        <h1 class="fw-bold mb-0">Welcome, Juan</h1>
+        <span class="badge bg-warning text-dark ms-2"><i class="bi bi-lightning-charge me-1"></i>Demo Mode</span>
+      </div>
+      <p class="text-muted mb-3">Here you can manage student registrations, verify applicants, and more.</p>
+
+      <!-- Stats Grid -->
+      <div class="stats-grid">
+        <div class="stat-card stat-blue">
+          <div class="stat-icon"><i class="bi bi-people"></i></div>
+          <div class="stat-content">
+            <span class="stat-value">842 / 1,200</span>
+            <span class="stat-label">Students / Capacity</span>
+          </div>
+        </div>
+        <div class="stat-card stat-orange">
+          <div class="stat-icon"><i class="bi bi-pencil-square"></i></div>
+          <div class="stat-content">
+            <span class="stat-value">158</span>
+            <span class="stat-label">Still on Registration</span>
+          </div>
+        </div>
+        <div class="stat-card stat-amber">
+          <div class="stat-icon"><i class="bi bi-hourglass-split"></i></div>
+          <div class="stat-content">
+            <span class="stat-value">24</span>
+            <span class="stat-label">Pending Applications</span>
+          </div>
+        </div>
+        <div class="stat-card stat-green">
+          <div class="stat-icon"><i class="bi bi-check-circle"></i></div>
+          <div class="stat-content">
+            <span class="stat-value">484</span>
+            <span class="stat-label">Verified Students</span>
+          </div>
+        </div>
+        <div class="stat-card stat-purple">
+          <div class="stat-icon"><i class="bi bi-shield-check"></i></div>
+          <div class="stat-content">
+            <span class="stat-value">3</span>
+            <span class="stat-label">Household Blocks (30d)</span>
+          </div>
+        </div>
+        <div class="stat-card stat-red">
+          <div class="stat-icon"><i class="bi bi-exclamation-triangle"></i></div>
+          <div class="stat-content">
+            <span class="stat-value">7</span>
+            <span class="stat-label">Requires Review</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chart Card -->
+      <div class="row g-4 mt-2">
+        <div class="col-12">
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <div class="chart-title">
+                <div class="chart-icon"><i class="bi bi-bar-chart-line"></i></div>
+                <div>
+                  <h5 id="chartTitle">Gender Distribution</h5>
+                  <p class="chart-subtitle">Verified vs Applicant breakdown</p>
+                </div>
+              </div>
+              <select id="chartFilter" class="chart-filter-select">
+                <option value="gender" selected>By Gender</option>
+                <option value="barangay">By Barangay</option>
+                <option value="university">By University</option>
+                <option value="yearLevel">By Year Level</option>
+              </select>
+            </div>
+            <div class="chart-card-body">
+              <div id="unifiedChart" style="min-height:380px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Past Distributions Timeline -->
+      <div class="row g-4 mt-4">
+        <div class="col-12">
+          <div class="distribution-history-section">
+            <div class="section-header">
+              <div class="header-content">
+                <div class="header-icon"><i class="bi bi-clock-history"></i></div>
+                <div>
+                  <h5>Distribution History</h5>
+                  <small class="text-white-75">Past distribution events</small>
+                </div>
+              </div>
+              <a href="#" class="btn-view-all">View Archives <i class="bi bi-arrow-right ms-1"></i></a>
+            </div>
+            <div class="distribution-timeline">
+              <!-- Distribution 1 (most recent) -->
+              <div class="timeline-item">
+                <div class="timeline-marker"><div class="marker-dot"></div><div class="marker-line"></div></div>
+                <div class="timeline-content">
+                  <div class="distribution-card">
+                    <div class="card-header-row">
+                      <div class="distribution-date"><i class="bi bi-calendar3"></i> January 24, 2026</div>
+                      <div class="student-count"><i class="bi bi-people"></i> 520 Students</div>
+                    </div>
+                    <div class="location-info"><i class="bi bi-geo-alt-fill"></i><h6>General Trias Town Plaza</h6></div>
+                    <div class="academic-info">
+                      <span class="info-badge"><i class="bi bi-book"></i> 2025-2026</span>
+                      <span class="info-badge"><i class="bi bi-calendar"></i> 1st Semester</span>
+                    </div>
+                    <div class="card-footer-row">
+                      <span class="finalized-by"><i class="bi bi-person"></i> Finalized by Juan Dela Cruz</span>
+                      <span class="finalized-time"><i class="bi bi-clock"></i> Jan 25, 2026 3:00 PM</span>
+                    </div>
+                    <div class="distribution-notes">
+                      <div class="notes-header"><i class="bi bi-sticky"></i> Notes</div>
+                      <p>Smooth distribution. Minor queue delays resolved by Batch 3.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Distribution 2 -->
+              <div class="timeline-item">
+                <div class="timeline-marker"><div class="marker-dot"></div><div class="marker-line"></div></div>
+                <div class="timeline-content">
+                  <div class="distribution-card">
+                    <div class="card-header-row">
+                      <div class="distribution-date"><i class="bi bi-calendar3"></i> November 15, 2025</div>
+                      <div class="student-count"><i class="bi bi-people"></i> 480 Students</div>
+                    </div>
+                    <div class="location-info"><i class="bi bi-geo-alt-fill"></i><h6>Municipal Gymnasium</h6></div>
+                    <div class="academic-info">
+                      <span class="info-badge"><i class="bi bi-book"></i> 2024-2025</span>
+                      <span class="info-badge"><i class="bi bi-calendar"></i> 2nd Semester</span>
+                    </div>
+                    <div class="card-footer-row">
+                      <span class="finalized-by"><i class="bi bi-person"></i> Finalized by Maria Santos</span>
+                      <span class="finalized-time"><i class="bi bi-clock"></i> Nov 16, 2025 2:30 PM</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Distribution 3 -->
+              <div class="timeline-item">
+                <div class="timeline-marker"><div class="marker-dot"></div></div>
+                <div class="timeline-content">
+                  <div class="distribution-card">
+                    <div class="card-header-row">
+                      <div class="distribution-date"><i class="bi bi-calendar3"></i> July 28, 2025</div>
+                      <div class="student-count"><i class="bi bi-people"></i> 450 Students</div>
+                    </div>
+                    <div class="location-info"><i class="bi bi-geo-alt-fill"></i><h6>Barangay San Francisco Hall</h6></div>
+                    <div class="academic-info">
+                      <span class="info-badge"><i class="bi bi-book"></i> 2024-2025</span>
+                      <span class="info-badge"><i class="bi bi-calendar"></i> 1st Semester</span>
+                    </div>
+                    <div class="card-footer-row">
+                      <span class="finalized-by"><i class="bi bi-person"></i> Finalized by Pedro Reyes</span>
+                      <span class="finalized-time"><i class="bi bi-clock"></i> Jul 29, 2025 10:15 AM</span>
+                    </div>
+                    <div class="distribution-notes">
+                      <div class="notes-header"><i class="bi bi-sticky"></i> Notes</div>
+                      <p>Special priority lanes tested successfully.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<!-- Logout Modal -->
+<div class="modal fade" id="logoutModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="border-radius:16px;overflow:hidden;border:0">
+      <div class="logout-modal-header">
+        <div class="warning-icon"><i class="bi bi-box-arrow-right"></i></div>
+        <h5 class="modal-title">Confirm Logout</h5>
+      </div>
+      <div class="modal-body text-center py-4">
+        <p class="mb-0">Are you sure you want to log out of the admin panel?</p>
+      </div>
+      <div class="modal-footer justify-content-center border-0 pb-4">
+        <button class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn btn-danger px-4" onclick="alert('This is a demo — no session to end!')">Yes, Logout</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Demo Badge -->
+<div class="demo-badge"><i class="bi bi-lightning-charge me-1"></i> Demo Mode — No Database</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/admin-demo.js"></script>
+
+<!-- Chart Data & Logic -->
+<script>
+window.chartData = {
+  gender: {
+    labels: ['Male','Female'],
+    verified: [260,224],
+    applicant: [130,228],
+    title: 'Gender Distribution',
+    horizontal: false
+  },
+  barangay: {
+    labels: ['Santiago','San Roque','Poblacion','Mataas na Bayan','Bucal','Tamacan'],
+    verified: [84,67,112,93,45,61],
+    applicant: [40,25,58,32,18,27],
+    title: 'Barangay Distribution',
+    horizontal: true
+  },
+  university: {
+    labels: ['Lyceum of the Philippines','Cavite State University','DLSU-Dasmariñas','Far Eastern University','PUP'],
+    verified: [95,132,78,54,60],
+    applicant: [42,66,40,22,30],
+    title: 'University Distribution',
+    horizontal: true
+  },
+  yearLevel: {
+    labels: ['1st Year','2nd Year','3rd Year','4th Year'],
+    verified: [140,160,100,84],
+    applicant: [90,72,56,40],
+    title: 'Year Level Distribution',
+    horizontal: false
+  }
+};
+
+let chart = null;
+function createChart(type) {
+  var d = window.chartData[type]; if (!d) return;
+  document.getElementById('chartTitle').textContent = d.title;
+  if (chart) { chart.destroy(); chart = null; }
+  var el = document.getElementById('unifiedChart'); el.innerHTML = '';
+  var h = d.horizontal ? Math.max(380, d.labels.length * 45) : 380;
+  chart = new ApexCharts(el, {
+    series: [{name:'Verified',data:d.verified},{name:'Applicant',data:d.applicant}],
+    chart: {type:'bar',height:h,toolbar:{show:false},fontFamily:'Poppins,sans-serif',
+      animations:{enabled:true,easing:'easeinout',speed:400}},
+    plotOptions: {bar:{horizontal:d.horizontal,borderRadius:4,columnWidth:'55%',barHeight:'65%'}},
+    colors: ['#4f7df3','#94a3b8'],
+    dataLabels: {enabled: !d.horizontal && d.labels.length<=6, offsetY:-20,
+      style:{fontSize:'11px',fontWeight:600,colors:['#64748b']},
+      formatter:function(v){return v>0?v:''}},
+    stroke:{show:false},
+    xaxis: {categories:d.labels,axisBorder:{show:false},axisTicks:{show:false},
+      labels:{style:{fontSize:'12px',colors:'#64748b'},
+        rotate:d.horizontal?0:(d.labels.length>4?-45:0)}},
+    yaxis: {labels:{style:{fontSize:'12px',colors:'#64748b'},maxWidth:d.horizontal?180:undefined}},
+    tooltip: {shared:true,intersect:false,y:{formatter:function(v){return v+' students'}}},
+    legend: {position:'top',horizontalAlign:'right',fontSize:'12px',fontWeight:500,
+      labels:{colors:'#64748b'},markers:{width:10,height:10,radius:2}},
+    grid: {borderColor:'#e2e8f0',xaxis:{lines:{show:d.horizontal}},yaxis:{lines:{show:!d.horizontal}},
+      padding:{top:0,right:20,bottom:0,left:15}},
+    fill:{opacity:1}
+  });
+  chart.render();
+}
+document.addEventListener('DOMContentLoaded', function(){
+  createChart('gender');
+  document.getElementById('chartFilter').addEventListener('change',function(e){createChart(e.target.value)});
+});
+</script>
+</body>
+</html>

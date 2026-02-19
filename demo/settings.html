@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Settings – EducAid (Demo)</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/demo.css" />
+  <style>body { opacity: 0; transition: opacity 0.3s ease; background: #f5f5f5; } body.ready { opacity: 1; }</style>
+</head>
+<body>
+
+  <!-- TOPBAR -->
+  <div class="student-topbar">
+    <div class="container-fluid d-flex align-items-center justify-content-between gap-3 flex-wrap">
+      <div class="d-flex align-items-center gap-3 small">
+        <i class="bi bi-mortarboard-fill"></i><span>Student Portal</span>
+        <span class="vr mx-2 d-none d-md-inline"></span>
+        <i class="bi bi-envelope"></i><a href="mailto:educaid@generaltrias.gov.ph">educaid@generaltrias.gov.ph</a>
+        <span class="vr mx-2 d-none d-lg-inline"></span>
+        <i class="bi bi-telephone"></i><span class="d-none d-sm-inline">(046) 886-4454</span>
+      </div>
+      <div class="d-flex align-items-center gap-3 small">
+        <i class="bi bi-clock"></i><span class="d-none d-md-inline">Mon–Fri 8:00AM - 5:00PM</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="wrapper" style="padding-top: var(--topbar-h, 44px);">
+    <!-- SIDEBAR -->
+    <div class="sidebar student-sidebar" id="sidebar">
+      <a href="profile.html" class="sidebar-profile-link">
+        <div class="sidebar-profile">
+          <div class="avatar-circle" title="Maria Santos">M</div>
+          <div class="profile-text"><span class="name">Maria Santos</span><span class="role">Student</span></div>
+        </div>
+      </a>
+      <ul class="nav-list flex-grow-1 d-flex flex-column">
+        <li class="nav-item"><a href="index.html"><i class="bi bi-house-door icon"></i><span class="links_name">Dashboard</span></a></li>
+        <li class="nav-item"><a href="upload_documents.html"><i class="bi bi-upload icon"></i><span class="links_name">Upload Documents</span></a></li>
+        <li class="nav-item"><a href="qr_code.html"><i class="bi bi-qr-code-scan icon"></i><span class="links_name">My QR Code</span></a></li>
+        <li class="nav-item"><a href="profile.html"><i class="bi bi-person icon"></i><span class="links_name">Profile</span></a></li>
+        <li class="nav-item"><a href="notifications.html"><i class="bi bi-bell icon"></i><span class="links_name">Notifications</span></a></li>
+        <li class="nav-item active"><a href="settings.html"><i class="bi bi-gear icon"></i><span class="links_name">Settings</span></a></li>
+        <li class="mt-auto p-0 m-0"></li>
+        <li class="nav-item logout mt-2 pt-1"><a href="#" class="logout-link" onclick="alert('Demo – no logout.');return false;"><i class="bi bi-box-arrow-right icon"></i><span class="links_name">Logout</span></a></li>
+      </ul>
+    </div>
+    <div class="sidebar-backdrop d-none" id="sidebar-backdrop"></div>
+
+    <!-- HEADER -->
+    <div class="student-main-header">
+      <div class="container-fluid px-4">
+        <div class="student-header-content">
+          <div class="student-header-left"><div class="sidebar-toggle me-2"><i class="bi bi-list" id="menu-toggle"></i></div></div>
+          <div class="student-header-actions">
+            <div class="dropdown">
+              <button class="student-icon-btn" type="button" data-bs-toggle="dropdown"><i class="bi bi-person-circle"></i></button>
+              <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                <li><h6 class="dropdown-header">Maria Santos</h6></li>
+                <li><a class="dropdown-item" href="profile.html"><i class="bi bi-person me-2"></i>Profile</a></li>
+                <li><a class="dropdown-item" href="settings.html"><i class="bi bi-gear me-2"></i>Settings</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE CONTENT -->
+    <section class="home-section" id="page-content-wrapper">
+      <div class="container-fluid py-4 px-4">
+
+        <div class="settings-header">
+          <h1><i class="bi bi-gear me-2"></i>Settings</h1>
+        </div>
+
+        <div class="row g-4">
+          <!-- Settings Navigation Sidebar (left) -->
+          <div class="col-lg-3">
+            <div class="settings-nav">
+              <a href="#account" class="settings-nav-item active" onclick="showSection('account',this)">
+                <i class="bi bi-person"></i> Account
+              </a>
+              <a href="#password" class="settings-nav-item" onclick="showSection('password',this)">
+                <i class="bi bi-shield-lock"></i> Password
+              </a>
+              <a href="#notifications-pref" class="settings-nav-item" onclick="showSection('notifications-pref',this)">
+                <i class="bi bi-bell"></i> Notifications
+              </a>
+              <a href="#accessibility" class="settings-nav-item" onclick="showSection('accessibility',this)">
+                <i class="bi bi-universal-access"></i> Accessibility
+              </a>
+              <a href="#sessions" class="settings-nav-item" onclick="showSection('sessions',this)">
+                <i class="bi bi-laptop"></i> Active Sessions
+              </a>
+              <a href="#security" class="settings-nav-item" onclick="showSection('security',this)">
+                <i class="bi bi-shield-check"></i> Security Activity
+              </a>
+            </div>
+          </div>
+
+          <!-- Settings Content (right) -->
+          <div class="col-lg-9">
+
+            <!-- Account Section -->
+            <div class="settings-section" id="account">
+              <h5 class="fw-bold mb-3"><i class="bi bi-person me-2"></i>Account Information</h5>
+              <div class="setting-item">
+                <span class="setting-label">Full Name</span>
+                <span class="setting-value">Maria Isabel Santos</span>
+              </div>
+              <div class="setting-item">
+                <span class="setting-label">Mother's Maiden Name</span>
+                <span class="setting-value">Reyes</span>
+              </div>
+              <div class="setting-item">
+                <span class="setting-label">Date of Birth</span>
+                <span class="setting-value">March 15, 2003</span>
+              </div>
+              <div class="setting-item">
+                <span class="setting-label">Student ID</span>
+                <span class="setting-value">GENTRIAS-2024-3-A1B2C3</span>
+              </div>
+              <div class="setting-item">
+                <span class="setting-label">Email</span>
+                <div>
+                  <span class="setting-value">maria.santos@email.com</span>
+                  <button class="btn btn-sm btn-outline-primary ms-2" onclick="alert('Demo – email change OTP modal would appear here.')"><i class="bi bi-pencil"></i></button>
+                </div>
+              </div>
+              <div class="setting-item">
+                <span class="setting-label">Mobile</span>
+                <div>
+                  <span class="setting-value">+63 917 123 4567</span>
+                  <button class="btn btn-sm btn-outline-primary ms-2" onclick="alert('Demo – mobile change modal would appear here.')"><i class="bi bi-pencil"></i></button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Password Section -->
+            <div class="settings-section" id="password" style="display:none;">
+              <h5 class="fw-bold mb-3"><i class="bi bi-shield-lock me-2"></i>Password & Security</h5>
+              <div class="setting-item">
+                <span class="setting-label">Password</span>
+                <div>
+                  <span class="setting-value">••••••••••</span>
+                  <button class="btn btn-sm btn-outline-primary ms-2" onclick="alert('Demo – password change with OTP verification modal would appear here.')"><i class="bi bi-pencil me-1"></i>Change</button>
+                </div>
+              </div>
+              <div class="alert alert-light border mt-3">
+                <h6 class="mb-2"><i class="bi bi-shield-check me-2 text-success"></i>Password Requirements</h6>
+                <ul class="mb-0" style="font-size:0.9rem;">
+                  <li>At least 8 characters</li>
+                  <li>Must include uppercase and lowercase letters</li>
+                  <li>Must include at least one number</li>
+                  <li>Must include at least one special character</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Notification Preferences -->
+            <div class="settings-section" id="notifications-pref" style="display:none;">
+              <h5 class="fw-bold mb-3"><i class="bi bi-bell me-2"></i>Notification Preferences</h5>
+              <div class="setting-item">
+                <div>
+                  <span class="setting-label">Email Notifications</span><br>
+                  <small class="text-muted">Receive notifications via email</small>
+                </div>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" checked disabled>
+                </div>
+              </div>
+              <div class="setting-item">
+                <div>
+                  <span class="setting-label">Schedule Alerts</span><br>
+                  <small class="text-muted">Get notified when your distribution schedule is published</small>
+                </div>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" checked disabled>
+                </div>
+              </div>
+              <div class="setting-item">
+                <div>
+                  <span class="setting-label">Document Status Updates</span><br>
+                  <small class="text-muted">Get notified when your documents are reviewed</small>
+                </div>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" checked disabled>
+                </div>
+              </div>
+              <div class="setting-item">
+                <div>
+                  <span class="setting-label">Daily Digest</span><br>
+                  <small class="text-muted">Receive a daily summary instead of individual notifications</small>
+                </div>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" disabled>
+                </div>
+              </div>
+              <p class="text-muted mt-3" style="font-size:0.85rem;"><i class="bi bi-info-circle me-1"></i>Notification preferences are read-only in this demo.</p>
+            </div>
+
+            <!-- Accessibility -->
+            <div class="settings-section" id="accessibility" style="display:none;">
+              <h5 class="fw-bold mb-3"><i class="bi bi-universal-access me-2"></i>Accessibility</h5>
+              <div class="setting-item">
+                <div>
+                  <span class="setting-label">High Contrast Mode</span><br>
+                  <small class="text-muted">Increase contrast for better visibility</small>
+                </div>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" disabled>
+                </div>
+              </div>
+              <div class="setting-item">
+                <div>
+                  <span class="setting-label">Large Text</span><br>
+                  <small class="text-muted">Increase text size across the portal</small>
+                </div>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" disabled>
+                </div>
+              </div>
+              <div class="setting-item">
+                <div>
+                  <span class="setting-label">Reduce Motion</span><br>
+                  <small class="text-muted">Minimize animations and transitions</small>
+                </div>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" disabled>
+                </div>
+              </div>
+            </div>
+
+            <!-- Active Sessions -->
+            <div class="settings-section" id="sessions" style="display:none;">
+              <h5 class="fw-bold mb-3"><i class="bi bi-laptop me-2"></i>Active Sessions</h5>
+              <div class="alert alert-light border d-flex align-items-center gap-3 mb-3">
+                <div style="width:44px;height:44px;border-radius:12px;background:#dcfce7;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <i class="bi bi-laptop text-success" style="font-size:1.2rem;"></i>
+                </div>
+                <div class="flex-grow-1">
+                  <div class="fw-bold" style="font-size:0.95rem;">Windows – Chrome 122.0</div>
+                  <small class="text-muted">192.168.1.105 • General Trias, Cavite, PH</small><br>
+                  <small class="text-success"><i class="bi bi-circle-fill me-1" style="font-size:0.5rem;"></i>Current session</small>
+                </div>
+              </div>
+              <div class="alert alert-light border d-flex align-items-center gap-3">
+                <div style="width:44px;height:44px;border-radius:12px;background:#fef3c7;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <i class="bi bi-phone text-warning" style="font-size:1.2rem;"></i>
+                </div>
+                <div class="flex-grow-1">
+                  <div class="fw-bold" style="font-size:0.95rem;">Android – Chrome Mobile 121.0</div>
+                  <small class="text-muted">10.0.0.42 • General Trias, Cavite, PH</small><br>
+                  <small class="text-muted"><i class="bi bi-clock me-1"></i>Last active: Feb 11, 2026 at 8:30 PM</small>
+                </div>
+                <button class="btn btn-sm btn-outline-danger" onclick="alert('Demo – session revocation not available.')">Revoke</button>
+              </div>
+            </div>
+
+            <!-- Security Activity -->
+            <div class="settings-section" id="security" style="display:none;">
+              <h5 class="fw-bold mb-3"><i class="bi bi-shield-check me-2"></i>Security Activity</h5>
+              <div class="table-responsive">
+                <table class="table table-sm">
+                  <thead>
+                    <tr>
+                      <th>Event</th>
+                      <th>Date</th>
+                      <th>IP Address</th>
+                      <th>Device</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><span class="badge bg-success-subtle text-success">Login</span></td>
+                      <td>Feb 12, 2026 10:15 AM</td>
+                      <td>192.168.1.105</td>
+                      <td>Chrome / Windows</td>
+                    </tr>
+                    <tr>
+                      <td><span class="badge bg-success-subtle text-success">Login</span></td>
+                      <td>Feb 11, 2026 8:30 PM</td>
+                      <td>10.0.0.42</td>
+                      <td>Chrome / Android</td>
+                    </tr>
+                    <tr>
+                      <td><span class="badge bg-info-subtle text-info">Email Changed</span></td>
+                      <td>Feb 8, 2026 3:00 PM</td>
+                      <td>192.168.1.105</td>
+                      <td>Chrome / Windows</td>
+                    </tr>
+                    <tr>
+                      <td><span class="badge bg-warning-subtle text-warning">Password Changed</span></td>
+                      <td>Jan 25, 2026 11:45 AM</td>
+                      <td>192.168.1.105</td>
+                      <td>Chrome / Windows</td>
+                    </tr>
+                    <tr>
+                      <td><span class="badge bg-success-subtle text-success">Login</span></td>
+                      <td>Jan 20, 2026 9:00 AM</td>
+                      <td>192.168.1.105</td>
+                      <td>Chrome / Windows</td>
+                    </tr>
+                    <tr>
+                      <td><span class="badge bg-danger-subtle text-danger">Failed Login</span></td>
+                      <td>Jan 15, 2026 2:20 PM</td>
+                      <td>103.45.67.89</td>
+                      <td>Firefox / Unknown</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+  <footer class="main-footer"><div class="footer-chip"><i class="bi bi-c-circle"></i><span>2026 EducAid (Demo)</span></div></footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/demo.js"></script>
+  <script>
+    function showSection(id, el) {
+      // Hide all sections
+      document.querySelectorAll('.settings-section').forEach(s => s.style.display = 'none');
+      // Show target
+      const target = document.getElementById(id);
+      if (target) target.style.display = '';
+      // Update nav active state
+      document.querySelectorAll('.settings-nav-item').forEach(a => a.classList.remove('active'));
+      if (el) el.classList.add('active');
+      return false;
+    }
+
+    // Handle hash navigation
+    if (window.location.hash) {
+      const hash = window.location.hash.substring(1);
+      const navItem = document.querySelector(`.settings-nav-item[href="#${hash}"]`);
+      if (navItem) showSection(hash, navItem);
+    }
+  </script>
+</body>
+</html>
