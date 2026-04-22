@@ -2,6 +2,10 @@
   "functions": {
     "api/**/*.php": {
       "runtime": "vercel-php@0.7.4"
+      ,"includeFiles": [
+        "vendor/composer/platform_check.php",
+        "phpmailer/vendor/composer/platform_check.php"
+      ]
     }
   },
   "routes": [
