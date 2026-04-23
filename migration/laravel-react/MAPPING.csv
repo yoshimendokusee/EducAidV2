@@ -1,0 +1,12 @@
+old_file,new_laravel_controller,new_route,new_react_page,new_service
+website/index.php,LegacyWebController@root,/,LegacyPageHost(website/index.php),LegacyScriptRunner
+unified_login.php,LegacyWebController@unifiedLogin,/unified_login.php and /login,LoginPage,LegacyScriptRunner
+modules/admin/index.php,LegacyWebController@adminIndex,/modules/admin/index.php,LegacyPageHost(modules/admin/index.php),LegacyScriptRunner
+modules/student/student_login.php,LegacyWebController@studentLogin,/modules/student/student_login.php,LegacyPageHost(modules/student/student_login.php),LegacyScriptRunner
+api/student/get_notification_count.php,LegacyApiController@getNotificationCount,/api/student/get_notification_count.php,frontend fetch unchanged,LegacyScriptRunner
+api/student/get_notification_preferences.php,LegacyApiController@getNotificationPreferences,/api/student/get_notification_preferences.php,frontend fetch unchanged,LegacyScriptRunner
+api/student/save_notification_preferences.php,LegacyApiController@saveNotificationPreferences,/api/student/save_notification_preferences.php,frontend fetch unchanged,LegacyScriptRunner
+api/reports/generate_report.php,LegacyApiController@generateReport,/api/reports/generate_report.php,frontend fetch unchanged,LegacyScriptRunner
+api/eligibility/subject-check.php,LegacyApiController@subjectCheck,/api/eligibility/subject-check.php,frontend fetch unchanged,LegacyOcrBridge+LegacyScriptRunner
+modules/student/upload_document.php,LegacyWebController@fallback,/modules/student/upload_document.php,LegacyPageHost(modules/student/upload_document.php),LegacyMailer+LegacyOcrBridge
+modules/admin/manage_applicants.php,LegacyWebController@fallback,/modules/admin/manage_applicants.php,LegacyPageHost(modules/admin/manage_applicants.php),LegacyMailer+LegacyScriptRunner
