@@ -5,8 +5,7 @@
  */
 
 require_once __DIR__ . '/../../config/database.php';
-require_once __DIR__ . '/../../services/GradeValidationService.php';
-require_once __DIR__ . '/../../services/OCRProcessingService.php';
+require_once __DIR__ . '/../../bootstrap_services.php';
 
 // Set JSON response headers
 header('Content-Type: application/json');
@@ -28,9 +27,11 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 try {
-    // Get database connection
-    $database = new Database();
-    $db = $database->getConnection();
+    global $connection;
+    $db = $connection;
+    if (!$db) {
+        throw new Exception('Database connection is not available');
+    }
     
     // Initialize services
     $gradeValidator = new GradeValidationService($db);

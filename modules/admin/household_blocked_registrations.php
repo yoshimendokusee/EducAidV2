@@ -16,7 +16,7 @@ if (!isset($_SESSION['admin_username'])) {
 
 include __DIR__ . '/../../config/database.php';
 require_once __DIR__ . '/../../includes/CSRFProtection.php';
-require_once __DIR__ . '/../../services/AuditLogger.php';
+require_once __DIR__ . '/../../bootstrap_services.php';
 
 // Initialize audit logger
 $auditLogger = new AuditLogger($connection);

@@ -9,8 +9,7 @@
  * DOES NOT handle blacklisting - that's in BlacklistService
  */
 
-require_once __DIR__ . '/UnifiedFileService.php';
-require_once __DIR__ . '/AuditLogger.php';
+require_once __DIR__ . '/../bootstrap_services.php';
 
 class StudentArchivalService {
     private $connection;

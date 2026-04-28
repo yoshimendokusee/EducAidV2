@@ -16,7 +16,7 @@ if (!isset($_SESSION['student_id'])) {
 
 try {
     require_once __DIR__ . '/../../config/database.php';
-    require_once __DIR__ . '/../../services/DataExportService.php';
+    require_once __DIR__ . '/../../bootstrap_services.php';
 } catch (Exception $e) {
     ob_clean();
     http_response_code(500);

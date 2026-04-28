@@ -5,8 +5,7 @@
  */
 
 require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../services/GradeValidationService.php';
-require_once __DIR__ . '/../services/OCRProcessingService.php';
+require_once __DIR__ . '/../bootstrap_services.php';
 
 class GradeValidationTester {
     private $db;
@@ -14,8 +13,11 @@ class GradeValidationTester {
     private $ocrProcessor;
     
     public function __construct() {
-        $database = new Database();
-        $this->db = $database->getConnection();
+        global $connection;
+        $this->db = $connection;
+        if (!$this->db) {
+            throw new Exception('Database connection is not available');
+        }
         $this->gradeValidator = new GradeValidationService($this->db);
         $this->ocrProcessor = new OCRProcessingService([
             'tesseract_path' => 'tesseract',

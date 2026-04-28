@@ -1446,7 +1446,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     );
                     $hasTempDocs = $tempDocsCheck && (pg_fetch_result($tempDocsCheck, 0, 0) > 0);
                     if ($hasTempDocs) {
-                        require_once __DIR__ . '/../../services/UnifiedFileService.php';
+                        require_once __DIR__ . '/../../bootstrap_services.php';
                         $fileService = new UnifiedFileService($connection);
                         $fileMoveResult = $fileService->moveToPermStorage($sid, $_SESSION['admin_id']);
                         if (!$fileMoveResult['success']) {
@@ -1470,7 +1470,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         'student_dashboard.php'
                     );
 
-                    require_once __DIR__ . '/../../services/AuditLogger.php';
+                    require_once __DIR__ . '/../../bootstrap_services.php';
                     $auditLogger = new AuditLogger($connection);
                     $auditLogger->logApplicantApproved(
                         $_SESSION['admin_id'],
@@ -1592,7 +1592,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             );
             $hasTempDocs = pg_fetch_result($tempDocsCheck, 0, 0) > 0;
             if ($hasTempDocs) {
-                require_once __DIR__ . '/../../services/UnifiedFileService.php';
+                require_once __DIR__ . '/../../bootstrap_services.php';
                 $fileService = new UnifiedFileService($connection);
                 $fileMoveResult = $fileService->moveToPermStorage($sid, $_SESSION['admin_id']);
                 if (!$fileMoveResult['success']) {
@@ -1625,7 +1625,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             );
             
             // Log applicant approval in audit trail
-            require_once __DIR__ . '/../../services/AuditLogger.php';
+            require_once __DIR__ . '/../../bootstrap_services.php';
             $auditLogger = new AuditLogger($connection);
             $auditLogger->logApplicantApproved(
                 $_SESSION['admin_id'],
@@ -1690,7 +1690,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         if ($archiveResult['success']) {
             // Log the archival action
-            require_once __DIR__ . '/../../services/AuditLogger.php';
+            require_once __DIR__ . '/../../bootstrap_services.php';
             $auditLogger = new AuditLogger($connection);
             $auditLogger->logStudentArchived(
                 $adminId,

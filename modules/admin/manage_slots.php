@@ -176,7 +176,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         pg_query_params($connection, "INSERT INTO admin_notifications (message) VALUES ($1)", [$notification_msg]);
         
         // Log slot creation in audit trail
-        require_once __DIR__ . '/../../services/AuditLogger.php';
+        require_once __DIR__ . '/../../bootstrap_services.php';
         $auditLogger = new AuditLogger($connection);
         $auditLogger->logSlotOpened(
             $_SESSION['admin_id'],
@@ -253,7 +253,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             pg_query_params($connection, "INSERT INTO admin_notifications (message) VALUES ($1)", [$notification_msg]);
             
             // Log slot closure in audit trail
-            require_once __DIR__ . '/../../services/AuditLogger.php';
+            require_once __DIR__ . '/../../bootstrap_services.php';
             $auditLogger = new AuditLogger($connection);
             
             // Get total applicants for this slot

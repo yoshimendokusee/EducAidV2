@@ -8,7 +8,7 @@
 echo "Testing OCR Processing Service...\n\n";
 
 // Include the service
-require_once __DIR__ . '/../services/OCRProcessingService.php';
+require_once __DIR__ . '/../bootstrap_services.php';
 
 try {
     // Test 1: Service instantiation

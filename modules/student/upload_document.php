@@ -69,7 +69,7 @@ if (ob_get_level()) {
 
 require_once __DIR__ . '/../../config/database.php';
 require_once __DIR__ . '/../../config/FilePathConfig.php';
-require_once __DIR__ . '/../../services/UnifiedFileService.php';
+require_once __DIR__ . '/../../bootstrap_services.php';
 require_once __DIR__ . '/../../services/DocumentReuploadService.php';
 require_once __DIR__ . '/../../services/EnrollmentFormOCRService.php';
 

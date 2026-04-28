@@ -10,7 +10,7 @@ if (!isset($_SESSION['admin_username'])) {
 require_once __DIR__ . '/../../config/database.php';
 require_once __DIR__ . '/../../config/FilePathConfig.php';
 require_once __DIR__ . '/../../services/DistributionManager.php';
-require_once __DIR__ . '/../../services/FileCompressionService.php';
+require_once __DIR__ . '/../../bootstrap_services.php';
 
 $pathConfig = FilePathConfig::getInstance();
 

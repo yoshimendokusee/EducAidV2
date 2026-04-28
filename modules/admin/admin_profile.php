@@ -4,7 +4,7 @@
 ob_start();
 
 include __DIR__ . '/../../config/database.php';
-include __DIR__ . '/../../services/OTPService.php';
+include __DIR__ . '/../../bootstrap_services.php';
 require_once __DIR__ . '/../../includes/CSRFProtection.php';
 
 // Load secure session configuration (must be before session_start)

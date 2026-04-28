@@ -140,7 +140,7 @@ try {
     }
     
     // Log the restoration
-    require_once __DIR__ . '/../../services/AuditLogger.php';
+    require_once __DIR__ . '/../../bootstrap_services.php';
     $auditLogger = new AuditLogger($connection);
     $auditLogger->logEvent(
         'blacklist_restored_dev',

@@ -13,8 +13,7 @@
  * - Prevents login and registration permanently
  */
 
-require_once __DIR__ . '/UnifiedFileService.php';
-require_once __DIR__ . '/AuditLogger.php';
+require_once __DIR__ . '/../bootstrap_services.php';
 
 class BlacklistService {
     private $connection;

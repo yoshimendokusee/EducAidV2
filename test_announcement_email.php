@@ -5,7 +5,7 @@
  */
 
 require_once __DIR__ . '/config/database.php';
-require_once __DIR__ . '/services/StudentEmailNotificationService.php';
+require_once __DIR__ . '/bootstrap_services.php';
 
 echo "=== Testing Announcement Email Functionality ===\n\n";
 

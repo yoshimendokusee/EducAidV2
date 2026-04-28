@@ -1372,8 +1372,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && (isset($_FILES['documents']) || iss
 
                   // Immediately process OCR and validation for the uploaded grades
                   try {
-                    require_once __DIR__ . '/../../services/OCRProcessingService.php';
-                    require_once __DIR__ . '/../../services/GradeValidationService.php';
+                    require_once __DIR__ . '/../../bootstrap_services.php';
 
                     // Prepare OCR service
                     $ocrProcessor = new OCRProcessingService([

@@ -36,7 +36,7 @@ class DistributionManager {
             // FIRST: Compress files BEFORE resetting students (compression needs status='given')
             $compressionResult = null;
             if ($compressNow) {
-                require_once __DIR__ . '/FileCompressionService.php';
+                require_once __DIR__ . '/../bootstrap_services.php';
                 $compressionService = new FileCompressionService();
                 $compressionResult = $compressionService->compressDistribution($distributionId, $adminId);
                 

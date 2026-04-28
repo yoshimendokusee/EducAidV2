@@ -34,7 +34,7 @@ if (!file_exists($zipFile)) {
 }
 
 // Log the download action
-require_once __DIR__ . '/../../services/AuditLogger.php';
+require_once __DIR__ . '/../../bootstrap_services.php';
 $auditLogger = new AuditLogger($connection);
 $auditLogger->logEvent(
     'blacklist_archive_downloaded',

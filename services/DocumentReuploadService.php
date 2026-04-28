@@ -37,7 +37,7 @@ class DocumentReuploadService {
             'allowed_extensions' => ['pdf', 'png', 'jpg', 'jpeg', 'tiff', 'bmp']
         ];
 
-        require_once __DIR__ . '/OCRProcessingService.php';
+        require_once __DIR__ . '/../bootstrap_services.php';
         return new OCRProcessingService(array_merge($config, $overrides));
     }
     
@@ -50,7 +50,7 @@ class DocumentReuploadService {
         $this->baseDir = $this->pathConfig->getUploadsDir();
         
         // Initialize DocumentService for database operations
-        require_once __DIR__ . '/DocumentService.php';
+        require_once __DIR__ . '/../bootstrap_services.php';
         $this->docService = new DocumentService($dbConnection);
     }
     

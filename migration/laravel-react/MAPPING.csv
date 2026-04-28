@@ -1,12 +1,31 @@
 old_file,new_laravel_controller,new_route,new_react_page,new_service
-website/index.php,LegacyWebController@root,/,LegacyPageHost(website/index.php),LegacyScriptRunner
-unified_login.php,LegacyWebController@unifiedLogin,/unified_login.php and /login,LoginPage,LegacyScriptRunner
-modules/admin/index.php,LegacyWebController@adminIndex,/modules/admin/index.php,LegacyPageHost(modules/admin/index.php),LegacyScriptRunner
-modules/student/student_login.php,LegacyWebController@studentLogin,/modules/student/student_login.php,LegacyPageHost(modules/student/student_login.php),LegacyScriptRunner
-api/student/get_notification_count.php,LegacyApiController@getNotificationCount,/api/student/get_notification_count.php,frontend fetch unchanged,LegacyScriptRunner
-api/student/get_notification_preferences.php,LegacyApiController@getNotificationPreferences,/api/student/get_notification_preferences.php,frontend fetch unchanged,LegacyScriptRunner
-api/student/save_notification_preferences.php,LegacyApiController@saveNotificationPreferences,/api/student/save_notification_preferences.php,frontend fetch unchanged,LegacyScriptRunner
-api/reports/generate_report.php,LegacyApiController@generateReport,/api/reports/generate_report.php,frontend fetch unchanged,LegacyScriptRunner
-api/eligibility/subject-check.php,LegacyApiController@subjectCheck,/api/eligibility/subject-check.php,frontend fetch unchanged,LegacyOcrBridge+LegacyScriptRunner
-modules/student/upload_document.php,LegacyWebController@fallback,/modules/student/upload_document.php,LegacyPageHost(modules/student/upload_document.php),LegacyMailer+LegacyOcrBridge
-modules/admin/manage_applicants.php,LegacyWebController@fallback,/modules/admin/manage_applicants.php,LegacyPageHost(modules/admin/manage_applicants.php),LegacyMailer+LegacyScriptRunner
+includes/workflow_control.php,WorkflowController@status|studentCounts,/api/workflow/status|/api/workflow/student-counts,WorkflowStatusGate+workflowApi.js,WorkflowControlService
+api/student/get_notification_count.php,StudentApiController@getNotificationCount,/api/student/get_notification_count.php,studentApi.getNotificationCount,StudentNotificationService
+api/student/get_notification_preferences.php,StudentApiController@getNotificationPreferences,/api/student/get_notification_preferences.php,studentApi.getNotificationPreferences,StudentNotificationService
+api/student/save_notification_preferences.php,StudentApiController@saveNotificationPreferences,/api/student/save_notification_preferences.php,studentApi.saveNotificationPreferences,StudentNotificationService
+api/student/mark_notification_read.php,StudentApiController@markNotificationRead,/api/student/mark_notification_read.php,studentApi.markNotificationRead,StudentNotificationService
+api/student/mark_all_notifications_read.php,StudentApiController@markAllNotificationsRead,/api/student/mark_all_notifications_read.php,studentApi.markAllNotificationsRead,StudentNotificationService
+api/student/delete_notification.php,StudentApiController@deleteNotification,/api/student/delete_notification.php,studentApi.deleteNotification,StudentNotificationService
+api/student/get_privacy_settings.php,StudentApiController@getPrivacySettings,/api/student/get_privacy_settings.php,studentApi.getPrivacySettings,StudentApiController(removed-endpoint behavior)
+api/student/save_privacy_settings.php,StudentApiController@savePrivacySettings,/api/student/save_privacy_settings.php,studentApi.savePrivacySettings,StudentApiController(removed-endpoint behavior)
+api/student/request_data_export.php,StudentApiController@requestDataExport,/api/student/request_data_export.php,studentApi.requestDataExport,CompatScriptRunner(DataExportService delegated)
+api/student/export_status.php,StudentApiController@exportStatus,/api/student/export_status.php,studentApi.getExportStatus,CompatScriptRunner
+api/student/download_export.php,StudentApiController@downloadExport,/api/student/download_export.php?request_id=..&token=..,direct browser link,CompatScriptRunner
+api/eligibility/subject-check.php,EligibilityController@subjectCheck,/api/eligibility/subject-check.php,eligibilityApi.subjectCheckWithJson|subjectCheckWithFile,EligibilityCheckService(+ legacy OCR/grade services)
+api/reports/generate_report.php,ReportController@generate,/api/reports/generate_report.php,reportApi.previewReport|getReportStatistics,CompatScriptRunner(report side-effect bridge)
+modules/admin/manage_applicants.php?api=badge_count,AdminApplicantController@badgeCount,/api/admin/applicants/badge-count,adminApplicantsApi.getBadgeCount,AdminApplicantService
+modules/admin/get_applicant_details.php,AdminApplicantController@details,/api/admin/applicants/details?student_id=..,adminApplicantsApi.getApplicantDetails,CompatScriptRunner(details side-effect bridge)
+modules/admin/manage_applicants.php (POST actions),AdminApplicantController@actions,/api/admin/applicants/actions,adminApplicantsApi.postApplicantAction,CompatScriptRunner(action bridge incl. mail/csrf/workflow)
+website/index.php,CompatWebController@root,/,CompatPageHost(website/index.php),CompatScriptRunner
+unified_login.php,CompatWebController@unifiedLogin,/unified_login.php and /login,LoginPage,CompatScriptRunner
+modules/admin/index.php,CompatWebController@adminIndex,/modules/admin/index.php,CompatPageHost(modules/admin/index.php),CompatScriptRunner
+modules/student/student_login.php,CompatWebController@studentLogin,/modules/student/student_login.php,CompatPageHost(modules/student/student_login.php),CompatScriptRunner
+api/student/get_notification_count.php,CompatApiController@getNotificationCount,/api/student/get_notification_count.php,frontend fetch unchanged,CompatScriptRunner
+api/student/get_notification_preferences.php,CompatApiController@getNotificationPreferences,/api/student/get_notification_preferences.php,frontend fetch unchanged,CompatScriptRunner
+api/student/save_notification_preferences.php,CompatApiController@saveNotificationPreferences,/api/student/save_notification_preferences.php,frontend fetch unchanged,CompatScriptRunner
+api/reports/generate_report.php,CompatApiController@generateReport,/api/reports/generate_report.php,frontend fetch unchanged,CompatScriptRunner
+api/eligibility/subject-check.php,CompatApiController@subjectCheck,/api/eligibility/subject-check.php,frontend fetch unchanged,CompatOcrBridge+CompatScriptRunner
+modules/student/upload_document.php,CompatWebController@fallback,/modules/student/upload_document.php,CompatPageHost(modules/student/upload_document.php),CompatMailer+CompatOcrBridge
+modules/admin/manage_applicants.php,CompatWebController@fallback,/modules/admin/manage_applicants.php,CompatPageHost(modules/admin/manage_applicants.php),CompatMailer+CompatScriptRunner
+
+

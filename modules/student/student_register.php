@@ -16,7 +16,7 @@ require_once __DIR__ . '/../../config/recaptcha_config.php';
 // Include FilePathConfig for centralized path management
 require_once __DIR__ . '/../../config/FilePathConfig.php';
 // Include AuditLogger for audit trail
-require_once __DIR__ . '/../../services/AuditLogger.php';
+require_once __DIR__ . '/../../bootstrap_services.php';
 
 // Make connection variable available in this scope
 global $connection;
@@ -5064,8 +5064,8 @@ function validatePerSubjectGrades($universityKey, $uploadedFile = null, $subject
     
     try {
         // Include required services
-        require_once __DIR__ . '/../../services/GradeValidationService.php';
-        require_once __DIR__ . '/../../services/OCRProcessingService.php';
+        require_once __DIR__ . '/../../bootstrap_services.php';
+        require_once __DIR__ . '/../../bootstrap_services.php';
         
         // Convert existing pg_connect resource to PDO for GradeValidationService
         // Parse DATABASE_PUBLIC_URL from config/database.php connection
@@ -5697,7 +5697,7 @@ function updateVerificationJsonPaths($oldVerifyJsonPath, $newVerifyJsonPath, $ol
 // --- Final registration submission ---
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['register'])) {
     // Include UnifiedFileService for unified document management
-    require_once __DIR__ . '/../../services/UnifiedFileService.php';
+    require_once __DIR__ . '/../../bootstrap_services.php';
     // Include BlacklistService for checking blacklisted emails/mobiles
     require_once __DIR__ . '/../../services/BlacklistService.php';
     

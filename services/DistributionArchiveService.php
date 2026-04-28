@@ -6,7 +6,7 @@
 
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../config/FilePathConfig.php';
-require_once __DIR__ . '/FileCompressionService.php';
+require_once __DIR__ . '/../bootstrap_services.php';
 
 class DistributionArchiveService {
     private $conn;

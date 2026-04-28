@@ -10,7 +10,7 @@ if (!isset($_SESSION['admin_username']) || !isset($_SESSION['admin_role']) || $_
 }
 
 include __DIR__ . '/../../config/database.php';
-require_once __DIR__ . '/../../services/AuditLogger.php';
+require_once __DIR__ . '/../../bootstrap_services.php';
 
 // Initialize variables
 $logs = [];

@@ -3,7 +3,7 @@
         'name' => 'pseudohat/educaid',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '473275c23ebb4bce48dfd6c4fd73e415ef32f3ba',
+        'reference' => '28404cd1f0ec2dbc51953e06bd93d52f82cf0edb',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -67,7 +67,7 @@
         'pseudohat/educaid' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '473275c23ebb4bce48dfd6c4fd73e415ef32f3ba',
+            'reference' => '28404cd1f0ec2dbc51953e06bd93d52f82cf0edb',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

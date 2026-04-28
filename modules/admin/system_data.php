@@ -1,6 +1,6 @@
 <?php
 include __DIR__ . '/../../config/database.php';
-require_once __DIR__ . '/../../services/AuditLogger.php';
+require_once __DIR__ . '/../../bootstrap_services.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();

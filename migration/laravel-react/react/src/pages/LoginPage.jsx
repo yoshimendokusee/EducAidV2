@@ -1,7 +1,7 @@
 import React from 'react';
-import LegacyHtmlFrame from '../components/LegacyHtmlFrame';
+import CompatHtmlFrame from '../components/CompatHtmlFrame';
 
 // Migrated from old file: unified_login.php
 export default function LoginPage() {
-  return <LegacyHtmlFrame legacyPath="unified_login.php" />;
+  return <CompatHtmlFrame pagePath="unified_login.php" />;
 }

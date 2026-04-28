@@ -55,15 +55,15 @@
 ## 2) File/module mapping (standalone -> Laravel + React)
 
 ### Core entry points
-- `router.php` -> `laravel/routes/web.php` + `laravel/app/Http/Controllers/LegacyWebController.php`
+- `router.php` -> `laravel/routes/web.php` + `laravel/app/Http/Controllers/CompatWebController.php`
 - `.htaccess` rules -> Laravel route declarations + web server rewrite to `public/index.php`
-- `website/index.php` -> React route `/` hosted by `react/src/pages/LegacyPageHost.jsx` with backend source `website/index.php`
+- `website/index.php` -> React route `/` hosted by `react/src/pages/CompatPageHost.jsx` with backend source `website/index.php`
 - `unified_login.php` -> Laravel route `/unified_login.php` + React route `/login` host, backend source `unified_login.php`
 
 ### Authentication/session
-- `unified_login.php` (student/admin login + OTP) -> `LegacyWebController@unifiedLogin`
-- `modules/admin/index.php` redirect flow -> `LegacyWebController@adminIndex`
-- `modules/student/student_login.php` redirect flow -> `LegacyWebController@studentLogin`
+- `unified_login.php` (student/admin login + OTP) -> `CompatWebController@unifiedLogin`
+- `modules/admin/index.php` redirect flow -> `CompatWebController@adminIndex`
+- `modules/student/student_login.php` redirect flow -> `CompatWebController@studentLogin`
 - `includes/SessionTimeoutMiddleware.php` -> retained and invoked through legacy execution
 - `config/session_config.php` -> loaded inside legacy execution bootstrap
 
@@ -72,13 +72,13 @@
 - raw `pg_query*` usage across modules -> preserved by route-through-legacy execution
 
 ### OCR
-- `services/EnrollmentFormOCRService.php` -> `laravel/app/Services/LegacyOcrBridge.php` (delegates)
+- `services/EnrollmentFormOCRService.php` -> `laravel/app/Services/CompatOcrBridge.php` (delegates)
 - `services/OCRProcessingService.php` -> delegated unchanged
 - `config/ocr_config.php`, `config/ocr_bypass_config.php` -> loaded unchanged
-- `api/eligibility/subject-check.php` -> `LegacyApiController@subjectCheck`
+- `api/eligibility/subject-check.php` -> `CompatApiController@subjectCheck`
 
 ### PHPMailer
-- `phpmailer/vendor/autoload.php` usage in legacy scripts -> `laravel/app/Services/LegacyMailer.php` helper for compatibility
+- `phpmailer/vendor/autoload.php` usage in legacy scripts -> `laravel/app/Services/CompatMailer.php` helper for compatibility
 - Mail-heavy scripts (examples):
   - `modules/student/upload_document.php`
   - `modules/student/student_register.php`
@@ -86,9 +86,9 @@
   - `unified_login.php`
 
 ### API/AJAX
-- `api/student/*.php` -> `laravel/routes/api.php` -> `LegacyApiController`
-- `api/reports/generate_report.php` -> `LegacyApiController@generateReport`
-- `website/ajax_*.php`, root `ajax_*.php`, `modules/admin/ajax_*.php` -> `LegacyApiController@ajax`
+- `api/student/*.php` -> `laravel/routes/api.php` -> `CompatApiController`
+- `api/reports/generate_report.php` -> `CompatApiController@generateReport`
+- `website/ajax_*.php`, root `ajax_*.php`, `modules/admin/ajax_*.php` -> `CompatApiController@ajax`
 
 ### UI pages
 - `website/*.php`, `modules/student/*.php`, `modules/admin/*.php` -> React page hosts mapped by path (no design changes)
@@ -102,14 +102,14 @@ laravel/
   app/
     Http/
       Controllers/
-        LegacyWebController.php
-        LegacyApiController.php
+        CompatWebController.php
+        CompatApiController.php
       Middleware/
-        LegacySessionBridge.php
+        CompatSessionBridge.php
     Services/
-      LegacyScriptRunner.php
-      LegacyMailer.php
-      LegacyOcrBridge.php
+      CompatScriptRunner.php
+      CompatMailer.php
+      CompatOcrBridge.php
   config/
     legacy.php
   routes/
@@ -127,12 +127,12 @@ react/
     main.jsx
     App.jsx
     pages/
-      LegacyPageHost.jsx
+      CompatPageHost.jsx
       LoginPage.jsx
     components/
-      LegacyHtmlFrame.jsx
+      CompatHtmlFrame.jsx
     services/
-      legacyClient.js
+      compatClient.js
 ```
 
 ---
@@ -203,3 +203,41 @@ Implemented converted parts in this migration package:
 - Mappings for core entry points, auth flow, API/AJAX, OCR, mail, session handling.
 
 This is an incremental conversion base that keeps runtime behavior equivalent while enabling module-by-module migration to native Laravel controllers and native React views later.
+
+---
+
+## 11) Module-by-module migration status
+
+1. Workflow control module (started)
+- Old source: `includes/workflow_control.php`
+- New backend: `laravel/app/Services/WorkflowControlService.php`, `laravel/app/Http/Controllers/WorkflowController.php`
+- New API: `/api/workflow/status`, `/api/workflow/student-counts`
+- New frontend helper: `react/src/services/workflowApi.js`, `react/src/components/WorkflowStatusGate.jsx`
+
+2. Auth/session module (compatibility bridge active)
+- Old source: `unified_login.php`, admin/student index and logout flows
+- Current migration mode: legacy execution via route bridge, preserving session keys.
+
+3. Student notifications/privacy/export module (planned next)
+- Old source: `api/student/*.php`
+- Current migration mode: hybrid
+  - Native: notification count/preferences/read/delete + privacy removed-endpoint responses.
+  - Delegated: export request/status/download via legacy runner for side-effect parity.
+
+4. OCR/upload/mail module (planned next)
+- Old source: `modules/student/upload_document.php`, OCR services, PHPMailer integration
+- Current migration mode: route bridge active; native extraction requires phased parity tests.
+
+5. Eligibility and reports API module (started)
+- Old source: `api/eligibility/subject-check.php`, `api/reports/generate_report.php`
+- Current migration mode: dedicated controllers added.
+  - Eligibility: native service + legacy OCR/grade class compatibility loading.
+  - Reports: dedicated controller with legacy execution bridge to preserve file-streaming and audit side effects.
+
+6. Admin applicants API module (started)
+- Old source: `modules/admin/manage_applicants.php`, `modules/admin/get_applicant_details.php`
+- Current migration mode: hybrid
+  - Native: applicant badge count endpoint.
+  - Bridged: applicant details and POST action handling through dedicated Laravel controller for behavior-safe migration.
+
+

@@ -42,7 +42,7 @@ if (OCR_BYPASS_ENABLED === true) {
 echo "\nTest 4: Checking OCR service files...\n";
 $serviceFiles = [
     'EnrollmentFormOCRService.php' => __DIR__ . '/services/EnrollmentFormOCRService.php',
-    'OCRProcessingService.php' => __DIR__ . '/services/OCRProcessingService.php',
+    'OCRProcessingService.php' => __DIR__ . '/bootstrap_services.php',
     'OCRProcessingService_Safe.php' => __DIR__ . '/services/OCRProcessingService_Safe.php'
 ];
 
@@ -75,7 +75,7 @@ if (file_exists($statusPage)) {
 // Test 6: Test EnrollmentFormOCRService bypass
 echo "\nTest 6: Testing EnrollmentFormOCRService bypass...\n";
 require_once __DIR__ . '/config/database.php';
-require_once __DIR__ . '/services/EnrollmentFormOCRService.php';
+require_once __DIR__ . '/bootstrap_services.php';
 
 try {
     $service = new EnrollmentFormOCRService($connection);

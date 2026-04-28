@@ -3,7 +3,7 @@
 require_once __DIR__ . '/config/security_headers.php';
 include __DIR__ . '/config/database.php';
 include __DIR__ . '/config/recaptcha_config.php';
-require_once __DIR__ . '/services/AuditLogger.php';
+require_once __DIR__ . '/bootstrap_services.php';
 require_once __DIR__ . '/includes/SessionManager.php';
 
 // Start session if not already started

@@ -11,6 +11,8 @@ RewriteEngine On
 # ----------------------------------------
 # Step 1: Redirect HTTP to HTTPS (without www change)
 # This ensures HSTS is recorded for the apex domain
+RewriteCond %{HTTP_HOST} !^(localhost|127\.0\.0\.1)(:\d+)?$ [NC]
+RewriteCond %{HTTP_HOST} !\.test$ [NC]
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 

@@ -6,7 +6,7 @@ if (session_status() === PHP_SESSION_NONE) {
 // Log logout before destroying session
 if (isset($_SESSION['student_id']) && isset($_SESSION['student_username'])) {
     require_once __DIR__ . '/../../config/database.php';
-    require_once __DIR__ . '/../../services/AuditLogger.php';
+    require_once __DIR__ . '/../../bootstrap_services.php';
     
     $auditLogger = new AuditLogger($connection);
     $auditLogger->logLogout(
