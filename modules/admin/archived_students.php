@@ -12,6 +12,8 @@ if (!isset($_SESSION['admin_username'])) {
 
 include __DIR__ . '/../../config/database.php';
 require_once __DIR__ . '/../../bootstrap_services.php';
+require_once __DIR__ . '/../../src/Services/UnifiedFileService.php';
+require_once __DIR__ . '/../../src/Services/FileManagementService.php';
 
 // Get admin info
 $adminId = $_SESSION['admin_id'] ?? null;
@@ -110,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         if ($result && pg_fetch_assoc($result)['success'] === 't') {
             // Extract archived files back to permanent storage using NEW structure
             require_once __DIR__ . '/../../bootstrap_services.php';
-            $fileService = new UnifiedFileService($connection);
+            $fileService = new \App\Services\UnifiedFileService();
             $extractResult = $fileService->extractArchivedStudent($studentId);
             
             // Delete the ZIP file after successful extraction
@@ -178,7 +180,7 @@ if (isset($_GET['download_zip']) && !empty($_GET['student_id'])) {
     
     // Get ZIP file path
     require_once __DIR__ . '/../../bootstrap_services.php';
-    $fileService = new FileManagementService($connection);
+    $fileService = new \App\Services\FileManagementService();
     $zipFile = $fileService->getArchivedStudentZip($studentId);
     
     if (!$zipFile || !file_exists($zipFile)) {

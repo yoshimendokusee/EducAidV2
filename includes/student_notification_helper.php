@@ -293,15 +293,15 @@ function student_handle_email_delivery($connection, $student_id, $title, $messag
     
     if (in_array(strtolower($type), $critical_types)) {
         // CRITICAL: Always send immediately regardless of preference
-        require_once __DIR__ . '/../services/StudentEmailNotificationService.php';
-        $svc = new StudentEmailNotificationService($connection);
+        require_once __DIR__ . '/../src/Services/StudentEmailNotificationService.php';
+        $svc = new \App\Services\StudentEmailNotificationService();
         $svc->sendImmediateEmail($student_id, $title, $message, $type, $action_url);
     } else {
         // NON-CRITICAL: Respect frequency preference
         if (($pref['email_frequency'] ?? 'immediate') === 'immediate') {
             // Send immediately
-            require_once __DIR__ . '/../services/StudentEmailNotificationService.php';
-            $svc = new StudentEmailNotificationService($connection);
+            require_once __DIR__ . '/../src/Services/StudentEmailNotificationService.php';
+            $svc = new \App\Services\StudentEmailNotificationService();
             $svc->sendImmediateEmail($student_id, $title, $message, $type, $action_url);
         }
         // If frequency is 'daily', notification will be queued for daily digest

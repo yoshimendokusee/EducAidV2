@@ -5,8 +5,8 @@
  */
 
 include __DIR__ . '/../../config/database.php';
-require_once __DIR__ . '/../../services/StudentArchivalService.php';
-require_once __DIR__ . '/../../services/BlacklistService.php';
+require_once __DIR__ . '/../../src/Services/StudentArchivalService.php';
+require_once __DIR__ . '/../../src/Services/BlacklistService.php';
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -24,7 +24,7 @@ $action = $_GET['action'] ?? '';
 try {
     switch ($action) {
         case 'test_archival_service':
-            $archivalService = new StudentArchivalService($connection);
+            $archivalService = new \App\Services\StudentArchivalService();
             
             // Test: Get archival history for a student (if exists)
             $testQuery = pg_query($connection, "SELECT student_id FROM students LIMIT 1");
@@ -48,7 +48,7 @@ try {
             break;
             
         case 'test_blacklist_service':
-            $blacklistService = new BlacklistService($connection);
+            $blacklistService = new \App\Services\BlacklistService();
             
             // Test: Check if a test email is blacklisted
             $testEmail = 'test@example.com';
@@ -96,8 +96,8 @@ try {
         case 'service_status':
             // Overall status check
             try {
-                $archivalService = new StudentArchivalService($connection);
-                $blacklistService = new BlacklistService($connection);
+                $archivalService = new \App\Services\StudentArchivalService();
+                $blacklistService = new \App\Services\BlacklistService();
                 
                 // Check database columns
                 $columnCheck = pg_query($connection,

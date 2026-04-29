@@ -4,6 +4,11 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Load service wrappers
+require_once __DIR__ . '/../../src/Services/UnifiedFileService.php';
+require_once __DIR__ . '/../../src/Services/DocumentReuploadService.php';
+require_once __DIR__ . '/../../src/Services/EnrollmentFormOCRService.php';
+
 // CRITICAL: Detect AJAX requests early and set up error handling for JSON responses
 $is_ajax_request = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && 
                    strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
@@ -70,8 +75,9 @@ if (ob_get_level()) {
 require_once __DIR__ . '/../../config/database.php';
 require_once __DIR__ . '/../../config/FilePathConfig.php';
 require_once __DIR__ . '/../../bootstrap_services.php';
-require_once __DIR__ . '/../../services/DocumentReuploadService.php';
-require_once __DIR__ . '/../../services/EnrollmentFormOCRService.php';
+require_once __DIR__ . '/../../src/Services/UnifiedFileService.php';
+require_once __DIR__ . '/../../src/Services/DocumentReuploadService.php';
+require_once __DIR__ . '/../../src/Services/EnrollmentFormOCRService.php';
 
 // Initialize FilePathConfig for Railway-compatible path handling
 $pathConfig = FilePathConfig::getInstance();
@@ -133,8 +139,8 @@ $timeoutMiddleware = new SessionTimeoutMiddleware();
 $timeoutStatus = $timeoutMiddleware->handle();
 
 // Initialize services
-$fileService = new UnifiedFileService($connection);
-$reuploadService = new DocumentReuploadService($connection);
+$fileService = new \App\Services\UnifiedFileService();
+$reuploadService = new \App\Services\DocumentReuploadService();
 
 // Get student information including year level details
 $student_query = pg_query_params($connection, 
@@ -1317,7 +1323,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['process_document'])) 
         // Use NEW TSV-based OCR for Enrollment Forms (document type '00')
         if ($doc_type_code === '00') {
             try {
-                $enrollmentOCR = new EnrollmentFormOCRService($connection);
+                $enrollmentOCR = new \App\Services\EnrollmentFormOCRService();
                 
                 $studentData = [
                     'first_name' => $student['first_name'] ?? '',

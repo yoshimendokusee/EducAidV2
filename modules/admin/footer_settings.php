@@ -15,7 +15,7 @@ if (!isset($_SESSION['admin_username'])) {
 // Include dependencies
 include_once __DIR__ . '/../../includes/permissions.php';
 include_once __DIR__ . '/../../config/database.php';
-include_once __DIR__ . '/../../services/FooterThemeService.php';
+include_once __DIR__ . '/../../src/Services/FooterThemeService.php';
 include_once __DIR__ . '/../../includes/CSRFProtection.php';
 
 // Check if super admin
@@ -26,7 +26,7 @@ if ($admin_role !== 'super_admin') {
 }
 
 // Initialize service
-$footerService = new FooterThemeService($connection);
+$footerService = new \App\Services\FooterThemeService();
 
 // Handle form submission
 $successMessage = '';

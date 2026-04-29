@@ -2,16 +2,24 @@
 
 namespace App\Services;
 
+use Exception;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class EligibilityCheckService
 {
+    private OcrProcessingService $ocrService;
+
+    public function __construct(OcrProcessingService $ocrService)
+    {
+        $this->ocrService = $ocrService;
+    }
+
     private function loadLegacyServices(): void
     {
         $legacyRoot = rtrim((string) config('compat.compat_root'), DIRECTORY_SEPARATOR);
         require_once $legacyRoot . DIRECTORY_SEPARATOR . 'services' . DIRECTORY_SEPARATOR . 'GradeValidationService.php';
-        require_once $legacyRoot . DIRECTORY_SEPARATOR . 'services' . DIRECTORY_SEPARATOR . 'OCRProcessingService.php';
     }
 
     private function buildGradeValidator(): object
@@ -55,8 +63,8 @@ class EligibilityCheckService
             throw new \InvalidArgumentException('University key is required');
         }
 
-        $legacyRoot = rtrim((string) config('compat.compat_root'), DIRECTORY_SEPARATOR);
-        $tempDir = $legacyRoot . DIRECTORY_SEPARATOR . 'temp';
+        // Store file temporarily for OCR processing
+        $tempDir = storage_path('app/ocr-temp');
         if (!is_dir($tempDir)) {
             @mkdir($tempDir, 0755, true);
         }
@@ -65,13 +73,9 @@ class EligibilityCheckService
         $file->move($tempDir, basename($tempFilePath));
 
         try {
-            $ocrProcessor = new \OCRProcessingService([
-                'tesseract_path' => 'tesseract',
-                'temp_dir' => $tempDir,
-                'max_file_size' => 10 * 1024 * 1024,
-            ]);
-
-            $ocr = $ocrProcessor->processGradeDocument($tempFilePath);
+            // Use the new Laravel OCR service
+            $ocr = $this->ocrService->processGradeDocument($tempFilePath);
+            
             if (empty($ocr['success'])) {
                 throw new \RuntimeException('OCR processing failed: ' . ($ocr['error'] ?? 'Unknown error'));
             }
@@ -88,6 +92,11 @@ class EligibilityCheckService
                 'ocrExtractedSubjects' => $ocr['subjects'],
                 'universityKey' => $universityKey,
             ];
+        } catch (Exception $e) {
+            Log::error('EligibilityCheckService::validateUploaded failed', [
+                'error' => $e->getMessage(),
+            ]);
+            throw $e;
         } finally {
             if (is_file($tempFilePath)) {
                 @unlink($tempFilePath);

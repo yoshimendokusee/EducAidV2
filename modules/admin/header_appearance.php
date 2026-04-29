@@ -18,7 +18,7 @@ if (!isset($_SESSION['admin_username'])) {
 // Include dependencies
 include_once __DIR__ . '/../../includes/permissions.php';
 include_once __DIR__ . '/../../config/database.php';
-include_once __DIR__ . '/../../services/HeaderThemeService.php';
+include_once __DIR__ . '/../../src/Services/HeaderThemeService.php';
 include_once __DIR__ . '/../../includes/CSRFProtection.php';
 
 // Check if super admin
@@ -29,7 +29,7 @@ if ($admin_role !== 'super_admin') {
 }
 
 // Initialize service
-$headerThemeService = new HeaderThemeService($connection);
+$headerThemeService = new \App\Services\HeaderThemeService();
 
 // Ensure fresh CSRF token on GET requests (clear old tokens)
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {

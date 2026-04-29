@@ -2,6 +2,7 @@
 include __DIR__ . '/../../config/database.php';
 require_once __DIR__ . '/../../includes/CSRFProtection.php';
 require_once __DIR__ . '/../../bootstrap_services.php';
+require_once __DIR__ . '/../../src/Services/UnifiedFileService.php';
 require_once __DIR__ . '/../../includes/student_notification_helper.php';
 require_once __DIR__ . '/../../config/FilePathConfig.php';
 
@@ -36,7 +37,7 @@ if (isset($_GET['api']) && $_GET['api'] === 'badge_count') {
 $docService = new DocumentService($connection);
 
 // Initialize UnifiedFileService for file operations
-$fileService = new UnifiedFileService($connection);
+$fileService = new \App\Services\UnifiedFileService();
 
 // Handle approval/rejection
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

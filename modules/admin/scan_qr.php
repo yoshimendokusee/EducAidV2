@@ -509,8 +509,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['complete_distribution
         $schedule_message = " Distribution schedule has been automatically unpublished.";
         
         // Send email notifications to all students about distribution completion
-        require_once __DIR__ . '/../../services/DistributionEmailService.php';
-        $emailService = new DistributionEmailService($connection);
+        require_once __DIR__ . '/../../src/Services/DistributionEmailService.php';
+        $emailService = new \App\Services\DistributionEmailService();
         $emailResult = $emailService->notifyDistributionClosed($academic_year, $semester);
         
         $email_message = '';

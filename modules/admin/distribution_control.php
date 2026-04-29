@@ -392,8 +392,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     . " Student list has been unlocked for new payroll generation.";
                 
                 // Send email notifications to all applicants
-                require_once __DIR__ . '/../../services/DistributionEmailService.php';
-                $emailService = new DistributionEmailService($connection);
+                require_once __DIR__ . '/../../src/Services/DistributionEmailService.php';
+                $emailService = new \App\Services\DistributionEmailService();
                 $emailResult = $emailService->notifyDistributionOpened($academic_year, $semester, $documents_deadline);
                 
                 if ($emailResult['success']) {

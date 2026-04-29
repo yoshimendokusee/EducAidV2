@@ -81,9 +81,9 @@ class TopbarSettingsController {
                 return;
             }
             
-            // Include notification service
-            include_once __DIR__ . '/../services/NotificationService.php';
-            $notificationService = new NotificationService($this->connection, $this->admin_id);
+            // Use new wrapper-based NotificationService adapter
+            require_once __DIR__ . '/../src/Services/NotificationService.php';
+            $notificationService = new \App\Services\NotificationService();
             
             // Send email notification
             $notificationService->sendVisualChangeNotification($changes, $admin_info);

@@ -1,6 +1,7 @@
 <?php
 include __DIR__ . '/../../config/database.php';
 require_once __DIR__ . '/../../bootstrap_services.php';
+require_once __DIR__ . '/../../src/Services/UnifiedFileService.php';
 require_once __DIR__ . '/../../includes/student_notification_helper.php';
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -32,7 +33,7 @@ try {
     pg_query($connection, "BEGIN");
     
     // Initialize UnifiedFileService
-    $fileService = new UnifiedFileService($connection);
+    $fileService = new \App\Services\UnifiedFileService();
     
     // Get high confidence registrations
     $query = "SELECT s.student_id, s.first_name, s.last_name, s.extension_name, s.email,

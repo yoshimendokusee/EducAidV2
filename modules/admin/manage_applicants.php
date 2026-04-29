@@ -9,6 +9,7 @@ if (!isset($_SESSION['admin_username'])) {
 }
 include __DIR__ . '/../../config/database.php';
 require_once __DIR__ . '/../../config/FilePathConfig.php';
+require_once __DIR__ . '/../../src/Services/UnifiedFileService.php';
 require_once __DIR__ . '/../../includes/student_notification_helper.php';
 
 // Get workflow permissions to control approval actions
@@ -1447,7 +1448,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $hasTempDocs = $tempDocsCheck && (pg_fetch_result($tempDocsCheck, 0, 0) > 0);
                     if ($hasTempDocs) {
                         require_once __DIR__ . '/../../bootstrap_services.php';
-                        $fileService = new UnifiedFileService($connection);
+                        $fileService = new \App\Services\UnifiedFileService();
                         $fileMoveResult = $fileService->moveToPermStorage($sid, $_SESSION['admin_id']);
                         if (!$fileMoveResult['success']) {
                             error_log("UnifiedFileService bulk: Error moving files for student $sid: " . implode(', ', $fileMoveResult['errors'] ?? []));
@@ -1593,7 +1594,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $hasTempDocs = pg_fetch_result($tempDocsCheck, 0, 0) > 0;
             if ($hasTempDocs) {
                 require_once __DIR__ . '/../../bootstrap_services.php';
-                $fileService = new UnifiedFileService($connection);
+                $fileService = new \App\Services\UnifiedFileService();
                 $fileMoveResult = $fileService->moveToPermStorage($sid, $_SESSION['admin_id']);
                 if (!$fileMoveResult['success']) {
                     error_log("UnifiedFileService: Error moving files for student $sid: " . implode(', ', $fileMoveResult['errors'] ?? []));
@@ -1678,8 +1679,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         
         // Use StudentArchivalService for archival
-        require_once __DIR__ . '/../../services/StudentArchivalService.php';
-        $archivalService = new StudentArchivalService($connection);
+        require_once __DIR__ . '/../../src/Services/StudentArchivalService.php';
+        $archivalService = new \App\Services\StudentArchivalService();
         
         // Archive with manual archival (not household duplicate)
         $archiveResult = $archivalService->archiveStudentManually(

@@ -1,8 +1,8 @@
 <?php
 // SidebarSettingsController.php - Handle sidebar theme form submissions
 
-require_once __DIR__ . '/../services/SidebarThemeService.php';
-require_once __DIR__ . '/../services/NotificationService.php';
+require_once __DIR__ . '/../src/Services/SidebarThemeService.php';
+require_once __DIR__ . '/../src/Services/NotificationService.php';
 
 class SidebarSettingsController {
     private $connection;
@@ -10,7 +10,7 @@ class SidebarSettingsController {
     
     public function __construct($connection) {
         $this->connection = $connection;
-        $this->sidebarThemeService = new SidebarThemeService($connection);
+        $this->sidebarThemeService = new \App\Services\SidebarThemeService();
         // NotificationService will be instantiated when needed
     }
     
@@ -20,7 +20,7 @@ class SidebarSettingsController {
             $currentSettings = $this->sidebarThemeService->getCurrentSettings();
             
             // Update settings
-            $result = $this->sidebarThemeService->updateSettings($postData);
+            $result = $this->sidebarThemeService->saveSettings($postData);
             
             if ($result['success']) {
                 // Get new settings for comparison
@@ -106,7 +106,7 @@ class SidebarSettingsController {
         if (!$adminInfo) return;
         
         // Create notification service instance
-        $notificationService = new NotificationService($this->connection, $_SESSION['admin_id']);
+        $notificationService = new \App\Services\NotificationService();
         
         // Send notifications
         $notificationService->sendVisualChangeNotification($changes, $adminInfo);

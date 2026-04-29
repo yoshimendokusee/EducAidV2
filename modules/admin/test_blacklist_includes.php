@@ -38,7 +38,7 @@ try {
 
 echo "3. Testing BlacklistService...\n";
 try {
-    require_once __DIR__ . '/../../services/BlacklistService.php';
+    require_once __DIR__ . '/../../src/Services/BlacklistService.php';
     echo "   ✓ BlacklistService loaded OK\n\n";
 } catch (Exception $e) {
     echo "   ✗ BlacklistService error: " . $e->getMessage() . "\n\n";
@@ -47,7 +47,7 @@ try {
 
 echo "4. Testing BlacklistService instantiation...\n";
 try {
-    $testService = new BlacklistService($connection);
+    $testService = new \App\Services\BlacklistService();
     echo "   ✓ BlacklistService instantiated OK\n\n";
 } catch (Exception $e) {
     echo "   ✗ BlacklistService instantiation error: " . $e->getMessage() . "\n\n";

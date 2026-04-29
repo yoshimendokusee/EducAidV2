@@ -9,7 +9,7 @@ include_once __DIR__ . '/../../config/database.php';
 include_once __DIR__ . '/../../includes/permissions.php';
 include_once __DIR__ . '/../../includes/CSRFProtection.php';
 include_once __DIR__ . '/../../controllers/SidebarSettingsController.php';
-include_once __DIR__ . '/../../services/SidebarThemeService.php';
+include_once __DIR__ . '/../../src/Services/SidebarThemeService.php';
 
 // Check if user is logged in and is super admin
 if (!isset($_SESSION['admin_id'])) {
@@ -24,7 +24,7 @@ if ($admin_role !== 'super_admin') {
 }
 
 // Initialize services
-$sidebarThemeService = new SidebarThemeService($connection);
+$sidebarThemeService = new \App\Services\SidebarThemeService();
 $currentSettings = $sidebarThemeService->getCurrentSettings();
 
 // Handle form submission

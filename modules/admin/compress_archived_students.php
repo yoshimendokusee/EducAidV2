@@ -7,7 +7,8 @@
  */
 
 include __DIR__ . '/../../config/database.php';
-require_once __DIR__ . '/../../services/StudentArchivalService.php';
+require_once __DIR__ . '/../../src/Services/StudentArchivalService.php';
+require_once __DIR__ . '/../../src/Services/UnifiedFileService.php';
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -58,7 +59,7 @@ try {
     }
     
     // Initialize file service
-    $fileService = new UnifiedFileService($connection);
+    $fileService = new \App\Services\UnifiedFileService();
     
     $results = [
         'success' => true,

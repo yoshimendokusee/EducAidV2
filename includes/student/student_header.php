@@ -240,7 +240,7 @@ document.addEventListener('DOMContentLoaded', function(){
   // Notification polling/commented out pending schema fix.
   /*
   function markNotificationAsRead(notificationId) {
-    fetch('/EducAid/services/student_notification_actions.php', {
+    fetch('/api/student/mark_notification_read.php', {
       method: 'POST',
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
       body: 'action=mark_read&notification_id=' + notificationId
@@ -253,7 +253,7 @@ document.addEventListener('DOMContentLoaded', function(){
   }
 
   function updateNotificationCount() {
-    fetch('/EducAid/services/student_notification_actions.php?action=get_unread_count')
+    fetch('/api/student/get_notification_count.php')
       .then(response => response.json())
       .then(data => {
         if (data.success) {

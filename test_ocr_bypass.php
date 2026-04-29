@@ -41,9 +41,9 @@ if (OCR_BYPASS_ENABLED === true) {
 // Test 4: Check if OCR service files exist
 echo "\nTest 4: Checking OCR service files...\n";
 $serviceFiles = [
-    'EnrollmentFormOCRService.php' => __DIR__ . '/services/EnrollmentFormOCRService.php',
+    'EnrollmentFormOCRService.php' => __DIR__ . '/src/Services/EnrollmentFormOCRService.php',
     'OCRProcessingService.php' => __DIR__ . '/bootstrap_services.php',
-    'OCRProcessingService_Safe.php' => __DIR__ . '/services/OCRProcessingService_Safe.php'
+    'OCRProcessingService_Safe.php' => __DIR__ . '/src/Services/OCRProcessingService_Safe.php'
 ];
 
 foreach ($serviceFiles as $name => $path) {
@@ -76,9 +76,10 @@ if (file_exists($statusPage)) {
 echo "\nTest 6: Testing EnrollmentFormOCRService bypass...\n";
 require_once __DIR__ . '/config/database.php';
 require_once __DIR__ . '/bootstrap_services.php';
+require_once __DIR__ . '/src/Services/EnrollmentFormOCRService.php';
 
 try {
-    $service = new EnrollmentFormOCRService($connection);
+    $service = new \App\Services\EnrollmentFormOCRService();
     
     // Create a dummy file path (doesn't need to exist in bypass mode)
     $dummyPath = __DIR__ . '/test_dummy_file.pdf';

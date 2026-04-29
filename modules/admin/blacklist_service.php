@@ -20,7 +20,7 @@ header('Content-Type: application/json');
 // Now include dependencies
 include __DIR__ . '/../../config/database.php';
 require_once __DIR__ . '/../../includes/CSRFProtection.php';
-require_once __DIR__ . '/../../services/BlacklistService.php';
+require_once __DIR__ . '/../../src/Services/BlacklistService.php';
 
 // Load PHPMailer - autoload MUST come before use statements
 require_once __DIR__ . '/../../phpmailer/vendor/autoload.php';
@@ -303,7 +303,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $session_data = json_decode($verification['session_data'], true);
             
             // Initialize BlacklistService
-            $blacklistService = new BlacklistService($connection);
+            $blacklistService = new \App\Services\BlacklistService();
             
             // Blacklist the student using the service
             $result = $blacklistService->blacklistStudent(

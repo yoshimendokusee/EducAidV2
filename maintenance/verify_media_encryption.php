@@ -11,9 +11,9 @@ if (!in_array($_SERVER['REMOTE_ADDR'] ?? '', ['127.0.0.1','::1'])) {
 header('Content-Type: application/json');
 
 require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../services/MediaEncryption.php';
+require_once __DIR__ . '/../src/Services/MediaEncryption.php';
 
-use EducAid\Services\MediaEncryption;
+use App\Services\MediaEncryption;
 
 $studentId = isset($_GET['sid']) ? trim($_GET['sid']) : null;
 if (!$studentId) {

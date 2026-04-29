@@ -18,8 +18,8 @@ if (!isset($_SESSION['admin_username'])) {
 // Include dependencies
 include_once __DIR__ . '/../../includes/permissions.php';
 include_once __DIR__ . '/../../config/database.php';
-include_once __DIR__ . '/../../services/ThemeSettingsService.php';
-include_once __DIR__ . '/../../services/HeaderThemeService.php';
+include_once __DIR__ . '/../../src/Services/ThemeSettingsService.php';
+include_once __DIR__ . '/../../src/Services/HeaderThemeService.php';
 include_once __DIR__ . '/../../controllers/TopbarSettingsController.php';
 include_once __DIR__ . '/../../includes/CSRFProtection.php';
 
@@ -31,8 +31,8 @@ if ($admin_role !== 'super_admin') {
 }
 
 // Initialize services
-$themeService = new ThemeSettingsService($connection);
-$headerThemeService = new HeaderThemeService($connection);
+$themeService = new \App\Services\ThemeSettingsService();
+$headerThemeService = new \App\Services\HeaderThemeService();
 $controller = new TopbarSettingsController($themeService, $_SESSION['admin_id'] ?? 0, $connection);
 
 // Ensure fresh CSRF token on GET requests (clear old tokens)

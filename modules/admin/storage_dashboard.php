@@ -8,9 +8,9 @@ if (!isset($_SESSION['admin_username'])) {
 }
 
 require_once __DIR__ . '/../../config/database.php';
-require_once __DIR__ . '/../../services/DistributionManager.php';
+require_once __DIR__ . '/../../src/Services/DistributionManager.php';
 
-$distManager = new DistributionManager();
+$distManager = new \App\Services\DistributionManager();
 
 // Get storage statistics
 $storageStats = $distManager->getStorageStatistics();

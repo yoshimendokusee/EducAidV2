@@ -2262,7 +2262,7 @@ $pageType = $seoData['type'];
             
             console.log('Saving block:', blockKey, 'Content:', newContent);
             
-            fetch('services/save_login_content.php', {
+            fetch('/api/admin/login-content/save', {
                 method: 'POST',
                 body: formData
             })
@@ -2340,7 +2340,7 @@ $pageType = $seoData['type'];
             formData.append('is_visible', isVisible ? '1' : '0');
             formData.append('csrf_token', '<?= $TOGGLE_CSRF_TOKEN ?>');
             
-            fetch('services/toggle_section_visibility.php', {
+            fetch('/api/admin/login-content/toggle-section', {
                 method: 'POST',
                 body: formData
             })

@@ -11,10 +11,10 @@ if (session_status() === PHP_SESSION_NONE) {
 require_once __DIR__ . '/../../config/database.php';
 require_once __DIR__ . '/../../includes/permissions.php';
 require_once __DIR__ . '/../../includes/CSRFProtection.php';
-require_once __DIR__ . '/../../services/ColorGeneratorService.php';
-require_once __DIR__ . '/../../services/ThemeGeneratorService.php';
-require_once __DIR__ . '/../../services/FooterThemeService.php';
-require_once __DIR__ . '/../../services/HeaderThemeService.php';
+require_once __DIR__ . '/../../src/Services/ColorGeneratorService.php';
+require_once __DIR__ . '/../../src/Services/ThemeGeneratorService.php';
+require_once __DIR__ . '/../../src/Services/FooterThemeService.php';
+require_once __DIR__ . '/../../src/Services/HeaderThemeService.php';
 
 // Prevent any output before JSON
 ob_start();
@@ -100,7 +100,7 @@ try {
         throw new Exception('FooterThemeService class not found');
     }
     
-    $generator = new ThemeGeneratorService($connection);
+    $generator = new \App\Services\ThemeGeneratorService();
     $result = $generator->generateAndApplyTheme(
         $municipalityId,
         $municipality['primary_color'],
@@ -119,7 +119,7 @@ try {
 
     // Also generate and apply header theme colors
     error_log("THEME GEN: Starting header theme generation...");
-    $headerService = new HeaderThemeService($connection, $municipalityId);
+    $headerService = new \App\Services\HeaderThemeService();
     
     // Generate header colors from primary/secondary
     $primaryLight = ColorGeneratorService::lighten($municipality['primary_color'], 0.95);
@@ -140,7 +140,7 @@ try {
 
     // Also generate and apply footer theme colors
     error_log("THEME GEN: Starting footer theme generation...");
-    $footerService = new FooterThemeService($connection);
+    $footerService = new \App\Services\FooterThemeService();
     $footerColors = $footerService->generateFromTheme(
         $municipality['primary_color'],
         $municipality['secondary_color']

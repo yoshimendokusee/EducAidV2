@@ -7,6 +7,7 @@
 
 require_once __DIR__ . '/config/database.php';
 require_once __DIR__ . '/bootstrap_services.php';
+require_once __DIR__ . '/src/Services/StudentEmailNotificationService.php';
 
 $now = date('Y-m-d H:i:s');
 
@@ -24,7 +25,7 @@ if (!$res) {
     exit(1);
 }
 
-$svc = new StudentEmailNotificationService($connection);
+$svc = new \App\Services\StudentEmailNotificationService();
 $totalStudents = 0; $sentCount = 0;
 while ($row = pg_fetch_assoc($res)) {
     $totalStudents++;

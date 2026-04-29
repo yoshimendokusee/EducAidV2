@@ -9,7 +9,8 @@ if (!isset($_SESSION['admin_username'])) {
 
 require_once __DIR__ . '/../../config/database.php';
 require_once __DIR__ . '/../../config/FilePathConfig.php';
-require_once __DIR__ . '/../../services/DistributionManager.php';
+require_once __DIR__ . '/../../src/Services/DistributionManager.php';
+require_once __DIR__ . '/../../src/Services/FileCompressionService.php';
 require_once __DIR__ . '/../../bootstrap_services.php';
 
 $pathConfig = FilePathConfig::getInstance();
@@ -311,8 +312,8 @@ function clearScheduleData($connection) {
     }
 }
 
-$distManager = new DistributionManager();
-$compressionService = new FileCompressionService();
+$distManager = new \App\Services\DistributionManager();
+$compressionService = new \App\Services\FileCompressionService();
 
 // Handle AJAX requests BEFORE workflow check
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

@@ -17,6 +17,7 @@ require_once __DIR__ . '/../../config/recaptcha_config.php';
 require_once __DIR__ . '/../../config/FilePathConfig.php';
 // Include AuditLogger for audit trail
 require_once __DIR__ . '/../../bootstrap_services.php';
+require_once __DIR__ . '/../../src/Services/UnifiedFileService.php';
 
 // Make connection variable available in this scope
 global $connection;
@@ -622,7 +623,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['processEnrollmentOcr'
     header('Content-Type: application/json');
     
     // Load the new TSV-based OCR services
-    require_once(__DIR__ . '/../../services/EnrollmentFormOCRService.php');
+    require_once(__DIR__ . '/../../src/Services/EnrollmentFormOCRService.php');
     
     if (!isset($_FILES['enrollment_form']) || $_FILES['enrollment_form']['error'] !== UPLOAD_ERR_OK) {
         $errorMsg = 'No file uploaded or upload error.';
@@ -731,7 +732,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['processEnrollmentOcr'
 
     // Process enrollment form using NEW TSV-based OCR service
     try {
-        $enrollmentOCR = new EnrollmentFormOCRService($connection);
+        $enrollmentOCR = new \App\Services\EnrollmentFormOCRService();
         $ocrResult = $enrollmentOCR->processEnrollmentForm($targetPath, $studentData);
 
         if (!$ocrResult['success']) {
@@ -4101,7 +4102,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['processGradesOcr'])) 
         // Enhanced image processing via OCR service
         try {
             // Include the Safe version (no Imagick dependency, uses GD only)
-            require_once __DIR__ . '/../../services/OCRProcessingService_Safe.php';
+            require_once __DIR__ . '/../../src/Services/OCRProcessingService_Safe.php';
             
             $ocrProcessor = new OCRProcessingServiceSafe([
                 'tesseract_path' => 'tesseract',
@@ -5699,7 +5700,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['register'])) {
     // Include UnifiedFileService for unified document management
     require_once __DIR__ . '/../../bootstrap_services.php';
     // Include BlacklistService for checking blacklisted emails/mobiles
-    require_once __DIR__ . '/../../services/BlacklistService.php';
+    require_once __DIR__ . '/../../src/Services/BlacklistService.php';
     
     // Helper function to properly capitalize names (Title Case with special name handling)
     function capitalizeProperName($name) {
@@ -5968,7 +5969,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['register'])) {
         // This prevents fake/spam registrations from polluting the duplicate check system
 
         // Initialize UnifiedFileService
-        $fileService = new UnifiedFileService($connection);
+        $fileService = new \App\Services\UnifiedFileService();
         
         // Create standardized name for file naming (lastname_firstname)
         $cleanLastname = preg_replace('/[^a-zA-Z0-9]/', '', $lastname);

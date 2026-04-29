@@ -6,6 +6,7 @@
 
 require_once __DIR__ . '/config/database.php';
 require_once __DIR__ . '/bootstrap_services.php';
+require_once __DIR__ . '/src/Services/StudentEmailNotificationService.php';
 
 echo "=== Testing Announcement Email Functionality ===\n\n";
 
@@ -70,7 +71,7 @@ echo "\n";
 
 // Test 4: Try to send a test email
 echo "4. Testing email service:\n";
-$emailService = new StudentEmailNotificationService($connection);
+$emailService = new \App\Services\StudentEmailNotificationService();
 
 // Get first student
 $test_student = pg_query($connection, "SELECT student_id FROM students LIMIT 1");
