@@ -1,0 +1,13 @@
+{
+  "name": "EducAidV2",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "migration/laravel-react/react"
+  ],
+  "scripts": {
+    "install:react": "npm install --workspace migration/laravel-react/react",
+    "build:react": "npm run build --workspace migration/laravel-react/react",
+    "dev:react": "npm run dev --workspace migration/laravel-react/react"
+  }
+}
