@@ -7,6 +7,7 @@
   ],
   "scripts": {
     "install:react": "npm install --workspace migration/laravel-react/react",
+    "build": "npm run build --workspace migration/laravel-react/react",
     "build:react": "npm run build --workspace migration/laravel-react/react",
     "dev:react": "npm run dev --workspace migration/laravel-react/react"
   }
