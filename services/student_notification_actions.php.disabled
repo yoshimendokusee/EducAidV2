@@ -1,9 +1,0 @@
-<?php
-// Student notification actions temporarily disabled. Restore the original
-// student_notification_actions.php file once the schema-migration issue
-// is resolved, then update includes/student/student_header.php to re-enable
-// the JavaScript fetch calls.
-echo json_encode([
-    'success' => false,
-    'message' => 'Student notification actions temporarily disabled.'
-]);
