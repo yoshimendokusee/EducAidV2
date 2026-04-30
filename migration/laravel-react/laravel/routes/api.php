@@ -3,6 +3,7 @@
 use App\Http\Controllers\CompatApiController;
 use App\Http\Controllers\EligibilityController;
 use App\Http\Controllers\AdminApplicantController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\DistributionController;
 use App\Http\Controllers\EnrollmentOcrController;
@@ -12,6 +13,14 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\StudentApiController;
 use App\Http\Controllers\WorkflowController;
 use Illuminate\Support\Facades\Route;
+
+// Public authentication routes (no session middleware required for initial check)
+Route::prefix('/auth')->group(function () {
+    Route::post('/status', [AuthController::class, 'status']);
+    Route::post('/student-login', [AuthController::class, 'studentLogin']);
+    Route::post('/admin-login', [AuthController::class, 'adminLogin']);
+    Route::post('/logout', [AuthController::class, 'logout']);
+});
 
 Route::middleware(['api', 'compat.session.bridge'])->group(function () {
     // Native migrated module: includes/workflow_control.php

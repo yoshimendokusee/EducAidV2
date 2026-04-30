@@ -1,7 +1,15 @@
 import React from 'react';
-import CompatHtmlFrame from '../components/CompatHtmlFrame';
+import { Navigate } from 'react-router-dom';
+import LoginForm from '../components/LoginForm';
+import { useAuth } from '../context/AuthContext';
 
-// Migrated from old file: unified_login.php
 export default function LoginPage() {
-  return <CompatHtmlFrame pagePath="unified_login.php" />;
+  const { isAuthenticated } = useAuth();
+
+  // If already logged in, redirect to appropriate dashboard
+  if (isAuthenticated) {
+    return <Navigate to="/admin/home" replace />;
+  }
+
+  return <LoginForm />;
 }

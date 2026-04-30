@@ -1,0 +1,11 @@
+<?php
+
+$laravelRoot = __DIR__ . '/migration/laravel-react/laravel';
+
+if (!is_file($laravelRoot . '/artisan')) {
+    fwrite(STDERR, "Laravel artisan entrypoint not found.\n");
+    exit(1);
+}
+
+chdir($laravelRoot);
+require $laravelRoot . '/artisan';
