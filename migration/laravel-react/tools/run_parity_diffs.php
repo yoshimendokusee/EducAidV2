@@ -50,6 +50,9 @@ foreach ($paths as $p) {
     try {
         // Create a request that targets the compat file via the runner directly
         $req = Request::create('/' . $p, 'GET');
+        // Bind the request into the container so URL generation and request-aware
+        // services work when legacy scripts call session()/url() helpers.
+        $app->instance('request', $req);
         $resp = $runner->run($req, $p);
         $legacyBody = (string) $resp->getContent();
         $entry['legacy'] = ['status' => $resp->getStatusCode(), 'body' => $legacyBody];
