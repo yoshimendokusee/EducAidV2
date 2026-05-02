@@ -10,10 +10,13 @@ import AdminDashboard from './pages/AdminDashboard';
 import AdminSettings from './pages/AdminSettings';
 import ApplicantsPage from './pages/ApplicantsPage';
 import ReportsPage from './pages/ReportsPage';
+import AnalyticsDashboard from './pages/AnalyticsDashboard';
 import DistributionControlPage from './pages/DistributionControlPage';
 import DocumentUpload from './pages/DocumentUpload';
 import StudentNotifications from './pages/StudentNotifications';
 import StudentSettings from './pages/StudentSettings';
+import SearchPage from './pages/SearchPage';
+import ReportsBuilder from './pages/ReportsBuilder';
 import Navbar from './components/Navbar';
 
 function AppRoutes() {
@@ -124,6 +127,45 @@ function AppRoutes() {
               <div className="flex flex-col min-h-screen">
                 <Navbar />
                 <ReportsPage />
+              </div>
+            </ErrorBoundary>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/analytics"
+        element={
+          <ProtectedRoute requiredType="admin">
+            <ErrorBoundary>
+              <div className="flex flex-col min-h-screen">
+                <Navbar />
+                <AnalyticsDashboard />
+              </div>
+            </ErrorBoundary>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/reports/builder"
+        element={
+          <ProtectedRoute requiredType="admin">
+            <ErrorBoundary>
+              <div className="flex flex-col min-h-screen">
+                <Navbar />
+                <ReportsBuilder />
+              </div>
+            </ErrorBoundary>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/search"
+        element={
+          <ProtectedRoute requiredType="admin">
+            <ErrorBoundary>
+              <div className="flex flex-col min-h-screen">
+                <Navbar />
+                <SearchPage />
               </div>
             </ErrorBoundary>
           </ProtectedRoute>

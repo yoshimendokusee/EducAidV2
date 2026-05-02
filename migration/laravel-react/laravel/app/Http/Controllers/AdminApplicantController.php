@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\AdminApplicantService;
 use App\Services\CompatScriptRunner;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class AdminApplicantController extends Controller
@@ -30,15 +31,37 @@ class AdminApplicantController extends Controller
         return response()->json(['count' => $this->service->getApplicantBadgeCount()]);
     }
 
-    // Old source: modules/admin/get_applicant_details.php
-    // Kept bridged to preserve file-path/document-resolution behavior exactly.
-    public function details(Request $request): Response
+    /**
+     * Get applicants list with filters
+     * Native implementation - returns real database data
+     */
+    public function details(Request $request): JsonResponse
     {
         if (!$this->isAdminAuthenticated()) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        return $this->runner->run($request, 'modules/admin/get_applicant_details.php');
+        try {
+            $filters = [
+                'status' => $request->query('status'),
+                'search_term' => $request->query('search'),
+            ];
+
+            $applicants = $this->service->getApplicantsList($filters);
+            $overview = $this->service->getApplicantsOverview();
+
+            return response()->json([
+                'success' => true,
+                'applicants' => $applicants,
+                'overview' => $overview,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => 'Failed to fetch applicants',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     // Old source: modules/admin/manage_applicants.php POST action handling

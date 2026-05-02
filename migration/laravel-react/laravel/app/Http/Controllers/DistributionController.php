@@ -15,6 +15,11 @@ class DistributionController extends Controller
         $this->distributionManager = $distributionManager;
     }
 
+    private function isAdminAuthenticated(): bool
+    {
+        return isset($_SESSION['admin_username']);
+    }
+
     /**
      * End distribution and compress files
      *
@@ -23,6 +28,10 @@ class DistributionController extends Controller
      */
     public function endDistribution(Request $request): JsonResponse
     {
+        if (!$this->isAdminAuthenticated()) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
         $request->validate([
             'distribution_id' => 'required|integer',
             'compress_now' => 'sometimes|boolean'
@@ -42,20 +51,31 @@ class DistributionController extends Controller
 
     /**
      * Get distribution statistics
+     * Can return single distribution or all distributions
      *
      * @param Request $request
      * @return JsonResponse
      */
     public function getDistributionStats(Request $request): JsonResponse
     {
-        $request->validate([
-            'distribution_id' => 'required|integer'
-        ]);
+        if (!$this->isAdminAuthenticated()) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
 
-        $result = $this->distributionManager->getDistributionStats(
-            $request->input('distribution_id')
-        );
+        try {
+            $distributionId = $request->query('distribution_id');
 
-        return response()->json($result);
+            $result = $this->distributionManager->getDistributionStats(
+                $distributionId ? (int) $distributionId : null
+            );
+
+            return response()->json($result);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => 'Failed to get statistics',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
     }
 }

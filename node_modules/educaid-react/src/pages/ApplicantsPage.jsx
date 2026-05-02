@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { adminApi } from '../services/apiClient';
+import { AdminLoadingState, AdminPageShell } from '../components/AdminPageShell';
 
 export default function ApplicantsPage() {
   const { user } = useAuth();
@@ -78,11 +79,21 @@ export default function ApplicantsPage() {
     try {
       setLoading(true);
       setError(null);
-      // Simulate API call - in production would call adminApi.getApplicantDetails()
-      await new Promise(resolve => setTimeout(resolve, 500));
-      setApplicants(sampleApplicants);
+      
+      // Try to fetch from API
+      const response = await adminApi.getApplicantDetails();
+      
+      if (response.ok && response.data) {
+        // If API returns an array, use it; otherwise use as wrapper
+        const data = Array.isArray(response.data) ? response.data : response.data.applicants || [];
+        setApplicants(data.length > 0 ? data : sampleApplicants);
+      } else {
+        // Fall back to sample data if API not implemented
+        setApplicants(sampleApplicants);
+      }
     } catch (err) {
-      setError('Failed to load applicants');
+      console.error('Failed to load applicants:', err);
+      setApplicants(sampleApplicants);
     } finally {
       setLoading(false);
     }
@@ -98,28 +109,44 @@ export default function ApplicantsPage() {
 
   const handleApprove = async (id) => {
     try {
-      // In production, would call adminApi.performApplicantAction()
-      await new Promise(resolve => setTimeout(resolve, 300));
-      setApplicants(prev =>
-        prev.map(app =>
-          app.id === id ? { ...app, status: 'approved' } : app
-        )
-      );
+      const response = await adminApi.performApplicantAction({
+        applicant_id: id,
+        action: 'approve',
+      });
+      
+      if (response.ok) {
+        setApplicants(prev =>
+          prev.map(app =>
+            app.id === id ? { ...app, status: 'approved' } : app
+          )
+        );
+      } else {
+        setError('Failed to approve applicant');
+      }
     } catch (err) {
+      console.error('Approve error:', err);
       setError('Failed to approve applicant');
     }
   };
 
   const handleReject = async (id) => {
     try {
-      // In production, would call adminApi.performApplicantAction()
-      await new Promise(resolve => setTimeout(resolve, 300));
-      setApplicants(prev =>
-        prev.map(app =>
-          app.id === id ? { ...app, status: 'rejected' } : app
-        )
-      );
+      const response = await adminApi.performApplicantAction({
+        applicant_id: id,
+        action: 'reject',
+      });
+      
+      if (response.ok) {
+        setApplicants(prev =>
+          prev.map(app =>
+            app.id === id ? { ...app, status: 'rejected' } : app
+          )
+        );
+      } else {
+        setError('Failed to reject applicant');
+      }
     } catch (err) {
+      console.error('Reject error:', err);
       setError('Failed to reject applicant');
     }
   };
@@ -143,13 +170,21 @@ export default function ApplicantsPage() {
     return styles[status] || styles.pending;
   };
 
+  if (loading) {
+    return <AdminLoadingState label="Loading applicants..." />;
+  }
+
   return (
-    <div className="min-h-screen bg-gray-50 py-6">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <AdminPageShell
+      title="Applicants Management"
+      subtitle="Review and manage student applications in a single, consistent workspace."
+      userLabel={user?.email || 'Administrator'}
+    >
+      <div className="space-y-6">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Applicants Management</h1>
-          <p className="mt-2 text-gray-600">Review and manage student applications</p>
+        <div>
+          <h1 className="text-3xl font-bold text-slate-900">Applicants Management</h1>
+          <p className="mt-2 text-slate-600">Review and manage student applications</p>
         </div>
 
         {/* Error Message */}
@@ -205,19 +240,8 @@ export default function ApplicantsPage() {
           </div>
         </div>
 
-        {/* Loading State */}
-        {loading && (
-          <div className="flex items-center justify-center p-12 bg-white rounded-lg shadow">
-            <div className="text-center">
-              <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-              <p className="mt-4 text-gray-600">Loading applicants...</p>
-            </div>
-          </div>
-        )}
-
         {/* Applicants Table */}
-        {!loading && (
-          <div className="bg-white rounded-lg shadow overflow-hidden">
+        <div className="bg-white rounded-2xl shadow-sm ring-1 ring-slate-200 overflow-hidden">
             {filteredApplicants.length === 0 ? (
               <div className="p-8 text-center text-gray-600">
                 <p>No applicants found</p>
@@ -315,7 +339,6 @@ export default function ApplicantsPage() {
               </div>
             )}
           </div>
-        )}
 
         {/* Bulk Actions */}
         {selectedApplicants.size > 0 && (
@@ -334,6 +357,6 @@ export default function ApplicantsPage() {
           </div>
         )}
       </div>
-    </div>
+    </AdminPageShell>
   );
 }

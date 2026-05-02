@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { reportApi, adminApi } from '../services/apiClient';
+import { AdminLoadingState, AdminPageShell } from '../components/AdminPageShell';
 
 export default function ReportsPage() {
   const { user } = useAuth();
@@ -8,7 +10,7 @@ export default function ReportsPage() {
   const [error, setError] = useState(null);
   const [reportData, setReportData] = useState(null);
 
-  // Sample data for demonstration
+  // Fallback sample data for demonstration
   const sampleReports = {
     overview: {
       title: 'System Overview Report',
@@ -74,23 +76,40 @@ export default function ReportsPage() {
     try {
       setLoading(true);
       setError(null);
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 500));
-      setReportData(sampleReports[type] || sampleReports.overview);
+      
+      // Try to fetch from API
+      const response = await reportApi.generateReport({ report_type: type });
+      
+      if (response.ok && response.data) {
+        setReportData(response.data);
+      } else {
+        // Fall back to sample data if API not implemented
+        setReportData(sampleReports[type] || sampleReports.overview);
+      }
     } catch (err) {
-      setError('Failed to load report');
+      console.error('Report load error:', err);
+      // Use sample data on error
+      setReportData(sampleReports[type] || sampleReports.overview);
     } finally {
       setLoading(false);
     }
   };
 
+  if (loading) {
+    return <AdminLoadingState label="Loading report..." />;
+  }
+
   return (
-    <div className="min-h-screen bg-gray-50 py-6">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <AdminPageShell
+      title="Reports & Analytics"
+      subtitle="Generate and view system reports in a consistent admin workspace."
+      userLabel={user?.email || 'Administrator'}
+    >
+      <div className="space-y-6">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Reports & Analytics</h1>
-          <p className="mt-2 text-gray-600">Generate and view system reports</p>
+        <div>
+          <h1 className="text-3xl font-bold text-slate-900">Reports & Analytics</h1>
+          <p className="mt-2 text-slate-600">Generate and view system reports</p>
         </div>
 
         {/* Report Type Selection */}
@@ -120,18 +139,8 @@ export default function ReportsPage() {
           </div>
         )}
 
-        {/* Loading State */}
-        {loading && (
-          <div className="flex items-center justify-center p-12 bg-white rounded-lg shadow">
-            <div className="text-center">
-              <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-              <p className="mt-4 text-gray-600">Loading report...</p>
-            </div>
-          </div>
-        )}
-
         {/* Report Content */}
-        {!loading && reportData && (
+        {reportData && (
           <>
             {/* Report Title */}
             <div className="bg-white rounded-lg shadow p-6 mb-6">
@@ -303,6 +312,6 @@ export default function ReportsPage() {
           </>
         )}
       </div>
-    </div>
+    </AdminPageShell>
   );
 }

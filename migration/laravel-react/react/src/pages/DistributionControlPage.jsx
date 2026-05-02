@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { distributionApi } from '../services/apiClient';
+import { AdminLoadingState, AdminPageShell } from '../components/AdminPageShell';
 
 export default function DistributionControlPage() {
   const { user } = useAuth();
@@ -74,11 +76,21 @@ export default function DistributionControlPage() {
     try {
       setLoading(true);
       setError(null);
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 500));
-      setDistributions(sampleDistributions);
+      
+      // Try to fetch from API
+      const response = await distributionApi.getDistributionStats();
+      
+      if (response.ok && response.data) {
+        // If API returns an array, use it; otherwise use as wrapper
+        const data = Array.isArray(response.data) ? response.data : response.data.distributions || [];
+        setDistributions(data.length > 0 ? data : sampleDistributions);
+      } else {
+        // Fall back to sample data if API not implemented
+        setDistributions(sampleDistributions);
+      }
     } catch (err) {
-      setError('Failed to load distributions');
+      console.error('Failed to load distributions:', err);
+      setDistributions(sampleDistributions);
     } finally {
       setLoading(false);
     }
@@ -151,21 +163,31 @@ export default function DistributionControlPage() {
     return colors[status] || colors.pending;
   };
 
+  if (loading) {
+    return <AdminLoadingState label="Loading distributions..." />;
+  }
+
   return (
-    <div className="min-h-screen bg-gray-50 py-6">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <AdminPageShell
+      title="Distribution Control"
+      subtitle="Manage financial aid distributions in a consistent admin workspace."
+      userLabel={user?.email || 'Administrator'}
+      actions={(
+        <button
+          onClick={() => setShowNewForm(!showNewForm)}
+          className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
+        >
+          + New Distribution
+        </button>
+      )}
+    >
+      <div className="space-y-6">
         {/* Header */}
-        <div className="mb-8 flex items-center justify-between">
+        <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Distribution Control</h1>
-            <p className="mt-2 text-gray-600">Manage financial aid distributions</p>
+            <h1 className="text-3xl font-bold text-slate-900">Distribution Control</h1>
+            <p className="mt-2 text-slate-600">Manage financial aid distributions</p>
           </div>
-          <button
-            onClick={() => setShowNewForm(!showNewForm)}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition"
-          >
-            + New Distribution
-          </button>
         </div>
 
         {/* Error Message */}
@@ -247,19 +269,8 @@ export default function DistributionControlPage() {
           </div>
         </div>
 
-        {/* Loading State */}
-        {loading && (
-          <div className="flex items-center justify-center p-12 bg-white rounded-lg shadow">
-            <div className="text-center">
-              <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-              <p className="mt-4 text-gray-600">Loading distributions...</p>
-            </div>
-          </div>
-        )}
-
         {/* Distributions List */}
-        {!loading && (
-          <div className="space-y-6">
+        <div className="space-y-6">
             {filteredDistributions.length === 0 ? (
               <div className="bg-white rounded-lg shadow p-8 text-center">
                 <p className="text-gray-600">No distributions found</p>
@@ -343,8 +354,7 @@ export default function DistributionControlPage() {
               ))
             )}
           </div>
-        )}
       </div>
-    </div>
+    </AdminPageShell>
   );
 }

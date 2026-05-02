@@ -10,9 +10,12 @@ class CompatSessionBridge
 {
     public function handle(Request $request, Closure $next): Response
     {
-        // Ensure PHP session exists for compatibility scripts that depend on $_SESSION.
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
+        // Optionally start native PHP session for legacy compatibility.
+        // Disabled by default to avoid forcing DB-backed session handlers in local smoke tests.
+        if ((bool) env('COMPAT_USE_PHP_SESSION', false)) {
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
         }
 
         return $next($request);

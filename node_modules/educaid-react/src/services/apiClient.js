@@ -162,6 +162,52 @@ export const adminApi = {
       body: JSON.stringify(payload),
     });
   },
+  // Analytics endpoints
+  getSystemMetrics() {
+    return jsonRequest(`${API_BASE}/analytics/system-metrics`);
+  },
+  getApplicationAnalytics() {
+    return jsonRequest(`${API_BASE}/analytics/applications`);
+  },
+  getDocumentAnalytics() {
+    return jsonRequest(`${API_BASE}/analytics/documents`);
+  },
+  getDistributionAnalytics() {
+    return jsonRequest(`${API_BASE}/analytics/distributions`);
+  },
+  getMunicipalitiesAnalytics() {
+    return jsonRequest(`${API_BASE}/analytics/municipalities`);
+  },
+  getPerformanceMetrics() {
+    return jsonRequest(`${API_BASE}/analytics/performance`);
+  },
+  getActivitySummary() {
+    return jsonRequest(`${API_BASE}/analytics/activity`);
+  },
+  getTimeSeriesData(metric, days = 30) {
+    const query = new URLSearchParams({ metric, days }).toString();
+    return jsonRequest(`${API_BASE}/analytics/timeseries?${query}`);
+  },
+  getAnalyticsDashboard() {
+    return jsonRequest(`${API_BASE}/analytics/dashboard`);
+  },
+  // Search & Filtering endpoints
+  searchApplicants(filters = {}) {
+    const query = new URLSearchParams(filters).toString();
+    return jsonRequest(`${API_BASE}/search/applicants?${query}`);
+  },
+  searchDistributions(filters = {}) {
+    const query = new URLSearchParams(filters).toString();
+    return jsonRequest(`${API_BASE}/search/distributions?${query}`);
+  },
+  searchDocuments(filters = {}) {
+    const query = new URLSearchParams(filters).toString();
+    return jsonRequest(`${API_BASE}/search/documents?${query}`);
+  },
+  getSearchFilterOptions(type = 'all') {
+    const query = new URLSearchParams({ type }).toString();
+    return jsonRequest(`${API_BASE}/search/filter-options?${query}`);
+  },
 };
 
 // ============ FILE COMPRESSION ENDPOINTS ============
@@ -231,10 +277,25 @@ export const enrollmentApi = {
 // ============ REPORT ENDPOINTS ============
 export const reportApi = {
   generateReport(payload) {
-    return jsonRequest(`${API_BASE}/reports/generate_report.php`, {
+    return jsonRequest(`${API_BASE}/reports/generate`, {
       method: 'POST',
       body: JSON.stringify(payload),
     });
+  },
+  exportCsv(filters = {}) {
+    return jsonRequest(`${API_BASE}/reports/export-csv`, {
+      method: 'POST',
+      body: JSON.stringify(filters),
+    });
+  },
+  exportPdf(filters = {}) {
+    return jsonRequest(`${API_BASE}/reports/export-pdf`, {
+      method: 'POST',
+      body: JSON.stringify(filters),
+    });
+  },
+  getStatus(reportId) {
+    return jsonRequest(`${API_BASE}/reports/status/${encodeURIComponent(reportId)}`);
   },
 };
 

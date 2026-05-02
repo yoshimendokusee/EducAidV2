@@ -9,9 +9,12 @@ use App\Http\Controllers\DistributionController;
 use App\Http\Controllers\EnrollmentOcrController;
 use App\Http\Controllers\FileCompressionController;
 use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\ReportController;
 use App\Http\Controllers\StudentApiController;
 use App\Http\Controllers\WorkflowController;
+use App\Http\Controllers\EmailController;
+use App\Http\Controllers\AnalyticsController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 
 // Public authentication routes (no session middleware required for initial check)
@@ -29,6 +32,7 @@ Route::middleware(['api', 'compat.session.bridge'])->group(function () {
 
     // Native migrated module: api/student/*.php (notifications/privacy + export bridge)
     Route::get('/student/get_notification_count.php', [StudentApiController::class, 'getNotificationCount']);
+        Route::get('/student/get_notification_list.php', [StudentApiController::class, 'getNotificationList']);
     Route::get('/student/get_notification_preferences.php', [StudentApiController::class, 'getNotificationPreferences']);
     Route::post('/student/save_notification_preferences.php', [StudentApiController::class, 'saveNotificationPreferences']);
     Route::post('/student/mark_notification_read.php', [StudentApiController::class, 'markNotificationRead']);
@@ -96,6 +100,46 @@ Route::middleware(['api', 'compat.session.bridge'])->group(function () {
     Route::prefix('/enrollment-ocr')->group(function () {
         Route::post('/extract-data', [EnrollmentOcrController::class, 'extractFormData']);
         Route::post('/validate-data', [EnrollmentOcrController::class, 'validateFormData']);
+    });
+
+    // Email Notification System
+    Route::prefix('/email')->group(function () {
+        Route::post('/send-student-approval', [EmailController::class, 'sendStudentApprovalEmail']);
+        Route::post('/send-student-rejection', [EmailController::class, 'sendStudentRejectionEmail']);
+        Route::post('/send-distribution-notification', [EmailController::class, 'sendDistributionNotificationEmail']);
+        Route::post('/send-document-update', [EmailController::class, 'sendDocumentUpdateEmail']);
+        Route::post('/notify-distribution-opened', [EmailController::class, 'notifyDistributionOpened']);
+        Route::post('/notify-distribution-closed', [EmailController::class, 'notifyDistributionClosed']);
+        Route::post('/send-announcement', [EmailController::class, 'sendAnnouncement']);
+        Route::get('/config-status', [EmailController::class, 'getConfigStatus']);
+    });
+
+    // Analytics & Metrics
+    Route::prefix('/analytics')->group(function () {
+        Route::get('/system-metrics', [AnalyticsController::class, 'getSystemMetrics']);
+        Route::get('/applications', [AnalyticsController::class, 'getApplications']);
+        Route::get('/documents', [AnalyticsController::class, 'getDocuments']);
+        Route::get('/distributions', [AnalyticsController::class, 'getDistributions']);
+        Route::get('/municipalities', [AnalyticsController::class, 'getMunicipalities']);
+        Route::get('/performance', [AnalyticsController::class, 'getPerformance']);
+        Route::get('/activity', [AnalyticsController::class, 'getActivity']);
+        Route::get('/timeseries', [AnalyticsController::class, 'getTimeSeries']);
+        Route::get('/dashboard', [AnalyticsController::class, 'getDashboard']);
+    });
+    // Advanced Search & Filtering
+    Route::prefix('/search')->group(function () {
+        Route::get('/applicants', [SearchController::class, 'searchApplicants']);
+        Route::get('/distributions', [SearchController::class, 'searchDistributions']);
+        Route::get('/documents', [SearchController::class, 'searchDocuments']);
+        Route::get('/filter-options', [SearchController::class, 'getFilterOptions']);
+    });
+
+    // Reports & Data Export
+    Route::prefix('/reports')->group(function () {
+        Route::post('/generate', [ReportController::class, 'generate']);
+        Route::post('/export-csv', [ReportController::class, 'exportCsv']);
+        Route::post('/export-pdf', [ReportController::class, 'exportPdf']);
+        Route::get('/status/{reportId}', [ReportController::class, 'status']);
     });
 
     // AJAX/compat fallback for api-like handlers.
