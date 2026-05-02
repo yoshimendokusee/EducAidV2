@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\DocumentReuploadService;
 use App\Services\UnifiedFileService;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -18,6 +19,42 @@ class DocumentController extends Controller
     ) {
         $this->unifiedFileService = $unifiedFileService;
         $this->reuploadService = $reuploadService;
+    }
+
+    /**
+     * Upload a new document for student
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function uploadDocument(Request $request): JsonResponse
+    {
+        try {
+            $request->validate([
+                'student_id' => 'required|string',
+                'document_type' => 'required|string',
+                'file_data' => 'required|string',
+                'file_name' => 'required|string',
+                'mime_type' => 'required|string'
+            ]);
+
+            $result = $this->unifiedFileService->uploadDocument(
+                $request->input('student_id'),
+                $request->input('document_type'),
+                $request->input('file_data'),
+                $request->input('file_name'),
+                $request->input('mime_type')
+            );
+
+            return response()->json($result);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'document_id' => null,
+                'message' => "Validation error: {$e->getMessage()}",
+                'file_path' => null
+            ], 400);
+        }
     }
 
     /**
