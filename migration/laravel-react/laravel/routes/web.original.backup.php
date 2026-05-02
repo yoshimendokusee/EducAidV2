@@ -6,8 +6,6 @@
 
 // Original content saved below.
 
-<?php
-
 use App\Http\Controllers\AdminModulesController;
 use App\Http\Controllers\CompatWebController;
 use App\Http\Controllers\StudentModulesController;
