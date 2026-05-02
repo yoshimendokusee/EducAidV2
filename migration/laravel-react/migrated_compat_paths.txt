@@ -1,4 +1,4 @@
-# Derived migrated compat paths based on existing controller methods
+# Restored migrated compat paths from parity_map.json
 modules/admin/manage_applicants.php
 modules/admin/distribution_control.php
 modules/admin/verify_students.php

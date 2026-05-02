@@ -1,0 +1,738 @@
+{
+    "generated_at": "2026-05-02T18:52:35+00:00",
+    "processed": 89,
+    "total": 89,
+    "results": [
+        {
+            "path": "modules\/admin\/manage_applicants.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-empty-output (exit=0)"
+        },
+        {
+            "path": "modules\/admin\/distribution_control.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-empty-output (exit=0)"
+        },
+        {
+            "path": "modules\/admin\/verify_students.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): DATABASE_PUBLIC_URL not found, using fallback\/local config\nAttempting DB connection: host=localhost port=5432 dbname=educaid user=postgres\nDatabase connected: host=localhost port=5432 dbname=educaid"
+        },
+        {
+            "path": "modules\/admin\/reports.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-empty-output (exit=0)"
+        },
+        {
+            "path": "modules\/admin\/archived_students.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-empty-output (exit=0)"
+        },
+        {
+            "path": "modules\/admin\/view_documents.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-empty-output (exit=0)"
+        },
+        {
+            "path": "modules\/admin\/admin_notifications.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): DATABASE_PUBLIC_URL not found, using fallback\/local config\nAttempting DB connection: host=localhost port=5432 dbname=educaid user=postgres\nDatabase connected: host=localhost port=5432 dbname=educaid"
+        },
+        {
+            "path": "modules\/admin\/admin_profile.php",
+            "legacy": {
+                "status": 500,
+                "body": "Compatibility execution error: Class \"App\\Services\\DocumentService\" not found"
+            },
+            "laravel": {
+                "status": 404,
+                "body": "Compatibility script not found: compat\/modules\/admin\/admin_profile.php"
+            },
+            "diff": "different",
+            "error": null
+        },
+        {
+            "path": "modules\/admin\/settings.php",
+            "legacy": {
+                "status": 500,
+                "body": "Compatibility execution error: Class \"App\\Services\\DocumentService\" not found"
+            },
+            "laravel": {
+                "status": 404,
+                "body": "Compatibility script not found: compat\/modules\/admin\/settings.php"
+            },
+            "diff": "different",
+            "error": null
+        },
+        {
+            "path": "modules\/admin\/sidebar_settings.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): DATABASE_PUBLIC_URL not found, using fallback\/local config\nAttempting DB connection: host=localhost port=5432 dbname=educaid user=postgres\nDatabase connected: host=localhost port=5432 dbname=educaid"
+        },
+        {
+            "path": "modules\/admin\/sidebar_settings_enhanced.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): DATABASE_PUBLIC_URL not found, using fallback\/local config\nAttempting DB connection: host=localhost port=5432 dbname=educaid user=postgres\nDatabase connected: host=localhost port=5432 dbname=educaid"
+        },
+        {
+            "path": "modules\/admin\/footer_settings.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-empty-output (exit=0)"
+        },
+        {
+            "path": "modules\/admin\/topbar_settings.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-empty-output (exit=0)"
+        },
+        {
+            "path": "modules\/admin\/header_appearance.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-empty-output (exit=0)"
+        },
+        {
+            "path": "modules\/admin\/manage_slots.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): DATABASE_PUBLIC_URL not found, using fallback\/local config\nAttempting DB connection: host=localhost port=5432 dbname=educaid user=postgres\nDatabase connected: host=localhost port=5432 dbname=educaid"
+        },
+        {
+            "path": "modules\/admin\/manage_schedules.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-empty-output (exit=0)"
+        },
+        {
+            "path": "modules\/admin\/manage_announcements.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): DATABASE_PUBLIC_URL not found, using fallback\/local config\nAttempting DB connection: host=localhost port=5432 dbname=educaid user=postgres\nDatabase connected: host=localhost port=5432 dbname=educaid"
+        },
+        {
+            "path": "modules\/admin\/audit_logs.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-empty-output (exit=0)"
+        },
+        {
+            "path": "modules\/admin\/storage_dashboard.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-empty-output (exit=0)"
+        },
+        {
+            "path": "modules\/admin\/blacklist_archive.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): DATABASE_PUBLIC_URL not found, using fallback\/local config\nAttempting DB connection: host=localhost port=5432 dbname=educaid user=postgres\nDatabase connected: host=localhost port=5432 dbname=educaid"
+        },
+        {
+            "path": "modules\/admin\/blacklist_details.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): DATABASE_PUBLIC_URL not found, using fallback\/local config\nAttempting DB connection: host=localhost port=5432 dbname=educaid user=postgres\nDatabase connected: host=localhost port=5432 dbname=educaid\nUnauthorized"
+        },
+        {
+            "path": "modules\/admin\/scan_qr.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): DATABASE_PUBLIC_URL not found, using fallback\/local config\nAttempting DB connection: host=localhost port=5432 dbname=educaid user=postgres\nDatabase connected: host=localhost port=5432 dbname=educaid"
+        },
+        {
+            "path": "modules\/admin\/scanner.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-empty-output (exit=0)"
+        },
+        {
+            "path": "modules\/admin\/admin_management.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): DATABASE_PUBLIC_URL not found, using fallback\/local config\nAttempting DB connection: host=localhost port=5432 dbname=educaid user=postgres\nDatabase connected: host=localhost port=5432 dbname=educaid"
+        },
+        {
+            "path": "modules\/admin\/review_registrations.php",
+            "legacy": {
+                "status": 500,
+                "body": "Compatibility execution error: Class \"App\\Services\\DocumentService\" not found"
+            },
+            "laravel": {
+                "status": 404,
+                "body": "Compatibility script not found: compat\/modules\/admin\/review_registrations.php"
+            },
+            "diff": "different",
+            "error": null
+        },
+        {
+            "path": "modules\/admin\/view_graduating_students.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-empty-output (exit=0)"
+        },
+        {
+            "path": "modules\/admin\/view_qr_codes_dev.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-empty-output (exit=0)"
+        },
+        {
+            "path": "modules\/admin\/system_data.php",
+            "legacy": {
+                "status": 500,
+                "body": "Compatibility execution error: Class \"App\\Services\\DocumentService\" not found"
+            },
+            "laravel": {
+                "status": 404,
+                "body": "Compatibility script not found: compat\/modules\/admin\/system_data.php"
+            },
+            "diff": "different",
+            "error": null
+        },
+        {
+            "path": "modules\/admin\/file_browser.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): DATABASE_PUBLIC_URL not found, using fallback\/local config\nAttempting DB connection: host=localhost port=5432 dbname=educaid user=postgres\nDatabase connected: host=localhost port=5432 dbname=educaid"
+        },
+        {
+            "path": "modules\/admin\/municipality_content.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): DATABASE_PUBLIC_URL not found, using fallback\/local config\nAttempting DB connection: host=localhost port=5432 dbname=educaid user=postgres\nDatabase connected: host=localhost port=5432 dbname=educaid"
+        },
+        {
+            "path": "modules\/admin\/addbarangay.php",
+            "legacy": {
+                "status": 200,
+                "body": "\r\n<!DOCTYPE html>\r\n<html lang=\"en\">\r\n\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <title>Add Barangay (EducAid)<\/title>\r\n    <style>\r\n        body {\r\n            font-family: Arial, sans-serif;\r\n            padding: 20px;\r\n            max-width: 500px;\r\n            margin: auto;\r\n        }\r\n\r\n        label {\r\n            display: block;\r\n            margin-top: 10px;\r\n        }\r\n\r\n        input {\r\n            width: 100%;\r\n            padding: 8px;\r\n            margin-top: 5px;\r\n        }\r\n\r\n        button {\r\n            margin-top: 15px;\r\n            padding: 10px 20px;\r\n        }\r\n    <\/style>\r\n<\/head>\r\n\r\n<body>\r\n    <h2>Register New Barangay (General Trias)<\/h2>\r\n    <form method=\"post\" action=\"\">\r\n        <label>Barangay Name:<\/label>\r\n        <input type=\"text\" name=\"barangay\" required>\r\n\r\n        <button type=\"submit\" name=\"register\">Register Barangay<\/button>\r\n    <\/form>\r\n\r\n\r\n    <h2>Barangays:<\/h2><ul><li>1896<\/li><li>Alingaro<\/li><li>Arnaldo<\/li><li>Bacao I<\/li><li>Bacao II<\/li><li>Bagumbayan<\/li><li>Biclatan<\/li><li>Buenavista I<\/li><li>Buenavista II<\/li><li>Buenavista III<\/li><li>Corregidor<\/li><li>Dulongbayan<\/li><li>Governor Ferrer<\/li><li>Javalera<\/li><li>Manggahan<\/li><li>Navarro<\/li><li>Panungyanan<\/li><li>Pasong Camachile I<\/li><li>Pasong Camachile II<\/li><li>Pasong Kawayan I<\/li><li>Pasong Kawayan II<\/li><li>Pinagtipunan<\/li><li>Prinza<\/li><li>Sampalucan<\/li><li>San Francisco<\/li><li>San Gabriel<\/li><li>San Juan I<\/li><li>San Juan II<\/li><li>Santa Clara<\/li><li>Santiago<\/li><li>Tapia<\/li><li>Tejero<\/li><li>Vibora<\/li><\/ul><\/body>\r\n\r\n<\/html>"
+            },
+            "laravel": {
+                "status": 404,
+                "body": "Compatibility script not found: compat\/modules\/admin\/addbarangay.php"
+            },
+            "diff": "different",
+            "error": null
+        },
+        {
+            "path": "modules\/admin\/download_distribution.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): Access denied"
+        },
+        {
+            "path": "modules\/admin\/distribution_archives.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-empty-output (exit=0)"
+        },
+        {
+            "path": "modules\/admin\/get_applicant_details.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): {\"error\":\"Unauthorized\"}"
+        },
+        {
+            "path": "modules\/admin\/get_distribution_details.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): {\"error\":\"Access denied\"}"
+        },
+        {
+            "path": "modules\/admin\/get_grade_details.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): {\"success\":false,\"message\":\"Not authenticated\"}"
+        },
+        {
+            "path": "modules\/admin\/get_registrant_details.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): DATABASE_PUBLIC_URL not found, using fallback\/local config\nAttempting DB connection: host=localhost port=5432 dbname=educaid user=postgres\nDatabase connected: host=localhost port=5432 dbname=educaid"
+        },
+        {
+            "path": "modules\/admin\/get_slot_stats.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): DATABASE_PUBLIC_URL not found, using fallback\/local config\nAttempting DB connection: host=localhost port=5432 dbname=educaid user=postgres\nDatabase connected: host=localhost port=5432 dbname=educaid\n{\"error\":\"Unauthorized\"}"
+        },
+        {
+            "path": "modules\/admin\/get_student_document.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): DATABASE_PUBLIC_URL not found, using fallback\/local config\nAttempting DB connection: host=localhost port=5432 dbname=educaid user=postgres\nDatabase connected: host=localhost port=5432 dbname=educaid\nSession check failed. Session vars: Array\n(\n)\n\n{\"success\":false,\"message\":\"Unauthorized - No admin session\"}"
+        },
+        {
+            "path": "modules\/admin\/get_archived_student_details.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): <div class=\"alert alert-danger\">Unauthorized access<\/div>"
+        },
+        {
+            "path": "modules\/admin\/get_graduating_students_list.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): {\"error\":\"Unauthorized\"}"
+        },
+        {
+            "path": "modules\/admin\/get_confidence_breakdown.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): DATABASE_PUBLIC_URL not found, using fallback\/local config\nAttempting DB connection: host=localhost port=5432 dbname=educaid user=postgres\nDatabase connected: host=localhost port=5432 dbname=educaid\n{\"success\":false,\"message\":\"Unauthorized\"}"
+        },
+        {
+            "path": "modules\/admin\/refresh_confidence_scores.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): DATABASE_PUBLIC_URL not found, using fallback\/local config\nAttempting DB connection: host=localhost port=5432 dbname=educaid user=postgres\nDatabase connected: host=localhost port=5432 dbname=educaid\n{\"success\":false,\"message\":\"Unauthorized\"}"
+        },
+        {
+            "path": "modules\/admin\/save_manual_grades.php",
+            "legacy": {
+                "status": 200,
+                "body": ""
+            },
+            "laravel": {
+                "status": 404,
+                "body": "Compatibility script not found: compat\/modules\/admin\/save_manual_grades.php"
+            },
+            "diff": "different",
+            "error": null
+        },
+        {
+            "path": "modules\/admin\/restore_blacklisted_student.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): DATABASE_PUBLIC_URL not found, using fallback\/local config\nAttempting DB connection: host=localhost port=5432 dbname=educaid user=postgres\nDatabase connected: host=localhost port=5432 dbname=educaid\n{\"success\":false,\"message\":\"Unauthorized access\"}"
+        },
+        {
+            "path": "modules\/admin\/compress_archived_students.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): DATABASE_PUBLIC_URL not found, using fallback\/local config\nAttempting DB connection: host=localhost port=5432 dbname=educaid user=postgres\nDatabase connected: host=localhost port=5432 dbname=educaid\n{\"success\":false,\"message\":\"Unauthorized\"}"
+        },
+        {
+            "path": "modules\/admin\/download_blacklist_zip.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): DATABASE_PUBLIC_URL not found, using fallback\/local config\nAttempting DB connection: host=localhost port=5432 dbname=educaid user=postgres\nDatabase connected: host=localhost port=5432 dbname=educaid\nUnauthorized access"
+        },
+        {
+            "path": "modules\/admin\/end_distribution.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-empty-output (exit=0)"
+        },
+        {
+            "path": "modules\/admin\/reset_distribution.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): DATABASE_PUBLIC_URL not found, using fallback\/local config\nAttempting DB connection: host=localhost port=5432 dbname=educaid user=postgres\nDatabase connected: host=localhost port=5432 dbname=educaid"
+        },
+        {
+            "path": "modules\/admin\/generate_and_apply_theme.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): DATABASE_PUBLIC_URL not found, using fallback\/local config\nAttempting DB connection: host=localhost port=5432 dbname=educaid user=postgres\nDatabase connected: host=localhost port=5432 dbname=educaid\n=== THEME GENERATOR START ===\nTHEME GEN: Authentication failed - no admin_id in session\n{\"success\":false,\"message\":\"Not authenticated\"}"
+        },
+        {
+            "path": "modules\/admin\/auto_approve_high_confidence.php",
+            "legacy": {
+                "status": 500,
+                "body": "Compatibility execution error: Class \"App\\Services\\DocumentService\" not found"
+            },
+            "laravel": {
+                "status": 404,
+                "body": "Compatibility script not found: compat\/modules\/admin\/auto_approve_high_confidence.php"
+            },
+            "diff": "different",
+            "error": null
+        },
+        {
+            "path": "modules\/admin\/blacklist_service.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): DATABASE_PUBLIC_URL not found, using fallback\/local config\nAttempting DB connection: host=localhost port=5432 dbname=educaid user=postgres\nDatabase connected: host=localhost port=5432 dbname=educaid\n{\"status\":\"error\",\"message\":\"Unauthorized access\"}"
+        },
+        {
+            "path": "modules\/admin\/check_automatic_archiving.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): DATABASE_PUBLIC_URL not found, using fallback\/local config\nAttempting DB connection: host=localhost port=5432 dbname=educaid user=postgres\nDatabase connected: host=localhost port=5432 dbname=educaid\n{\"should_archive\":false}"
+        },
+        {
+            "path": "modules\/admin\/check_file_status.php",
+            "legacy": {
+                "status": 500,
+                "body": "Compatibility execution error: pg_query(): Query failed: ERROR:  column \"type\" does not exist\nLINE 1: SELECT student_id, type, file_path, is_valid FROM documents ...\n                           ^"
+            },
+            "laravel": {
+                "status": 404,
+                "body": "Compatibility script not found: compat\/modules\/admin\/check_file_status.php"
+            },
+            "diff": "different",
+            "error": null
+        },
+        {
+            "path": "modules\/admin\/household_blocked_registrations.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-empty-output (exit=0)"
+        },
+        {
+            "path": "modules\/admin\/recaptcha_diagnostics.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): DATABASE_PUBLIC_URL not found, using fallback\/local config\nAttempting DB connection: host=localhost port=5432 dbname=educaid user=postgres\nDatabase connected: host=localhost port=5432 dbname=educaid\n{\n    \"summary\": {\n        \"issues\": 14,\n        \"passed\": false,\n        \"timestamp\": \"2026-05-02T18:52:22+00:00\",\n        \"recommendation\": \"Address warnings \\\/ errors before production.\"\n    },\n    \"checks\": {\n        \"DB_HOST\": {\n            \"label\": \"Database host\",\n            \"status\": \"ok\",\n            \"message\": \"\"\n        },\n        \"DB_PORT\": {\n            \"label\": \"Database port\",\n            \"status\": \"ok\",\n            \"message\": \"\"\n        },\n        \"DB_NAME\": {\n            \"label\": \"Database name\",\n            \"status\": \"ok\",\n            \"message\": \"\"\n        },\n        \"DB_USER"
+        },
+        {
+            "path": "modules\/admin\/slot_threshold_admin.php",
+            "legacy": {
+                "status": 500,
+                "body": "Compatibility execution error: require_once(..\/config\/database.php): Failed to open stream: No such file or directory"
+            },
+            "laravel": {
+                "status": 404,
+                "body": "Compatibility script not found: compat\/modules\/admin\/slot_threshold_admin.php"
+            },
+            "diff": "different",
+            "error": null
+        },
+        {
+            "path": "modules\/admin\/upload_municipality_logo.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): DATABASE_PUBLIC_URL not found, using fallback\/local config\nAttempting DB connection: host=localhost port=5432 dbname=educaid user=postgres\nDatabase connected: host=localhost port=5432 dbname=educaid\n{\"success\":false,\"message\":\"Unauthorized\"}"
+        },
+        {
+            "path": "modules\/admin\/toggle_municipality_logo.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): DATABASE_PUBLIC_URL not found, using fallback\/local config\nAttempting DB connection: host=localhost port=5432 dbname=educaid user=postgres\nDatabase connected: host=localhost port=5432 dbname=educaid\n{\"success\":false,\"message\":\"Unauthorized\"}"
+        },
+        {
+            "path": "modules\/admin\/update_municipality_colors.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): DATABASE_PUBLIC_URL not found, using fallback\/local config\nAttempting DB connection: host=localhost port=5432 dbname=educaid user=postgres\nDatabase connected: host=localhost port=5432 dbname=educaid\n{\"success\":false,\"message\":\"Not authenticated\"}"
+        },
+        {
+            "path": "modules\/admin\/verify_password.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): {\"success\":false,\"message\":\"Unauthorized access\"}"
+        },
+        {
+            "path": "modules\/admin\/verify_password_debug.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): Password verification request received\nRequest method: GET\nSession admin_username: not set\nUnauthorized access - no admin session\n{\"success\":false,\"message\":\"Unauthorized access\"}"
+        },
+        {
+            "path": "modules\/admin\/notifications_api.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): DATABASE_PUBLIC_URL not found, using fallback\/local config\nAttempting DB connection: host=localhost port=5432 dbname=educaid user=postgres\nDatabase connected: host=localhost port=5432 dbname=educaid\n{\"success\":false,\"message\":\"Unauthorized\"}"
+        },
+        {
+            "path": "modules\/student\/upload_document.php",
+            "legacy": {
+                "status": 500,
+                "body": "Compatibility execution error: Class \"App\\Services\\DocumentService\" not found"
+            },
+            "laravel": {
+                "status": 404,
+                "body": "Compatibility script not found: compat\/modules\/student\/upload_document.php"
+            },
+            "diff": "different",
+            "error": null
+        },
+        {
+            "path": "modules\/student\/student_register.php",
+            "legacy": {
+                "status": 500,
+                "body": "Compatibility execution error: Class \"App\\Services\\DocumentService\" not found"
+            },
+            "laravel": {
+                "status": 404,
+                "body": "Compatibility script not found: compat\/modules\/student\/student_register.php"
+            },
+            "diff": "different",
+            "error": null
+        },
+        {
+            "path": "modules\/student\/student_profile.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): DATABASE_PUBLIC_URL not found, using fallback\/local config\nAttempting DB connection: host=localhost port=5432 dbname=educaid user=postgres\nDatabase connected: host=localhost port=5432 dbname=educaid\nStudent Profile.php"
+        },
+        {
+            "path": "modules\/student\/student_settings.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): DATABASE_PUBLIC_URL not found, using fallback\/local config\nAttempting DB connection: host=localhost port=5432 dbname=educaid user=postgres\nDatabase connected: host=localhost port=5432 dbname=educaid"
+        },
+        {
+            "path": "modules\/student\/student_notifications.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): DATABASE_PUBLIC_URL not found, using fallback\/local config\nAttempting DB connection: host=localhost port=5432 dbname=educaid user=postgres\nDatabase connected: host=localhost port=5432 dbname=educaid"
+        },
+        {
+            "path": "modules\/student\/security_privacy.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): DATABASE_PUBLIC_URL not found, using fallback\/local config\nAttempting DB connection: host=localhost port=5432 dbname=educaid user=postgres\nDatabase connected: host=localhost port=5432 dbname=educaid"
+        },
+        {
+            "path": "modules\/student\/security_activity.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): DATABASE_PUBLIC_URL not found, using fallback\/local config\nAttempting DB connection: host=localhost port=5432 dbname=educaid user=postgres\nDatabase connected: host=localhost port=5432 dbname=educaid"
+        },
+        {
+            "path": "modules\/student\/privacy_data.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): DATABASE_PUBLIC_URL not found, using fallback\/local config\nAttempting DB connection: host=localhost port=5432 dbname=educaid user=postgres\nDatabase connected: host=localhost port=5432 dbname=educaid"
+        },
+        {
+            "path": "modules\/student\/student_homepage.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-empty-output (exit=0)"
+        },
+        {
+            "path": "modules\/student\/logout.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-empty-output (exit=0)"
+        },
+        {
+            "path": "modules\/student\/active_sessions.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): DATABASE_PUBLIC_URL not found, using fallback\/local config\nAttempting DB connection: host=localhost port=5432 dbname=educaid user=postgres\nDatabase connected: host=localhost port=5432 dbname=educaid"
+        },
+        {
+            "path": "modules\/student\/accessibility.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): DATABASE_PUBLIC_URL not found, using fallback\/local config\nAttempting DB connection: host=localhost port=5432 dbname=educaid user=postgres\nDatabase connected: host=localhost port=5432 dbname=educaid"
+        },
+        {
+            "path": "modules\/student\/serve_profile_image.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): Unauthorized (no active session)"
+        },
+        {
+            "path": "modules\/student\/qr_code.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): DATABASE_PUBLIC_URL not found, using fallback\/local config\nAttempting DB connection: host=localhost port=5432 dbname=educaid user=postgres\nDatabase connected: host=localhost port=5432 dbname=educaid"
+        },
+        {
+            "path": "modules\/student\/download_qr.php",
+            "legacy": {
+                "status": 200,
+                "body": ""
+            },
+            "laravel": {
+                "status": 404,
+                "body": "Compatibility script not found: compat\/modules\/student\/download_qr.php"
+            },
+            "diff": "different",
+            "error": null
+        },
+        {
+            "path": "modules\/student\/phone_check.php",
+            "legacy": {
+                "status": 500,
+                "body": "Compatibility execution error: include(C:\\EducAidV2\\EducAidV2\\modules\\student\/..\/..\/db\/db_connection.php): Failed to open stream: No such file or directory"
+            },
+            "laravel": {
+                "status": 404,
+                "body": "Compatibility script not found: compat\/modules\/student\/phone_check.php"
+            },
+            "diff": "different",
+            "error": null
+        },
+        {
+            "path": "modules\/student\/process_id_picture.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): {\"status\":\"error\",\"message\":\"Invalid request method\"}"
+        },
+        {
+            "path": "modules\/student\/update_year_level.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): DATABASE_PUBLIC_URL not found, using fallback\/local config\nAttempting DB connection: host=localhost port=5432 dbname=educaid user=postgres\nDatabase connected: host=localhost port=5432 dbname=educaid"
+        },
+        {
+            "path": "modules\/student\/notifications_api.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): DATABASE_PUBLIC_URL not found, using fallback\/local config\nAttempting DB connection: host=localhost port=5432 dbname=educaid user=postgres\nDatabase connected: host=localhost port=5432 dbname=educaid\n{\"success\":false,\"message\":\"Unauthorized\"}"
+        },
+        {
+            "path": "modules\/student\/api_payroll_history.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): {\"success\":false,\"error\":\"Unauthorized\"}"
+        },
+        {
+            "path": "modules\/student\/create_session.php",
+            "legacy": {
+                "status": 200,
+                "body": "<!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n    <title>Create Session - EducAid<\/title>\r\n    <link href=\"https:\/\/cdn.jsdelivr.net\/npm\/bootstrap@5.3.0\/dist\/css\/bootstrap.min.css\" rel=\"stylesheet\">\r\n<\/head>\r\n<body class=\"bg-light\">\r\n    <div class=\"container mt-5\">\r\n        <div class=\"row justify-content-center\">\r\n            <div class=\"col-md-6\">\r\n                <div class=\"card shadow\">\r\n                    <div class=\"card-body p-4\">\r\n                        <h3 class=\"card-title mb-4\">Create Active Session<\/h3>\r\n                        \r\n                        <div class=\"alert alert-danger\"><i class=\"bi bi-x-circle me-2\"><\/i>Error: No student logged in. Please <a href=\"..\/..\/unified_login.php\">login first<\/a>.<\/div>                    <\/div>\r\n                <\/div>\r\n            <\/div>\r\n        <\/div>\r\n    <\/div>\r\n    \r\n    <link rel=\"stylesheet\" href=\"https:\/\/cdn.jsdelivr.net\/npm\/bootstrap-icons@1.11.0\/font\/bootstrap-icons.css\">\r\n<\/body>\r\n<\/html>\r\n"
+            },
+            "laravel": {
+                "status": 404,
+                "body": "Compatibility script not found: compat\/modules\/student\/create_session.php"
+            },
+            "diff": "different",
+            "error": null
+        },
+        {
+            "path": "modules\/student\/get_validation_details.php",
+            "legacy": null,
+            "laravel": null,
+            "diff": null,
+            "error": "subprocess-invalid-json (exit=0): {\"success\":false,\"message\":\"Unauthorized access\"}"
+        },
+        {
+            "path": "modules\/student\/grade_validation_functions.php",
+            "legacy": {
+                "status": 200,
+                "body": ""
+            },
+            "laravel": {
+                "status": 404,
+                "body": "Compatibility script not found: compat\/modules\/student\/grade_validation_functions.php"
+            },
+            "diff": "different",
+            "error": null
+        },
+        {
+            "path": "modules\/student\/ignore_student_register2.php",
+            "legacy": {
+                "status": 500,
+                "body": "Compatibility execution error: foreach() argument must be of type array|object, null given"
+            },
+            "laravel": {
+                "status": 404,
+                "body": "Compatibility script not found: compat\/modules\/student\/ignore_student_register2.php"
+            },
+            "diff": "different",
+            "error": null
+        },
+        {
+            "path": "modules\/student\/ignore_upload_document.php",
+            "legacy": {
+                "status": 500,
+                "body": "Compatibility execution error: Path must not be empty"
+            },
+            "laravel": {
+                "status": 404,
+                "body": "Compatibility script not found: compat\/modules\/student\/ignore_upload_document.php"
+            },
+            "diff": "different",
+            "error": null
+        },
+        {
+            "path": "modules\/student\/debug_logger.php",
+            "legacy": {
+                "status": 500,
+                "body": "Compatibility execution error: Path must not be empty"
+            },
+            "laravel": {
+                "status": 404,
+                "body": "Compatibility script not found: compat\/modules\/student\/debug_logger.php"
+            },
+            "diff": "different",
+            "error": null
+        }
+    ]
+}
