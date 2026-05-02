@@ -1,0 +1,38 @@
+name: Compat Staged Validation
+
+on:
+  push:
+    branches:
+      - 'staged/**'
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate-staged-routes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+
+      - name: Install composer dependencies
+        run: composer install --no-interaction --prefer-dist --no-dev
+        working-directory: migration/laravel-react/laravel
+
+      - name: Validate staged routes file exists
+        run: |
+          if [ -f migration/laravel-react/laravel/routes/web.staged.php ]; then echo "staged routes found"; else echo "web.staged.php missing"; exit 1; fi
+
+      - name: PHP lint staged routes
+        run: php -l migration/laravel-react/laravel/routes/web.staged.php
+
+      - name: Run migration validator
+        run: php migration/laravel-react/check_phase_17_complete.php
+
+      - name: Run unit tests (if present)
+        run: |
+          if [ -f migration/laravel-react/laravel/phpunit.xml ]; then php vendor/bin/phpunit -c migration/laravel-react/laravel/phpunit.xml; else echo "no phpunit config"; fi
