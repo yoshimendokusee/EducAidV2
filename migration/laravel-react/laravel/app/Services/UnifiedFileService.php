@@ -28,6 +28,119 @@ class UnifiedFileService
     }
 
     /**
+     * Upload a new document from student to temp storage
+     *
+     * @param string $studentId
+     * @param string $documentType (eaf, academic_grades, letter_to_mayor, certificate_of_indigency, id_picture)
+     * @param string $fileData (base64 encoded or file path)
+     * @param string $fileName
+     * @param string $mimeType
+     * @return array ['success' => bool, 'document_id' => string|null, 'message' => string, 'file_path' => string|null]
+     */
+    public function uploadDocument(string $studentId, string $documentType, string $fileData, string $fileName, string $mimeType): array
+    {
+        try {
+            Log::info("UnifiedFileService::uploadDocument - START for student: $studentId, type: $documentType");
+
+            // Validate document type
+            if (!isset(self::DOCUMENT_TYPES[$documentType])) {
+                return [
+                    'success' => false,
+                    'document_id' => null,
+                    'message' => "Invalid document type: $documentType",
+                    'file_path' => null
+                ];
+            }
+
+            $docTypeInfo = self::DOCUMENT_TYPES[$documentType];
+
+            // Create temp directory if it doesn't exist
+            $tempDir = storage_path("app/temp/student_$studentId/{$docTypeInfo['folder']}");
+            if (!file_exists($tempDir)) {
+                mkdir($tempDir, 0755, true);
+            }
+
+            // Generate unique filename
+            $timestamp = time();
+            $randomString = substr(bin2hex(random_bytes(4)), 0, 8);
+            $extension = pathinfo($fileName, PATHINFO_EXTENSION);
+            if (!$extension && $mimeType) {
+                // Try to guess extension from mime type
+                $mimeMap = [
+                    'application/pdf' => 'pdf',
+                    'image/jpeg' => 'jpg',
+                    'image/png' => 'png',
+                    'image/gif' => 'gif',
+                ];
+                $extension = $mimeMap[$mimeType] ?? 'bin';
+            }
+
+            $uniqueFileName = "{$documentType}_{$timestamp}_{$randomString}.{$extension}";
+            $filePath = "$tempDir/$uniqueFileName";
+
+            // Save file (handle base64 or raw data)
+            if (strpos($fileData, 'data:') === 0) {
+                // It's a data URL, extract base64 part
+                $parts = explode(',', $fileData, 2);
+                $base64Data = $parts[1] ?? $fileData;
+            } else {
+                $base64Data = $fileData;
+            }
+
+            // Decode base64 and write file
+            $decodedData = base64_decode($base64Data, true);
+            if ($decodedData === false) {
+                return [
+                    'success' => false,
+                    'document_id' => null,
+                    'message' => 'Invalid base64 data',
+                    'file_path' => null
+                ];
+            }
+
+            if (!file_put_contents($filePath, $decodedData)) {
+                return [
+                    'success' => false,
+                    'document_id' => null,
+                    'message' => 'Failed to save file',
+                    'file_path' => null
+                ];
+            }
+
+            // Create database record
+            $documentId = DB::table('documents')->insertGetId([
+                'student_id' => $studentId,
+                'document_type_code' => $docTypeInfo['code'],
+                'document_type_name' => $documentType,
+                'file_path' => $filePath,
+                'file_name' => $uniqueFileName,
+                'mime_type' => $mimeType,
+                'status' => 'temp',
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+
+            Log::info("UnifiedFileService::uploadDocument - Successful upload, document_id: $documentId");
+
+            return [
+                'success' => true,
+                'document_id' => (string)$documentId,
+                'message' => 'Document uploaded successfully to temp storage',
+                'file_path' => $filePath
+            ];
+        } catch (Exception $e) {
+            Log::error("UnifiedFileService::uploadDocument - Error: {$e->getMessage()}");
+
+            return [
+                'success' => false,
+                'document_id' => null,
+                'message' => "Upload failed: {$e->getMessage()}",
+                'file_path' => null
+            ];
+        }
+    }
+
+    /**
      * Move documents from temp to permanent storage after approval
      * Supports both registration and applicant approval workflows
      *

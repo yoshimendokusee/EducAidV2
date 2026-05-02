@@ -30,25 +30,46 @@ export default function ReportsBuilder() {
   const handleExportCsv = async () => {
     try {
       setLoading(true);
+      setError(null);
       const resp = await reportApi.exportCsv(filters);
-      if (resp.ok && resp.data && typeof resp.data === 'string') {
-        // fallback if JSON returns csv string in data
-        const csv = resp.data;
-        const blob = new Blob([csv], { type: 'text/csv' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `report_${new Date().toISOString()}.csv`;
-        a.click();
-        URL.revokeObjectURL(url);
-      } else if (resp.ok && resp.status === 200) {
-        // If server returns raw CSV via Response, fetch as blob
-        const link = document.createElement('a');
-        link.href = '/api/reports/export-csv';
-        link.click();
-      } else {
-        setError(resp.data?.message || 'Export failed');
+      if (!resp.ok) {
+        setError('Export CSV failed');
+        return;
       }
+
+      const url = URL.createObjectURL(resp.blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = resp.filename || `report_${new Date().toISOString()}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleExportPdf = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const resp = await reportApi.exportPdf(filters);
+      if (!resp.ok) {
+        setError('Export PDF failed');
+        return;
+      }
+
+      const url = URL.createObjectURL(resp.blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = resp.filename || `report_${new Date().toISOString()}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -76,6 +97,7 @@ export default function ReportsBuilder() {
           <div className="flex gap-2">
             <button onClick={handleGenerate} className="bg-blue-600 text-white px-4 py-2 rounded">Generate</button>
             <button onClick={handleExportCsv} className="bg-green-600 text-white px-4 py-2 rounded">Export CSV</button>
+            <button onClick={handleExportPdf} className="bg-rose-600 text-white px-4 py-2 rounded">Export PDF</button>
           </div>
         </div>
 

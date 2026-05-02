@@ -20,6 +20,29 @@ async function jsonRequest(url, options = {}) {
   return { ok: response.ok, status: response.status, data };
 }
 
+async function downloadRequest(url, options = {}) {
+  const response = await fetch(url, {
+    credentials: 'include',
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest',
+      ...(options.headers || {}),
+    },
+    ...options,
+  });
+
+  const blob = await response.blob();
+  const disposition = response.headers.get('content-disposition') || '';
+  const filenameMatch = disposition.match(/filename="?([^";]+)"?/i);
+  const filename = filenameMatch?.[1] || null;
+
+  return {
+    ok: response.ok,
+    status: response.status,
+    blob,
+    filename,
+  };
+}
+
 // ============ WORKFLOW ENDPOINTS ============
 export const workflowApi = {
   getStatus() {
@@ -88,6 +111,12 @@ export const studentApi = {
 
 // ============ DOCUMENT ENDPOINTS ============
 export const documentApi = {
+  uploadDocument(payload) {
+    return jsonRequest(`${API_BASE}/documents/upload`, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+  },
   getStudentDocuments(studentId) {
     return jsonRequest(`${API_BASE}/documents/student-documents?student_id=${encodeURIComponent(studentId)}`);
   },
@@ -283,14 +312,20 @@ export const reportApi = {
     });
   },
   exportCsv(filters = {}) {
-    return jsonRequest(`${API_BASE}/reports/export-csv`, {
+    return downloadRequest(`${API_BASE}/reports/export-csv`, {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify(filters),
     });
   },
   exportPdf(filters = {}) {
-    return jsonRequest(`${API_BASE}/reports/export-pdf`, {
+    return downloadRequest(`${API_BASE}/reports/export-pdf`, {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify(filters),
     });
   },

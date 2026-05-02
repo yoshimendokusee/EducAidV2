@@ -98,7 +98,7 @@ export default function DocumentUpload() {
         reader.onload = async () => {
           const base64Data = reader.result.split(',')[1];
 
-          const result = await documentApi.reuploadDocument({
+          const result = await documentApi.uploadDocument({
             student_id: studentId,
             document_type: docType,
             file_data: base64Data,

@@ -56,6 +56,7 @@ Route::middleware(['api', 'compat.session.bridge'])->group(function () {
 
     // New migrated services: Documents and File Management
     Route::prefix('/documents')->group(function () {
+        Route::post('/upload', [DocumentController::class, 'uploadDocument']);
         Route::get('/student-documents', [DocumentController::class, 'getStudentDocuments']);
         Route::post('/move-to-perm-storage', [DocumentController::class, 'moveToPermStorage']);
         Route::post('/archive', [DocumentController::class, 'archiveDocuments']);

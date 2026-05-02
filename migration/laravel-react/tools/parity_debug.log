@@ -1,0 +1,366 @@
+run_parity_all.php start: 2026-05-02T18:48:56+00:00
+processing: modules/admin/manage_applicants.php
+run_parity_all.php start: 2026-05-02T18:49:00+00:00
+processing: modules/admin/manage_applicants.php
+run_parity_all.php start: 2026-05-02T18:49:10+00:00
+processing: modules/admin/manage_applicants.php
+run_parity_all.php start: 2026-05-02T18:51:21+00:00
+processing [1/89]: modules/admin/manage_applicants.php
+empty output [1/89] exit=0
+processing [2/89]: modules/admin/distribution_control.php
+empty output [2/89] exit=0
+processing [3/89]: modules/admin/verify_students.php
+invalid json [3/89] exit=0
+processing [4/89]: modules/admin/reports.php
+empty output [4/89] exit=0
+processing [5/89]: modules/admin/archived_students.php
+empty output [5/89] exit=0
+processing [6/89]: modules/admin/view_documents.php
+empty output [6/89] exit=0
+processing [7/89]: modules/admin/admin_notifications.php
+invalid json [7/89] exit=0
+processing [8/89]: modules/admin/admin_profile.php
+invalid json [8/89] exit=0
+processing [9/89]: modules/admin/settings.php
+invalid json [9/89] exit=0
+processing [10/89]: modules/admin/sidebar_settings.php
+invalid json [10/89] exit=0
+processing [11/89]: modules/admin/sidebar_settings_enhanced.php
+invalid json [11/89] exit=0
+processing [12/89]: modules/admin/footer_settings.php
+empty output [12/89] exit=0
+processing [13/89]: modules/admin/topbar_settings.php
+empty output [13/89] exit=0
+processing [14/89]: modules/admin/header_appearance.php
+empty output [14/89] exit=0
+processing [15/89]: modules/admin/manage_slots.php
+invalid json [15/89] exit=0
+processing [16/89]: modules/admin/manage_schedules.php
+empty output [16/89] exit=0
+processing [17/89]: modules/admin/manage_announcements.php
+invalid json [17/89] exit=0
+processing [18/89]: modules/admin/audit_logs.php
+empty output [18/89] exit=0
+processing [19/89]: modules/admin/storage_dashboard.php
+empty output [19/89] exit=0
+processing [20/89]: modules/admin/blacklist_archive.php
+invalid json [20/89] exit=0
+processing [21/89]: modules/admin/blacklist_details.php
+invalid json [21/89] exit=0
+processing [22/89]: modules/admin/scan_qr.php
+invalid json [22/89] exit=0
+processing [23/89]: modules/admin/scanner.php
+empty output [23/89] exit=0
+processing [24/89]: modules/admin/admin_management.php
+invalid json [24/89] exit=0
+processing [25/89]: modules/admin/review_registrations.php
+invalid json [25/89] exit=0
+processing [26/89]: modules/admin/view_graduating_students.php
+empty output [26/89] exit=0
+processing [27/89]: modules/admin/view_qr_codes_dev.php
+empty output [27/89] exit=0
+processing [28/89]: modules/admin/system_data.php
+invalid json [28/89] exit=0
+processing [29/89]: modules/admin/file_browser.php
+invalid json [29/89] exit=0
+processing [30/89]: modules/admin/municipality_content.php
+invalid json [30/89] exit=0
+processing [31/89]: modules/admin/addbarangay.php
+invalid json [31/89] exit=0
+processing [32/89]: modules/admin/download_distribution.php
+invalid json [32/89] exit=0
+processing [33/89]: modules/admin/distribution_archives.php
+empty output [33/89] exit=0
+processing [34/89]: modules/admin/get_applicant_details.php
+invalid json [34/89] exit=0
+processing [35/89]: modules/admin/get_distribution_details.php
+invalid json [35/89] exit=0
+processing [36/89]: modules/admin/get_grade_details.php
+invalid json [36/89] exit=0
+processing [37/89]: modules/admin/get_registrant_details.php
+invalid json [37/89] exit=0
+processing [38/89]: modules/admin/get_slot_stats.php
+invalid json [38/89] exit=0
+processing [39/89]: modules/admin/get_student_document.php
+invalid json [39/89] exit=0
+processing [40/89]: modules/admin/get_archived_student_details.php
+invalid json [40/89] exit=0
+processing [41/89]: modules/admin/get_graduating_students_list.php
+invalid json [41/89] exit=0
+processing [42/89]: modules/admin/get_confidence_breakdown.php
+invalid json [42/89] exit=0
+processing [43/89]: modules/admin/refresh_confidence_scores.php
+invalid json [43/89] exit=0
+processing [44/89]: modules/admin/save_manual_grades.php
+invalid json [44/89] exit=0
+processing [45/89]: modules/admin/restore_blacklisted_student.php
+invalid json [45/89] exit=0
+processing [46/89]: modules/admin/compress_archived_students.php
+invalid json [46/89] exit=0
+processing [47/89]: modules/admin/download_blacklist_zip.php
+invalid json [47/89] exit=0
+processing [48/89]: modules/admin/end_distribution.php
+empty output [48/89] exit=0
+processing [49/89]: modules/admin/reset_distribution.php
+invalid json [49/89] exit=0
+processing [50/89]: modules/admin/generate_and_apply_theme.php
+invalid json [50/89] exit=0
+processing [51/89]: modules/admin/auto_approve_high_confidence.php
+invalid json [51/89] exit=0
+processing [52/89]: modules/admin/blacklist_service.php
+invalid json [52/89] exit=0
+processing [53/89]: modules/admin/check_automatic_archiving.php
+invalid json [53/89] exit=0
+processing [54/89]: modules/admin/check_file_status.php
+invalid json [54/89] exit=0
+processing [55/89]: modules/admin/household_blocked_registrations.php
+empty output [55/89] exit=0
+processing [56/89]: modules/admin/recaptcha_diagnostics.php
+invalid json [56/89] exit=0
+processing [57/89]: modules/admin/slot_threshold_admin.php
+invalid json [57/89] exit=0
+processing [58/89]: modules/admin/upload_municipality_logo.php
+invalid json [58/89] exit=0
+processing [59/89]: modules/admin/toggle_municipality_logo.php
+invalid json [59/89] exit=0
+processing [60/89]: modules/admin/update_municipality_colors.php
+invalid json [60/89] exit=0
+processing [61/89]: modules/admin/verify_password.php
+invalid json [61/89] exit=0
+processing [62/89]: modules/admin/verify_password_debug.php
+invalid json [62/89] exit=0
+processing [63/89]: modules/admin/notifications_api.php
+invalid json [63/89] exit=0
+processing [64/89]: modules/student/upload_document.php
+invalid json [64/89] exit=0
+processing [65/89]: modules/student/student_register.php
+invalid json [65/89] exit=0
+processing [66/89]: modules/student/student_profile.php
+invalid json [66/89] exit=0
+processing [67/89]: modules/student/student_settings.php
+invalid json [67/89] exit=0
+processing [68/89]: modules/student/student_notifications.php
+invalid json [68/89] exit=0
+processing [69/89]: modules/student/security_privacy.php
+invalid json [69/89] exit=0
+processing [70/89]: modules/student/security_activity.php
+invalid json [70/89] exit=0
+processing [71/89]: modules/student/privacy_data.php
+invalid json [71/89] exit=0
+processing [72/89]: modules/student/student_homepage.php
+empty output [72/89] exit=0
+processing [73/89]: modules/student/logout.php
+empty output [73/89] exit=0
+processing [74/89]: modules/student/active_sessions.php
+invalid json [74/89] exit=0
+processing [75/89]: modules/student/accessibility.php
+invalid json [75/89] exit=0
+processing [76/89]: modules/student/serve_profile_image.php
+invalid json [76/89] exit=0
+processing [77/89]: modules/student/qr_code.php
+invalid json [77/89] exit=0
+processing [78/89]: modules/student/download_qr.php
+invalid json [78/89] exit=0
+processing [79/89]: modules/student/phone_check.php
+invalid json [79/89] exit=0
+processing [80/89]: modules/student/process_id_picture.php
+invalid json [80/89] exit=0
+processing [81/89]: modules/student/update_year_level.php
+invalid json [81/89] exit=0
+processing [82/89]: modules/student/notifications_api.php
+invalid json [82/89] exit=0
+processing [83/89]: modules/student/api_payroll_history.php
+invalid json [83/89] exit=0
+processing [84/89]: modules/student/create_session.php
+invalid json [84/89] exit=0
+processing [85/89]: modules/student/get_validation_details.php
+invalid json [85/89] exit=0
+processing [86/89]: modules/student/grade_validation_functions.php
+invalid json [86/89] exit=0
+processing [87/89]: modules/student/ignore_student_register2.php
+invalid json [87/89] exit=0
+processing [88/89]: modules/student/ignore_upload_document.php
+invalid json [88/89] exit=0
+processing [89/89]: modules/student/debug_logger.php
+invalid json [89/89] exit=0
+completed: wrote parity_report.json (89 entries)
+run_parity_all.php start: 2026-05-02T18:52:02+00:00
+processing [1/89]: modules/admin/manage_applicants.php
+empty output [1/89] exit=0
+processing [2/89]: modules/admin/distribution_control.php
+empty output [2/89] exit=0
+processing [3/89]: modules/admin/verify_students.php
+invalid json [3/89] exit=0
+processing [4/89]: modules/admin/reports.php
+empty output [4/89] exit=0
+processing [5/89]: modules/admin/archived_students.php
+empty output [5/89] exit=0
+processing [6/89]: modules/admin/view_documents.php
+empty output [6/89] exit=0
+processing [7/89]: modules/admin/admin_notifications.php
+invalid json [7/89] exit=0
+processing [8/89]: modules/admin/admin_profile.php
+done [8/89] diff=different, exit=0
+processing [9/89]: modules/admin/settings.php
+done [9/89] diff=different, exit=0
+processing [10/89]: modules/admin/sidebar_settings.php
+invalid json [10/89] exit=0
+processing [11/89]: modules/admin/sidebar_settings_enhanced.php
+invalid json [11/89] exit=0
+processing [12/89]: modules/admin/footer_settings.php
+empty output [12/89] exit=0
+processing [13/89]: modules/admin/topbar_settings.php
+empty output [13/89] exit=0
+processing [14/89]: modules/admin/header_appearance.php
+empty output [14/89] exit=0
+processing [15/89]: modules/admin/manage_slots.php
+invalid json [15/89] exit=0
+processing [16/89]: modules/admin/manage_schedules.php
+empty output [16/89] exit=0
+processing [17/89]: modules/admin/manage_announcements.php
+invalid json [17/89] exit=0
+processing [18/89]: modules/admin/audit_logs.php
+empty output [18/89] exit=0
+processing [19/89]: modules/admin/storage_dashboard.php
+empty output [19/89] exit=0
+processing [20/89]: modules/admin/blacklist_archive.php
+invalid json [20/89] exit=0
+processing [21/89]: modules/admin/blacklist_details.php
+invalid json [21/89] exit=0
+processing [22/89]: modules/admin/scan_qr.php
+invalid json [22/89] exit=0
+processing [23/89]: modules/admin/scanner.php
+empty output [23/89] exit=0
+processing [24/89]: modules/admin/admin_management.php
+invalid json [24/89] exit=0
+processing [25/89]: modules/admin/review_registrations.php
+done [25/89] diff=different, exit=0
+processing [26/89]: modules/admin/view_graduating_students.php
+empty output [26/89] exit=0
+processing [27/89]: modules/admin/view_qr_codes_dev.php
+empty output [27/89] exit=0
+processing [28/89]: modules/admin/system_data.php
+done [28/89] diff=different, exit=0
+processing [29/89]: modules/admin/file_browser.php
+invalid json [29/89] exit=0
+processing [30/89]: modules/admin/municipality_content.php
+invalid json [30/89] exit=0
+processing [31/89]: modules/admin/addbarangay.php
+done [31/89] diff=different, exit=0
+processing [32/89]: modules/admin/download_distribution.php
+invalid json [32/89] exit=0
+processing [33/89]: modules/admin/distribution_archives.php
+empty output [33/89] exit=0
+processing [34/89]: modules/admin/get_applicant_details.php
+invalid json [34/89] exit=0
+processing [35/89]: modules/admin/get_distribution_details.php
+invalid json [35/89] exit=0
+processing [36/89]: modules/admin/get_grade_details.php
+invalid json [36/89] exit=0
+processing [37/89]: modules/admin/get_registrant_details.php
+invalid json [37/89] exit=0
+processing [38/89]: modules/admin/get_slot_stats.php
+invalid json [38/89] exit=0
+processing [39/89]: modules/admin/get_student_document.php
+invalid json [39/89] exit=0
+processing [40/89]: modules/admin/get_archived_student_details.php
+invalid json [40/89] exit=0
+processing [41/89]: modules/admin/get_graduating_students_list.php
+invalid json [41/89] exit=0
+processing [42/89]: modules/admin/get_confidence_breakdown.php
+invalid json [42/89] exit=0
+processing [43/89]: modules/admin/refresh_confidence_scores.php
+invalid json [43/89] exit=0
+processing [44/89]: modules/admin/save_manual_grades.php
+done [44/89] diff=different, exit=0
+processing [45/89]: modules/admin/restore_blacklisted_student.php
+invalid json [45/89] exit=0
+processing [46/89]: modules/admin/compress_archived_students.php
+invalid json [46/89] exit=0
+processing [47/89]: modules/admin/download_blacklist_zip.php
+invalid json [47/89] exit=0
+processing [48/89]: modules/admin/end_distribution.php
+empty output [48/89] exit=0
+processing [49/89]: modules/admin/reset_distribution.php
+invalid json [49/89] exit=0
+processing [50/89]: modules/admin/generate_and_apply_theme.php
+invalid json [50/89] exit=0
+processing [51/89]: modules/admin/auto_approve_high_confidence.php
+done [51/89] diff=different, exit=0
+processing [52/89]: modules/admin/blacklist_service.php
+invalid json [52/89] exit=0
+processing [53/89]: modules/admin/check_automatic_archiving.php
+invalid json [53/89] exit=0
+processing [54/89]: modules/admin/check_file_status.php
+done [54/89] diff=different, exit=0
+processing [55/89]: modules/admin/household_blocked_registrations.php
+empty output [55/89] exit=0
+processing [56/89]: modules/admin/recaptcha_diagnostics.php
+invalid json [56/89] exit=0
+processing [57/89]: modules/admin/slot_threshold_admin.php
+done [57/89] diff=different, exit=0
+processing [58/89]: modules/admin/upload_municipality_logo.php
+invalid json [58/89] exit=0
+processing [59/89]: modules/admin/toggle_municipality_logo.php
+invalid json [59/89] exit=0
+processing [60/89]: modules/admin/update_municipality_colors.php
+invalid json [60/89] exit=0
+processing [61/89]: modules/admin/verify_password.php
+invalid json [61/89] exit=0
+processing [62/89]: modules/admin/verify_password_debug.php
+invalid json [62/89] exit=0
+processing [63/89]: modules/admin/notifications_api.php
+invalid json [63/89] exit=0
+processing [64/89]: modules/student/upload_document.php
+done [64/89] diff=different, exit=0
+processing [65/89]: modules/student/student_register.php
+done [65/89] diff=different, exit=0
+processing [66/89]: modules/student/student_profile.php
+invalid json [66/89] exit=0
+processing [67/89]: modules/student/student_settings.php
+invalid json [67/89] exit=0
+processing [68/89]: modules/student/student_notifications.php
+invalid json [68/89] exit=0
+processing [69/89]: modules/student/security_privacy.php
+invalid json [69/89] exit=0
+processing [70/89]: modules/student/security_activity.php
+invalid json [70/89] exit=0
+processing [71/89]: modules/student/privacy_data.php
+invalid json [71/89] exit=0
+processing [72/89]: modules/student/student_homepage.php
+empty output [72/89] exit=0
+processing [73/89]: modules/student/logout.php
+empty output [73/89] exit=0
+processing [74/89]: modules/student/active_sessions.php
+invalid json [74/89] exit=0
+processing [75/89]: modules/student/accessibility.php
+invalid json [75/89] exit=0
+processing [76/89]: modules/student/serve_profile_image.php
+invalid json [76/89] exit=0
+processing [77/89]: modules/student/qr_code.php
+invalid json [77/89] exit=0
+processing [78/89]: modules/student/download_qr.php
+done [78/89] diff=different, exit=0
+processing [79/89]: modules/student/phone_check.php
+done [79/89] diff=different, exit=0
+processing [80/89]: modules/student/process_id_picture.php
+invalid json [80/89] exit=0
+processing [81/89]: modules/student/update_year_level.php
+invalid json [81/89] exit=0
+processing [82/89]: modules/student/notifications_api.php
+invalid json [82/89] exit=0
+processing [83/89]: modules/student/api_payroll_history.php
+invalid json [83/89] exit=0
+processing [84/89]: modules/student/create_session.php
+done [84/89] diff=different, exit=0
+processing [85/89]: modules/student/get_validation_details.php
+invalid json [85/89] exit=0
+processing [86/89]: modules/student/grade_validation_functions.php
+done [86/89] diff=different, exit=0
+processing [87/89]: modules/student/ignore_student_register2.php
+done [87/89] diff=different, exit=0
+processing [88/89]: modules/student/ignore_upload_document.php
+done [88/89] diff=different, exit=0
+processing [89/89]: modules/student/debug_logger.php
+done [89/89] diff=different, exit=0
+completed: wrote parity_report.json (89 entries)

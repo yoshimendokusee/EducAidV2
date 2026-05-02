@@ -66,6 +66,27 @@ class CompatScriptRunner
             $_SERVER = $originalServer;
         }
 
-        return response($output, $statusCode);
+        $response = response($output, $statusCode);
+
+        // Add deprecation header if this compat path is marked as migrated.
+        try {
+            $migratedListPath = base_path('../migrated_compat_paths.txt');
+            if (is_file($migratedListPath)) {
+                $lines = file($migratedListPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+                $normalized = str_replace('\\', '/', ltrim($relativePath, '/'));
+                foreach ($lines as $line) {
+                    $line = trim($line);
+                    if ($line === '') continue;
+                    if (strtolower($line) === strtolower($normalized)) {
+                        $response->headers->set('X-Compat-Deprecated', 'true');
+                        break;
+                    }
+                }
+            }
+        } catch (\Throwable $e) {
+            // Non-fatal - don't block compat responses on header logic
+        }
+
+        return $response;
     }
 }
