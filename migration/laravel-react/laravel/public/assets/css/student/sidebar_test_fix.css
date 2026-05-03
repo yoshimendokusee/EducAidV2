@@ -1,0 +1,48 @@
+/* Test CSS fixes for sidebar z-index overlay issue
+   Apply this AFTER the main sidebar.css to override 
+   
+   The goal: Make sidebar cover topbar on mobile like admin
+   Current stack should be:
+   - Sidebar: 1070+ (needs to be highest on mobile)
+   - Backdrop: 1055-1060 (dim layer)
+   - Topbar: 1050
+   - Header: 1030
+*/
+
+/* Force sidebar above everything on mobile/tablet */
+@media (max-width: 992px) {
+  .sidebar,
+  #sidebar,
+  .student-sidebar {
+    top: 0 !important;
+    left: 0 !important;
+    height: 100vh !important;
+    z-index: 9999 !important; /* nuclear option - definitely above everything */
+    position: fixed !important;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3) !important; /* drop shadow when overlaying */
+  }
+  
+  /* Backdrop should be below sidebar but above topbar */
+  .sidebar-backdrop,
+  #sidebar-backdrop {
+    z-index: 9998 !important;
+    position: fixed !important;
+  }
+  
+  /* Ensure topbar stays below sidebar */
+  .student-topbar {
+    z-index: 1050 !important; /* keep original but ensure sidebar is way higher */
+  }
+  
+  /* Ensure header stays below sidebar */
+  .student-main-header {
+    z-index: 1030 !important;
+  }
+}
+
+/* Desktop behavior unchanged */
+@media (min-width: 993px) {
+  .sidebar {
+    z-index: 1000; /* normal desktop stacking */
+  }
+}

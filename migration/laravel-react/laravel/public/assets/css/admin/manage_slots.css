@@ -1,0 +1,229 @@
+/* manage_slots.css - Clean style matching review_registrations.php */
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+/* --- Cards --- */
+.card {
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+  background: white;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+}
+
+.card-header {
+  font-weight: 600;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: none;
+  padding: 1rem;
+  border-radius: 0.5rem 0.5rem 0 0;
+  background-color: #495057;
+  color: #fff !important;
+}
+
+.card-header * {
+  color: #fff !important;
+}
+
+.card-header .badge {
+  color: #fff !important;
+  background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.card-header.bg-info {
+  background-color: #17a2b8 !important;
+}
+
+.card-header.bg-primary {
+  background-color: #007bff !important;
+}
+
+/* --- Visual Badges --- */
+.badge-pill {
+  border-radius: 50rem;
+  padding: 0.35em 0.75em;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.badge-green {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.badge-red {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.badge-blue {
+  background-color: #007bff;
+  color: #fff;
+}
+
+/* --- Buttons --- */
+.btn-primary {
+  background-color: #007bff;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.btn-success {
+  background-color: #28a745;
+  border: none;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border: none;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+}
+
+/* --- Accordion Redesign --- */
+.accordion-item {
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+  background: white;
+}
+
+.accordion-button {
+  font-weight: 500;
+  background-color: white;
+  transition: all 0.2s ease;
+  color: #495057;
+  padding: 1rem 1.25rem;
+  font-size: 1rem;
+}
+
+.accordion-button:hover {
+  background-color: #f8f9fa;
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: #e9ecef;
+  color: #212529;
+  font-weight: 600;
+  box-shadow: none;
+}
+
+.accordion-button:focus {
+  box-shadow: none;
+  border-color: #dee2e6;
+}
+
+.accordion-button::after {
+  transition: transform 0.2s ease-in-out;
+  filter: brightness(0.7);
+}
+
+.accordion-button:not(.collapsed)::after {
+  transform: rotate(180deg);
+  filter: brightness(0.5);
+}
+
+.accordion-body {
+  padding: 1.5rem;
+  background: white;
+}
+
+.accordion-body .card {
+  border: 1px solid #e9ecef;
+  margin-bottom: 0;
+}
+
+.accordion-body .card-header {
+  background: #495057;
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem 1rem;
+}
+
+.accordion-body .table {
+  margin-bottom: 0;
+}
+
+.accordion-body .table thead {
+  background: #495057;
+  color: white;
+}
+
+/* --- 6. Typography & Icons --- */
+h2, h4, h5, h6 {
+  font-weight: 600;
+  color: #2d2d2d;
+}
+h2 i, h4 i, h5 i {
+  margin-right: 8px;
+  color: #3399FF;
+}
+.table thead th {
+  background-color: #f5f8fb;
+  font-weight: 600;
+}
+.table tbody tr:hover {
+  background-color: #f0f6f9;
+}
+
+/* --- 7. Feedback & Alerts --- */
+.alert {
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  animation: fadeIn 0.4s ease;
+}
+.alert-warning {
+  background-color: #fff3cd;
+  color: #856404;
+}
+.alert i {
+  font-size: 1.2rem;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Pagination --- */
+.pagination .page-item.active .page-link {
+  background-color: #3399FF;
+  border-color: #3399FF;
+}
+.pagination .page-link {
+  color: #3399FF;
+}
+.pagination .page-link:hover {
+  background-color: #e7f1ff;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .card {
+    margin-bottom: 1.5rem;
+  }
+}

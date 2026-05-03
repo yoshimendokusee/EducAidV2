@@ -209,6 +209,9 @@ $editable_page_slugs = ['landingpage.php', 'about.php', 'how-it-works.php', 'req
 // Helper function to check if a nav link is editable
 function is_editable_page($href) {
     global $editable_page_slugs;
+  if (!isset($editable_page_slugs) || !is_array($editable_page_slugs)) {
+    $editable_page_slugs = ['landingpage.php', 'about.php', 'how-it-works.php', 'requirements.php', 'announcements.php', 'contact.php'];
+  }
     foreach ($editable_page_slugs as $slug) {
         if (strpos($href, $slug) !== false) {
             return true;

@@ -1,0 +1,101 @@
+/* reCAPTCHA v2 Styling for Landing Page */
+
+/* Newsletter reCAPTCHA styling */
+.g-recaptcha {
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+/* Ensure reCAPTCHA doesn't break responsive layout */
+
+/* Tablet (768px - 991px) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .g-recaptcha {
+    transform: scale(0.92);
+    transform-origin: center;
+  }
+  
+  #newsletterForm .form-control {
+    padding: 0.6rem 0.875rem;
+  }
+  
+  #newsletterForm .btn {
+    padding: 0.6rem 1.25rem;
+  }
+}
+
+/* Mobile and Small Tablet */
+@media (max-width: 767.98px) {
+  .g-recaptcha {
+    transform: scale(0.85);
+    transform-origin: center;
+  }
+}
+
+/* Newsletter form styling */
+#newsletterForm .form-control {
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  padding: 0.5rem 0.75rem;
+}
+
+#newsletterForm .btn {
+  border-radius: 6px;
+  white-space: nowrap;
+  padding: 0.5rem 1rem;
+}
+
+#newsletterMessage {
+  margin-top: 0.5rem;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+/* Chatbot reCAPTCHA - invisible by default */
+#chatRecaptcha {
+  display: none;
+}
+
+/* Loading spinner for subscribe button */
+.spinner-border-sm {
+  width: 0.875rem;
+  height: 0.875rem;
+  border-width: 0.125rem;
+}
+
+/* reCAPTCHA container responsive adjustments */
+.g-recaptcha iframe {
+  max-width: 100%;
+}
+
+/* Custom styling for success/error messages */
+.text-success {
+  color: #059669 !important;
+}
+
+.text-danger {
+  color: #dc2626 !important;
+}
+
+/* Newsletter form responsive layout */
+@media (max-width: 576px) {
+  #newsletterForm .d-flex {
+    flex-direction: column;
+  }
+  
+  #newsletterForm .btn {
+    margin-top: 0.5rem;
+  }
+}
+
+/* Footer newsletter section adjustments */
+.footer .col-md-4 {
+  min-height: 180px; /* Accommodate reCAPTCHA */
+}
+
+/* Ensure proper spacing for reCAPTCHA in footer */
+footer .g-recaptcha {
+  margin: 0.75rem 0;
+}

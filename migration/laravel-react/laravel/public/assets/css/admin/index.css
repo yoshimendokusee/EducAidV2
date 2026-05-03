@@ -1,0 +1,177 @@
+/* Base Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #0d1b2a, #1b263b);
+  overflow: hidden;
+}
+
+/* Wrapper */
+.login-wrapper {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+/* Login Card */
+.right-panel {
+  background: #1c2541;
+  padding: 50px 36px;
+  border-radius: 14px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  width: 100%;
+  max-width: 460px;
+  text-align: center;
+  color: white;
+}
+
+/* Logo */
+.logo {
+  width: 64px;
+  margin-bottom: 18px;
+}
+
+/* Header */
+.title {
+  font-size: 28px;
+  font-weight: 600;
+  color: #00df9a;
+  margin-bottom: 6px;
+}
+
+.subtext {
+  font-size: 14px;
+  color: #cfd8e1;
+  margin-bottom: 30px;
+  line-height: 1.5;
+}
+
+/* Form Fields */
+.login-form label {
+  display: block;
+  text-align: left;
+  font-size: 13px;
+  color: #e0e0e0;
+  margin-bottom: 6px;
+}
+
+.input-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 11px 15px;
+  border: none;
+  border-radius: 8px;
+  background: #121c34;
+  color: white;
+  font-size: 15px;
+  outline: none;
+  transition: box-shadow 0.3s ease;
+}
+
+.input-group input:focus {
+  box-shadow: 0 0 0 3px #00df9a;
+}
+
+/* Button */
+button[type="submit"] {
+  width: 100%;
+  background: #00df9a;
+  border: none;
+  padding: 12px;
+  font-size: 15px;
+  color: #003b2f;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button[type="submit"]:hover {
+  background: #00c78a;
+  transform: scale(1.02);
+}
+
+/* Footer */
+.form-footer {
+  margin-top: 18px;
+  font-size: 12px;
+}
+
+.form-footer a {
+  color: #aaa;
+  text-decoration: none;
+}
+
+.form-footer a:hover {
+  color: #ffffff;
+}
+
+/* Error Message */
+.error {
+  color: #ff4d4d;
+  font-size: 13px;
+  margin-top: 14px;
+}
+
+/* Responsive Enhancements */
+/* Tablet Optimization (768px-991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+  .right-panel {
+    padding: 45px 32px;
+    max-width: 420px;
+  }
+
+  .title {
+    font-size: 26px;
+  }
+
+  .subtext {
+    font-size: 13.5px;
+  }
+
+  button[type="submit"] {
+    font-size: 14.5px;
+    padding: 11px;
+  }
+  
+  /* CMS Edit Restrictions on Tablet */
+  .edit-mode-toggle,
+  .edit-btn,
+  .edit-btn-inline,
+  .cms-editor-btn,
+  [class*="edit-"]:not(.editable-content) {
+    pointer-events: none !important;
+    opacity: 0.5 !important;
+    cursor: not-allowed !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .right-panel {
+    padding: 40px 24px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .subtext {
+    font-size: 13px;
+  }
+
+  button[type="submit"] {
+    font-size: 14px;
+  }
+}

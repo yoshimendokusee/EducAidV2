@@ -1,0 +1,68 @@
+/* Reset & Background */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #007bff; /* General Trias blue */
+}
+
+/* Wrapper */
+.forgot-wrapper {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+/* Card Design */
+.forgot-card {
+  width: 100%;
+  max-width: 460px;
+  background-color: white;
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  animation: fadeIn 0.6s ease;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.forgot-card h3 {
+  font-size: 1.8rem;
+}
+
+.forgot-card p {
+  font-size: 0.95rem;
+  color: #666;
+}
+
+.forgot-card input.form-control {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+}
+
+.forgot-card button {
+  font-size: 1rem;
+  padding: 0.65rem 1rem;
+  transition: all 0.3s ease;
+}
+
+.forgot-card button:hover {
+  transform: scale(1.02);
+}

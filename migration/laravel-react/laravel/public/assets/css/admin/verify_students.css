@@ -1,0 +1,415 @@
+/* === verify_students.css - Clean style === */
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+/* Filter Section */
+.filter-section {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+/* ─────────────────────────────────────────────────────────── */
+/* Filter Grid - Responsive CSS Grid Layout                    */
+/* ─────────────────────────────────────────────────────────── */
+.filter-grid {
+  display: grid;
+  gap: 1rem;
+  align-items: end;
+}
+
+/* verify_students has 3 filters + buttons = 4 logical columns */
+.filter-grid-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* Filter group styling */
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.filter-group label {
+  font-weight: 500;
+  font-size: 0.875rem;
+  margin-bottom: 0.35rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Filter buttons container */
+.filter-buttons {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-end;
+}
+
+.filter-buttons .btn {
+  white-space: nowrap;
+  padding: 0.5rem 1rem;
+}
+
+/* XL screens (≥1200px) - 4 columns */
+@media (min-width: 1200px) {
+  .filter-grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Large screens (992px - 1199px) - 4 columns */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .filter-grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Medium screens (768px - 991px) - 2 columns */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .filter-grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Small screens (576px - 767px) - 2 columns */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .filter-grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile (<576px) - 1 column */
+@media (max-width: 575.98px) {
+  .filter-grid-4 {
+    grid-template-columns: 1fr;
+  }
+  
+  .filter-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .filter-buttons .btn {
+    width: 100%;
+  }
+}
+
+/* Quick Actions - Purple gradient section */
+.quick-actions {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.quick-actions h5 {
+  color: white;
+  margin-bottom: 5px;
+}
+
+.quick-actions small {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Workflow chips layout */
+.quick-actions .status-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+@media (max-width: 576px) {
+  .quick-actions .status-grid { grid-template-columns: 1fr; }
+}
+
+.quick-actions .status-chip {
+  background: #ffffff;
+  color: #1f2937;
+  border-radius: 9999px;
+  padding: 10px 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+
+.quick-actions .status-chip .bi { font-size: 1rem; }
+
+.quick-actions .status-chip--alert {
+  background: #ffc107;
+  color: #111827;
+  border-radius: 12px;
+}
+
+/* Card Style */
+.card {
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  background: #fff;
+  margin-bottom: 2rem;
+}
+
+/* Card Header - Dark gray with white text */
+.card-header {
+  background-color: #495057;
+  color: #fff !important;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 8px 8px 0 0;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.card-header * {
+  color: #fff !important;
+}
+
+/* Form Labels */
+.form-label {
+  font-weight: 400;
+  color: #212529;
+  margin-bottom: 5px;
+}
+
+.form-select,
+.form-control {
+  border-radius: 0.5rem;
+  border: 1px solid #dee2e6;
+}
+
+/* Button Styles */
+.btn-primary,
+.btn-success,
+.btn-danger,
+.btn-warning {
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 10px 20px;
+  transition: background 0.15s;
+}
+
+.btn-primary {
+  background: #007bff;
+  border: none;
+}
+
+.btn-primary:hover {
+  background: #0056b3;
+}
+
+.btn-success {
+  background: #28a745;
+  border: none;
+}
+
+.btn-success:hover {
+  background: #218838;
+}
+
+.btn-danger {
+  background: #dc3545;
+  border: none;
+}
+
+.btn-danger:hover {
+  background: #c82333;
+}.btn-warning {
+  background: #FFC107;
+  border: none;
+  color: #333;
+}
+
+.btn-warning:hover {
+  background: #e2a900;
+  color: #222;
+}
+
+.action-buttons {
+  padding-top: 1.5rem;
+  border-top: 1px solid #e2e8f0;
+  margin-top: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  justify-content: flex-end;
+}
+
+/* Table */
+.table-responsive {
+  border-radius: 0 0 0.85rem 0.85rem;
+  overflow-x: auto;
+  background: #fff;
+  box-shadow: none;
+}
+
+/* ─────────────────────────────────────────────────────────── */
+/* Scroll-Friendly Table - Horizontal scroll on desktop        */
+/* ─────────────────────────────────────────────────────────── */
+.verify-table {
+  min-width: 950px;
+  table-layout: auto;
+  margin-bottom: 0;
+}
+
+/* Compact table header - match other admin pages */
+.verify-table thead th {
+  background: #495057 !important;
+  color: #fff !important;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 10px 12px;
+  border: none;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+/* Compact table cells */
+.verify-table tbody td {
+  font-size: 0.9rem;
+  padding: 10px 12px;
+  border: none;
+  border-bottom: 1px solid #f2f2f2;
+  vertical-align: middle;
+}
+
+/* Checkbox column styling */
+.verify-table th.checkbox-col,
+.verify-table td.checkbox-col {
+  width: 44px !important;
+  min-width: 44px !important;
+  max-width: 44px !important;
+  text-align: center;
+  padding: 10px 8px;
+}
+
+/* Column widths for verify table */
+.verify-table th:nth-child(2),
+.verify-table td:nth-child(2) { min-width: 180px; }      /* Full Name */
+.verify-table th:nth-child(3),
+.verify-table td:nth-child(3) { min-width: 180px; }      /* Email */
+.verify-table th:nth-child(4),
+.verify-table td:nth-child(4) { min-width: 120px; }      /* Mobile Number */
+.verify-table th:nth-child(5),
+.verify-table td:nth-child(5) { min-width: 130px; }      /* Barangay */
+.verify-table th:nth-child(6),
+.verify-table td:nth-child(6) { min-width: 90px; }       /* Payroll # */
+.verify-table th:nth-child(7),
+.verify-table td:nth-child(7) { min-width: 110px; }      /* QR Generated? */
+
+/* Row hover */
+.verify-table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+/* Mobile: Reset table styles for card layout */
+@media (max-width: 767.98px) {
+  .verify-table {
+    min-width: unset;
+  }
+  
+  .verify-table th.checkbox-col,
+  .verify-table td.checkbox-col {
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+  }
+}
+
+/* QR Generated column - narrow and centered */
+.table th.qr-col,
+.table td.qr-col {
+  width: 120px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Mobile Responsive - table_core.css handles this, but keep specific overrides */
+@media (max-width: 767.98px) {
+  /* Additional mobile-specific styling if needed */
+}
+
+/* No students found state */
+.table td.text-muted {
+  font-style: italic;
+  font-size: 0.96rem;
+  color: #999 !important;
+}
+
+/* Thumb-friendly action buttons: Side by side on mobile */
+@media (max-width: 767.98px) {
+  .action-buttons {
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: flex-end;
+    gap: 0.6rem;
+    padding-bottom: 1rem;
+  }
+  .action-buttons .btn {
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: none;
+    width: auto;
+    margin: 0;
+    border-radius: 0.7rem;
+    font-size: 1.08rem;
+    text-align: center;
+    box-shadow: 0 2px 12px rgba(17,130,255,0.06);
+  }
+  .action-buttons .btn + .btn {
+    margin-left: 0.6rem;
+  }
+  
+  /* Sticky action bar for mobile */
+  #activeStudentsForm .d-flex.flex-wrap.gap-2.mt-2 {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #fff;
+    padding: 0.75rem 1rem;
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.15);
+    z-index: 1000;
+    margin: 0 !important;
+    gap: 0.5rem !important;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+  }
+  
+  #activeStudentsForm .d-flex.flex-wrap.gap-2.mt-2.show-actions {
+    transform: translateY(0);
+  }
+  
+  #activeStudentsForm .d-flex.flex-wrap.gap-2.mt-2 .btn {
+    flex: 1;
+    min-width: 0;
+    font-size: 0.9rem;
+    padding: 0.65rem 0.5rem;
+    white-space: nowrap;
+  }
+  
+  #activeStudentsForm .d-flex.flex-wrap.gap-2.mt-2 .btn i {
+    font-size: 1rem;
+  }
+  
+  #activeStudentsForm .d-flex.flex-wrap.gap-2.mt-2 .alert {
+    display: none !important;
+  }
+  
+  /* Add bottom padding to prevent content from being hidden by sticky bar */
+  #activeStudentsForm .card-body {
+    padding-bottom: 80px;
+  }
+}

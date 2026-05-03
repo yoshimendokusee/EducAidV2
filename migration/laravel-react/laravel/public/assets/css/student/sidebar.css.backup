@@ -1,0 +1,184 @@
+/* ===========================
+   Sidebar Styles
+=========================== */
+.sidebar {
+  position: fixed;
+  top: var(--topbar-h); /* Start below the fixed topbar */
+  left: 0;
+  height: calc(100% - var(--topbar-h)); /* Adjust height to account for topbar */
+  width: 260px;
+  background: #ffffff;
+  border-right: 1px solid #e5e5e5;
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.05);
+  z-index: 1020;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar.close {
+  width: 78px;
+  transition: none !important;
+}
+
+/* Hero block - compact colored header */
+.sidebar-hero {
+  height: 60px; /* Fixed height for consistency */
+  background: linear-gradient(135deg, #0d6efd 0%, #4dabf7 70%, #28a745 100%);
+  border-bottom: 1px solid rgba(255,255,255,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0; /* Prevent shrinking */
+  margin: 0 8px; /* Match nav-item margins for consistent spacing */
+  border-radius: 8px; /* Match nav-item border radius */
+  margin-top: 8px; /* Add top margin to match header spacing */
+}
+.sidebar-hero .hero-content { text-align: center; color: #fff; }
+.sidebar-hero .hero-icon i {
+  font-size: 24px;
+  display: inline-block;
+}
+
+.nav-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 8px; /* Reduced from 12px */
+  height: calc(100% - 60px - 32px); /* Account for hero block margins and spacing */
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-item {
+  margin: 0 8px 6px 8px; /* Reduced margins for tighter spacing */
+}
+
+.nav-item a {
+  display: flex;
+  align-items: center;
+  gap: 16px; /* Slightly reduced gap */
+  padding: 10px 12px; /* Reduced padding for tighter layout */
+  color: #333;
+  border-radius: 8px; /* Smaller border radius */
+  text-decoration: none;
+  font-size: 16px; /* Slightly smaller font */
+  transition: all 0.2s ease;
+}
+
+.nav-item a:hover {
+  background: #f1f5f9;
+  color: #003366;
+  transform: translateX(2px); /* Subtle slide effect */
+}
+
+.nav-item.active a {
+  background-color: #e7f1ff;
+  color: #0b5ed7;
+  font-weight: 600; /* Reduced from 700 */
+  box-shadow: inset 0 0 0 2px rgba(13,110,253,0.15);
+  border-left: 3px solid #0b5ed7; /* Added left border accent */
+}
+
+.nav-item .icon {
+  font-size: 20px; /* Slightly smaller */
+  min-width: 44px; /* Reduced width */
+  text-align: center;
+}
+
+.links_name {
+  white-space: nowrap;
+  font-size: 15px; /* Reduced font size */
+  font-weight: 500;
+}
+
+.sidebar.close .links_name {
+  display: none;
+}
+
+.logout {
+  margin-top: auto; /* Push to bottom */
+  margin-bottom: 12px; /* Small bottom margin */
+  padding-bottom: 8px; /* Extra padding at bottom */
+}
+
+.sidebar.close .nav-item a {
+  justify-content: center;
+  gap: 0;
+  padding: 10px 12px; /* Match expanded padding */
+}
+
+.sidebar.close .nav-item .icon {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  font-size: 22px; /* Same size as expanded */
+}
+
+/* Closed state - keep hero same size for consistency */
+.sidebar.close .sidebar-hero {
+  height: 60px; /* Same as expanded state */
+  margin: 8px 8px 0 8px; /* Keep same margins when closed */
+}
+
+.sidebar.close .hero-icon i {
+  font-size: 20px; /* Slightly smaller icon when collapsed */
+}
+
+.sidebar.close .links_name { display: none; }
+
+/* ===========================
+   Sidebar Backdrop (Mobile)
+=========================== */
+.sidebar-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  opacity: 1;
+  z-index: 1040;
+}
+
+.sidebar-backdrop.d-none {
+  opacity: 0;
+  pointer-events: none;
+  display: none;
+}
+
+/* ===========================
+   No-scroll for Mobile Menu
+=========================== */
+body.no-scroll {
+  overflow: hidden;
+}
+
+/* Disable sidebar transition until JS is ready */
+body:not(.js-ready) .sidebar {
+  visibility: hidden;
+  transition: none !important;
+}
+
+/* ===========================
+   Responsive Adjustments (Sidebar)
+=========================== */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+    left: 0;
+    transition: none !important;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+    transition: none !important;
+  }
+
+  .sidebar.close {
+    transform: translateX(-100%);
+    transition: none !important;
+  }
+
+  .sidebar-toggle {
+    padding: 16px;
+  }
+}

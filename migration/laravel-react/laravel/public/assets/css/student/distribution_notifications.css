@@ -1,0 +1,201 @@
+/* Real-Time Notification Styles */
+
+/* Toast Notification */
+.toast-notification {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    margin-bottom: 1rem;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 0.3s ease;
+    border-left: 4px solid #0068da;
+}
+
+.toast-notification.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.toast-notification.toast-success {
+    border-left-color: #28a745;
+}
+
+.toast-notification.toast-info {
+    border-left-color: #17a2b8;
+}
+
+.toast-notification.toast-warning {
+    border-left-color: #ffc107;
+}
+
+.toast-notification.toast-danger {
+    border-left-color: #dc3545;
+}
+
+.toast-header {
+    padding: 12px 16px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.toast-header strong {
+    font-size: 0.95rem;
+    color: #212529;
+}
+
+.toast-body {
+    padding: 16px;
+    font-size: 0.9rem;
+    color: #495057;
+}
+
+.btn-close {
+    background: transparent;
+    border: none;
+    font-size: 1.2rem;
+    line-height: 1;
+    color: #6c757d;
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.btn-close:hover {
+    opacity: 1;
+}
+
+.btn-close::before {
+    content: '×';
+}
+
+/* Sidebar Notification Badge */
+.notification-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    background: #dc3545;
+    color: white;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    margin-left: 8px;
+    animation: fadeInScale 0.3s ease;
+}
+
+.notification-badge.pulse {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Highlight Pulse Effect for Links */
+.highlight-pulse {
+    animation: highlightPulse 1.5s ease-in-out 3;
+    position: relative;
+}
+
+@keyframes highlightPulse {
+    0%, 100% {
+        background-color: transparent;
+    }
+    50% {
+        background-color: rgba(0, 104, 218, 0.1);
+    }
+}
+
+/* Deadline Countdown */
+#deadline-countdown {
+    font-weight: 600;
+    color: #28a745;
+}
+
+#deadline-countdown.urgent {
+    color: #dc3545;
+    animation: pulse 1s ease-in-out infinite;
+}
+
+/* Distribution Banner */
+.distribution-banner {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    animation: slideInFromTop 0.5s ease;
+}
+
+@keyframes slideInFromTop {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.distribution-banner h5 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.distribution-banner p {
+    margin: 0;
+    font-size: 0.9rem;
+    opacity: 0.95;
+}
+
+.distribution-banner .btn {
+    margin-top: 0.75rem;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+}
+
+.distribution-banner .btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 576px) {
+    #notification-container {
+        right: 10px !important;
+        left: 10px !important;
+        max-width: none !important;
+    }
+
+    .toast-notification {
+        font-size: 0.85rem;
+    }
+
+    .toast-header strong {
+        font-size: 0.9rem;
+    }
+}

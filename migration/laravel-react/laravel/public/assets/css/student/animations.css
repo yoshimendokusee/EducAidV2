@@ -1,0 +1,20 @@
+/* animations.css — simplified animation mode styles */
+.simple-animations *,
+.simple-animations *::before,
+.simple-animations *::after {
+  animation: none !important;
+  transition: opacity 120ms ease !important;
+  transform: none !important;
+}
+
+/* Make interactive focus/hover still usable but without motion */
+.simple-animations a:hover,
+.simple-animations button:hover,
+.simple-animations .settings-nav-item:hover {
+  opacity: 0.95 !important;
+}
+
+/* Ensure modals and overlays still show properly */
+.simple-animations .modal {
+  transition: none !important;
+}

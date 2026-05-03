@@ -55,6 +55,9 @@ class CompatScriptRunner
                 ob_end_clean();
             }
             $output = 'Compatibility execution error: ' . $e->getMessage();
+            if ($e->getFile()) {
+                $output .= ' in ' . $e->getFile() . ':' . $e->getLine();
+            }
             $statusCode = 500;
         } finally {
             if (is_string($cwd) && $cwd !== '') {

@@ -16,22 +16,21 @@ if (!function_exists('app')) {
     require_once __DIR__ . '/vendor/autoload.php';
 }
 
-use App\Services\ServiceFactory;
-
-// Backward-compatible aliases for migrated services.
-// This lets legacy entry points continue using old class names while the codebase moves to namespaced services.
-class_exists('App\\Services\\UnifiedFileService');
-class_exists('App\\Services\\FileManagementService');
-class_exists('App\\Services\\FileCompressionService');
-class_alias('App\\Services\\OCRProcessingService', 'OCRProcessingService');
-class_alias('App\\Services\\DocumentService', 'DocumentService');
-class_alias('App\\Services\\AuditLogger', 'AuditLogger');
-class_alias('App\\Services\\OTPService', 'OTPService');
-class_alias('App\\Services\\GradeValidationService', 'GradeValidationService');
-class_alias('App\\Services\\DataExportService', 'DataExportService');
-class_alias('App\\Services\\UnifiedFileService', 'UnifiedFileService');
-class_alias('App\\Services\\FileManagementService', 'FileManagementService');
-class_alias('App\\Services\\FileCompressionService', 'FileCompressionService');
+// Load and alias services only if Laravel context is available
+if (class_exists('App\\Services\\ServiceFactory', false)) {
+    @class_exists('App\\Services\\UnifiedFileService');
+    @class_exists('App\\Services\\FileManagementService');
+    @class_exists('App\\Services\\FileCompressionService');
+    @class_alias('App\\Services\\OCRProcessingService', 'OCRProcessingService');
+    @class_alias('App\\Services\\DocumentService', 'DocumentService');
+    @class_alias('App\\Services\\AuditLogger', 'AuditLogger');
+    @class_alias('App\\Services\\OTPService', 'OTPService');
+    @class_alias('App\\Services\\GradeValidationService', 'GradeValidationService');
+    @class_alias('App\\Services\\DataExportService', 'DataExportService');
+    @class_alias('App\\Services\\UnifiedFileService', 'UnifiedFileService');
+    @class_alias('App\\Services\\FileManagementService', 'FileManagementService');
+    @class_alias('App\\Services\\FileCompressionService', 'FileCompressionService');
+}
 
 /**
  * Global service container instance
@@ -45,6 +44,11 @@ $GLOBALS['__service_factory'] = null;
  */
 function initializeServices($dbConnection = null)
 {
+    if (!class_exists('App\\Services\\ServiceFactory', false)) {
+        error_log("Services bootstrap: ServiceFactory not available in current context");
+        return;
+    }
+
     if ($dbConnection === null) {
         global $connection;
         $dbConnection = $connection;
@@ -69,6 +73,12 @@ function services($serviceName)
     }
 
     $factory = $GLOBALS['__service_factory'];
+    
+    // If factory is still null, ServiceFactory isn't available
+    if ($factory === null) {
+        error_log("Services bootstrap: ServiceFactory not available, cannot provide $serviceName service");
+        return null;
+    }
 
     switch (strtolower($serviceName)) {
         case 'ocr':

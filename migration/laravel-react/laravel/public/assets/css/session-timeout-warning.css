@@ -1,0 +1,222 @@
+/**
+ * Session Timeout Warning Modal Styles
+ * Clean, professional modal design for session expiration warnings
+ */
+
+.session-timeout-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.session-timeout-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    animation: fadeIn 0.3s ease;
+}
+
+.session-timeout-content {
+    position: relative;
+    background: white;
+    border-radius: 16px;
+    padding: 2.5rem;
+    max-width: 480px;
+    width: 90%;
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    animation: slideUp 0.3s ease;
+}
+
+.session-timeout-icon {
+    color: #ffc107;
+    margin-bottom: 1.5rem;
+}
+
+.session-timeout-icon svg {
+    width: 64px;
+    height: 64px;
+    animation: pulse 2s ease infinite;
+}
+
+.session-timeout-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #212529;
+    margin: 0 0 1rem 0;
+}
+
+.session-timeout-message {
+    font-size: 1.125rem;
+    color: #6c757d;
+    margin: 0 0 2rem 0;
+    line-height: 1.6;
+}
+
+.session-timeout-message strong {
+    color: #dc3545;
+    font-weight: 700;
+    font-size: 1.25rem;
+    display: inline-block;
+    min-width: 60px;
+}
+
+.session-timeout-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.session-timeout-actions .btn {
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.session-timeout-actions .btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.session-timeout-actions .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(102, 126, 234, 0.4);
+}
+
+.session-timeout-actions .btn-secondary {
+    background: #e9ecef;
+    color: #495057;
+}
+
+.session-timeout-actions .btn-secondary:hover {
+    background: #dee2e6;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.8;
+        transform: scale(1.05);
+    }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 576px) {
+    .session-timeout-content {
+        padding: 2rem 1.5rem;
+        width: 95%;
+    }
+    
+    .session-timeout-title {
+        font-size: 1.5rem;
+    }
+    
+    .session-timeout-message {
+        font-size: 1rem;
+    }
+    
+    .session-timeout-actions {
+        flex-direction: column;
+    }
+    
+    .session-timeout-actions .btn {
+        width: 100%;
+    }
+}
+
+/* Toast mode (bottom-right, non-blocking) */
+.session-timeout-modal.toast-mode {
+    top: auto;
+    left: auto;
+    right: 16px;
+    bottom: 16px;
+    width: auto;
+    height: auto;
+    display: block;
+    align-items: initial;
+    justify-content: initial;
+    pointer-events: none; /* allow clicks through except on content */
+}
+
+.session-timeout-modal.toast-mode .session-timeout-overlay {
+    display: none;
+}
+
+.session-timeout-modal.toast-mode .session-timeout-content {
+    padding: 1rem 1rem;
+    max-width: 360px;
+    width: min(92vw, 360px);
+    text-align: left;
+    border-radius: 12px;
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.18);
+    animation: slideInUpRight 0.25s ease;
+    pointer-events: auto; /* interactive */
+}
+
+.session-timeout-modal.toast-mode .session-timeout-title {
+    font-size: 1.15rem;
+    margin-bottom: 0.5rem;
+}
+
+.session-timeout-modal.toast-mode .session-timeout-message {
+    font-size: 0.95rem;
+    margin-bottom: 0.75rem;
+}
+
+.session-timeout-modal.toast-mode .session-timeout-actions {
+    justify-content: flex-end;
+}
+
+.session-timeout-modal.toast-mode .session-timeout-actions .btn {
+    padding: 0.5rem 0.9rem;
+    font-size: 0.9rem;
+}
+
+@keyframes slideInUpRight {
+    from {
+        opacity: 0;
+        transform: translate(8px, 8px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(0, 0);
+    }
+}

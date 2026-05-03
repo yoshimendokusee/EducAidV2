@@ -1,0 +1,140 @@
+/* === set_schedule.css === */
+
+/* Make page content visually distinct */
+.home-section {
+  padding: 2rem;
+  background-color: #f8f9fc;
+  min-height: 100vh;
+}
+
+/* Headings */
+.home-section h2,
+.home-section h4 {
+  font-weight: 600;
+}
+
+/* Section spacing */
+.home-section .mb-4 {
+  margin-bottom: 2rem !important;
+}
+
+/* Tables */
+.table th,
+.table td {
+  vertical-align: middle;
+}
+
+.table th {
+  background-color: #f1f1f1;
+  font-weight: 600;
+}
+
+.table-bordered {
+  border: 1px solid #dee2e6;
+}
+
+.table-bordered th,
+.table-bordered td {
+  border: 1px solid #dee2e6;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #f6f9fc;
+}
+
+/* Buttons group spacing */
+button,
+.btn {
+  min-width: 140px;
+}
+
+/* Forms */
+.form-label {
+  font-weight: 500;
+}
+
+input[type="date"],
+input[type="time"],
+input[type="text"],
+input[type="number"] {
+  border-radius: 0.375rem;
+}
+
+/* Responsive tweaks */
+/* Tablet Optimization (768px-991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+  .home-section {
+    padding: 1.5rem;
+  }
+  
+  .home-section h2 {
+    font-size: 1.75rem;
+  }
+  
+  .home-section h4 {
+    font-size: 1.25rem;
+  }
+  
+  .table th,
+  .table td {
+    font-size: 0.95rem;
+    padding: 0.65rem;
+  }
+  
+  .btn {
+    min-width: 120px;
+    font-size: 0.9rem;
+  }
+  
+  /* CMS Edit Restrictions on Tablet */
+  .edit-mode-toggle,
+  .edit-btn,
+  .edit-btn-inline,
+  .cms-editor-btn,
+  [class*="edit-"]:not(.editable-content) {
+    pointer-events: none !important;
+    opacity: 0.5 !important;
+    cursor: not-allowed !important;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .row > .col-md-6,
+  .row > .col-md-5,
+  .row > .col-md-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .btn {
+    width: 100%;
+    margin-bottom: 0.75rem;
+  }
+
+  .home-section {
+    padding: 1rem;
+  }
+}
+
+/* Section titles */
+.home-section h4 {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #dee2e6;
+  padding-bottom: 0.5rem;
+}
+
+/* Schedule preview table */
+#schedule-preview table th,
+#schedule-preview table td {
+  text-align: center;
+}
+
+/* Modal styling (optional enhancements) */
+.modal .modal-title {
+  font-weight: 600;
+}
+
+.modal-footer .btn + .btn {
+  margin-left: 0.5rem;
+}

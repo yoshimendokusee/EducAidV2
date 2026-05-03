@@ -1,0 +1,470 @@
+/* ============================================
+   Content Editor Styles - Shared across all pages
+   ============================================ */
+
+/* Edit Mode Body */
+body.lp-editing {
+  padding-top: 0;
+}
+
+/* When editing, disable entrance animations so content stays visible */
+body.lp-editing .fade-in,
+body.lp-editing .fade-in-left,
+body.lp-editing .fade-in-right,
+body.lp-editing .fade-in-scale,
+body.lp-editing .hero h1,
+body.lp-editing .hero p,
+body.lp-editing .hero .cta-btn,
+body.lp-editing [data-aos] {
+  opacity: 1 !important;
+  transform: none !important;
+  animation: none !important;
+}
+
+/* ============================================
+   Edit Toolbar
+   ============================================ */
+.edit-toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+  color: white;
+  padding: 0.75rem 1rem;
+  z-index: 9999;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-bottom: 3px solid #1e3a8a;
+}
+
+.toolbar-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.toolbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.toolbar-brand i {
+  font-size: 1.1rem;
+}
+
+.toolbar-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.toolbar-actions .btn {
+  font-size: 0.85rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.toolbar-actions .btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* ============================================
+   Editable Content - RED OUTLINE
+   ============================================ */
+
+/* Main editable blocks with data-lp-key */
+[data-lp-key][contenteditable="true"],
+.editable-block {
+  outline: 2px dashed #dc2626 !important;
+  outline-offset: 3px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  cursor: text;
+  position: relative;
+  min-height: 20px;
+}
+
+/* Hide outlines when toggled off */
+body.lp-hide-outlines [data-lp-key][contenteditable="true"],
+body.lp-hide-outlines .editable-block,
+body.lp-hide-outlines .editable-navbar-item {
+  outline: none !important;
+  animation: none !important;
+}
+
+[data-lp-key][contenteditable="true"]:hover,
+.editable-block:hover {
+  outline-color: #991b1b !important;
+  outline-width: 2.5px;
+  outline-offset: 4px;
+  background-color: rgba(220, 38, 38, 0.03);
+}
+
+[data-lp-key][contenteditable="true"]:focus,
+.editable-block:focus {
+  outline-color: #7f1d1d !important;
+  outline-width: 3px;
+  outline-style: solid;
+  outline-offset: 2px;
+  background-color: rgba(220, 38, 38, 0.05);
+  animation: none;
+}
+
+/* Pulse animation to draw attention */
+@keyframes pulse-red {
+  0%, 100% {
+    outline-color: #dc2626;
+  }
+  50% {
+    outline-color: #ef4444;
+  }
+}
+
+[data-lp-key][contenteditable="true"]:not(:focus):not(:hover) {
+  animation: pulse-red 3s ease-in-out infinite;
+}
+
+/* ============================================
+   Navbar Editable Items
+   ============================================ */
+.editable-navbar-item {
+  outline: 2px dashed #dc2626 !important;
+  outline-offset: 2px;
+  border-radius: 4px;
+  transition: outline-color 0.2s;
+  padding: 4px 6px !important;
+}
+
+.editable-navbar-item:hover {
+  outline-color: #991b1b !important;
+  outline-width: 2.5px;
+}
+
+.editable-navbar-item:focus {
+  outline-color: #7f1d1d !important;
+  outline-width: 3px;
+  animation: none;
+}
+
+/* ============================================
+   Dirty State Indicator (Unsaved Changes)
+   ============================================ */
+[data-lp-key][data-lp-dirty="1"]::after,
+.editable-block[data-lp-dirty="1"]::after {
+  content: "●";
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #dc2626;
+  color: #fff;
+  width: 16px;
+  height: 16px;
+  font-size: 0.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-weight: 700;
+  box-shadow: 0 0 0 3px #fff, 0 2px 8px rgba(220, 38, 38, 0.4);
+  z-index: 10;
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 3px #fff, 0 2px 8px rgba(220, 38, 38, 0.4);
+  }
+  50% {
+    transform: scale(1.15);
+    box-shadow: 0 0 0 3px #fff, 0 4px 12px rgba(220, 38, 38, 0.6);
+  }
+}
+
+/* ============================================
+   Edit Helper Text
+   ============================================ */
+.edit-hint {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(220, 38, 38, 0.95);
+  color: white;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  z-index: 9998;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  animation: slideInUp 0.4s ease-out;
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.edit-hint i {
+  font-size: 1.1rem;
+}
+
+/* ============================================
+   Context Menu (Right-click options)
+   ============================================ */
+.edit-context-menu {
+  position: fixed;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  padding: 0.5rem 0;
+  z-index: 10000;
+  min-width: 180px;
+  font-size: 0.9rem;
+}
+
+.edit-context-menu-item {
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: background-color 0.15s;
+  color: #1f2937;
+}
+
+.edit-context-menu-item:hover {
+  background-color: #f3f4f6;
+}
+
+.edit-context-menu-item i {
+  width: 16px;
+  text-align: center;
+  color: #6b7280;
+}
+
+.edit-context-menu-divider {
+  height: 1px;
+  background: #e5e7eb;
+  margin: 0.25rem 0;
+}
+
+/* ============================================
+   Responsive Adjustments
+   ============================================ */
+@media (max-width: 768px) {
+  body.lp-editing {
+    padding-top: 80px; /* Keep room for floating badge/toolbar on small screens */
+  }
+
+  .toolbar-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .toolbar-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .edit-hint {
+    bottom: 10px;
+    right: 10px;
+    left: 10px;
+    text-align: center;
+    justify-content: center;
+  }
+
+  [data-lp-key][contenteditable="true"],
+  .editable-block {
+    outline-width: 2px;
+    outline-offset: 2px;
+  }
+}
+
+/* ============================================
+   Print Mode - Hide edit indicators
+   ============================================ */
+@media print {
+  .edit-toolbar,
+  .edit-hint,
+  .edit-context-menu {
+    display: none !important;
+  }
+
+  [data-lp-key][contenteditable="true"],
+  .editable-block,
+  .editable-navbar-item {
+    outline: none !important;
+    animation: none !important;
+  }
+
+  [data-lp-key][data-lp-dirty="1"]::after,
+  .editable-block[data-lp-dirty="1"]::after {
+    display: none !important;
+  }
+}
+
+/* ============================================
+   Special Cases
+   ============================================ */
+
+/* Don't show edit outline on icons/images only */
+.lp-no-text-edit {
+  outline: none !important;
+  cursor: default !important;
+  animation: none !important;
+}
+
+/* Placeholder text for empty editable blocks */
+[data-lp-key][contenteditable="true"]:empty::before {
+  content: "Click to edit...";
+  color: #9ca3af;
+  font-style: italic;
+  pointer-events: none;
+}
+
+/* Disable user-select on non-editable content in edit mode */
+body.lp-editing * {
+  user-select: text;
+}
+
+/* ============================================
+   History Modal
+   ============================================ */
+.lp-history-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.lp-history-modal.show {
+  display: flex;
+}
+
+.lp-hist-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+}
+
+.lp-hist-dialog {
+  position: relative;
+  z-index: 1;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  max-width: 90vw;
+  width: 1000px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  animation: slideIn 0.2s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.lp-hist-header {
+  padding: 1rem 1.25rem;
+  border-bottom: 2px solid #e2e8f0;
+  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+  color: white;
+  border-radius: 12px 12px 0 0;
+}
+
+.lp-hist-body {
+  padding: 1.25rem;
+  overflow: auto;
+  flex: 1;
+  max-height: 70vh;
+}
+
+.lp-hist-footer {
+  padding: 0.75rem 1.25rem;
+  border-top: 1px solid #e2e8f0;
+  background: #f8fafc;
+  border-radius: 0 0 12px 12px;
+}
+
+/* Accordion items */
+.lp-hist-body .accordion-item {
+  border: 1px solid #e2e8f0;
+  margin-bottom: 0.75rem;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.lp-hist-body .accordion-button {
+  font-size: 0.9rem;
+  padding: 1rem 1.25rem;
+  background: #f8fafc;
+}
+
+.lp-hist-body .accordion-button:not(.collapsed) {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  color: #1e40af;
+  box-shadow: none;
+}
+
+.lp-hist-body .accordion-button:focus {
+  box-shadow: none;
+  border-color: #e2e8f0;
+}
+
+.lp-hist-body .accordion-body {
+  padding: 0.5rem 1.25rem 1rem;
+  background: #ffffff;
+}
+
+.lp-hist-body .list-group-item {
+  border: none;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 0.85rem;
+}
+
+.lp-hist-body .list-group-item:last-child {
+  border-bottom: none;
+}
+
+body.lp-editing img,
+body.lp-editing button,
+body.lp-editing a:not([data-lp-key]) {
+  user-select: none;
+}

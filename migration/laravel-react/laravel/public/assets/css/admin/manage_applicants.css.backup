@@ -1,0 +1,929 @@
+/* ==================== manage_applicants.css ==================== */
+/* Clean, mobile-first responsive design with card layout for mobile */
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #f8f9fa;
+  color: #222;
+}
+
+/* ==================== SECTION HEADER ==================== */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 2rem;
+}
+
+.section-header .bi {
+  font-size: 2.25rem;
+}
+
+.section-header h2 {
+  font-weight: 700;
+  font-size: 2.2rem;
+  margin: 0;
+  line-height: 1.1;
+}
+
+h1.fw-bold, h2.fw-bold {
+  font-weight: 700;
+  font-size: 2.2rem;
+  letter-spacing: 0.01em;
+}
+
+/* ==================== FILTER SECTION ==================== */
+.filter-section {
+  background: white;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.filter-container {
+  border-radius: 0.9rem;
+  background: #ffffff;
+  padding: 1.5rem;
+  box-shadow: 0 3px 12px rgba(17,130,255,0.06);
+  margin-bottom: 1.5rem;
+}
+
+.filter-container .form-label {
+  color: #1182FF;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+
+/* ==================== CARDS ==================== */
+.card {
+  border-radius: 0.9rem;
+  border: none;
+  box-shadow: 0 3px 12px rgba(17,130,255,0.06);
+}
+
+.card-body {
+  padding: 1.4rem 1.5rem;
+}
+
+.form-label {
+  font-weight: 400;
+  color: #212529;
+  margin-bottom: 5px;
+}
+
+.form-select,
+.form-control {
+  border-radius: 0.5rem;
+  border: 1px solid #e4eaf0;
+  font-size: 1rem;
+  padding: 9px 13px;
+}
+
+.btn-primary {
+  background: #1182FF;
+  border: none;
+  border-radius: 0.45rem;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 10px 20px;
+  transition: background 0.18s;
+}
+.btn-primary:hover,
+.btn-primary:focus { background: #0869cc; }
+
+.table-responsive {
+  border-radius: 0.9rem;
+  overflow-x: auto;
+  overflow-y: visible;
+  margin-top: 10px;
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+}
+
+.table {
+  background: #fff;
+  border-radius: 0.85rem;
+  margin-bottom: 0;
+  width: 100%;
+  min-width: 100%; /* Remove fixed min-width */
+  table-layout: auto; /* Auto layout for natural sizing */
+}
+
+.table th, .table td {
+  vertical-align: middle;
+  font-size: 1.04rem;
+  padding: 13px 14px;
+  border: none;
+  white-space: nowrap; /* Prevent wrapping by default */
+  overflow: visible;
+}
+
+/* At higher zoom levels or smaller viewports, allow wrapping */
+@media screen and (max-width: 1400px) {
+  .table th, .table td {
+    font-size: 0.95rem;
+    padding: 11px 12px;
+    white-space: normal; /* Allow wrapping */
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .table th, .table td {
+    font-size: 0.95rem;
+    padding: 11px 12px;
+    white-space: normal; /* Allow wrapping */
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .table th, .table td {
+    font-size: 0.9rem;
+    padding: 10px 11px;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .table th, .table td {
+    font-size: 0.85rem;
+    padding: 9px 10px;
+  }
+}
+.table thead th {
+  background: #495057;
+  color: white;
+  font-weight: 600;
+  font-size: 1.06rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.table-hover tbody tr:hover {
+  background: #f8f9fa;
+  transition: background 0.15s;
+}
+
+.badge-success, .badge.bg-success {
+  background: #20c997 !important;
+  font-size: 0.97rem;
+  color: #fff !important;
+}
+.badge-secondary, .badge.bg-secondary {
+  background: #ced4da !important;
+  color: #555 !important;
+  font-size: 0.97rem;
+}
+
+.btn-info.btn-sm {
+  background: #e5f1fc;
+  color: #157AFF;
+  border: none;
+  font-weight: 500;
+  border-radius: 0.35rem;
+  font-size: 0.99rem;
+  padding: 7px 16px;
+  transition: background 0.17s;
+}
+.btn-info.btn-sm:hover, .btn-info.btn-sm:focus {
+  background: #d0e8fb;
+  color: #09417a;
+}
+
+.modal-header {
+  background: #f2f6fa;
+  border-bottom: 1px solid #dde8f2;
+}
+.modal-title {
+  color: #003f7d;
+  font-weight: 600;
+}
+.modal-footer {
+  background: #f9fbfc;
+  border-top: 1px solid #dde8f2;
+}
+.btn-success.btn-sm, .btn-danger.btn-sm {
+  font-size: 0.97rem;
+  font-weight: 500;
+  border-radius: 0.35rem;
+  padding: 7px 15px;
+}
+
+.text-muted {
+  color: #8a939b !important;
+  font-style: italic;
+}
+.no-applicants {
+  color: #adb5bd;
+  font-style: italic;
+  font-size: 1.07rem;
+}
+
+/* Filter Container */
+.filter-container {
+  border-radius: 0.9rem;
+  background: #ffffff;
+  padding: 1.5rem 1.5rem 1rem 1.5rem;
+  box-shadow: 0 3px 12px rgba(17,130,255,0.06);
+  margin-bottom: 1.5rem;
+}
+
+.filter-container .form-label {
+  color: #1182FF;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+
+.filter-container .btn-primary,
+.filter-container .btn-secondary {
+  border-radius: 0.45rem;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 10px 0;
+}
+
+.filter-container .btn-secondary {
+  background: #6c757d;
+  border: none;
+}
+
+.filter-container .btn-secondary:hover,
+.filter-container .btn-secondary:focus {
+  background: #5a6268;
+}
+
+/* Responsive Table as Cards for Mobile */
+@media (max-width: 991.98px) {
+  .container-fluid {
+    padding: 14px !important;
+  }
+  .table th, .table td {
+    padding: 10px 8px;
+    font-size: 0.9rem;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+  .card-body {
+    padding: 1rem 0.7rem;
+  }
+  .section-header h2 { font-size: 1.5rem; }
+  .section-header .bi { font-size: 1.6rem; }
+}
+
+/* Medium mobile devices (up to 768px) */
+@media (max-width: 768px) {
+  .section-header h2 { font-size: 1.4rem; }
+  .section-header .bi { font-size: 1.5rem; }
+  
+  .table th, .table td {
+    font-size: 0.85rem;
+    padding: 8px 6px;
+    line-height: 1.4;
+  }
+  
+  .filter-section {
+    padding: 15px;
+  }
+  
+  .btn-primary {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
+}
+
+/* Tablet portrait mode (601px to 768px) - Works on ALL devices */
+@media (min-width: 601px) and (max-width: 768px) and (orientation: portrait) {
+  .table td[data-label="Name"],
+  .table td[data-label="Contact"],
+  .table td[data-label="Email"],
+  .table td[data-label="Mobile"] {
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  /* Other columns wrap normally */
+  .table td[data-label="Year Level"],
+  .table td[data-label="Graduating"],
+  .table td[data-label="Type"],
+  .table td[data-label="Documents"],
+  .table td[data-label="Action"] {
+    white-space: normal;
+    word-wrap: break-word;
+    overflow: visible;
+  }
+  
+  .table-responsive {
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+}
+
+/* Enhanced Mobile View */
+@media (max-width: 600px) {
+  .card, .table-responsive { border-radius: 0.5rem; }
+  .table thead { display: none; }
+  .table, .table tbody, .table tr, .table td { display: block; width: 100%; }
+  .table tr {
+    margin-bottom: 1.1rem;
+    background: #fff;
+    border-radius: 0.6rem;
+    box-shadow: 0 1px 6px rgba(17,130,255,0.08);
+    border: none;
+    padding: 0.7rem;
+  }
+  .table td {
+    border: none;
+    border-bottom: 1px solid #f2f2f2;
+    min-height: 36px;
+    font-size: 0.9rem;
+    background: none;
+    position: relative;
+    padding: 10px 7px 10px 42%;
+    text-align: left;
+    line-height: 1.4;
+  }
+  
+  /* Apply ellipsis to Name, Contact, Email columns */
+  .table td[data-label="Name"],
+  .table td[data-label="Contact"],
+  .table td[data-label="Email"],
+  .table td[data-label="Mobile"] {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+    display: block;
+  }
+  
+  /* Allow other columns to wrap */
+  .table td[data-label="Year Level"],
+  .table td[data-label="Graduating"],
+  .table td[data-label="Type"],
+  .table td[data-label="Documents"],
+  .table td[data-label="Action"] {
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  .table td:last-child { border-bottom: none; }
+  .table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    width: 40%;
+    max-width: 120px;
+    color: #1182FF;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-align: left;
+    white-space: normal;
+    word-wrap: break-word;
+    padding-right: 5px;
+    letter-spacing: 0.01em;
+    line-height: 1.3;
+  }
+  .btn-info.btn-sm {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    width: 100%;
+    margin-top: 5px;
+  }
+  .badge-success, .badge-secondary {
+    font-size: 0.85rem;
+    padding: 4px 8px;
+    display: inline-block;
+  }
+  
+  /* Adjust header text size */
+  .section-header h2 { 
+    font-size: 1.4rem; 
+  }
+  .section-header .bi { 
+    font-size: 1.6rem; 
+  }
+  
+  /* Filter section adjustments */
+  .filter-section {
+    padding: 15px;
+  }
+  
+  .form-label {
+    font-size: 0.9rem;
+  }
+  
+  .form-select, .form-control {
+    font-size: 0.9rem;
+  }
+}
+
+/* Portrait mode specific optimizations - Works on ALL devices */
+@media (max-width: 600px) and (orientation: portrait) {
+  body {
+    font-size: 14px;
+  }
+  
+  .table tr {
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+  }
+  
+  .table td {
+    font-size: 0.875rem;
+    padding: 12px 7px 12px 40%;
+    line-height: 1.5;
+  }
+  
+  /* Apply ellipsis specifically to Name, Contact, Email */
+  .table td[data-label="Name"],
+  .table td[data-label="Contact"],
+  .table td[data-label="Email"],
+  .table td[data-label="Mobile"] {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  .table td::before {
+    font-size: 0.8rem;
+    width: 38%;
+    line-height: 1.4;
+    white-space: normal;
+    word-wrap: break-word;
+  }
+  
+  /* Allow wrapping for non-text columns */
+  .table td[data-label="Year Level"],
+  .table td[data-label="Graduating"],
+  .table td[data-label="Type"],
+  .table td[data-label="Documents"],
+  .table td[data-label="Action"] {
+    white-space: normal;
+    word-wrap: break-word;
+    overflow: visible;
+    text-overflow: clip;
+  }
+  
+  /* Optimize action buttons for portrait */
+  .btn-info.btn-sm {
+    padding: 10px 16px;
+    font-size: 0.875rem;
+    border-radius: 0.4rem;
+    white-space: normal;
+  }
+  
+  /* Make badges more compact */
+  .badge-success, 
+  .badge-secondary {
+    font-size: 0.8rem;
+    padding: 3px 7px;
+    white-space: nowrap;
+  }
+  
+  /* Improve touch targets */
+  .table td:last-child {
+    padding-bottom: 15px;
+    white-space: normal;
+    overflow: visible;
+  }
+  
+  /* Scale down header appropriately */
+  .section-header h2 {
+    font-size: 1.3rem;
+    line-height: 1.3;
+  }
+  
+  /* Optimize table for scrolling */
+  .table-responsive {
+    max-height: 65vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  
+  /* Flexible layout adjustments */
+  .filter-section,
+  .card {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+  }
+}
+}
+
+/* Landscape mode on mobile - use more horizontal space */
+@media (max-width: 900px) and (orientation: landscape) {
+  .table-responsive {
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+  
+  .table {
+    font-size: 0.85rem;
+  }
+  
+  .table th, .table td {
+    padding: 8px 10px;
+    font-size: 0.8rem;
+  }
+  
+  .section-header h2 {
+    font-size: 1.3rem;
+  }
+}
+
+/* Larger tablets in portrait mode (769px to 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) and (orientation: portrait) {
+  /* For standard table layout (not card view) */
+  .table thead {
+    display: table-header-group;
+  }
+  
+  .table tbody {
+    display: table-row-group;
+  }
+  
+  .table tr {
+    display: table-row;
+  }
+  
+  .table td {
+    display: table-cell;
+    font-size: 0.85rem;
+    padding: 8px 6px;
+    vertical-align: middle;
+  }
+  
+  /* Apply ellipsis to Name (1st col), Contact (2nd col), Email (3rd col) using nth-child */
+  .table tbody td:nth-child(1),  /* Name */
+  .table tbody td:nth-child(2),  /* Contact */
+  .table tbody td:nth-child(3) { /* Email */
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  /* Other columns wrap normally */
+  .table tbody td:nth-child(n+4) {
+    white-space: normal;
+    word-wrap: break-word;
+  }
+  
+  .table th {
+    font-size: 0.85rem;
+    padding: 8px 6px;
+  }
+  
+  .table-responsive {
+    overflow-x: auto;
+  }
+}
+
+/* Even larger tablets (1025px to 1366px) in portrait - like iPad Pro */
+@media (min-width: 1025px) and (max-width: 1366px) and (orientation: portrait) {
+  .table tbody td:nth-child(1),  /* Name */
+  .table tbody td:nth-child(2),  /* Contact */
+  .table tbody td:nth-child(3) { /* Email */
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  .table tbody td:nth-child(n+4) {
+    white-space: normal;
+    word-wrap: break-word;
+  }
+}
+
+/* Modern iPads with high resolution (iPad Air M3, iPad Pro) - Portrait */
+@media (min-width: 1367px) and (max-width: 2048px) and (orientation: portrait) {
+  .table tbody td:nth-child(1),  /* Name */
+  .table tbody td:nth-child(2),  /* Contact */
+  .table tbody td:nth-child(3) { /* Email */
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  .table tbody td:nth-child(n+4) {
+    white-space: normal;
+    word-wrap: break-word;
+  }
+  
+  .table th, .table td {
+    font-size: 0.9rem;
+    padding: 10px 8px;
+  }
+}
+
+/* Universal portrait mode for tablets - applies to ALL tablet sizes */
+@media (orientation: portrait) and (min-width: 768px) and (max-width: 2048px) {
+  .table tbody td:nth-child(1),  /* Name */
+  .table tbody td:nth-child(2),  /* Contact */
+  .table tbody td:nth-child(3) { /* Email */
+    max-width: 200px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+  
+  .table tbody td:nth-child(n+4) {
+    white-space: normal !important;
+    word-wrap: break-word !important;
+  }
+  
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Force for all portrait modes regardless of width */
+@media (orientation: portrait) {
+  .table tbody tr td:nth-of-type(1),  /* Name - first td in each row */
+  .table tbody tr td:nth-of-type(2),  /* Contact - second td */
+  .table tbody tr td:nth-of-type(3) { /* Email - third td */
+    max-width: 200px !important;
+    min-width: 100px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    display: table-cell !important;
+  }
+}
+
+/* Very small portrait screens (iPhone SE, etc.) - Works on ALL devices */
+@media (max-width: 400px) and (orientation: portrait) {
+  .table td {
+    font-size: 0.8rem;
+    padding: 10px 5px 10px 38%;
+    line-height: 1.4;
+  }
+  
+  .table td[data-label="Name"],
+  .table td[data-label="Contact"],
+  .table td[data-label="Email"],
+  .table td[data-label="Mobile"] {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  .table td[data-label="Year Level"],
+  .table td[data-label="Graduating"],
+  .table td[data-label="Type"],
+  .table td[data-label="Documents"],
+  .table td[data-label="Action"] {
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    overflow: visible;
+  }
+  
+  .table td::before {
+    font-size: 0.75rem;
+    left: 8px;
+    width: 36%;
+    line-height: 1.3;
+  }
+  
+  .section-header h2 {
+    font-size: 1.2rem;
+    line-height: 1.2;
+  }
+  
+  .filter-section {
+    padding: 12px;
+  }
+  
+  .btn-info.btn-sm {
+    font-size: 0.8rem;
+    padding: 8px 12px;
+  }
+  
+  .badge-success,
+  .badge-secondary {
+    font-size: 0.7rem;
+    padding: 2px 6px;
+  }
+}
+
+/* Blue emphasis for important/bold/section text */
+.text-primary-em, .fw-bold, b, strong {
+  color: #1182FF !important;
+}
+
+@keyframes fadeInRow {
+  from { opacity: 0; transform: translateY(20px);}
+  to   { opacity: 1; transform: translateY(0);}
+}
+.table tbody tr.animated-row {
+  animation: fadeInRow 0.5s;
+}
+
+/* Touch feedback for mobile */
+@media (hover: none) and (pointer: coarse) {
+  .btn-info.btn-sm {
+    transition: transform 0.1s ease;
+  }
+  
+  .btn-info.btn-sm:active {
+    transform: scale(0.98);
+  }
+  
+  .table tr {
+    transition: background-color 0.2s ease;
+  }
+  
+  .table tr:active {
+    background-color: #f0f6ff;
+  }
+}
+.doc-preview {
+  text-align: center;
+}
+
+.doc-preview img {
+  display: block;
+  margin: 10px auto;
+  max-width: 100%;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.doc-preview img:hover {
+  transform: scale(1.02);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* Image Zoom Modal */
+.image-zoom-modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  cursor: pointer;
+}
+
+.image-zoom-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 90%;
+  max-height: 90%;
+}
+
+.image-zoom-content img {
+  width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+
+.image-zoom-close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  color: white;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 2001;
+}
+
+.image-zoom-close:hover {
+  color: #ccc;
+}
+
+/* Loading animation */
+.image-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 18px;
+}
+
+@media (max-width: 768px) {
+  .image-zoom-content {
+    max-width: 95%;
+    max-height: 95%;
+  }
+  
+  .image-zoom-close {
+    top: 10px;
+    right: 15px;
+    font-size: 30px;
+  }
+}
+
+/* ================================================
+   ZOOM & RESOLUTION FIXES
+   Handles browser zoom (Ctrl +/-) and high-DPI displays
+   ================================================ */
+
+/* For zoomed-in views (125%, 150%, 175%, etc.) */
+@media (min-width: 992px) {
+  .table-responsive {
+    overflow-x: auto !important;
+    overflow-y: visible !important;
+    max-width: 100%;
+  }
+  
+  .table {
+    min-width: 1200px !important; /* Maintain minimum width for all columns */
+  }
+  
+  /* Ensure columns don't disappear */
+  .table th,
+  .table td {
+    min-width: 80px; /* Minimum width for each column */
+    white-space: nowrap;
+  }
+  
+  /* Give more width to name and email columns */
+  .table th:nth-child(1), /* Name */
+  .table td:nth-child(1) {
+    min-width: 180px;
+  }
+  
+  .table th:nth-child(3), /* Email */
+  .table td:nth-child(3) {
+    min-width: 200px;
+  }
+  
+  /* Action column needs more space */
+  .table th:last-child,
+  .table td:last-child {
+    min-width: 120px;
+  }
+}
+
+/* High-DPI displays (Retina, 4K, etc.) */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .table-responsive {
+    overflow-x: auto !important;
+  }
+  
+  .table {
+    font-size: 0.95rem;
+  }
+  
+  .table th, .table td {
+    padding: 11px 12px;
+  }
+}
+
+/* Ensure proper container behavior */
+.container-fluid {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+#tableWrapper {
+  overflow-x: auto;
+  width: 100%;
+}
+
+/* Custom scrollbar for horizontal scroll */
+.table-responsive::-webkit-scrollbar {
+  height: 8px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

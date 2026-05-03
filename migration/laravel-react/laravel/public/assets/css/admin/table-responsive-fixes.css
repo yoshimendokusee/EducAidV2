@@ -1,0 +1,374 @@
+/**
+ * Admin Table Responsive Fixes
+ * Handles browser zoom (Ctrl +/-), high-DPI displays, and resolution changes
+ * Include this in any admin page with tables
+ */
+
+/* ================================================
+   CORE TABLE RESPONSIVE FIXES
+   ================================================ */
+
+.table-responsive {
+    overflow-x: auto !important;
+    overflow-y: visible !important;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.table {
+    min-width: 1200px;
+    width: 100%;
+    margin-bottom: 0;
+    table-layout: auto;
+}
+
+.table th,
+.table td {
+    white-space: nowrap;
+    min-width: 80px;
+    vertical-align: middle;
+    padding: 13px 14px;
+}
+
+.table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: #495057;
+    color: white;
+    font-weight: 600;
+}
+
+/* ================================================
+   CUSTOM SCROLLBAR FOR BETTER UX
+   ================================================ */
+
+.table-responsive::-webkit-scrollbar {
+    height: 10px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 5px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+    transition: background 0.2s;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Firefox scrollbar */
+.table-responsive {
+    scrollbar-width: thin;
+    scrollbar-color: #888 #f1f1f1;
+}
+
+/* ================================================
+   ZOOM LEVEL ADJUSTMENTS
+   ================================================ */
+
+/* Desktop: Standard view (100% zoom) */
+@media (min-width: 992px) {
+    .table-responsive {
+        overflow-x: auto !important;
+    }
+    
+    .table {
+        min-width: 1200px !important;
+    }
+    
+    /* Ensure important columns have adequate width */
+    .table th:first-child,
+    .table td:first-child {
+        min-width: 120px; /* Name/ID columns */
+    }
+    
+    .table th:last-child,
+    .table td:last-child {
+        min-width: 140px; /* Action buttons */
+    }
+}
+
+/* Desktop: Zoomed to 125% */
+@media screen and (min-width: 992px) and (max-width: 1536px) {
+    .table {
+        min-width: 1100px;
+        font-size: 0.98rem;
+    }
+    
+    .table th,
+    .table td {
+        padding: 11px 12px;
+    }
+}
+
+/* Desktop: Zoomed to 150% or higher */
+@media screen and (min-width: 768px) and (max-width: 1280px) {
+    .table {
+        min-width: 1000px;
+        font-size: 0.95rem;
+    }
+    
+    .table th,
+    .table td {
+        padding: 10px 11px;
+        min-width: 70px;
+    }
+}
+
+/* Desktop: Zoomed to 175% or higher */
+@media screen and (min-width: 768px) and (max-width: 1100px) {
+    .table {
+        min-width: 900px;
+        font-size: 0.92rem;
+    }
+    
+    .table th,
+    .table td {
+        padding: 9px 10px;
+        min-width: 65px;
+    }
+}
+
+/* ================================================
+   HIGH-DPI DISPLAYS (Retina, 4K, etc.)
+   ================================================ */
+
+@media (-webkit-min-device-pixel-ratio: 2),
+       (min-resolution: 192dpi),
+       (min-resolution: 2dppx) {
+    .table-responsive {
+        overflow-x: auto !important;
+    }
+    
+    .table {
+        font-size: 0.95rem;
+    }
+    
+    .table th,
+    .table td {
+        padding: 11px 12px;
+    }
+}
+
+/* 4K displays (2560px and above) */
+@media (min-width: 2560px) {
+    .table {
+        min-width: 1400px;
+        font-size: 1.1rem;
+    }
+    
+    .table th,
+    .table td {
+        padding: 15px 16px;
+        min-width: 100px;
+    }
+}
+
+/* ================================================
+   CONTAINER OVERFLOW PREVENTION
+   ================================================ */
+
+.container-fluid {
+    overflow-x: hidden;
+}
+
+#tableWrapper,
+#main-content,
+.home-section {
+    overflow-x: visible;
+}
+
+/* ================================================
+   TABLET VIEW (768px - 991px)
+   ================================================ */
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .table-responsive {
+        overflow-x: auto !important;
+    }
+    
+    .table {
+        min-width: 900px;
+        font-size: 0.95rem;
+    }
+    
+    .table th,
+    .table td {
+        padding: 10px 11px;
+        font-size: 0.92rem;
+    }
+    
+    /* CMS Edit Restrictions on Tablet */
+    .edit-mode-toggle,
+    .edit-btn,
+    .edit-btn-inline,
+    .cms-editor-btn,
+    [class*="edit-"]:not(.editable-content) {
+        pointer-events: none !important;
+        opacity: 0.5 !important;
+        cursor: not-allowed !important;
+    }
+}
+
+/* ================================================
+   MOBILE VIEW (below 768px)
+   ================================================ */
+
+@media (max-width: 767px) {
+    .table-responsive {
+        overflow-x: auto !important;
+        border-radius: 0.5rem;
+    }
+    
+    .table {
+        min-width: 800px; /* Still scrollable but smaller */
+        font-size: 0.9rem;
+    }
+    
+    .table th,
+    .table td {
+        padding: 8px 10px;
+        font-size: 0.88rem;
+    }
+    
+    /* Alternative: Card-based layout for mobile */
+    .table.mobile-card-view thead {
+        display: none;
+    }
+    
+    .table.mobile-card-view,
+    .table.mobile-card-view tbody,
+    .table.mobile-card-view tr,
+    .table.mobile-card-view td {
+        display: block;
+        width: 100%;
+    }
+    
+    .table.mobile-card-view tr {
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 10px;
+        background: white;
+    }
+    
+    .table.mobile-card-view td {
+        text-align: left;
+        padding: 8px;
+        border: none;
+        position: relative;
+        padding-left: 45%;
+    }
+    
+    .table.mobile-card-view td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        width: 40%;
+        font-weight: bold;
+        color: #495057;
+    }
+}
+
+/* ================================================
+   PRINT STYLES
+   ================================================ */
+
+@media print {
+    .table-responsive {
+        overflow: visible !important;
+    }
+    
+    .table {
+        min-width: auto !important;
+        font-size: 10pt;
+    }
+    
+    .table th,
+    .table td {
+        white-space: normal;
+        padding: 6px 8px;
+    }
+}
+
+/* ================================================
+   ACCESSIBILITY ENHANCEMENTS
+   ================================================ */
+
+/* Focus indicator for keyboard navigation */
+.table-responsive:focus-within {
+    outline: 2px solid #1A70F0;
+    outline-offset: 2px;
+}
+
+/* Ensure text is readable at all zoom levels */
+.table th,
+.table td {
+    line-height: 1.5;
+    color: #212529;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .table {
+        border: 2px solid #000;
+    }
+    
+    .table th,
+    .table td {
+        border: 1px solid #000;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .table-responsive {
+        scroll-behavior: auto;
+    }
+}
+
+/* ================================================
+   UTILITY CLASSES
+   ================================================ */
+
+/* Force horizontal scroll indicator */
+.table-responsive.show-scroll-hint::after {
+    content: "← Scroll to see more →";
+    display: block;
+    text-align: center;
+    padding: 10px;
+    background: #f8f9fa;
+    color: #6c757d;
+    font-size: 0.875rem;
+    font-style: italic;
+}
+
+/* Compact table variant */
+.table-responsive.compact .table {
+    min-width: 900px;
+    font-size: 0.85rem;
+}
+
+.table-responsive.compact .table th,
+.table-responsive.compact .table td {
+    padding: 8px 10px;
+    min-width: 60px;
+}
+
+/* Wide table variant (for many columns) */
+.table-responsive.wide .table {
+    min-width: 1600px;
+}
+
+.table-responsive.wide .table th,
+.table-responsive.wide .table td {
+    min-width: 100px;
+}

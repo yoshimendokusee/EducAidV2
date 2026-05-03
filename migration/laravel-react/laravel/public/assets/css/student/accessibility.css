@@ -1,0 +1,644 @@
+/* ===========================
+   Global Accessibility Styles
+   Applied across all student pages
+=========================== */
+
+/* Text Size Options */
+html.text-small {
+  font-size: 14px;
+}
+
+html.text-normal {
+  font-size: 16px;
+}
+
+html.text-large {
+  font-size: 18px;
+}
+
+/* Adjust specific elements for text size changes */
+html.text-small body {
+  font-size: 14px;
+}
+
+html.text-normal body {
+  font-size: 16px;
+}
+
+html.text-large body {
+  font-size: 18px;
+}
+
+/* High Contrast Mode - Proper Implementation for Accessibility */
+/* Black background with white/yellow text for maximum readability */
+
+html.high-contrast body {
+  background: #000 !important;
+  color: #FFFF00 !important; /* Yellow text on black for maximum contrast */
+}
+
+/* Header/Topbar */
+html.high-contrast .header,
+html.high-contrast header,
+html.high-contrast .topbar,
+html.high-contrast .student-main-header {
+  background: #000 !important;
+  border-bottom: 3px solid #FFFF00 !important;
+  color: #FFFF00 !important;
+  box-shadow: none !important;
+}
+
+html.high-contrast .header *,
+html.high-contrast .topbar *,
+html.high-contrast .student-main-header *,
+html.high-contrast .student-header-content *,
+html.high-contrast .student-header-left *,
+html.high-contrast .student-header-actions * {
+  color: #FFFF00 !important;
+}
+
+html.high-contrast .student-icon-btn,
+html.high-contrast .sidebar-toggle {
+  background: transparent !important;
+  color: #FFFF00 !important;
+  border: 2px solid #FFFF00 !important;
+}
+
+html.high-contrast .student-icon-btn:hover,
+html.high-contrast .sidebar-toggle:hover {
+  background: #FFFF00 !important;
+  color: #000 !important;
+}
+
+/* Sidebar */
+html.high-contrast .sidebar {
+  background: #000 !important;
+  border-right: 3px solid #FFFF00 !important;
+}
+
+html.high-contrast .sidebar .logo-details,
+html.high-contrast .sidebar .nav-links li a,
+html.high-contrast .sidebar .profile-details {
+  color: #FFFF00 !important;
+  background: transparent !important;
+}
+
+html.high-contrast .sidebar .nav-links li a:hover,
+html.high-contrast .sidebar .nav-links li a.active {
+  background: #1a1a00 !important;
+  color: #FFFF00 !important;
+}
+
+html.high-contrast .sidebar .nav-links li a i {
+  color: inherit !important;
+}
+
+/* All sidebar list items and links - remove white backgrounds */
+html.high-contrast .sidebar li,
+html.high-contrast .sidebar ul,
+html.high-contrast .sidebar .nav-links,
+html.high-contrast .sidebar .nav-links li {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+html.high-contrast .sidebar .nav-links li a {
+  background: #000 !important;
+  background-color: #000 !important;
+  color: #FFFF00 !important;
+  border: 2px solid transparent !important;
+  transition: none !important; /* Remove animation for accessibility */
+}
+
+html.high-contrast .sidebar .nav-links li a:hover,
+html.high-contrast .sidebar .nav-links li:hover > a,
+html.high-contrast .sidebar .nav-links li a:focus-visible {
+  background: #1a1a00 !important; /* Dark hover background */
+  background-color: #1a1a00 !important;
+  color: #FFFF00 !important;
+  border: 3px solid #FFFF00 !important; /* Strong yellow border */
+  border-left: 8px solid #FFFF00 !important; /* Extra thick left border */
+  font-weight: 900 !important; /* Make text bolder */
+  transform: translateX(5px) !important; /* Slight shift to the right */
+  outline: 3px solid #FFFF00 !important; /* Glow effect */
+  outline-offset: 2px !important;
+}
+
+html.high-contrast .sidebar .nav-links li a.active {
+  background: #1a1a00 !important;
+  background-color: #1a1a00 !important;
+  color: #FFFF00 !important;
+  border: 3px solid #FFFF00 !important;
+  border-left: 8px solid #FFFF00 !important;
+  font-weight: 900 !important;
+}
+
+/* Logout button in sidebar */
+html.high-contrast .sidebar .logout,
+html.high-contrast .sidebar a[href*="logout"],
+html.high-contrast .sidebar .profile-details .logout {
+  background: #000 !important;
+  color: #FF0000 !important;
+  border: 2px solid #FF0000 !important;
+}
+
+html.high-contrast .sidebar .logout:hover,
+html.high-contrast .sidebar a[href*="logout"]:hover {
+  background: #FF0000 !important;
+  color: #000 !important;
+}
+
+/* Main Content Area */
+html.high-contrast .home-section {
+  background: #000 !important;
+}
+
+/* All Cards and Sections */
+html.high-contrast .settings-section,
+html.high-contrast .content-card,
+html.high-contrast .settings-nav,
+html.high-contrast .welcome-banner,
+html.high-contrast .stat-card,
+html.high-contrast .card,
+html.high-contrast .notification-card,
+html.high-contrast .alert,
+html.high-contrast .distribution-card,
+html.high-contrast .announcement-card,
+html.high-contrast .info-card,
+html.high-contrast .status-card {
+  background: #000 !important;
+  border: 3px solid #FFFF00 !important;
+  color: #FFFF00 !important;
+}
+
+html.high-contrast .card-header,
+html.high-contrast .card-title,
+html.high-contrast .card-body,
+html.high-contrast .card-text,
+html.high-contrast .card-footer {
+  background: #000 !important;
+  color: #FFFF00 !important;
+  border-color: #FFFF00 !important;
+}
+
+/* All inner card elements */
+html.high-contrast .card *,
+html.high-contrast .content-card *,
+html.high-contrast .welcome-banner *,
+html.high-contrast .stat-card *,
+html.high-contrast .distribution-card *,
+html.high-contrast .announcement-card * {
+  color: #FFFF00 !important;
+}
+
+/* Ensure no white/gray backgrounds leak through */
+html.high-contrast .bg-white,
+html.high-contrast .bg-light,
+html.high-contrast .bg-gray,
+html.high-contrast .bg-secondary {
+  background: #000 !important;
+}
+
+/* Session and History Items */
+html.high-contrast .session-item,
+html.high-contrast .history-item {
+  background: #000 !important;
+  border: 2px solid #FFFF00 !important;
+  color: #FFFF00 !important;
+}
+
+html.high-contrast .session-item:hover,
+html.high-contrast .history-item:hover {
+  background: #1a1a00 !important;
+  border-color: #FFFF00 !important;
+}
+
+/* Buttons */
+html.high-contrast .btn,
+html.high-contrast button {
+  background: #FFFF00 !important;
+  color: #000 !important;
+  border: 3px solid #FFFF00 !important;
+  font-weight: 700 !important;
+}
+
+html.high-contrast .btn:hover,
+html.high-contrast button:hover {
+  background: #000 !important;
+  color: #FFFF00 !important;
+  border: 3px solid #FFFF00 !important;
+}
+
+html.high-contrast .btn-danger {
+  background: #FF0000 !important;
+  color: #FFF !important;
+  border: 3px solid #FF0000 !important;
+}
+
+html.high-contrast .btn-danger:hover {
+  background: #000 !important;
+  color: #FF0000 !important;
+  border: 3px solid #FF0000 !important;
+}
+
+/* Forms */
+html.high-contrast .form-control,
+html.high-contrast .form-select,
+html.high-contrast input,
+html.high-contrast textarea,
+html.high-contrast select {
+  background: #000 !important;
+  color: #FFFF00 !important;
+  border: 3px solid #FFFF00 !important;
+}
+
+html.high-contrast .form-control:focus,
+html.high-contrast .form-select:focus,
+html.high-contrast input:focus,
+html.high-contrast textarea:focus {
+  background: #1a1a00 !important;
+  color: #FFFF00 !important;
+  border-color: #FFFF00 !important;
+  outline: 3px solid #FFFF00 !important;
+}
+
+html.high-contrast ::placeholder {
+  color: #999900 !important;
+  opacity: 1 !important;
+}
+
+/* Labels and Text */
+html.high-contrast label,
+html.high-contrast .form-label,
+html.high-contrast h1,
+html.high-contrast h2,
+html.high-contrast h3,
+html.high-contrast h4,
+html.high-contrast h5,
+html.high-contrast h6,
+html.high-contrast p,
+html.high-contrast span,
+html.high-contrast div {
+  color: #FFFF00 !important;
+}
+
+/* Links */
+html.high-contrast a {
+  color: #00FFFF !important; /* Cyan for links */
+  text-decoration: underline !important;
+}
+
+html.high-contrast a:hover {
+  color: #FFFF00 !important;
+}
+
+/* Tables */
+html.high-contrast .table,
+html.high-contrast table {
+  color: #FFFF00 !important;
+  border: 3px solid #FFFF00 !important;
+}
+
+html.high-contrast .table td,
+html.high-contrast .table th,
+html.high-contrast table td,
+html.high-contrast table th {
+  border: 2px solid #FFFF00 !important;
+  background: #000 !important;
+  color: #FFFF00 !important;
+}
+
+html.high-contrast .table thead th,
+html.high-contrast table thead th {
+  background: #FFFF00 !important;
+  color: #000 !important;
+  font-weight: 700 !important;
+}
+
+/* Modals */
+html.high-contrast .modal-content {
+  background: #000 !important;
+  border: 3px solid #FFFF00 !important;
+  color: #FFFF00 !important;
+}
+
+html.high-contrast .modal-header,
+html.high-contrast .modal-body,
+html.high-contrast .modal-footer {
+  background: #000 !important;
+  border-color: #FFFF00 !important;
+  color: #FFFF00 !important;
+}
+
+html.high-contrast .modal-title {
+  color: #FFFF00 !important;
+}
+
+/* Badges and Status Indicators */
+html.high-contrast .badge {
+  border: 2px solid #FFFF00 !important;
+  font-weight: 700 !important;
+  background: #000 !important;
+  color: #FFFF00 !important;
+}
+
+html.high-contrast .badge-success {
+  background: #000 !important;
+  color: #00FF00 !important;
+  border: 2px solid #00FF00 !important;
+}
+
+html.high-contrast .badge-danger {
+  background: #000 !important;
+  color: #FF0000 !important;
+  border: 2px solid #FF0000 !important;
+}
+
+html.high-contrast .badge-warning {
+  background: #000 !important;
+  color: #FFFF00 !important;
+  border: 2px solid #FFFF00 !important;
+}
+
+html.high-contrast .badge-info {
+  background: #000 !important;
+  color: #00FFFF !important;
+  border: 2px solid #00FFFF !important;
+}
+
+html.high-contrast .badge-primary,
+html.high-contrast .badge-secondary,
+html.high-contrast .badge-light,
+html.high-contrast .badge-dark {
+  background: #000 !important;
+  color: #FFFF00 !important;
+  border: 2px solid #FFFF00 !important;
+}
+
+/* Dropdowns */
+html.high-contrast .dropdown-menu {
+  background: #000 !important;
+  border: 3px solid #FFFF00 !important;
+}
+
+html.high-contrast .dropdown-item {
+  color: #FFFF00 !important;
+  background: #000 !important;
+}
+
+html.high-contrast .dropdown-item:hover {
+  background: #FFFF00 !important;
+  color: #000 !important;
+}
+
+/* Icons */
+html.high-contrast .bi,
+html.high-contrast i {
+  color: inherit !important;
+}
+
+/* Notifications */
+html.high-contrast .notifications-list {
+  background: #000 !important;
+}
+
+/* Profile Section */
+html.high-contrast .profile-section,
+html.high-contrast .profile-avatar,
+html.high-contrast .profile-info {
+  background: transparent !important;
+  color: #FFFF00 !important;
+}
+
+/* QR Code Page */
+html.high-contrast .qr-container,
+html.high-contrast .qr-card {
+  background: #000 !important;
+  border: 3px solid #FFFF00 !important;
+}
+
+/* QR Code specific elements */
+html.high-contrast .qr-info-grid,
+html.high-contrast .qr-info-item,
+html.high-contrast .qr-section,
+html.high-contrast .qr-header,
+html.high-contrast .no-qr-message,
+html.high-contrast .qr-status {
+  background: #000 !important;
+  color: #FFFF00 !important;
+}
+
+html.high-contrast .qr-info-item strong,
+html.high-contrast .qr-info-item label {
+  color: #FFFF00 !important;
+}
+
+/* Ensure any span or small text in badges */
+html.high-contrast .badge span,
+html.high-contrast .badge small,
+html.high-contrast span.badge {
+  background: inherit !important;
+  color: inherit !important;
+}
+
+/* FORCE all badge variations to black background */
+html.high-contrast span[class*="badge"],
+html.high-contrast div[class*="badge"],
+html.high-contrast .badge[class*="bg-"],
+html.high-contrast [class*="status-badge"],
+html.high-contrast [class*="status-"],
+html.high-contrast .rounded-pill {
+  background: #000 !important;
+  background-color: #000 !important;
+  color: #FFFF00 !important;
+  border: 2px solid #FFFF00 !important;
+}
+
+/* Progress Bars */
+html.high-contrast .progress {
+  background: #000 !important;
+  border: 2px solid #FFFF00 !important;
+}
+
+html.high-contrast .progress-bar {
+  background: #FFFF00 !important;
+}
+
+/* List Groups */
+html.high-contrast .list-group-item {
+  background: #000 !important;
+  border: 2px solid #FFFF00 !important;
+  color: #FFFF00 !important;
+}
+
+html.high-contrast .list-group-item:hover {
+  background: #1a1a00 !important;
+}
+
+/* Remove any background gradients */
+html.high-contrast * {
+  background-image: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+/* Override any inline styles or utility classes */
+html.high-contrast [style*="background"] {
+  background: #000 !important;
+}
+
+html.high-contrast [class*="bg-"] {
+  background: #000 !important;
+}
+
+/* Ensure specific dashboard elements are black */
+html.high-contrast .modern-section-header,
+html.high-contrast .header-icon-wrapper,
+html.high-contrast .header-content,
+html.high-contrast .section-header {
+  background: #000 !important;
+  color: #FFFF00 !important;
+}
+
+/* Distribution history items */
+html.high-contrast .distribution-item,
+html.high-contrast .distribution-details {
+  background: #000 !important;
+  border: 2px solid #FFFF00 !important;
+  color: #FFFF00 !important;
+}
+
+/* AGGRESSIVE WHITE BACKGROUND ELIMINATION */
+/* Target all possible white/light background variations */
+html.high-contrast .bg-white,
+html.high-contrast .bg-light,
+html.high-contrast .bg-gray,
+html.high-contrast .bg-secondary,
+html.high-contrast .bg-body,
+html.high-contrast .bg-transparent,
+html.high-contrast [style*="background: white"],
+html.high-contrast [style*="background: #fff"],
+html.high-contrast [style*="background: #FFF"],
+html.high-contrast [style*="background:#fff"],
+html.high-contrast [style*="background:#FFF"],
+html.high-contrast [style*="background-color: white"],
+html.high-contrast [style*="background-color: #fff"],
+html.high-contrast [style*="background-color:#fff"],
+html.high-contrast [style*="background-color: rgb(255"],
+html.high-contrast [style*="background-color:rgb(255"],
+html.high-contrast .card.bg-light,
+html.high-contrast .card.bg-white,
+html.high-contrast div[style*="background"],
+html.high-contrast section[style*="background"],
+html.high-contrast article[style*="background"] {
+  background: #000 !important;
+  background-color: #000 !important;
+}
+
+/* Remove white from containers and wrappers */
+html.high-contrast .container,
+html.high-contrast .container-fluid,
+html.high-contrast .row,
+html.high-contrast .col,
+html.high-contrast [class*="col-"],
+html.high-contrast .wrapper,
+html.high-contrast .content-wrapper {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Ensure main content areas are black */
+html.high-contrast main,
+html.high-contrast section,
+html.high-contrast article,
+html.high-contrast aside {
+  background: #000 !important;
+}
+
+/* Override Bootstrap and custom utility classes */
+html.high-contrast .bg-success,
+html.high-contrast .bg-info,
+html.high-contrast .bg-warning,
+html.high-contrast .bg-danger,
+html.high-contrast .bg-primary,
+html.high-contrast .bg-dark {
+  background: #000 !important;
+  border: 2px solid #FFFF00 !important;
+}
+
+/* Ensure divs don't have white backgrounds */
+html.high-contrast div:not(.btn):not(.badge) {
+  background-color: transparent !important;
+}
+
+/* Force specific problematic elements */
+html.high-contrast .welcome-banner,
+html.high-contrast .info-card,
+html.high-contrast .status-card,
+html.high-contrast .application-card,
+html.high-contrast .document-card {
+  background: #000 !important;
+  background-color: #000 !important;
+}
+
+/* Nuclear option - catch ALL white/light colored backgrounds */
+html.high-contrast [style*="background-color: white"],
+html.high-contrast [style*="background-color:#fff"],
+html.high-contrast [style*="background-color: #fff"],
+html.high-contrast [style*="background-color: #FFF"],
+html.high-contrast [style*="background: white"],
+html.high-contrast [style*="background:#fff"],
+html.high-contrast [style*="background: #fff"],
+html.high-contrast [style*="background: #FFF"],
+html.high-contrast [class*="light"],
+html.high-contrast .text-white,
+html.high-contrast .text-light {
+  background: #000 !important;
+  background-color: #000 !important;
+  color: #FFFF00 !important;
+}
+
+/* Specifically target rounded pills and status badges */
+html.high-contrast .rounded-pill[style],
+html.high-contrast span[style*="background"],
+html.high-contrast div[style*="background"] {
+  background: #000 !important;
+  background-color: #000 !important;
+}
+
+/* ULTIMATE WHITE BACKGROUND KILLER - Catch absolutely everything */
+html.high-contrast *[style*="background"],
+html.high-contrast *:hover[style*="background"],
+html.high-contrast .bg-white,
+html.high-contrast .bg-white:hover,
+html.high-contrast .bg-light,
+html.high-contrast .bg-light:hover,
+html.high-contrast [class*="white"],
+html.high-contrast [class*="white"]:hover {
+  background: #000 !important;
+  background-color: #000 !important;
+}
+
+/* Force sidebar hover to work - override the general rule */
+html.high-contrast .sidebar .nav-links li:hover,
+html.high-contrast .sidebar .nav-links li a:hover,
+html.high-contrast .sidebar .nav-links li:hover > a {
+  background: #1a1a00 !important;
+  background-color: #1a1a00 !important;
+  color: #FFFF00 !important;
+}
+
+/* Reduce Animations */
+html.reduce-animations *,
+html.reduce-animations *::before,
+html.reduce-animations *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+html.reduce-animations .sidebar,
+html.reduce-animations .modal {
+  transition: none !important;
+}

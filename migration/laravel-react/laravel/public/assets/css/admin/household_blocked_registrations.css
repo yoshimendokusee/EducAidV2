@@ -1,0 +1,80 @@
+    /* household_blocked_registrations.css - Align table visuals with Manage Applicants/Review pages */
+
+/* Table header styling consistent with manage_applicants */
+.blocked-attempts-table thead th {
+  background:#495057;
+  color:#fff;
+  font-weight:600;
+  font-size:1.02rem;
+  position:sticky;
+  top:0;
+  z-index:5;
+}
+
+/* Row hover & separators */
+.blocked-attempts-table tbody tr { border-bottom:1px solid #e5e7eb; }
+.blocked-attempts-table tbody tr:last-child { border-bottom:none; }
+.blocked-attempts-table tbody tr:hover { background:#f8f9fa; }
+
+/* Cell sizing parity */
+.blocked-attempts-table th, .blocked-attempts-table td {
+  padding:13px 14px;
+  vertical-align:middle;
+  white-space:nowrap;
+}
+
+@media screen and (max-width:1400px){
+  .blocked-attempts-table th, .blocked-attempts-table td { padding:11px 12px; white-space:normal; }
+}
+@media screen and (max-width:992px){
+  .blocked-attempts-table th, .blocked-attempts-table td { padding:10px 11px; }
+}
+
+/* Tablet Optimization (768px-991px) */
+@media screen and (min-width: 768px) and (max-width: 991px) {
+  .blocked-attempts-table th, .blocked-attempts-table td {
+    padding: 11px 12px;
+    font-size: 0.95rem;
+  }
+  
+  .blocked-attempts-table thead th {
+    font-size: 1rem;
+  }
+  
+  .blocked-attempts-header h5 {
+    font-size: 1.1rem;
+  }
+  
+  /* CMS Edit Restrictions on Tablet */
+  .edit-mode-toggle,
+  .edit-btn,
+  .edit-btn-inline,
+  .cms-editor-btn,
+  [class*="edit-"]:not(.editable-content) {
+    pointer-events: none !important;
+    opacity: 0.5 !important;
+    cursor: not-allowed !important;
+  }
+}
+
+/* Badges tweak to match sizing from applicants */
+.blocked-attempts-table .badge { font-size:0.78rem; padding:4px 8px; }
+
+/* Override mobile card adjustments only inside our table if needed */
+@media (max-width:767px){
+  .blocked-attempts-table tr { box-shadow:0 2px 8px rgba(17,130,255,0.12); }
+  .blocked-attempts-table td { padding:12px 15px; }
+  .blocked-attempts-table td[data-label="Action"],
+  .blocked-attempts-table td[data-label="Actions"] { padding:15px !important; }
+}
+
+/* Align select checkbox appearance */
+.blocked-attempts-table td[data-label="Select"] input[type=checkbox] { width:20px; height:20px; }
+
+/* Remove card look: spacing & subtle divider */
+.blocked-attempts-header { padding:4px 6px; }
+.blocked-attempts-body { padding:0; }
+.blocked-attempts-header h5 { font-size:1.15rem; }
+
+/* Optional: lighten background behind table area (inherit page bg) */
+.blocked-attempts-body { background:transparent; }

@@ -1,0 +1,760 @@
+/* ========================================
+   EDUCAID STUDENT REGISTRATION - UNIFIED THEME
+   ======================================== */
+
+/* Use same CSS variables as universal.css */
+:root {
+    /* Primary EducAid Colors - Match universal.css */
+    --trias-primary: #0068DA;
+    --trias-secondary: #00B1C6;
+    --trias-accent: #0088C8;
+    --trias-success: #3DAD10;
+    --trias-light: #67D6C6;
+    --trias-fresh: #6CC748;
+    --trias-gold: #FFD700;
+    --trias-dark: #1a365d;
+    
+    /* Consistent Background System */
+    --background-base: #ffffff;
+    --background-pattern: 
+        radial-gradient(circle at 20% 80%, rgba(0, 104, 218, 0.02) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(103, 214, 198, 0.015) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(0, 177, 198, 0.01) 0%, transparent 50%);
+    
+    /* Card System - Same as Login */
+    --card-background: rgba(255, 255, 255, 0.98);
+    --card-shadow: 
+        0 25px 50px -12px rgba(0, 104, 218, 0.08),
+        0 0 0 1px rgba(0, 104, 218, 0.02);
+    --card-border-radius: 1.5rem;
+    
+    /* Typography Scale - Match universal.css */
+    --font-family: 'Poppins', 'Inter', 'Segoe UI', system-ui, sans-serif;
+    --text-sm: 0.875rem;
+    --text-base: 1rem;
+    --text-lg: 1.125rem;
+    --text-xl: 1.25rem;
+    --text-2xl: 1.5rem;
+    --text-3xl: 1.875rem;
+    
+    /* Spacing Scale - Consistent */
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.25rem;
+    --space-6: 1.5rem;
+    --space-8: 2rem;
+    --space-10: 2.5rem;
+    --space-12: 3rem;
+    
+    /* Form System */
+    --form-border: 2px solid #e2e8f0;
+    --form-border-focus: var(--trias-primary);
+    --form-border-radius: 0.75rem;
+    --form-shadow-focus: 0 0 0 3px rgba(0, 104, 218, 0.1);
+    
+    /* Button System - Match Login */
+    --btn-primary-bg: var(--trias-success);
+    --btn-primary-hover: #359C0E;
+    --btn-border-radius: 0.75rem;
+    --btn-shadow: 0 4px 12px rgba(61, 173, 16, 0.25);
+    
+    /* Transition System */
+    --transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ========================================
+   GLOBAL STYLES - MATCH LOGIN SYSTEM
+   ======================================== */
+
+body {
+    font-family: var(--font-family);
+    background: var(--background-base);
+    /* Use your actual background image - NO blur on main background */
+    background-image: url('../images/background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    color: #2d3748;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Soft bokeh overlay blur - NOT the background itself */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Create a subtle pattern overlay that will be blurred */
+    background: 
+        radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.3) 0%, transparent 25%),
+        radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.2) 0%, transparent 30%),
+        radial-gradient(circle at 50% 80%, rgba(0, 104, 218, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 80% 20%, rgba(103, 214, 198, 0.1) 0%, transparent 35%),
+        radial-gradient(circle at 20% 60%, rgba(255, 255, 255, 0.25) 0%, transparent 20%);
+    filter: blur(25px) saturate(150%); /* Heavy blur for soft bokeh effect */
+    z-index: -2;
+    opacity: 0.8;
+}
+
+/* Light overlay for better readability */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.65); /* 65% black overlay */
+    z-index: -1;
+}
+
+/* Enhanced glass card effect */
+.register-card {
+    background: rgba(255, 255, 255, 0.85) !important;
+    backdrop-filter: blur(20px) saturate(180%) brightness(110%);
+    box-shadow: 
+        0 32px 64px -12px rgba(0, 0, 0, 0.15),
+        0 0 0 1px rgba(255, 255, 255, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Remove glow effect */
+.register-card::before {
+    display: none !important;
+}
+
+/* ========================================
+   MAIN CONTAINER - CENTERED LIKE LOGIN
+   Scoped to registration main only to avoid
+   affecting header/topbar containers
+   ======================================== */
+
+.registration-main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* subtract approximate header (topbar+navbar) height */
+    min-height: calc(100vh - 120px);
+    padding: var(--space-8) var(--space-4);
+}
+
+/* ========================================
+   REGISTRATION CARD - MATCH LOGIN CARD
+   ======================================== */
+
+.register-card {
+    background: #ffffff !important; /* Solid white */
+    border-radius: var(--card-border-radius);
+    box-shadow: 
+        0 32px 64px -12px rgba(0, 0, 0, 0.25),
+        0 8px 24px -8px rgba(0, 0, 0, 0.15),
+        0 0 0 1px rgba(0, 0, 0, 0.05) !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    position: relative;
+    overflow: hidden;
+    max-width: 520px !important; /* Reduced from 650px - slightly slimmer */
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* Remove old decorative elements, keep it clean like login */
+.register-card::before,
+.register-card::after {
+    display: none;
+}
+
+/* ========================================
+   HEADER STYLING - MATCH LOGIN HEADER
+   ======================================== */
+
+.register-card h4 {
+    font-size: var(--text-3xl);
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: var(--space-2);
+    text-align: center;
+}
+
+.register-card h4::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--trias-primary), var(--trias-accent));
+    margin: var(--space-2) auto var(--space-8);
+    border-radius: 2px;
+}
+
+.government-subtitle {
+    text-align: center;
+    color: #4a5568;
+    font-size: var(--text-base);
+    margin-bottom: var(--space-8);
+    font-weight: 500;
+}
+
+/* ========================================
+   STEP INDICATOR - ENHANCED BUT CONSISTENT
+   ======================================== */
+
+/* DELETE THIS ENTIRE SECTION */
+.step-indicator {
+    display: none !important;
+}
+
+.step {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 50%;
+    background: #e2e8f0;
+    color: #718096;
+    font-weight: 700;
+    font-size: var(--text-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition);
+    position: relative;
+}
+
+.step.active {
+    background: var(--trias-primary);
+    color: white;
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 104, 218, 0.3);
+}
+
+.step.completed {
+    background: var(--trias-success);
+    color: white;
+}
+
+.step.completed::after {
+    content: '✓';
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: var(--trias-gold);
+    color: var(--trias-dark);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: bold;
+    border: 2px solid white;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* ========================================
+   FORM STEP PANELS
+   ======================================== */
+
+.step-panel {
+    animation: slideIn 0.3s ease;
+    padding: var(--space-4) 0;
+}
+
+.step-panel.d-none { 
+    display: none !important; 
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ========================================
+   FORM ELEMENTS - MATCH LOGIN FORMS
+   ======================================== */
+
+.form-label {
+    display: block;
+    font-weight: 500;
+    color: #2d3748;
+    margin-bottom: var(--space-2);
+    font-size: var(--text-sm);
+}
+
+.form-control, 
+.form-select {
+    width: 100%;
+    padding: var(--space-4);
+    border: var(--form-border);
+    border-radius: var(--form-border-radius);
+    font-size: var(--text-base);
+    transition: all var(--transition);
+    background: rgba(255, 255, 255, 0.9);
+    margin-bottom: var(--space-5);
+}
+
+.form-control:focus, 
+.form-select:focus {
+    outline: none;
+    border-color: var(--form-border-focus);
+    box-shadow: var(--form-shadow-focus);
+    background: white;
+}
+
+.form-control:hover, 
+.form-select:hover {
+    border-color: var(--trias-accent);
+}
+
+/* ========================================
+   INPUT GROUP STYLING - PHONE NUMBER
+   ======================================== */
+
+.input-group-text {
+    background: rgba(248, 251, 255, 0.8);
+    border: var(--form-border);
+    border-right: none;
+    color: #4a5568;
+    font-weight: 500;
+    border-radius: var(--form-border-radius) 0 0 var(--form-border-radius);
+    min-width: 60px;
+    justify-content: center;
+}
+
+.input-group .form-control {
+    border-left: none;
+    border-radius: 0 var(--form-border-radius) var(--form-border-radius) 0;
+    margin-bottom: 0;
+}
+
+.input-group .form-control:focus {
+    border-color: var(--form-border-focus);
+    box-shadow: var(--form-shadow-focus);
+}
+
+.input-group .form-control:focus + .input-group-text,
+.input-group .input-group-text:has(+ .form-control:focus) {
+    border-color: var(--form-border-focus);
+}
+
+/* ========================================
+   VALIDATION STYLING
+   ======================================== */
+
+#phoneValidation,
+#strengthText {
+    margin-top: var(--space-2);
+    margin-bottom: var(--space-4);
+}
+
+#phoneValidation small,
+#strengthText small {
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+
+.text-success { color: var(--trias-success) !important; }
+.text-danger { color: #dc3545 !important; }
+.text-warning { color: #ffc107 !important; }
+.text-info { color: var(--trias-primary) !important; }
+
+.is-valid {
+    border-color: var(--trias-success) !important;
+    box-shadow: 0 0 0 0.2rem rgba(61, 173, 16, 0.25) !important;
+}
+
+.is-invalid {
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+}
+
+/* ========================================
+   BUTTON SYSTEM - MATCH LOGIN BUTTONS
+   ======================================== */
+
+.btn {
+    border-radius: var(--btn-border-radius);
+    padding: var(--space-4) var(--space-8);
+    font-weight: 600;
+    font-size: var(--text-base);
+    transition: all var(--transition);
+    position: relative;
+    overflow: hidden;
+    border: none;
+}
+
+.btn-primary {
+    background-color: var(--btn-primary-bg) !important;
+    border-color: var(--btn-primary-bg) !important;
+    color: white !important;
+}
+
+.btn-primary:hover {
+    background-color: var(--btn-primary-hover) !important;
+    border-color: var(--btn-primary-hover) !important;
+    transform: translateY(-1px);
+    box-shadow: var(--btn-shadow);
+}
+
+.btn-primary:focus {
+    box-shadow: 0 0 0 0.25rem rgba(61, 173, 16, 0.25) !important;
+}
+
+.btn-secondary {
+    background-color: #6c757d !important;
+    border-color: #6c757d !important;
+    color: white !important;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268 !important;
+    border-color: #5a6268 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(108, 117, 125, 0.25);
+}
+
+.btn:disabled {
+    background: #ccc !important;
+    border-color: #ccc !important;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* ========================================
+   BUTTON CONTAINER
+   ======================================== */
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: var(--space-8);
+    padding-top: var(--space-6);
+    border-top: 1px solid rgba(0, 104, 218, 0.1);
+}
+
+/* ========================================
+   FILE UPLOAD STYLING
+   ======================================== */
+
+.form-control[type="file"] {
+    border: 2px dashed var(--trias-light);
+    background: rgba(248, 251, 255, 0.8);
+    padding: var(--space-6);
+    text-align: center;
+    cursor: pointer;
+}
+
+.form-control[type="file"]:hover {
+    border-color: var(--trias-accent);
+    background: rgba(255, 255, 255, 0.9);
+}
+
+/* ========================================
+   ALERT SYSTEM - MATCH LOGIN ALERTS
+   ======================================== */
+
+.alert {
+    border: none;
+    border-radius: var(--form-border-radius);
+    font-size: var(--text-sm);
+    padding: var(--space-4);
+    margin-bottom: var(--space-5);
+}
+
+.alert-success {
+    background: rgba(61, 173, 16, 0.1);
+    color: var(--trias-success);
+    border-left: 4px solid var(--trias-success);
+}
+
+.alert-danger {
+    background: rgba(220, 53, 69, 0.1);
+    color: #721c24;
+    border-left: 4px solid #dc3545;
+}
+
+.alert-info {
+    background: rgba(0, 104, 218, 0.1);
+    color: var(--trias-primary);
+    border-left: 4px solid var(--trias-primary);
+}
+
+/* ========================================
+   NOTIFICATION SYSTEM
+   ======================================== */
+
+.notifier {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: var(--space-4) var(--space-8);
+    background: rgba(220, 53, 69, 0.1);
+    color: #721c24;
+    border-radius: var(--form-border-radius);
+    border-left: 4px solid #dc3545;
+    display: none;
+    box-shadow: var(--card-shadow);
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+}
+
+.notifier.success {
+    background: rgba(61, 173, 16, 0.1);
+    color: var(--trias-success);
+    border-left-color: var(--trias-success);
+}
+
+/* ========================================
+   SPECIAL STYLING
+   ======================================== */
+
+.verified-email {
+    background: rgba(61, 173, 16, 0.1) !important;
+    color: var(--trias-success) !important;
+    border-color: var(--trias-success) !important;
+}
+
+.verification-checklist .form-check {
+    margin-bottom: var(--space-2);
+    padding: var(--space-2);
+    border-radius: var(--form-border-radius);
+    transition: background-color var(--transition);
+}
+
+.verification-checklist .text-success {
+    background: rgba(61, 173, 16, 0.1);
+}
+
+.verification-checklist .text-danger {
+    background: rgba(220, 53, 69, 0.1);
+}
+
+/* ========================================
+   LOADING ANIMATIONS
+   ======================================== */
+
+.btn:disabled::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+.btn-pulse {
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(61, 173, 16, 0.7);
+    }
+    70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 10px rgba(61, 173, 16, 0);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(61, 173, 16, 0);
+    }
+}
+
+/* ========================================
+   PROGRESS INDICATOR
+   ======================================== */
+
+.progress-container {
+    margin: var(--space-8) 0;
+    background: rgba(0, 104, 218, 0.1);
+    border-radius: var(--form-border-radius);
+    height: 8px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--trias-primary) 0%, var(--trias-accent) 100%);
+    border-radius: var(--form-border-radius);
+    transition: width 0.5s ease;
+}
+
+/* ========================================
+   TERMS AND CONDITIONS
+   ======================================== */
+
+.btn-link {
+    color: var(--trias-primary) !important;
+    text-decoration: none !important;
+    border: none !important;
+    background: none !important;
+    padding: 0 !important;
+    font-size: inherit !important;
+}
+
+.btn-link:hover {
+    color: var(--trias-accent) !important;
+    text-decoration: underline !important;
+}
+
+.terms-content {
+    line-height: 1.6;
+    font-size: var(--text-sm);
+}
+
+.terms-content h6 {
+    color: #2d3748;
+    margin-top: var(--space-6);
+    margin-bottom: var(--space-2);
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: var(--space-2);
+}
+
+.terms-content ul {
+    margin-bottom: var(--space-4);
+}
+
+.terms-content li {
+    margin-bottom: var(--space-2);
+}
+
+#scrollIndicator,
+#termsStatus {
+    font-size: var(--text-sm);
+    font-weight: 500;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN - MATCH LOGIN
+   ======================================== */
+
+@media (max-width: 768px) {
+    .container {
+        padding: var(--space-4) var(--space-2);
+    }
+    
+    .register-card {
+        padding: var(--space-8) var(--space-6) !important;
+        border-radius: var(--form-border-radius);
+        margin: var(--space-4);
+        max-width: 480px !important;
+    }
+
+    .register-card h4 {
+        font-size: var(--text-2xl);
+    }
+
+    .step {
+        width: 35px;
+        height: 35px;
+        font-size: 0.8rem;
+    }
+
+    .step-indicator {
+        gap: var(--space-3);
+        padding: var(--space-4);
+    }
+
+    .button-container {
+        flex-direction: column;
+        gap: var(--space-4);
+    }
+
+    .button-container .btn {
+        width: 100%;
+    }
+
+    body, body::before {
+        background-attachment: scroll; /* Better mobile performance */
+    }
+    
+    body::before {
+        filter: blur(6px); /* Less blur on mobile for performance */
+    }
+    
+    .register-card {
+        background: rgba(255, 255, 255, 0.95) !important; /* More solid on mobile */
+    }
+}
+
+@media (max-width: 480px) {
+    .register-card {
+        padding: var(--space-6) var(--space-4);
+        margin: var(--space-2);
+        max-width: 95% !important;
+    }
+
+    .register-card h4 {
+        font-size: var(--text-xl);
+    }
+
+    .step {
+        width: 30px;
+        height: 30px;
+        font-size: 0.75rem;
+    }
+
+    .step-indicator {
+        gap: var(--space-2);
+    }
+}
+
+/* ========================================
+   ACCESSIBILITY - MATCH LOGIN SYSTEM
+   ======================================== */
+
+.form-control:focus,
+.form-select:focus,
+.btn:focus {
+    outline: 2px solid var(--trias-primary);
+    outline-offset: 2px;
+}
+
+/* Touch-friendly */
+@media (hover: none) and (pointer: coarse) {
+    .form-control {
+        font-size: 16px; /* Prevents iOS zoom */
+        min-height: 48px;
+    }
+    
+    .btn {
+        min-height: 48px;
+    }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}

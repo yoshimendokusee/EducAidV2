@@ -1,0 +1,318 @@
+/* Authentication Modals Styling */
+
+/* Modal Enhancements */
+.modal-content {
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 1rem 1rem 0 0;
+}
+
+.modal-header .modal-title {
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.modal-header .btn-close {
+  filter: invert(1);
+  opacity: 0.8;
+}
+
+.modal-header .btn-close:hover {
+  opacity: 1;
+}
+
+/* Form Styling */
+.auth-form .form-label {
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+.auth-form .input-group-text {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+  color: #64748b;
+}
+
+.auth-form .form-control {
+  border-color: #e2e8f0;
+  padding: 0.75rem;
+  font-size: 0.95rem;
+}
+
+.auth-form .form-control:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.15);
+}
+
+.auth-form .input-group .form-control.border-start-0 {
+  border-left: none;
+}
+
+.auth-form .input-group .input-group-text.border-end-0 {
+  border-right: none;
+}
+
+/* Button Styling */
+.auth-form .btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.auth-form .btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.auth-form .btn-outline-secondary {
+  border-color: #e2e8f0;
+  color: #64748b;
+  font-weight: 500;
+  border-radius: 0.5rem;
+}
+
+.auth-form .btn-outline-secondary:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  color: #475569;
+}
+
+/* Signup Progress Indicator */
+.signup-progress .progress {
+  background: #f1f5f9;
+  border-radius: 0.25rem;
+}
+
+.signup-progress .progress-bar {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 0.25rem;
+  transition: width 0.3s ease;
+}
+
+.signup-progress small {
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+/* Step Animation */
+.signup-step {
+  animation: fadeInUp 0.3s ease;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Password Toggle Button */
+.auth-form .input-group .btn {
+  border-color: #e2e8f0;
+  color: #64748b;
+}
+
+.auth-form .input-group .btn:hover {
+  background: #f8fafc;
+  color: #374151;
+}
+
+/* OTP Input Styling */
+.auth-form input[type="text"][maxlength="6"] {
+  font-family: 'Courier New', monospace;
+  text-align: center;
+  letter-spacing: 0.5em;
+  font-size: 1.1rem;
+  padding: 1rem;
+}
+
+/* Alert Styling */
+.auth-form .alert {
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.auth-form .alert-success {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+}
+
+.auth-form .alert-danger {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+}
+
+.auth-form .alert-info {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+}
+
+/* Success Step Styling */
+#step3 {
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+#step3 .alert-info {
+  text-align: left;
+  background: #f0f9ff;
+  color: #0369a1;
+  border: 1px solid #bae6fd;
+}
+
+/* Loading States */
+.spinner-border-sm {
+  width: 1rem;
+  height: 1rem;
+  border-width: 0.15em;
+}
+
+/* Form Check Styling */
+.auth-form .form-check-input:checked {
+  background-color: #667eea;
+  border-color: #667eea;
+}
+
+.auth-form .form-check-input:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.15);
+}
+
+/* Link Styling */
+.auth-form a {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.auth-form a:hover {
+  color: #5a67d8;
+  text-decoration: underline;
+}
+
+/* Responsive Design */
+
+/* Tablet (768px - 991px) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .modal-dialog {
+    max-width: 600px;
+    margin: 1.5rem auto;
+  }
+  
+  .modal-body {
+    padding: 2rem !important;
+  }
+  
+  .auth-form .form-control {
+    padding: 0.85rem;
+    font-size: 1rem;
+  }
+  
+  .auth-form .btn-primary {
+    padding: 0.85rem 1.75rem;
+  }
+}
+
+/* Mobile and Small Tablet */
+@media (max-width: 767.98px) {
+  .modal-dialog {
+    margin: 1rem;
+  }
+  
+  .modal-body {
+    padding: 1.5rem !important;
+  }
+  
+  .auth-form .row .col-md-6 {
+    margin-bottom: 1rem;
+  }
+  
+  .signup-progress small {
+    font-size: 0.75rem;
+  }
+}
+
+/* Navbar Auth Buttons */
+.navbar .btn {
+  border-radius: 0.5rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+}
+
+.navbar .btn-outline-primary {
+  border-color: #667eea;
+  color: #667eea;
+}
+
+.navbar .btn-outline-primary:hover {
+  background: #667eea;
+  border-color: #667eea;
+  color: white;
+}
+
+.navbar .btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+}
+
+.navbar .btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+/* Hero Section Auth Buttons */
+.cta-btn {
+  border-radius: 0.75rem;
+  padding: 0.875rem 1.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary-custom {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: 2px solid transparent;
+}
+
+.btn-primary-custom:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+  color: white;
+}
+
+.btn-outline-custom {
+  background: rgba(255, 255, 255, 0.9);
+  color: #667eea;
+  border: 2px solid #667eea;
+  backdrop-filter: blur(10px);
+}
+
+.btn-outline-custom:hover {
+  background: #667eea;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+}
