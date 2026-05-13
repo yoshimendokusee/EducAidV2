@@ -69,18 +69,21 @@ const announcements = [
     date: 'Official updates will appear here once posted',
     body: 'Visit the full announcements page for the latest schedules, release notices, and eligibility updates.',
     active: false,
+    image: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80',
   },
   {
     title: 'Distribution schedules',
     date: 'When slots open, the schedule is published first',
     body: 'Applicants should check the announcement page regularly for distribution status and open slots.',
     active: true,
+    image: 'https://images.unsplash.com/photo-1513258496099-48168024aec0?auto=format&fit=crop&w=1200&q=80',
   },
   {
     title: 'Official advisories',
     date: 'CMS-controlled content remains on the legacy site',
     body: 'The municipality continues to manage announcements and eligibility changes on the official portal.',
     active: false,
+    image: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=1200&q=80',
   },
 ];
 
@@ -102,6 +105,9 @@ const faqItems = [
     a: 'Sign in to track your status and watch for email notifications when review, approval, or document updates happen.',
   },
 ];
+
+// Hero background image (can be configured via Vite env: VITE_HERO_BG)
+const heroBackground = (import.meta.env.VITE_HERO_BG || 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1800&q=80').replace(/\?$/, '');
 
 function SectionTitle({ eyebrow, title, lead, centered = false }) {
   return (
@@ -130,37 +136,70 @@ function BadgeIcon({ path, className = '' }) {
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(14,165,233,0.08),_transparent_28%),radial-gradient(circle_at_top_right,_rgba(22,163,74,0.07),_transparent_26%),linear-gradient(180deg,#f8fbff_0%,#eef4fb_100%)] text-slate-800">
-      <header className="sticky top-0 z-30 border-b border-white/60 bg-white/75 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
-          <a href="#home" className="flex items-center gap-3">
-            <div className="grid h-11 w-11 place-items-center rounded-2xl bg-slate-950 text-sm font-bold text-white shadow-lg shadow-slate-950/15">
-              EA
-            </div>
-            <div>
-              <div className="text-lg font-semibold tracking-tight text-slate-950">EducAid</div>
-              <div className="text-xs text-slate-500">Education Assistance Distribution System</div>
-            </div>
-          </a>
+      <header className="sticky top-0 z-30 border-b border-slate-200/70 bg-white/90 backdrop-blur-xl shadow-[0_1px_0_rgba(15,23,42,0.04)]">
+        <div className="border-b border-sky-700/15 bg-[linear-gradient(135deg,#1565c0_0%,#0d47a1_100%)] px-4 py-2 text-[0.72rem] text-white sm:px-6 lg:px-8">
+          <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-4 gap-y-1 md:justify-between">
+            <span className="inline-flex items-center gap-1.5">
+              <span className="text-white/90">✉</span>
+              <a className="text-white/90 transition hover:text-white" href="mailto:educaid@generaltrias.gov.ph">
+                educaid@generaltrias.gov.ph
+              </a>
+            </span>
+            <span className="hidden h-3 w-px bg-white/25 md:block" />
+            <span className="inline-flex items-center gap-1.5">
+              <span className="text-white/90">☎</span>
+              <span>(046) 886-4454</span>
+            </span>
+            <span className="hidden h-3 w-px bg-white/25 md:block" />
+            <span className="hidden items-center gap-1.5 md:inline-flex">
+              <span className="text-white/90">🕒</span>
+              <span>Mon–Fri 8:00AM - 5:00PM</span>
+            </span>
+          </div>
+        </div>
 
-          <nav className="hidden items-center gap-6 text-sm font-medium text-slate-600 md:flex">
-            <a href="#features" className="transition hover:text-cyan-700">Features</a>
-            <a href="#about" className="transition hover:text-cyan-700">About</a>
-            <a href="#announcements" className="transition hover:text-cyan-700">Announcements</a>
-            <a href="#faq" className="transition hover:text-cyan-700">FAQ</a>
-            <a href="#contact" className="transition hover:text-cyan-700">Contact</a>
-          </nav>
+        <div className="px-4 py-3 sm:px-6 lg:px-8">
+          <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4">
+            <a href="#home" className="flex items-center gap-3">
+              <div className="grid h-11 w-11 place-items-center overflow-hidden rounded-2xl bg-slate-950 text-sm font-bold text-white shadow-lg shadow-slate-950/15">
+                EA
+              </div>
+              <div>
+                <div className="text-[1.02rem] font-semibold tracking-tight text-slate-950">EducAid</div>
+                <div className="text-xs text-slate-500">City of General Trias</div>
+              </div>
+            </a>
 
-          <a
-            href={`${legacySiteBase}/unified_login.php`}
-            className="inline-flex items-center rounded-full bg-slate-950 px-4 py-2 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-slate-800"
-          >
-            Sign In
-          </a>
+            <nav className="order-3 flex w-full items-center justify-center gap-5 text-sm font-medium text-slate-600 md:order-none md:w-auto md:gap-6">
+              <a href="#home" className="transition hover:text-cyan-700">Home</a>
+              <a href="#about" className="transition hover:text-cyan-700">About</a>
+              <a href="#how" className="transition hover:text-cyan-700">How it works</a>
+              <a href="#requirements" className="transition hover:text-cyan-700">Requirements</a>
+              <a href="#announcements" className="transition hover:text-cyan-700">Announcements</a>
+              <a href="#contact" className="transition hover:text-cyan-700">Contact</a>
+            </nav>
+
+            <a
+              href={`${legacySiteBase}/unified_login.php`}
+              className="inline-flex items-center rounded-full bg-slate-950 px-4 py-2 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-slate-800"
+            >
+              Sign In
+            </a>
+          </div>
         </div>
       </header>
 
       <main>
         <section id="home" className="relative overflow-hidden px-4 pb-10 pt-14 sm:px-6 lg:px-8 lg:pb-14 lg:pt-20">
+          {/* Background image behind the hero card. Opacity and treatment match legacy subtle look. */}
+          <div className="absolute inset-0 -z-10 overflow-hidden">
+            <img
+              src={heroBackground}
+              alt="Hero background"
+              className="h-full w-full object-cover opacity-30 grayscale-[0.02]"
+            />
+            <div className="absolute inset-0 bg-white/60" />
+          </div>
           <div className="mx-auto max-w-7xl">
             <Card className="relative mx-auto max-w-[900px] overflow-hidden px-6 py-10 sm:px-10 sm:py-12">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.8),_transparent_55%)]" />
@@ -454,11 +493,18 @@ export default function LandingPage() {
             <div className="grid gap-4 md:grid-cols-3">
               {announcements.map((item) => (
                 <Card key={item.title} className="overflow-hidden p-0">
-                  <div className="h-40 bg-[linear-gradient(135deg,rgba(8,145,178,0.9),rgba(15,23,42,0.92))]" />
+                  <div className="relative aspect-[16/9] overflow-hidden bg-slate-100">
+                    <img src={item.image} alt="Announcement thumbnail" className="h-full w-full object-cover" />
+                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(15,23,42,0.02),rgba(15,23,42,0.24))]" />
+                    {item.active ? (
+                      <span className="absolute left-3 top-3 rounded-full bg-emerald-500 px-2.5 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-white shadow-sm shadow-emerald-500/25">
+                        Active
+                      </span>
+                    ) : null}
+                  </div>
                   <div className="p-4">
                     <div className="flex items-center justify-between gap-3 text-xs font-semibold uppercase tracking-[0.22em] text-cyan-700">
                       <span>{item.date}</span>
-                      {item.active ? <span className="rounded-full bg-emerald-50 px-2 py-1 text-emerald-700">Active</span> : null}
                     </div>
                     <h3 className="mt-3 text-lg font-semibold text-slate-950">{item.title}</h3>
                     <p className="mt-2 text-sm leading-6 text-slate-600">{item.body}</p>
@@ -578,10 +624,56 @@ export default function LandingPage() {
         </section>
       </main>
 
-      <footer className="border-t border-slate-200 bg-white/80 px-4 py-8 backdrop-blur sm:px-6 lg:px-8">
-        <div className="mx-auto flex max-w-7xl flex-col gap-3 text-center text-sm text-slate-500 sm:flex-row sm:items-center sm:justify-between sm:text-left">
-          <p>© 2026 EducAid • City of General Trias. All rights reserved.</p>
-          <p>Tailwind CSS recreation of the legacy landing page.</p>
+      <footer className="border-t border-slate-200 bg-[#0051f8] px-4 py-12 text-white sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid gap-8 lg:grid-cols-[1.2fr_1fr] lg:items-start">
+            <div className="flex items-center gap-4">
+              <div className="grid h-16 w-16 place-items-center rounded-2xl bg-[#fbbf24] text-lg font-bold text-[#0051f8] shadow-lg shadow-black/10">
+                EA
+              </div>
+              <div>
+                <div className="text-lg font-semibold">EducAid • General Trias</div>
+                <p className="mt-1 max-w-md text-sm text-white/90">Let's join forces for a more progressive GenTrias.</p>
+              </div>
+            </div>
+
+            <div className="grid gap-6 sm:grid-cols-3">
+              <div>
+                <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-white">Explore</h3>
+                <ul className="mt-3 space-y-2 text-sm text-white/90">
+                  <li><a href="#home" className="transition hover:text-[#fbbf24]">Home</a></li>
+                  <li><a href="#about" className="transition hover:text-[#fbbf24]">About</a></li>
+                  <li><a href="#how" className="transition hover:text-[#fbbf24]">Process</a></li>
+                  <li><a href="#announcements" className="transition hover:text-[#fbbf24]">Announcements</a></li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-white">Resources</h3>
+                <ul className="mt-3 space-y-2 text-sm text-white/90">
+                  <li><a href="#requirements" className="transition hover:text-[#fbbf24]">Requirements</a></li>
+                  <li><a href="#faq" className="transition hover:text-[#fbbf24]">FAQs</a></li>
+                  <li><a href="#contact" className="transition hover:text-[#fbbf24]">Contact</a></li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-white">Contact Info</h3>
+                <ul className="mt-3 space-y-2 text-sm text-white/90">
+                  <li>General Trias City Hall, Cavite</li>
+                  <li>(046) 886-4454</li>
+                  <li>educaid@generaltrias.gov.ph</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <hr className="my-8 border-white/20" />
+
+          <div className="flex flex-col gap-2 text-center text-sm text-white/85 sm:flex-row sm:items-center sm:justify-between sm:text-left">
+            <span>© {new Date().getFullYear()} City Government of General Trias • EducAid</span>
+            <span>Developed by CTRL+Solutions</span>
+          </div>
         </div>
       </footer>
     </div>
