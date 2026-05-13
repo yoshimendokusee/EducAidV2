@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import ErrorBoundary from './components/ErrorBoundary';
 import ProtectedRoute from './components/ProtectedRoute';
 import CompatPageHost from './pages/CompatPageHost';
+import LandingPage from './pages/LandingPage';
 import StudentDashboard from './pages/StudentDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminSettings from './pages/AdminSettings';
@@ -18,12 +19,28 @@ import SearchPage from './pages/SearchPage';
 import ReportsBuilder from './pages/ReportsBuilder';
 import Navbar from './components/Navbar';
 
+const legacySiteBase = (import.meta.env.VITE_LEGACY_SITE_URL || 'https://www.educ-aid.site').replace(/\/$/, '');
+
+function LegacyRedirect({ to }) {
+  const destination = to.startsWith('http') ? to : `${legacySiteBase}${to}`;
+
+  useEffect(() => {
+    window.location.replace(destination);
+  }, [destination]);
+
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-slate-50 px-6 text-center text-slate-600">
+      Redirecting to the legacy site...
+    </div>
+  );
+}
+
 function AppRoutes() {
   return (
     <Routes>
       {/* Public Routes */}
-      <Route path="/" element={<CompatPageHost pagePath="unified_login.php" />} />
-      <Route path="/login" element={<Navigate to="/" replace />} />
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/login" element={<LegacyRedirect to="/unified_login.php" />} />
 
       {/* Protected Student Routes */}
       <Route
