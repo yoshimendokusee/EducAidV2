@@ -179,20 +179,28 @@ export default function LandingPage() {
               <a href="#contact" className="transition hover:text-cyan-700">Contact</a>
             </nav>
 
-            <a
-              href={`${legacySiteBase}/unified_login.php`}
-              className="inline-flex items-center rounded-full bg-slate-950 px-4 py-2 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-slate-800"
-            >
-              Sign In
-            </a>
+            <div className="flex items-center gap-2">
+              <a
+                href={`${legacySiteBase}/register.php`}
+                className="inline-flex items-center rounded-full bg-cyan-600 px-4 py-2 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-cyan-500"
+              >
+                Apply
+              </a>
+              <a
+                href={`${legacySiteBase}/unified_login.php`}
+                className="inline-flex items-center rounded-full border-2 border-cyan-600 bg-transparent px-4 py-2 text-sm font-semibold text-cyan-600 transition hover:-translate-y-0.5 hover:bg-cyan-600 hover:text-white"
+              >
+                Sign In
+              </a>
+            </div>
           </div>
         </div>
       </header>
 
       <main>
-        <section id="home" className="relative px-4 pb-10 pt-28 sm:px-6 lg:px-8 lg:pb-14 lg:pt-36">
+        <section id="home" className="relative z-0 px-4 pb-10 pt-28 sm:px-6 lg:px-8 lg:pb-14 lg:pt-36">
           {/* Background image behind the hero card. Opacity and treatment match legacy subtle look. */}
-          <div className="absolute inset-0 -z-10">
+          <div className="absolute inset-0 -z-10 overflow-hidden">
             <img
               src={heroBackground}
               alt="Hero background"
@@ -235,7 +243,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section className="px-4 pt-8 sm:px-6 lg:px-8">
+        <section className="relative z-10 px-4 pt-8 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl">
             <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
               {quickLinks.map((item) => (
@@ -257,9 +265,9 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section className="px-4 py-14 sm:px-6 lg:px-8">
+        <section className="relative z-10 px-4 py-14 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl">
-            <Card className="p-5 sm:p-6">
+            <Card className="relative z-10 p-5 sm:p-6">
               <div className="grid gap-5 lg:grid-cols-[0.15fr_1fr] lg:items-center">
                 <div className="flex items-center justify-center lg:justify-start">
                   <img
@@ -304,7 +312,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section id="distribution-status" className="px-4 py-14 sm:px-6 lg:px-8">
+        <section id="distribution-status" className="relative z-10 px-4 py-14 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl">
             <div className="text-center">
               <div className="mx-auto grid h-20 w-20 place-items-center rounded-full bg-cyan-600 text-white shadow-lg shadow-cyan-600/20">
@@ -389,7 +397,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section id="about" className="px-4 py-14 sm:px-6 lg:px-8">
+        <section id="about" className="relative z-10 px-4 py-14 sm:px-6 lg:px-8">
           <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-2 lg:items-start">
             <div>
               <SectionTitle
@@ -450,7 +458,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section id="how" className="px-4 py-14 sm:px-6 lg:px-8">
+        <section id="how" className="relative z-10 px-4 py-14 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl">
             <SectionTitle
               eyebrow="How it works"
@@ -474,7 +482,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section id="announcements" className="bg-white/70 px-4 py-14 sm:px-6 lg:px-8">
+        <section id="announcements" className="relative z-10 bg-white/70 px-4 py-14 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl">
             <div className="mb-5 flex items-end justify-between gap-3">
               <div>
@@ -517,7 +525,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section id="requirements" className="px-4 py-14 sm:px-6 lg:px-8">
+        <section id="requirements" className="relative z-10 px-4 py-14 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl">
             <SectionTitle
               eyebrow="Requirements"
@@ -551,7 +559,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section id="faq" className="bg-white/70 px-4 py-14 sm:px-6 lg:px-8">
+        <section id="faq" className="relative z-10 bg-white/70 px-4 py-14 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl">
             <SectionTitle
               eyebrow="FAQ"
@@ -577,7 +585,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section id="contact" className="px-4 py-14 sm:px-6 lg:px-8">
+        <section id="contact" className="relative z-10 px-4 py-14 sm:px-6 lg:px-8">
           <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-2">
             <Card className="p-5 sm:p-6">
               <SectionTitle
@@ -625,7 +633,7 @@ export default function LandingPage() {
         </section>
       </main>
 
-      <footer className="border-t border-slate-200 bg-[#0051f8] px-4 py-12 text-white sm:px-6 lg:px-8">
+      <footer className="relative z-10 border-t border-slate-200 bg-[#0051f8] px-4 py-12 text-white sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-8 lg:grid-cols-[1.2fr_1fr] lg:items-start">
             <div className="flex items-center gap-4">
