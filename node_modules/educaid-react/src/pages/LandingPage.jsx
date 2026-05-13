@@ -190,9 +190,9 @@ export default function LandingPage() {
       </header>
 
       <main>
-        <section id="home" className="relative overflow-hidden px-4 pb-10 pt-28 sm:px-6 lg:px-8 lg:pb-14 lg:pt-36">
+        <section id="home" className="relative px-4 pb-10 pt-28 sm:px-6 lg:px-8 lg:pb-14 lg:pt-36">
           {/* Background image behind the hero card. Opacity and treatment match legacy subtle look. */}
-          <div className="absolute inset-0 -z-10 overflow-hidden">
+          <div className="absolute inset-0 -z-10">
             <img
               src={heroBackground}
               alt="Hero background"
@@ -201,7 +201,7 @@ export default function LandingPage() {
             <div className="absolute inset-0 bg-white/40" />
           </div>
           <div className="mx-auto max-w-7xl">
-            <Card className="relative mx-auto max-w-[900px] overflow-hidden px-6 py-10 sm:px-10 sm:py-12">
+            <Card className="relative mx-auto max-w-[900px] px-6 py-10 sm:px-10 sm:py-12">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.8),_transparent_55%)]" />
               <div className="relative flex flex-col items-center text-center">
                 <span className="mb-1 inline-flex items-center rounded-full bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700 ring-1 ring-blue-100">
@@ -224,7 +224,7 @@ export default function LandingPage() {
                   </a>
                   <a
                     href={`${legacySiteBase}/unified_login.php`}
-                    className="relative z-40 inline-flex items-center justify-center rounded-full border-2 border-cyan-600 bg-white/10 px-6 py-3 text-[0.98rem] font-semibold text-white shadow-sm backdrop-blur-sm transition hover:-translate-y-0.5 hover:bg-cyan-600 hover:text-white"
+                    className="relative z-40 inline-flex items-center justify-center rounded-full border-2 border-cyan-600 bg-slate-950 px-6 py-3 text-[0.98rem] font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-cyan-600"
                     aria-label="Sign in to EducAid"
                   >
                     Sign In
