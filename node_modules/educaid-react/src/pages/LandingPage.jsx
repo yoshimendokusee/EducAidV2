@@ -190,7 +190,7 @@ export default function LandingPage() {
       </header>
 
       <main>
-        <section id="home" className="relative overflow-hidden px-4 pb-10 pt-14 sm:px-6 lg:px-8 lg:pb-14 lg:pt-20">
+        <section id="home" className="relative overflow-hidden px-4 pb-10 pt-28 sm:px-6 lg:px-8 lg:pb-14 lg:pt-36">
           {/* Background image behind the hero card. Opacity and treatment match legacy subtle look. */}
           <div className="absolute inset-0 -z-10 overflow-hidden">
             <img
