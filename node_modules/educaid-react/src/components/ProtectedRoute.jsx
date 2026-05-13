@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 export default function ProtectedRoute({ 
   children, 
   requiredType = null, // 'student', 'admin', or null for any authenticated user
-  fallback = '/login'
+  fallback = '/'
 }) {
   const { isAuthenticated, isLoading, user } = useAuth();
 

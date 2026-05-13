@@ -23,7 +23,8 @@ function AppRoutes() {
   return (
     <Routes>
       {/* Public Routes */}
-      <Route path="/login" element={<LoginPage />} />
+      <Route path="/" element={<LoginPage />} />
+      <Route path="/login" element={<Navigate to="/" replace />} />
 
       {/* Protected Student Routes */}
       <Route
@@ -207,11 +208,8 @@ function AppRoutes() {
         }
       />
 
-      {/* Home redirect */}
-      <Route path="/" element={<Navigate to="/login" replace />} />
-
       {/* Catch-all fallback */}
-      <Route path="*" element={<Navigate to="/login" replace />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }

@@ -23,7 +23,7 @@ export default function Navbar() {
 
   const handleLogout = () => {
     sessionStorage.clear();
-    window.location.href = '/login';
+    window.location.href = '/';
   };
 
   return (
