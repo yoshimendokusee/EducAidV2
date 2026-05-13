@@ -232,7 +232,7 @@ export default function LandingPage() {
                   </a>
                   <a
                     href={`${legacySiteBase}/unified_login.php`}
-                    className="relative z-40 inline-flex items-center justify-center rounded-full border-2 border-cyan-600 bg-slate-950 px-6 py-3 text-[0.98rem] font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-cyan-600"
+                    className="relative z-40 inline-flex items-center justify-center rounded-full border-2 border-cyan-600 bg-white px-6 py-3 text-[0.98rem] font-semibold text-cyan-700 shadow-sm transition hover:-translate-y-0.5 hover:bg-cyan-50 hover:text-cyan-800"
                     aria-label="Sign in to EducAid"
                   >
                     Sign In
