@@ -120,7 +120,7 @@ function SectionTitle({ eyebrow, title, lead, centered = false }) {
 }
 
 function Card({ className = '', children }) {
-  return <div className={`rounded-[1.25rem] border border-slate-200 bg-white shadow-[0_8px_24px_rgba(2,6,23,0.08)] ${className}`}>{children}</div>;
+  return <div className={`relative z-10 rounded-[1.25rem] border border-slate-200 bg-white shadow-[0_8px_24px_rgba(2,6,23,0.08)] ${className}`}>{children}</div>;
 }
 
 function BadgeIcon({ path, className = '' }) {
@@ -198,7 +198,7 @@ export default function LandingPage() {
               alt="Hero background"
               className="h-full w-full object-cover opacity-30 grayscale-[0.02]"
             />
-            <div className="absolute inset-0 bg-white/60" />
+            <div className="absolute inset-0 bg-white/40" />
           </div>
           <div className="mx-auto max-w-7xl">
             <Card className="relative mx-auto max-w-[900px] overflow-hidden px-6 py-10 sm:px-10 sm:py-12">
@@ -218,13 +218,13 @@ export default function LandingPage() {
                 <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                   <a
                     href={`${legacySiteBase}/register.php`}
-                    className="inline-flex items-center justify-center rounded-full bg-cyan-600 px-6 py-3 text-[0.98rem] font-semibold text-white shadow-lg shadow-cyan-600/20 transition hover:-translate-y-0.5 hover:bg-cyan-500"
+                    className="relative z-20 inline-flex items-center justify-center rounded-full bg-cyan-600 px-6 py-3 text-[0.98rem] font-semibold text-white shadow-lg shadow-cyan-600/20 transition hover:-translate-y-0.5 hover:bg-cyan-500"
                   >
                     Apply Now
                   </a>
                   <a
                     href={`${legacySiteBase}/unified_login.php`}
-                    className="inline-flex items-center justify-center rounded-full border-2 border-cyan-600 px-6 py-3 text-[0.98rem] font-semibold text-cyan-700 transition hover:-translate-y-0.5 hover:bg-cyan-600 hover:text-white"
+                    className="relative z-20 inline-flex items-center justify-center rounded-full border-2 border-cyan-600 px-6 py-3 text-[0.98rem] font-semibold text-cyan-700 transition hover:-translate-y-0.5 hover:bg-cyan-600 hover:text-white"
                   >
                     Sign In
                   </a>
